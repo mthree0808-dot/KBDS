@@ -1,0 +1,3593 @@
+{
+  "sourceFileKey": "09eGMNTNnkE0CTxPdr7lnk",
+  "pageId": "10552:10031",
+  "sections": [
+    {
+      "id": "10638:16258",
+      "name": "페이지 공통",
+      "children": [
+        {
+          "id": "10638:16259",
+          "name": "라이트모드",
+          "type": "SECTION",
+          "width": 4350,
+          "height": 1044,
+          "children": [
+            {
+              "id": "10638:16260",
+              "name": "메인(디자인시안 스타일 적용 전)",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:16268",
+              "name": "탭배치 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:16288",
+              "name": "탭배치 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:16306",
+              "name": "헤더와 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:16322",
+              "name": "키패드 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:16341",
+              "name": "헤더와 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:16358",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "13627:56121",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:16366",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:49527",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49547",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49550",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49553",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 40
+            },
+            {
+              "id": "10638:49533",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            }
+          ]
+        },
+        {
+          "id": "15144:41330",
+          "name": "큰글씨모드",
+          "type": "SECTION",
+          "width": 4350,
+          "height": 1044,
+          "children": [
+            {
+              "id": "15144:41331",
+              "name": "메인(디자인시안 스타일 적용 전)",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:41339",
+              "name": "탭배치 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:41348",
+              "name": "탭배치 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:41359",
+              "name": "헤더와 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:41369",
+              "name": "키패드 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:41381",
+              "name": "헤더와 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:41392",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:41400",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:41408",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            }
+          ]
+        },
+        {
+          "id": "15144:40724",
+          "name": "다크모드",
+          "type": "SECTION",
+          "width": 4350,
+          "height": 1044,
+          "children": [
+            {
+              "id": "15144:40725",
+              "name": "메인(디자인시안 스타일 적용 전)",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40733",
+              "name": "탭배치 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40742",
+              "name": "탭배치 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40753",
+              "name": "헤더와 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40763",
+              "name": "키패드 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40775",
+              "name": "헤더와 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40786",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40794",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40802",
+              "name": "그라디언트BG 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:40810",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:40811",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:40812",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:40813",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 40
+            },
+            {
+              "id": "15144:40814",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            }
+          ]
+        },
+        {
+          "id": "10638:16673",
+          "name": "_util / Template / Template / Header",
+          "type": "INSTANCE",
+          "width": 4550,
+          "height": 405,
+          "children": [
+            {
+              "id": "I10638:16673;10580:7790",
+              "name": "vStack",
+              "type": "FRAME",
+              "width": 4550,
+              "height": 405
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10638:36961",
+      "name": "안내 페이지",
+      "children": [
+        {
+          "id": "10638:34208",
+          "name": "라이트모드",
+          "type": "SECTION",
+          "width": 2470,
+          "height": 1336,
+          "children": [
+            {
+              "id": "10580:10339",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1136
+            },
+            {
+              "id": "10580:10432",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 972.0000610351562
+            },
+            {
+              "id": "10580:10477",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1048
+            },
+            {
+              "id": "10580:10528",
+              "name": "서비스 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 987
+            },
+            {
+              "id": "10580:10561",
+              "name": "서비스 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10638:49671",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 40
+            },
+            {
+              "id": "10638:49675",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 40
+            },
+            {
+              "id": "10638:49678",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14917:36815",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            },
+            {
+              "id": "14917:36819",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            },
+            {
+              "id": "10638:49697",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49710",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49743",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "10638:49740",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49736",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            },
+            {
+              "id": "10638:49713",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49716",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49719",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "10638:49723",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "10638:49700",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49703",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49706",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "10638:49687",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49690",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10638:49693",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "id": "15144:42996",
+          "name": "큰글씨모드",
+          "type": "SECTION",
+          "width": 2470,
+          "height": 1569,
+          "children": [
+            {
+              "id": "15144:42997",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1369
+            },
+            {
+              "id": "15144:43030",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1238
+            },
+            {
+              "id": "15144:43047",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1205
+            },
+            {
+              "id": "15144:43073",
+              "name": "서비스 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1162
+            },
+            {
+              "id": "15144:43091",
+              "name": "서비스 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 892
+            }
+          ]
+        },
+        {
+          "id": "15144:41936",
+          "name": "다크모드",
+          "type": "SECTION",
+          "width": 2470,
+          "height": 1336,
+          "children": [
+            {
+              "id": "15144:41937",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1136
+            },
+            {
+              "id": "15144:41970",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 972.0000610351562
+            },
+            {
+              "id": "15144:41987",
+              "name": "정보 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1048
+            },
+            {
+              "id": "15144:42013",
+              "name": "서비스 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 987
+            },
+            {
+              "id": "15144:42031",
+              "name": "서비스 안내",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:42049",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 40
+            },
+            {
+              "id": "15144:42050",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 40
+            },
+            {
+              "id": "15144:42051",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42052",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            },
+            {
+              "id": "15144:42053",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            },
+            {
+              "id": "15144:42054",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42055",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42056",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15144:42057",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42058",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            },
+            {
+              "id": "15144:42059",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42060",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42061",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15144:42062",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15144:42063",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42064",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42065",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15144:42066",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42067",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:42068",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "id": "10638:36962",
+          "name": "_util / Template / Template / Header",
+          "type": "INSTANCE",
+          "width": 2670,
+          "height": 405,
+          "children": [
+            {
+              "id": "I10638:36962;10580:7790",
+              "name": "vStack",
+              "type": "FRAME",
+              "width": 2670,
+              "height": 405
+            }
+          ]
+        },
+        {
+          "id": "10638:49666",
+          "name": "_util / spacing",
+          "type": "INSTANCE",
+          "width": 390,
+          "height": 24,
+          "children": [
+            {
+              "id": "I10638:49666;10638:47706",
+              "name": "24",
+              "type": "TEXT",
+              "width": 86,
+              "height": 11
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10957:33528",
+      "name": "약관 페이지",
+      "children": [
+        {
+          "id": "10957:31378",
+          "name": "라이트모드",
+          "type": "SECTION",
+          "width": 4342,
+          "height": 1469,
+          "children": [
+            {
+              "id": "14733:13672",
+              "name": "BS",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "13089:36050",
+              "name": "Divider Area",
+              "type": "FRAME",
+              "width": 350,
+              "height": 25
+            },
+            {
+              "id": "13089:36006",
+              "name": "Depth 3 & Depth 4",
+              "type": "FRAME",
+              "width": 350,
+              "height": 118
+            },
+            {
+              "id": "13089:35936",
+              "name": "Depth 2",
+              "type": "FRAME",
+              "width": 350,
+              "height": 270
+            },
+            {
+              "id": "10957:31420",
+              "name": " ",
+              "type": "FRAME",
+              "width": 75,
+              "height": 21
+            },
+            {
+              "id": "10957:31422",
+              "name": " ",
+              "type": "FRAME",
+              "width": 76,
+              "height": 21
+            },
+            {
+              "id": "10957:31424",
+              "name": " ",
+              "type": "FRAME",
+              "width": 77,
+              "height": 21
+            },
+            {
+              "id": "13027:35113",
+              "name": " ",
+              "type": "FRAME",
+              "width": 77,
+              "height": 21
+            },
+            {
+              "id": "13089:35997",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            },
+            {
+              "id": "13089:36032",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 4
+            },
+            {
+              "id": "13089:36053",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 74,
+              "height": 12
+            },
+            {
+              "id": "13089:36056",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 74,
+              "height": 12
+            },
+            {
+              "id": "13027:35157",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 862
+            },
+            {
+              "id": "13089:35771",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13089:35793",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13089:35796",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13089:35799",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13089:35802",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13089:35883",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "13089:35884",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "13089:35885",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "13089:35887",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 143
+            },
+            {
+              "id": "13089:35888",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 58
+            },
+            {
+              "id": "13089:35886",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 95
+            },
+            {
+              "id": "13027:35183",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 937
+            },
+            {
+              "id": "13089:35933",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13128:8022",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13128:8026",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13128:8029",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13128:8032",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "13128:8036",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "13128:8038",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 82
+            },
+            {
+              "id": "13128:8037",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 142
+            },
+            {
+              "id": "13128:8035",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 213
+            },
+            {
+              "id": "10957:31402",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "10957:31471",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10957:31472",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "10957:31482",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "10957:31483",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "10957:31486",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 258
+            },
+            {
+              "id": "13089:36005",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 258
+            },
+            {
+              "id": "13089:36038",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 114
+            },
+            {
+              "id": "10957:31379",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "13089:36046",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13128:7998",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "10957:31477",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "10957:31481",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "10957:31484",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "10957:31487",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "10957:31488",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "10957:31493",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 114
+            },
+            {
+              "id": "10957:31494",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 96
+            },
+            {
+              "id": "13027:34231",
+              "name": "Depth 1+2+3+4",
+              "type": "FRAME",
+              "width": 390,
+              "height": 892
+            },
+            {
+              "id": "13027:34468",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14950:45733",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14755:13916",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14755:13920",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14755:13935",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14755:13938",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13027:34471",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "13027:35096",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "13027:35103",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "14950:45730",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "13027:34460",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "13027:34461",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "13027:35112",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "13027:34465",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 66
+            },
+            {
+              "id": "13027:35107",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "13027:35106",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 64
+            },
+            {
+              "id": "13027:35108",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 157
+            },
+            {
+              "id": "14733:13813",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 57
+            },
+            {
+              "id": "14755:13903",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "14733:13814",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 132
+            },
+            {
+              "id": "14755:13904",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 84
+            },
+            {
+              "id": "13027:35212",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1269
+            },
+            {
+              "id": "13128:8040",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13128:8047",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13128:8053",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13156:8056",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13156:8059",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13156:8062",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13128:8043",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "13128:8050",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "13156:8067",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "13156:8075",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 57
+            },
+            {
+              "id": "13156:8077",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 141
+            },
+            {
+              "id": "13156:8078",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 82
+            },
+            {
+              "id": "13156:8068",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 167
+            },
+            {
+              "id": "13156:8069",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 46
+            },
+            {
+              "id": "13156:8076",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 108
+            },
+            {
+              "id": "13156:8070",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 128
+            },
+            {
+              "id": "13156:8074",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 63
+            },
+            {
+              "id": "10957:31426",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1200
+            },
+            {
+              "id": "10957:31473",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "10957:31474",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "10957:31475",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "10957:31476",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "13089:35889",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "10957:31478",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "10957:31479",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "10957:31480",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "10957:31485",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "10957:31489",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 96
+            },
+            {
+              "id": "10957:31490",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "10957:31491",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "10957:31492",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "10957:31495",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 249
+            },
+            {
+              "id": "10957:31496",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 189
+            },
+            {
+              "id": "10957:31497",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 64
+            },
+            {
+              "id": "14950:45727",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "id": "15144:45723",
+          "name": "큰글씨모드",
+          "type": "SECTION",
+          "width": 4342,
+          "height": 1767,
+          "children": [
+            {
+              "id": "15144:45724",
+              "name": "BS",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:45752",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1015
+            },
+            {
+              "id": "15144:45788",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1142
+            },
+            {
+              "id": "15144:45820",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:45845",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:45880",
+              "name": "Depth 1+2+3+4",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1124
+            },
+            {
+              "id": "15144:45934",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1567
+            },
+            {
+              "id": "15144:45986",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1525
+            }
+          ]
+        },
+        {
+          "id": "15144:44056",
+          "name": "다크모드",
+          "type": "SECTION",
+          "width": 4342,
+          "height": 1469,
+          "children": [
+            {
+              "id": "15144:44057",
+              "name": "BS",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:44062",
+              "name": "Divider Area",
+              "type": "FRAME",
+              "width": 350,
+              "height": 25
+            },
+            {
+              "id": "15144:44064",
+              "name": "Depth 3 & Depth 5",
+              "type": "FRAME",
+              "width": 350,
+              "height": 118
+            },
+            {
+              "id": "15144:44067",
+              "name": "Depth 4",
+              "type": "FRAME",
+              "width": 350,
+              "height": 270
+            },
+            {
+              "id": "15144:44073",
+              "name": " ",
+              "type": "FRAME",
+              "width": 75,
+              "height": 21
+            },
+            {
+              "id": "15144:44075",
+              "name": " ",
+              "type": "FRAME",
+              "width": 76,
+              "height": 21
+            },
+            {
+              "id": "15144:44077",
+              "name": " ",
+              "type": "FRAME",
+              "width": 77,
+              "height": 21
+            },
+            {
+              "id": "15144:44079",
+              "name": " ",
+              "type": "FRAME",
+              "width": 77,
+              "height": 21
+            },
+            {
+              "id": "15144:44081",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 12
+            },
+            {
+              "id": "15144:44082",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 350,
+              "height": 4
+            },
+            {
+              "id": "15144:44083",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 74,
+              "height": 12
+            },
+            {
+              "id": "15144:44084",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 74,
+              "height": 12
+            },
+            {
+              "id": "15144:44085",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 862
+            },
+            {
+              "id": "15144:44110",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44111",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44112",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44113",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44114",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44115",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44116",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44117",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44118",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 143
+            },
+            {
+              "id": "15144:44119",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 58
+            },
+            {
+              "id": "15144:44120",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 95
+            },
+            {
+              "id": "15144:44121",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 937
+            },
+            {
+              "id": "15144:44144",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44145",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44146",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44147",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44148",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44149",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44150",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 82
+            },
+            {
+              "id": "15144:44151",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 142
+            },
+            {
+              "id": "15144:44152",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 213
+            },
+            {
+              "id": "15144:44153",
+              "name": "Depth 1+2",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:44171",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:44172",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44173",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:44174",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44175",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 258
+            },
+            {
+              "id": "15144:44176",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 258
+            },
+            {
+              "id": "15144:44177",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 114
+            },
+            {
+              "id": "15144:44178",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:44204",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44205",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44206",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44207",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44208",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44209",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "15144:44210",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "15144:44211",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 114
+            },
+            {
+              "id": "15144:44212",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 96
+            },
+            {
+              "id": "15144:44213",
+              "name": "Depth 1+2+3+4",
+              "type": "FRAME",
+              "width": 390,
+              "height": 892
+            },
+            {
+              "id": "15144:44246",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44247",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44248",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:44249",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44250",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44251",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44252",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44253",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44254",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44255",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44256",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44257",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "15144:44258",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "15144:44259",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 66
+            },
+            {
+              "id": "15144:44260",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "15144:44261",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 64
+            },
+            {
+              "id": "15144:44262",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 157
+            },
+            {
+              "id": "15144:44263",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 57
+            },
+            {
+              "id": "15144:44264",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44265",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 132
+            },
+            {
+              "id": "15144:44266",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 84
+            },
+            {
+              "id": "15144:44267",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1269
+            },
+            {
+              "id": "15144:44302",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44303",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44304",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44305",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44306",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44307",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44308",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44309",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44310",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44311",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 57
+            },
+            {
+              "id": "15144:44312",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 141
+            },
+            {
+              "id": "15144:44313",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 82
+            },
+            {
+              "id": "15144:44314",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 167
+            },
+            {
+              "id": "15144:44315",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 46
+            },
+            {
+              "id": "15144:44316",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 108
+            },
+            {
+              "id": "15144:44317",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 128
+            },
+            {
+              "id": "15144:44318",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 63
+            },
+            {
+              "id": "15144:44319",
+              "name": "Depth 1+2+3",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1200
+            },
+            {
+              "id": "15144:44367",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44368",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44369",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44370",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:44371",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15144:44372",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44373",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44374",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:44375",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 56
+            },
+            {
+              "id": "15144:44376",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 96
+            },
+            {
+              "id": "15144:44377",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "15144:44378",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "15144:44379",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 48
+            },
+            {
+              "id": "15144:44380",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 249
+            },
+            {
+              "id": "15144:44381",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 189
+            },
+            {
+              "id": "15144:44382",
+              "name": "Guide",
+              "type": "RECTANGLE",
+              "width": 6,
+              "height": 64
+            },
+            {
+              "id": "15144:44383",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "id": "10957:33529",
+          "name": "_util / Template / Template / Header",
+          "type": "INSTANCE",
+          "width": 4542,
+          "height": 405,
+          "children": [
+            {
+              "id": "I10957:33529;10580:7790",
+              "name": "vStack",
+              "type": "FRAME",
+              "width": 4542,
+              "height": 405
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14048:33661",
+      "name": "선택 페이지",
+      "children": [
+        {
+          "id": "14048:33662",
+          "name": "라이트모드",
+          "type": "SECTION",
+          "width": 4350,
+          "height": 1848,
+          "children": [
+            {
+              "id": "15516:27988",
+              "name": "그리드버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14048:33663",
+              "name": "카드",
+              "type": "FRAME",
+              "width": 390,
+              "height": 882
+            },
+            {
+              "id": "14048:33753",
+              "name": "카드",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1648
+            },
+            {
+              "id": "14048:34029",
+              "name": "셀렉트버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1155
+            },
+            {
+              "id": "14048:34109",
+              "name": "리스트 / 셀렉트버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1137
+            },
+            {
+              "id": "14048:34206",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14048:34295",
+              "name": "세그먼티드컨트롤",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14048:34358",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14048:34424",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14048:34425",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14048:34449",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14987:25323",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14987:25322",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:25327",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:25330",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:25333",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:25336",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14987:25352",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "14987:25490",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "14987:25358",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14987:25359",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14987:25366",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14987:25360",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14987:25503",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 306,
+              "height": 8
+            },
+            {
+              "id": "14987:25510",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 101,
+              "height": 8
+            },
+            {
+              "id": "14987:25513",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 101,
+              "height": 8
+            },
+            {
+              "id": "14987:25507",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 306,
+              "height": 8
+            },
+            {
+              "id": "14987:25516",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14987:25522",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14987:25525",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14987:25519",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14987:25496",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "14987:25500",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "14987:31475",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "14987:31478",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            }
+          ]
+        },
+        {
+          "id": "15144:50083",
+          "name": "큰글씨모드",
+          "type": "SECTION",
+          "width": 4350,
+          "height": 2126,
+          "children": [
+            {
+              "id": "15144:50089",
+              "name": "카드",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1051
+            },
+            {
+              "id": "15144:50106",
+              "name": "카드",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1926
+            },
+            {
+              "id": "15144:50119",
+              "name": "셀렉트버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1427
+            },
+            {
+              "id": "15144:50141",
+              "name": "리스트 / 셀렉트버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1571
+            },
+            {
+              "id": "15144:50167",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:50186",
+              "name": "세그먼티드컨트롤",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:50191",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:50213",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15516:28674",
+              "name": "그리드버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            }
+          ]
+        },
+        {
+          "id": "15144:47360",
+          "name": "다크모드",
+          "type": "SECTION",
+          "width": 4350,
+          "height": 1848,
+          "children": [
+            {
+              "id": "15144:47366",
+              "name": "카드",
+              "type": "FRAME",
+              "width": 390,
+              "height": 882
+            },
+            {
+              "id": "15144:47383",
+              "name": "카드",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1648
+            },
+            {
+              "id": "15144:47396",
+              "name": "셀렉트버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1155
+            },
+            {
+              "id": "15144:47418",
+              "name": "리스트 / 셀렉트버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 1137
+            },
+            {
+              "id": "15144:47444",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:47463",
+              "name": "세그먼티드컨트롤",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:47468",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:47488",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:47489",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:47490",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:47495",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:47496",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:47497",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:47498",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:47499",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:47501",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:47502",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:47503",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:47504",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:47505",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:47506",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:47507",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 306,
+              "height": 8
+            },
+            {
+              "id": "15144:47508",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 101,
+              "height": 8
+            },
+            {
+              "id": "15144:47509",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 101,
+              "height": 8
+            },
+            {
+              "id": "15144:47510",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 306,
+              "height": 8
+            },
+            {
+              "id": "15144:47511",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:47512",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:47513",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:47514",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:47515",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15144:47516",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15144:47517",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15144:47518",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 32
+            },
+            {
+              "id": "15516:28330",
+              "name": "그리드버튼",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15516:28367",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            }
+          ]
+        },
+        {
+          "id": "14048:36216",
+          "name": "_util / Template / Template / Header",
+          "type": "INSTANCE",
+          "width": 4550,
+          "height": 405,
+          "children": [
+            {
+              "id": "I14048:36216;10580:7790",
+              "name": "vStack",
+              "type": "FRAME",
+              "width": 4550,
+              "height": 405
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14987:31501",
+      "name": "바텀시트",
+      "children": [
+        {
+          "id": "14987:31661",
+          "name": "_util / Template / Template / Header",
+          "type": "INSTANCE",
+          "width": 5960,
+          "height": 405,
+          "children": [
+            {
+              "id": "I14987:31661;10580:7790",
+              "name": "vStack",
+              "type": "FRAME",
+              "width": 5960,
+              "height": 405
+            }
+          ]
+        },
+        {
+          "id": "14917:16974",
+          "name": "라이트모드",
+          "type": "SECTION",
+          "width": 5760,
+          "height": 1044,
+          "children": [
+            {
+              "id": "14863:34126",
+              "name": "이미지+센터 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14091:44625",
+              "name": "BS 최소높이",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14091:44633",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14834:27113",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14863:33682",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14091:44642",
+              "name": "데이터리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14755:14333",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14755:16371",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14832:25606",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14755:20428",
+              "name": "BS 최소높이",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14834:19831",
+              "name": "데이트피커",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14834:20224",
+              "name": "이미지+센터 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "14863:32309",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14863:32313",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14987:31481",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14863:32321",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14863:32314",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:31484",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14863:32327",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14863:32330",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14863:32378",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 8
+            },
+            {
+              "id": "14863:32397",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "14863:32381",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14863:32706",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "14863:32712",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14917:14541",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "14917:14544",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:31487",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:31490",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:31493",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "14987:31496",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 101,
+              "height": 8
+            },
+            {
+              "id": "14987:31497",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 101,
+              "height": 8
+            }
+          ]
+        },
+        {
+          "id": "15144:54056",
+          "name": "큰글씨모드",
+          "type": "SECTION",
+          "width": 5760,
+          "height": 1044,
+          "children": [
+            {
+              "id": "15144:54057",
+              "name": "이미지+센터 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54062",
+              "name": "BS 최소높이",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54067",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54072",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54077",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54082",
+              "name": "데이터리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54087",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54092",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54097",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54102",
+              "name": "BS 최소높이",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54107",
+              "name": "데이트피커",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:54112",
+              "name": "이미지+센터 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            }
+          ]
+        },
+        {
+          "id": "15144:52806",
+          "name": "다크모드",
+          "type": "SECTION",
+          "width": 5760,
+          "height": 1044,
+          "children": [
+            {
+              "id": "15144:52807",
+              "name": "이미지+센터 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52812",
+              "name": "BS 최소높이",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52817",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52822",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52827",
+              "name": "단락 케이스",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52832",
+              "name": "데이터리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52837",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52842",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52847",
+              "name": "리스트",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52852",
+              "name": "BS 최소높이",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52857",
+              "name": "데이트피커",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52862",
+              "name": "이미지+센터 타이틀",
+              "type": "FRAME",
+              "width": 390,
+              "height": 844
+            },
+            {
+              "id": "15144:52867",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:52868",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:52869",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:52870",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:52871",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:52872",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:52873",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:52874",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:52875",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 8
+            },
+            {
+              "id": "15144:52876",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 4
+            },
+            {
+              "id": "15144:52877",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:52878",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 12
+            },
+            {
+              "id": "15144:52879",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:52880",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 24
+            },
+            {
+              "id": "15144:52881",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:52882",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:52883",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:52884",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 390,
+              "height": 20
+            },
+            {
+              "id": "15144:52885",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 101,
+              "height": 8
+            },
+            {
+              "id": "15144:52886",
+              "name": "_util / spacing",
+              "type": "INSTANCE",
+              "width": 101,
+              "height": 8
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "selectionRule": "Choose matching screen type and mode; collect the exact frame fresh before writing."
+}

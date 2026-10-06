@@ -1,0 +1,1136 @@
+[
+  {
+    "id": "1214:1117",
+    "key": "08cb9e2f6edc2d398bfdb1db0d1a049cdb603524",
+    "name": "ImageContainer",
+    "type": "COMPONENT_SET",
+    "parentId": "1214:1116",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1118",
+    "key": "43913770c624221882b727a8a0f5dd38e37ca9c5",
+    "name": "ratio=1:1",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1119",
+    "key": "37977219c1718cdd1f992795a0fe71c59fb367cc",
+    "name": "ratio=4:5",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1120",
+    "key": "4e7da96c9b5367977f2070ee8972dcb318700776",
+    "name": "ratio=5:4",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1121",
+    "key": "aa246f281a6011ff3c740be2a4e3b92075875490",
+    "name": "ratio=2:3",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1122",
+    "key": "d8eb9f4fdf0219ef4e2a4108dc67cfbd3ecddf94",
+    "name": "ratio=4:3",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1123",
+    "key": "7e6b44f8a6bbbfed74d5b0580b10e813d77c3fc0",
+    "name": "ratio=3:4",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1124",
+    "key": "1a3075304adfc7c45a080e32093589fd619944a3",
+    "name": "ratio=3:2",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1125",
+    "key": "ea3f7d72bb6757ff5f506e59d7ec6a19d1cbcc35",
+    "name": "ratio=16:9",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1126",
+    "key": "d5bc7144a38b5118d64a29e48c2b270e295ab387",
+    "name": "ratio=2:1",
+    "type": "COMPONENT",
+    "parentId": "1214:1117",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1129",
+    "key": "23b553ea4abfc3706683681b8675248dd9a9f232",
+    "name": "status-nodata",
+    "type": "COMPONENT",
+    "parentId": "1214:1128",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1191",
+    "key": "547e32fb60cb68949843b30d95e69cf7c14c2575",
+    "name": "status-circleCheck",
+    "type": "COMPONENT",
+    "parentId": "1214:1128",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1252",
+    "key": "9259d9da67f893230642df0d92012e55314e5643",
+    "name": "status-circleAlertRed",
+    "type": "COMPONENT",
+    "parentId": "1214:1128",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1313",
+    "key": "05e028e11affa9d059bb6a596b13530821364dcb",
+    "name": "status-circleX",
+    "type": "COMPONENT",
+    "parentId": "1214:1128",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1374",
+    "key": "d1c9bb10c106196a5cac3f71d98d25bca656b9bc",
+    "name": "status-alert",
+    "type": "COMPONENT",
+    "parentId": "1214:1128",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1435",
+    "key": "6d3800a7726f0387b46773262528afee2aca257e",
+    "name": "status-noResult",
+    "type": "COMPONENT",
+    "parentId": "1214:1128",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1496",
+    "key": "b04e7024348297e736c79a8235fee4761c4ea923",
+    "name": "status-circleAlertGray",
+    "type": "COMPONENT",
+    "parentId": "1214:1128",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1559",
+    "key": "e940c11480a8afba5305e2ca44aff1a8762fb10d",
+    "name": "line-info-circle",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1561",
+    "key": "17234b33982c8d7c36c9c34daeb38a7781f25860",
+    "name": "line-magnify",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1563",
+    "key": "6a06b558b7c86729a103cd29e1ef96b9d49d3e28",
+    "name": "line-checkMark",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1565",
+    "key": "b930c6eb4e56138123ad82cd993667052ac1f738",
+    "name": "line-device-mouse",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1567",
+    "key": "5e12d860ebada2c765a61d84c6e0e9b6d89a1c13",
+    "name": "line-calendar",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1569",
+    "key": "d8ced442caacc0f52b2076bed881add7ff1b5586",
+    "name": "line-menu",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1571",
+    "key": "07c8ded3f191cf4a5c4324fe91570c6d7ba3db8f",
+    "name": "line-ellipsis-vertical",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1573",
+    "key": "48a19314da1157e0d646ab423debed673ce4f14d",
+    "name": "line-ellipsis-horizontal",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1575",
+    "key": "79d677f4afeda1176d11232596f224bb881a6175",
+    "name": "line-edit",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1577",
+    "key": "cfd24e3d978caf9282d446062b36ba74f0ac3815",
+    "name": "line-alarm",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1579",
+    "key": "217f9439bc6a6d839e47d3e234029db32765d1a0",
+    "name": "line-chatbot",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1581",
+    "key": "076718677cece86ce30b9eefb010741d657d1ad7",
+    "name": "line-shoppingBag",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1583",
+    "key": "e3b60efab8f2fc419cb069eb3c01337db52da2a9",
+    "name": "line-assetManagement",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1585",
+    "key": "36077aec67153cf26b44567d9fa60e385b7f7dba",
+    "name": "line-benefit",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1587",
+    "key": "08a1111370e5ef124355597b8a6603bd161506b3",
+    "name": "line-creditCard",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1589",
+    "key": "fb3ad873142fdf611155127ab0a8046ad7520531",
+    "name": "line-kbPay",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1591",
+    "key": "72c2884cbb6a5cbbfc52008ea8d1a8a51fb9845d",
+    "name": "line-wallet",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1593",
+    "key": "e24cf7674559f760cce173c47298e7f0c889fe77",
+    "name": "line-account-folded",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1595",
+    "key": "6b42bd87d2854d4d07bc3169fde3d63b41d75618",
+    "name": "line-account-open",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1597",
+    "key": "61ce50e82de1fc95f8861517174682079bbd3dbc",
+    "name": "line-giftBox",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1599",
+    "key": "c97950ebfe5413a02afaee97da83bf40ed5ae968",
+    "name": "line-lock",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1601",
+    "key": "1d36ac22d8ccd6f8b9d87b84c88e829f84f40906",
+    "name": "line-speaker",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1603",
+    "key": "b6e989bafaf683c073965c6ca69f8522853cb5df",
+    "name": "line-language",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1605",
+    "key": "b9dcbd3ed544bba7825747c782bc426d13622860",
+    "name": "line-setting",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1607",
+    "key": "910823f153fceae4fb851e1cada3085abdce5e3a",
+    "name": "line-star",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1610",
+    "key": "1ca074e82fb942e151ab9a742e913ff235390761",
+    "name": "line-message",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1612",
+    "key": "ebee1a521c4d4a2e4d93240e53202f097261cd91",
+    "name": "line-share",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1614",
+    "key": "8770f4609386a37864e2e533aea549879aca7183",
+    "name": "line-accountWarning",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1616",
+    "key": "749d8badf54703261cb040b59424fdc7d8ff446d",
+    "name": "line-fastSend",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1619",
+    "key": "2145401d984fa514f74af74e602b8783a9194312",
+    "name": "line-accountSelect",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1621",
+    "key": "7b8867a06193c4a44fb2b8a0213cd7b369993a50",
+    "name": "line-camera",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1623",
+    "key": "f4e926e0f34c803fdf8741255672a15b8b7a8a46",
+    "name": "line-comment",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1625",
+    "key": "7e875e7c450c3e71a986d73b14fd585ee335d416",
+    "name": "line-Cart",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1628",
+    "key": "ccadbc41a7a98afc7faa3c4e7ca9a7b3f1bec2a4",
+    "name": "line-prohibit",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1630",
+    "key": "20f90c5bb896d7a667663a9254fd3512292e2f9e",
+    "name": "line-heart",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1633",
+    "key": "35ebee2164e4c5345853d5a686365443f8e38960",
+    "name": "line-insurance",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1635",
+    "key": "341cd7b5376daad30622bc7b092ac6420b1e70c0",
+    "name": "line-stock",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1637",
+    "key": "1e1dd9e5b3657e1dc69b5af135f964189a8bac8b",
+    "name": "line-listView",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1639",
+    "key": "1c37dfacf2ca787873996a2ab639e58cd0a2f2c3",
+    "name": "line-toolTip-circle",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1641",
+    "key": "79d12f45e3e7a0e64b16d65fedfc7576a2999354",
+    "name": "line-edit-square",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1643",
+    "key": "d0b09733f30b19475cc9e8d53bd40656fd1ade0e",
+    "name": "line-cardView",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1645",
+    "key": "22447f7f19220c8cbb8951a28b6c35766b7ffc08",
+    "name": "line-savingMoney",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1647",
+    "key": "6598276c5bede2252d9d7ebf38d864f3bbc46654",
+    "name": "line-money02-circle",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1649",
+    "key": "a02efd677dc6bd4abc7b3bb44fd65d85526915f1",
+    "name": "line-transfer",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1651",
+    "key": "ca9337dc9bcb42d2fa9306fa9ff7ac30181583cd",
+    "name": "line-multipleTransfer",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1653",
+    "key": "465ea831b6706a0c368b56ea249c4f204e95dea7",
+    "name": "line-shortcutSend",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1655",
+    "key": "c37f7d3478d057e3b103f3a988797e98bda47526",
+    "name": "line-cameraTransfer",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1657",
+    "key": "37a0c3b350f3386c5448fded99b0bbe448d497ef",
+    "name": "line-contactsTransfer",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1659",
+    "key": "361ddb58bbe910251d66f3f7dc51e29eb9e976df",
+    "name": "line-password",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1661",
+    "key": "8b4265dd1021fe0831964542f54baa486e8a8122",
+    "name": "line-mic",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1663",
+    "key": "7132ceda1a3874ec1ef3f94827013a5a2f6e39ed",
+    "name": "line-faceId",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1665",
+    "key": "d38625e03e2dba353aa310630162288e0084f6fb",
+    "name": "line-patternLock",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1667",
+    "key": "9b679769e9e0b838b1b30e97a250ac1c65297900",
+    "name": "line-fingerPrint",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1669",
+    "key": "4f5bbbf51f8c45850eb3552558d46ce9db467354",
+    "name": "line-chevron-left",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1671",
+    "key": "a875e9f80e26691356e2b25ad7b8bc10168a31e8",
+    "name": "line-chevron-right",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1673",
+    "key": "133032dde102f7ae371d36623f7b6f5601a2ac4d",
+    "name": "line-chevron-up",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1675",
+    "key": "054f92638ce3d312a30926f1919407d193d22593",
+    "name": "line-chevron-down",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1677",
+    "key": "6f0f8bc195e81a55f586b2d8f3fa01cce7149130",
+    "name": "line-doublechevron-left",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1679",
+    "key": "1424a19169c0e05891b969c01b8f8ad3f12dcf98",
+    "name": "line-doublechevron-right",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1681",
+    "key": "7ebcce1633db346bdced425e4d82aea3a5036185",
+    "name": "line-arrowDown",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1683",
+    "key": "d19f4acef228c4e11595c323f0e334f312d86957",
+    "name": "line-arrowUp",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1685",
+    "key": "2560e11a4d5c35838ea258a3849c9292ab343e32",
+    "name": "line-reduction",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1687",
+    "key": "fb2091a740f4099cfc0ff743abe9f710a4c5e9f2",
+    "name": "line-expansion",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1689",
+    "key": "e47cebb96710632a7a8d734204c2775e5eb53a05",
+    "name": "line-reorder01",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1691",
+    "key": "b666d9fb9bb49065d3bc4dd8686e69e0bbbc9c40",
+    "name": "line-shortcut",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1693",
+    "key": "f6a3d7d4b1e23ba7b3b10688ef2180bb2e8994eb",
+    "name": "line-reorder02",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1695",
+    "key": "7510e25aa825438dae0e8f890826ae8232c4dad7",
+    "name": "line-refresh",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1697",
+    "key": "478827403d154ec33d7ef00c80913e63a47d3192",
+    "name": "line-home",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1699",
+    "key": "5c004295bdb2e8165c7dba4c9864d84bcc647b3d",
+    "name": "line-gallery",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1701",
+    "key": "23b6f001196218b06aa3ef118694b59927e395a4",
+    "name": "line-captureNow",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1703",
+    "key": "063ed992985fcbf0bd1d0a54ee09ea88203e0082",
+    "name": "line-captureFull",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1705",
+    "key": "c66559cf11e4434a8847498b35266f612a6d0842",
+    "name": "line-link",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1707",
+    "key": "07cfece1b186a055f640f68c5086f1709c7f9c39",
+    "name": "line-trash",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1709",
+    "key": "d88a0e58900bb93dbf19197ccaccf21775bdfd0e",
+    "name": "line-copy",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1711",
+    "key": "9f2a1be9251eec1d78b4d0914873a02cd39792b9",
+    "name": "line-filter",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1713",
+    "key": "fa8e374e0ac7486d836366ab2d1b37faa510f354",
+    "name": "line-login",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1715",
+    "key": "341a594bd5a0d73998944189e43685221464fb4a",
+    "name": "line-logout",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1717",
+    "key": "5cb9db06c4e5feff36ba6a133e21ac51da7a42be",
+    "name": "line-security",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1719",
+    "key": "1e4c668b28470985e296aab63210fa05affb8dab",
+    "name": "line-xMark",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1721",
+    "key": "09c1171e824aef812c64531df5e5a25e32261da8",
+    "name": "line-delete",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1723",
+    "key": "272da7713b7a153b8133598ad6fb1ded81999f5c",
+    "name": "line-close-circle",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1725",
+    "key": "b3b2ddddd1726c50108d4df564ac11d6b5b2cc67",
+    "name": "line-plus-circle",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1727",
+    "key": "a260e8da5239c8513a945a5537a3446c231664a7",
+    "name": "line-plus",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1729",
+    "key": "0674ede2781f5864f5c492656f8d1aa5b6499fb4",
+    "name": "line-minus",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1731",
+    "key": "0261e19d134bcbb9b6f3983c2faf7b0b8b1ae1f4",
+    "name": "line-dash",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1733",
+    "key": "9f59caf5e2c6d2938d725392f53d0e9c77ea1fef",
+    "name": "Icon",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1735",
+    "key": "f774833855f8e3355c8365a469a340a182c7bde2",
+    "name": "line-share",
+    "type": "COMPONENT",
+    "parentId": "1214:1558",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1738",
+    "key": "695b966514d172642a32bf0dae674bd0a685a524",
+    "name": "solid-triangle-left",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1740",
+    "key": "9017b2d93ca4b69488fc336f1c2281a30f370ab1",
+    "name": "solid-triangle-right",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1742",
+    "key": "8afd95610dd335342fb0bc881b06e9819c7ede80",
+    "name": "solid-triangle-left-2",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1744",
+    "key": "2dd9f26b8bdb39467b73d70b49512ff74d2174e7",
+    "name": "solid-triangle-right-2",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1746",
+    "key": "8e31ed7f8e91830848d94fc71d474b4e6fa88d47",
+    "name": "solid-x-circle",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1748",
+    "key": "10b3d0098d9b99bf2a9ead8ab9481e7223a23ced",
+    "name": "solid-info-circle",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1750",
+    "key": "f91835f3ca671e917cb0e0f9759168c1bd05e45a",
+    "name": "solid-edit",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1752",
+    "key": "8b8c23855a2062f1a4e5aeca0acd495849faa8fe",
+    "name": "solid-star",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1754",
+    "key": "0420d4e32ad31f06ec6485fea9741c6da506f37c",
+    "name": "solid-heart",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1756",
+    "key": "314dc7088d1060dd75a58232b7de47c56e22a8ef",
+    "name": "solid-bell",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1758",
+    "key": "1116b49274b676b83306b928415c555f6250cb90",
+    "name": "solid-fastSend",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1760",
+    "key": "4d501fb603872d92cde6e8bcc115209c1d716c3b",
+    "name": "solid-kakaotalk",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1762",
+    "key": "3805c6453797d22801d9044d83fd9bb11e8043fb",
+    "name": "solid-message",
+    "type": "COMPONENT",
+    "parentId": "1214:1737",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1766",
+    "key": "6ee01aee41e5e18c4a36cd8149725b36e0aea865",
+    "name": "IconContainer",
+    "type": "COMPONENT_SET",
+    "parentId": "1214:1765",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1767",
+    "key": "cb9b549b5624f0161362cce4bffb808dad090c3c",
+    "name": "size=16",
+    "type": "COMPONENT",
+    "parentId": "1214:1766",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1769",
+    "key": "ca8d0b0e4506f8f36ea6f5f6119e9387ed5a73d1",
+    "name": "size=20",
+    "type": "COMPONENT",
+    "parentId": "1214:1766",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1771",
+    "key": "df9e358a81ca852a7e2acb266236dbe1ce843dd4",
+    "name": "size=24",
+    "type": "COMPONENT",
+    "parentId": "1214:1766",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1773",
+    "key": "dd93bb8f8229b0ae01b5c02eb2f934b7451e1948",
+    "name": "size=28",
+    "type": "COMPONENT",
+    "parentId": "1214:1766",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1775",
+    "key": "99c9a2867ca2909b4d1caef34c26716fd390faa1",
+    "name": "size=32",
+    "type": "COMPONENT",
+    "parentId": "1214:1766",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1777",
+    "key": "d3e03085acb28a80b4bcb202f10af1f7ee38c4ce",
+    "name": "size=36",
+    "type": "COMPONENT",
+    "parentId": "1214:1766",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1779",
+    "key": "ede6059eed73de7fc3a9573b73d599f1f56a92ba",
+    "name": "size=40",
+    "type": "COMPONENT",
+    "parentId": "1214:1766",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  },
+  {
+    "id": "1214:1781",
+    "key": "74c65259b2b7849f41a141694912e6c01a761fe6",
+    "name": "size=44",
+    "type": "COMPONENT",
+    "parentId": "1214:1766",
+    "fileKey": "hYI7T4WKSW85FRe1c72qqk",
+    "pageId": "1160:458"
+  }
+]
