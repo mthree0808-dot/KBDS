@@ -23,6 +23,7 @@
     - **속성 설정**: Property `optional: true` 설정
     - **선택 표기**: 기획서상 선택 항목인 경우 텍스트를 그대로 `"선택"`으로 유지
     - **필수 표기 (* 표기 항목)**: 기획서상 `*`로 표기된 필수 항목인 경우:
+      - 표기 텍스트: `*` 대신 **`(필수)`**로 표기
       - 텍스트 폰트 크기/스타일: **`3xs`** 스케일, Font Weight: **`medium`**
       - Color Token: **`text/accent`** 컬러 변수 적용
 
@@ -332,7 +333,7 @@
 3. **컴포넌트 매핑 및 Property 적용**:
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
    - 단독 컴포넌트(`StepIndicator`, `Tab` 등)라도 반드시 `Container [순번]`으로 감싸며, Figma 기본 10px gap은 0으로 제거합니다.
-   - `InputField`의 `Title / Element` 필수 표기는 `optional: true`, 텍스트 `3xs medium`, 컬러 `text/accent`로 적용합니다.
+   - `InputField`의 `Title / Element` 필수 표기는 `optional: true`, 텍스트 **`(필수)`**, `3xs medium`, 컬러 `text/accent`로 적용합니다.
    - `SelectButton`과 `Title / Section (Description 노출)` 조합 시 `gap: 24px`를 적용합니다.
    - `Title / Section`과 `Infobox / Card` 조합 시 `gap: 16px`, `Infobox / Card`와 `TextList` 조합 시 `gap: 12px`를 적용합니다.
    - `Input Group`과 일반 `TextList`는 `gap: 24px`, 부가설명 성격의 `TextList`는 해당 `InputField`와 묶어 `gap: 12px`로 매핑합니다.
