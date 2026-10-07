@@ -60,10 +60,16 @@
 2. **`## BODY`**:
    - 실질적인 화면 콘텐츠(Container, Container 1, Container 2 등)가 위치하는 메인 영역
    - **Auto Layout 속성**: Flow: **Vertical**, **`gap: 32px` (`5xl` 토큰)**
-   - **기본 패딩 규칙**:
-     - 상하 패딩: **`padding-top: 24px` (`3xl` 토큰)**, **`padding-bottom: 32px` (`5xl` 토큰)** 기본 적용
+   - **상하 패딩 규칙**:
+     - 기본: **`padding-top: 24px` (`3xl` 토큰)**, **`padding-bottom: 32px` (`5xl` 토큰)** 적용
      - **최상단 요소에 따른 `padding-top: 0` 예외**: `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`이 `## BODY` 최상단에 올 경우 **`padding-top: 0px`**으로 설정합니다.
-     - 좌우 패딩: 기본적으로 화면 레이아웃 규칙을 따르되, **약관 화면 패턴**에 따라 분기 처리합니다 (아래 3절 및 4절 참조).
+   - **좌우 패딩 규칙 (Full-Width 요소 존재 여부에 따른 분기)**:
+     - **Full-Width 요소(`알려드립니다`, `Divider / Horizontal` 등)가 `## BODY`에 포함되는 경우**:
+       - `## BODY`의 **`padding-left: 0px`, `padding-right: 0px`** 설정
+       - Full-Width 요소를 제외하고 크게 그룹핑되는 **`Container [순번]`들에 `padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)**을 적용
+     - **Full-Width 요소가 없는 일반 화면인 경우**:
+       - `## BODY`의 **`padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)** 기본 적용
+       - 개별 `Container [순번]`의 좌우 패딩은 `0px`로 유지
    - **Infobox / FullWidth 배치 예외**: `## HEADER` 직후 공지 성격의 내용이 올 경우 `Infobox / FullWidth` 컴포넌트를 사용하며, **`Container`로 감싸지 않고 독립 배치**합니다.
    - 높이 속성은 위 콘텐츠 양 규칙(Fill 또는 Hug)을 준수
 3. **`## FOOTER`**:
@@ -109,8 +115,9 @@
   - `StepIndicator`, `Tab` 등과 같이 단독으로 쓰이는 컴포넌트라 하더라도 독립 배치하지 않고 **`Container` (또는 `Container [순번]`)로 감싸서 적용**합니다.
   - 피그마에서 오토레이아웃 생성 시 기본으로 부여되는 **10px gap은 반드시 제거(0 또는 지정 토큰값으로 변경)**합니다.
 - **간격 제어 원칙 (Padding 제어 배제 및 Gap 기반 제어)**:
-  - 개별 `Container` 또는 `Container [순번]`에 적용되던 **`padding-top`, `padding-left`, `padding-right` 설정은 기본적으로 일체 배제(0 설정)**합니다.
-  - 화면의 수직 간격 흐름은 **`## BODY`의 기본 `gap: 32px` (`5xl`)** 및 각 `Container` 내부 오토레이아웃의 **`gap` 속성**만으로 제어합니다. (단, 약관 화면의 특수 패딩 예외 케이스 제외)
+  - 개별 `Container` 또는 `Container [순번]`에 적용되던 **`padding-top` 설정은 일체 배제(0 설정)**합니다.
+  - 화면의 수직 간격 흐름은 **`## BODY`의 기본 `gap: 32px` (`5xl`)** 및 각 `Container` 내부 오토레이아웃의 **`gap` 속성**만으로 제어합니다.
+  - Container 좌우 패딩은 화면 내 Full-Width 요소 유무에 따른 규칙(섹션 2-C 참조)에 따릅니다.
 - **Container 레이어 네이밍 (단일 컨텐츠 및 순차 부여 규칙)**:
   - **단일 컨텐츠인 경우**: 화면 내에 단 하나의 컨텐츠/블록만 존재하여 Container가 1개인 경우, 숫자 접미사 없이 **`Container`**로 단독 명명합니다.
   - **복수 컨텐츠인 경우**: 위에서 아래로 2개 이상의 블록이 배치될 경우, **`Container 1`**, **`Container 2`**, **`Container 3`**과 같이 숫자를 순차적으로 증가시켜 명명합니다.
@@ -181,14 +188,7 @@
 
 ## 4. 약관 화면 전용 패턴 (Consent Layout Rules)
 
-### A. Body 및 Container 좌우 패딩 분기
-1. **일반 약관 화면**:
-   - `## BODY`의 **`padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)** 적용
-2. **복합 레이아웃 화면 (약관 UI 하단에 좌우 full 여백을 쓰는 UI가 조합되는 경우)**:
-   - `## BODY`의 **`padding-left: 0px`, `padding-right: 0px`** 적용
-   - 약관 UI들을 묶는 해당 `Container [순번]`에 **`padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)** 적용
-
-### B. 계층별 오토레이아웃 및 컴포넌트 규칙
+### A. 계층별 오토레이아웃 및 컴포넌트 규칙
 - **Depth 1 (약관 타이틀 항목)**:
   - `Title / Page` 다음에 위치하는 최상위 약관 타이틀
   - 컴포넌트 Spec: `Consent` (`size: large`, `variant: solid`, 기획서에 따라 `hasArrow: true/false`, `Item / Arrow: down, up, right` 선택 적용)
@@ -253,7 +253,7 @@
 - **`## BODY` 기본 패딩**: `padding-top: 24px` (`3xl`), `padding-bottom: 32px` (`5xl`)
 - **`## BODY` padding-top 예외 (`0px`)**: 최상단에 `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)` 배치 시 적용
 - **`## BODY` 내부 컴포넌트/Container 간 간격**: Auto Layout **`gap: 32px` (`5xl`)** 기본 적용
-- *(참고: 개별 Container의 상하좌우 패딩은 모두 배제되며, 블록 간 간격은 `## BODY`의 `gap: 32px`를 통해 균일하게 제어됩니다. 단, 약관 복합 레이아웃 제외)*
+- *(참고: 개별 Container의 상하 패딩은 배제되며, 블록 간 간격은 `## BODY`의 `gap: 32px`를 통해 균일하게 제어됩니다.)*
 
 ---
 
@@ -341,9 +341,9 @@
    - **일반 및 완료 화면**: 가로 `390px` 기준 프레임 생성 후 `## HEADER`, `## BODY`, `## FOOTER` 3단 구조 세팅 (콘텐츠 양에 따라 Fill / Hug 적용).
    - **바텀시트 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `BottomSheet` -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` 구조로 세팅.
    - **공통 Body Auto Layout 세팅**:
-     - 기본: **`gap: 32px` (`5xl`)**, **`padding-top: 24px` (`3xl`)**, **`padding-bottom: 32px` (`5xl`)**
-     - 최상단이 `StepIndicator`, `Tab(1depth)`, `InputField(searchIcon)`인 경우 **`padding-top: 0px`** 적용
-     - 약관 화면인 경우 좌우 패딩 분기(단독 20px vs 복합 0px + Container 20px)를 반영합니다.
+     - 상하 패딩: 기본 **`padding-top: 24px` (`3xl`)**, **`padding-bottom: 32px` (`5xl`)** (최상단이 `StepIndicator`, `Tab(1depth)`, `InputField(searchIcon)`인 경우 `padding-top: 0px`)
+     - 수직 간격: **`gap: 32px` (`5xl`)**
+     - **좌우 패딩 제어**: 화면 내에 `알려드립니다`나 Full-Width `Divider / Horizontal`과 같이 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
    - 단독 컴포넌트(`StepIndicator`, `Tab` 등)라도 반드시 `Container [순번]`으로 감싸며, Figma 기본 10px gap은 0으로 제거합니다.
@@ -368,7 +368,7 @@
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 Accordion을 감싸지 않습니다.
 4. **오토레이아웃 및 네이밍 구조화**:
-   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. (개별 Container padding은 기본 배제)
+   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다.
    - **Container 내부 네이밍**: 컨텐츠를 확인하여 직관적인 영문 Title Case(`Name Text` 형식) 또는 컴포넌트 결합형(`Title / Input` 등)으로 명확히 부여합니다.
    - 연속된 `InputField`는 `Input Group`으로 묶고 `gap: 24px` (`3xl`)을 적용하며, 상위 `Title / Section`과 `gap: 16px` (`xl`)으로 묶어 `Title / Input`을 구성합니다.
    - `Card / Surface`는 `gap: 12px` (`lg`), 일반 본문 `TextList`는 `gap: 12px` (`lg`), 바텀시트 일반 `List`는 `gap: 8px` (`md`), 계좌 선택 `List`는 `gap: 4px` (`xs`)으로 그룹핑합니다.
