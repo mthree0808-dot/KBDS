@@ -4,9 +4,9 @@
 
 ## 1. Reference Sources (디자인 시스템)
 - **Design System URL**: `https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/MO-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC?m=auto&node-id=0-1&t=k9nL7yLI1W2gR3hE-1`
-- **컴포넌트 원형 보존 원칙 (CRITICAL)**:
+- **컴포넌트 원형 보존 및 타이포그래피 우선순위 원칙 (CRITICAL)**:
   - 디자인 시스템에 등록된 **컴포넌트 명칭은 절대로 변경하지 않습니다** (예: `Consent / 계열사 정보제공` 등 한글 명칭이나 임의의 수식어를 덧붙여 컴포넌트명을 변형하는 행위 절대 금지).
-  - 컴포넌트는 위 디자인 시스템에 정의된 기본 Spec(Props, Color Token, Radius 등)을 우선 사용하며 원본 컴포넌트명을 그대로 유지합니다.
+  - 와이어프레임과 컴포넌트를 매핑하는 과정에서 **`Title / Page`**, **`Title / Section`**, **`Title / Element`** 등의 타이틀 컴포넌트를 매핑할 때, **와이어프레임 상에서 볼드(Bold) 등으로 임의 표기되어 있더라도 이를 개별 수정하지 말고 디자인 시스템 컴포넌트에 사전 정의된 원형 폰트 스타일/Weight를 최우선으로 유지**하여 적용합니다.
   - 가이드라인에 명시된 `DataList (layout: split, size: 14)`, `size: medium`, `variant: standard` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.
   - 임의의 신규 스타일을 정의하기 전에 디자인 시스템에 일치하는 컴포넌트가 있는지 먼저 확인하고 매핑합니다.
 - **SelectButton 타입 규칙**:
@@ -72,7 +72,8 @@
    - 내부 필수 컴포넌트: `StatusBar`, `AppBar` 순차 배치
 2. **`## BODY`**:
    - 실질적인 화면 콘텐츠(Container, Container 1, Container 2 등)가 위치하는 메인 영역
-   - **Auto Layout 속성**: Flow: **Vertical**, **`gap: 32px` (`5xl` 토큰)**
+   - **Auto Layout 속성 (기본 및 예외)**: Flow: **Vertical**, **`gap: 32px` (`5xl` 토큰)**
+     - **링크 리스트 전용 화면 예외**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**로 적용합니다.
    - **상하 패딩 규칙**:
      - 기본: **`padding-top: 24px` (`3xl` 토큰)**, **`padding-bottom: 32px` (`5xl` 토큰)** 적용
      - **최상단 요소에 따른 `padding-top: 0` 예외**: `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`이 `## BODY` 최상단에 올 경우 **`padding-top: 0px`**으로 설정합니다.
@@ -80,7 +81,7 @@
      - **링크 리스트 열거 화면 예외**: 링크 리스트 패턴이 적용되는 화면의 경우 **`padding-top: 16px` (`xl` 토큰)** 적용
      - **단독 피드백 화면 `padding-top: 80px` 예외**: 헤더 바로 다음에 별도 UI 없이 `Feedback (variant: medium)`만 올 경우 **`padding-top: 80px` (`8xl` 토큰)** 적용
    - **좌우 패딩 규칙 (Full-Width 요소 존재 여부에 따른 분기)**:
-     - **Full-Width 요소(`알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth` 등)가 `## BODY`에 포함되는 경우**:
+     - **Full-Width 요소(`알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등)가 `## BODY`에 포함되는 경우**:
        - `## BODY`의 **`padding-left: 0px`, `padding-right: 0px`** 설정
        - Full-Width 요소를 제외하고 크게 그룹핑되는 **`Container [순번]`들에 `padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)**을 적용 (단, 링크 리스트의 각 Container는 자체 지정 패딩을 따름)
      - **Full-Width 요소가 없는 일반 화면인 경우**:
@@ -147,7 +148,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - 피그마에서 오토레이아웃 생성 시 기본으로 부여되는 **10px gap은 반드시 제거(0 또는 지정 토큰값으로 변경)**합니다.
 - **간격 제어 원칙 (Padding 제어 배제 및 Gap 기반 제어)**:
   - 개별 `Container` 또는 `Container [순번]`에 적용되던 **`padding-top` 설정은 기본적으로 일체 배제(0 설정)**합니다. (단, Tab 직후 단독 피드백 Container의 `padding: 80px 0`, 링크 리스트 Container, Infobox/FullWidth 하단 콘텐츠 패딩 제외)
-  - 화면의 수직 간격 흐름은 **`## BODY`의 기본 `gap: 32px` (`5xl`)** 및 각 `Container` 내부 오토레이아웃의 **`gap` 속성**만으로 제어합니다.
+  - 화면의 수직 간격 흐름은 **`## BODY`의 기본 `gap: 32px` (`5xl`)** (링크 리스트 전용 화면은 `gap: 0px`) 및 각 `Container` 내부 오토레이아웃의 **`gap` 속성**만으로 제어합니다.
   - Container 좌우 패딩은 화면 내 Full-Width 요소 유무에 따른 규칙(섹션 2-C 참조)에 따릅니다.
 - **Container 레이어 네이밍 (단일 컨텐츠 및 순차 부여 규칙)**:
   - **단일 컨텐츠인 경우**: 화면 내에 단 하나의 컨텐츠/블록만 존재하여 Container가 1개인 경우, 숫자 접미사 없이 **`Container`**로 단독 명명합니다.
@@ -200,6 +201,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **Input & TextList 조합 패턴**:
     - **Input Group 다음 일반 TextList 노출**: `Input Group`과 `TextList`를 그룹핑하고 둘 사이 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
     - **특정 InputField의 부가설명 성격 TextList**: 불릿 리스트 형태로 추가 설명이 들어갈 때는 해당 `InputField`와 `TextList`를 별도로 묶어 그룹핑하고 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+    - *(참고: 불릿이 아닌 단순 문장형 부연 설명은 `InputField` 내부의 `hasFooter: True` 및 `Item / Footer / hint`를 사용합니다.)*
   - **TextList (size: 14, depth: 1) 상호 결합 패턴**:
     - `TextList (size: 14, depth: 1)` 및 `TextList` 컴포넌트들이 오토레이아웃으로 함께 묶일 때 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
   - **Title / Element + 복수 CheckBox / Radio 조합 패턴**:
@@ -327,8 +329,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 ## 6. 링크 리스트 화면 전용 패턴 (Link List Layout Rules)
 화면 내에 링크 리스트들이 그룹화되어 열거되는 화면의 오토레이아웃 및 패딩 규칙입니다.
 
-### A. Body 패딩 기본 규칙
+### A. Body 패딩 및 간격 기본 규칙
 - 링크 리스트가 열거되는 화면의 `## BODY`는 상단 패딩을 **`padding-top: 16px` (`xl` 토큰)**으로 적용합니다.
+- **`## BODY` 내부 간격**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격은 Auto Layout **`gap: 0px`**을 적용합니다.
 - `## BODY`의 좌우 패딩은 Full-Width Divider 등이 포함되므로 **`0px`**로 설정합니다.
 
 ### B. 단일 기본 원형 구조
@@ -385,7 +388,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - `Infobox / FullWidth` 최상단 배치 시: **`padding: 0 0 32px`**
   - 링크 리스트 화면 패턴 적용 시: **`16px` (`xl`)**
   - 헤더 직후 단독 `Feedback` 배치 시: **`80px` (`8xl`)**
-- **`## BODY` 내부 컴포넌트/Container 간 간격**: Auto Layout **`gap: 32px` (`5xl`)** 기본 적용
+- **`## BODY` 내부 컴포넌트/Container 간 간격**: Auto Layout **`gap: 32px` (`5xl`)** 기본 적용 (단, 링크 리스트 전용 화면은 **`gap: 0px`** 적용)
 
 ---
 
@@ -486,21 +489,12 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - `Infobox / FullWidth` 최상단 배치 시: **`padding: 0 0 32px`**
      - 링크 리스트 화면의 경우 **`padding-top: 16px` (`xl`)** 적용
      - 단독 피드백 화면의 경우 **`padding-top: 80px` (`8xl`)** 적용
-     - 수직 간격: **`gap: 32px` (`5xl`)**
+     - 수직 간격: **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용)
      - **좌우 패딩 제어**: 화면 내에 `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
-   - **컴포넌트 원형 명칭은 절대로 변경하지 않습니다.**
-   - `Title / Page` 다음에 디스크립션이 오는 경우 하위 `Description` 레이어의 가시성을 활성화합니다.
-   - `Title / Section` 우측 버튼 조합은 `Container Title (horizontal, gap: 8px, align left)`로 오토레이아웃 그룹핑합니다.
-   - 텍스트 강조 시 같은 폰트 크기 내 `medium` 변수를 쓰고 `positive`, `negative`, `blue`, `red`, `primary` 토큰 규칙을 준수합니다.
-   - 바로가기 버튼 외 아이콘 결합 버튼은 `TextButton`의 `hasPrefix: True` 설정, 아이콘 없는 버튼형 텍스트는 `hasPrefix/hasSuffix: False`, `underline: True`로 적용합니다.
+   - **컴포넌트 원형 명칭은 절대로 변경하지 않으며, 와이어프레임 상 볼드 여부와 무관하게 디자인 시스템의 Title 컴포넌트(`Title / Page`, `Title / Section`, `Title / Element`) 원형 스타일을 우선시하여 적용합니다.**
    - `SelectButton`은 간결한 항목일 경우 `word`, 그렇지 않을 경우 `sentence` 타입을 적용합니다.
-   - 안내 문구는 위치에 따라 `Card / Surface` 다음은 `Infobox / Basic`, 입력 폼 내는 `Infobox / Solid`, 인풋 하단 배치는 `gap: 20px`의 `Infobox / Card`로 매핑합니다.
-   - `Infobox / Card`의 단일 항목은 불릿을 생략하고 `Dynamic/Body/xs∙14∙Light`, `text/neutral/tertiary`로 적용합니다.
-   - 입력 폼 추가 버튼은 `BoxButton (tertiary, medium)`으로 상단과 `gap: 24px`로 배치합니다.
-   - 조회 컨트롤 그룹은 `Sorting Group (gap: 12px)`으로 묶습니다.
-   - `CheckBox`는 `CheckBox Item (gap: 0)` 및 하위 `CheckSub (gap: 20px, padding: 16px 0 12px / 마지막 16px 0 0)`으로 감쌉니다.
    - 단독 컴포넌트(`StepIndicator`, `Tab` 등)라도 반드시 `Container [순번]`으로 감싸며, Figma 기본 10px gap은 0으로 제거합니다.
    - `InputField` 필수/안내 설정:
      - `Title / Element` 필수 표기는 `optional: true`, 텍스트 **`(필수)`**, `3xs medium`, 컬러 `text/accent` 적용
@@ -509,19 +503,20 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - `Title / Section`과 `Infobox / Card` 조합 시 `gap: 16px`, `Infobox / Card`와 `TextList` 조합 시 `gap: 12px`를 적용합니다.
    - `Input Group`과 일반 `TextList`는 `gap: 24px`, 부가설명 성격의 불릿 `TextList`는 해당 `InputField`와 묶어 `gap: 12px`로 매핑합니다.
    - `TextList (size: 14, depth: 1)`과 `TextList` 결합 시 오토레이아웃 `gap: 8px` (`md`)을 적용합니다.
-   - `Title / Element`와 CheckBox/Radio 그룹핑 시 그리드는 Column `16px`, Row `20px`로 설정하고 긴 텍스트는 Vertical `gap: 20px`로 적용합니다.
+   - `Title / Element`와 CheckBox/Radio 그룹핑 시 그리드는 Column `16px`, Row `20px`로 설정하고 긴 텍스트는 Vertical `gap: 20px`로 분기합니다.
    - **계좌 선택 화면**:
      - 바텀시트: `hasScrollDim: True`, Slot 내 `Container (gap: 4px)`, Prefix에 해당 은행 아이콘(`size: 32`), Middle에 통장명 및 `은행명 계좌번호`, Suffix에 `checkMark` 적용
      - 일반 화면: `Container [순번]` 내 `Account Group (gap: 4px)`, 바텀시트와 동일 구조(Prefix `size: 32`)에 Suffix만 `checkBox`로 적용 (`Title / Page` -> `Tab` -> Container 간격은 `gap: 24px`)
-   - **데이터 출력 Card / Surface**:
-     - 목록형: `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`
-     - 상태값 노출형: `Body` 내 `Groups (horizontal, align left, gap: 16px)` > `Group (gap: 4px, Group-A titleMedium + Description)` + `Label / Default (tint, tone: blue/red/darkGray)`
+   - **데이터 출력 Card / Surface**: `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)` 구조를 기획에 따라 유연하게 구성합니다.
    - **링크 리스트 패턴**: 단일 원형(List padding: 20px 20px 16px, List Group gap: 4px, 1px Divider) 및 누적형(첫 번째 0px 20px 16px, 중간 10px Divider + 20px 20px 16px, 마지막 10px Divider + 20px 20px 0px) 규칙을 준수합니다.
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
    - **약관 UI**: `Depth 1` (`Consent solid`), `Depth 2` (`Consent basic large`), `Depth 3` (`Consent basic medium`), `Outline Container`(`gap: 16px`, 복수 조합 시 `Divider 1px tertiary` 구분) 및 `Depth 4` 분기(Grid 2*2 vs Vertical 0px)를 정확히 매핑합니다.
    - **피드백(Empty State) UI**: 단독형(80px), Tab 직후형(Container 80px 0), InputField/Group 직후형(Feedback padding: 24px 0, gap: 32px), Filter 결합형(Filter Area 0 20px, gap: 16px), Card 피드백형(Card padding: 48px 0, radius 16px, border) 패턴을 정확히 구분하여 매핑합니다.
    - **완료 화면**: 상단에 `Feedback` (`status-circleCheck`)을 배치하고, 후속 `DataList` 그룹에는 `tone: quaternary`인 Divider 및 `gap: 12px` (`lg`)을 적용합니다.
+   - 텍스트 강조 및 인라인 링크 스타일 규칙을 엄격히 적용합니다:
+     - 상태 강조는 `text/status`, 일반 강조는 `text/accent` 토큰 사용
+     - 문장 내 링크 텍스트는 `text/neutral/secondary` + `Bold` Text Style + `Underline (Offset: 25%)` 적용
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 Accordion을 감싸지 않습니다.
 4. **오토레이아웃 및 네이밍 구조화**:
