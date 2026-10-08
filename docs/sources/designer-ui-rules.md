@@ -5,7 +5,7 @@
 ## 1. Reference Sources (디자인 시스템)
 - **Design System URL**: `https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/MO-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC?m=auto&node-id=0-1&t=k9nL7yLI1W2gR3hE-1`
 - **컴포넌트 원형 보존 및 타이포그래피 우선순위 원칙 (CRITICAL)**:
-  - 디자인 시스템에 등록된 **컴포넌트 명칭은 절대로 변경하지 않습니다** (예: `Consent / 계열사 정보제공` 등 한글 명칭이나 임의의 수식어를 덧붙여 컴포넌트명을 변형하는 행위 절대 금지).
+  - 디자인 시스템에 등록된 **컴포넌트 명칭은 절대로 변경하지 않습니다** (예: `Consent / 계열사 정보제공`, `CheckBox / 휴대폰번호` 등 한글 명칭이나 임의의 수식어를 덧붙여 컴포넌트명을 변형하는 행위 절대 금지).
   - 와이어프레임과 컴포넌트를 매핑하는 과정에서 **`Title / Page`**, **`Title / Section`**, **`Title / Element`** 등의 타이틀 컴포넌트를 매핑할 때, **와이어프레임 상에서 볼드(Bold) 등으로 임의 표기되어 있더라도 이를 개별 수정하지 말고 디자인 시스템 컴포넌트에 사전 정의된 원형 폰트 스타일/Weight를 최우선으로 유지**하여 적용합니다.
   - 가이드라인에 명시된 `DataList (layout: split, size: 14)`, `size: medium`, `variant: standard` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.
   - 임의의 신규 스타일을 정의하기 전에 디자인 시스템에 일치하는 컴포넌트가 있는지 먼저 확인하고 매핑합니다.
@@ -155,8 +155,8 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **복수 컨텐츠인 경우**: 위에서 아래로 2개 이상의 블록이 배치될 경우, **`Container 1`**, **`Container 2`**, **`Container 3`**과 같이 숫자를 순차적으로 증가시켜 명명합니다.
 - **레이어 및 그룹 네이밍 절대 규칙 (엄격 준수)**:
   - **한글 사용 절대 금지**: 레이어 명, 그룹 명에는 **어떠한 경우에도 한글을 사용하지 않고 반드시 직관적인 영문**으로만 정의합니다.
-  - **컴포넌트 원형 명칭 변경 금지**: 피그마 컴포넌트 원본 명칭에 한글이나 부가 설명을 붙여 임의로 수정하지 않습니다 (예: `Consent` 뒤에 한글 내용을 붙여 변경하는 것 금지).
-  - **그룹 네이밍 포맷**: 슬래시 결합 방식 대신 단독 **`Group`** 또는 직관적인 **`[역할] Group`** 형태의 **Title Case(단어 띄어쓰기, 첫 글자 대문자)**로 명명합니다.
+  - **컴포넌트 고유 명칭 변경 및 한글 결합 절대 금지**: 피그마 컴포넌트 원본 고유 명칭에 한글이나 부가 수식어를 덧붙여 수정하지 않습니다 (예: `Consent / 계열사 정보제공`, `CheckBox / 휴대폰번호` 등의 형태 절대 금지). 컴포넌트는 원본 컴포넌트명을 있는 그대로 유지합니다.
+  - **그룹 네이밍 포맷**: 슬래시를 사용한 세부 한글 명칭 결합 방식을 일체 배제하고, 단독 **`Group`** 또는 직관적인 **`[역할] Group`** 형태의 **Title Case 영문(단어 띄어쓰기, 첫 글자 대문자)**으로만 명명합니다.
     - 권장 예시: `Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `CheckBox Group`, `Radio Group`, `Filter Group`, `List Group`, `Sorting Group` 등
 - **타이틀 관련 레이아웃 규칙**:
   - **Title / Page 직후 Description 노출 시**: `Title / Page` 하위 레이어 중 **`Description`** 레이어의 가시성(눈 아이콘)을 활성화하여 사용합니다.
@@ -235,9 +235,11 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **일반 본문 TextList 연속 배치**:
     - `Infobox / Card`, `Card`, 알려드립니다 외부의 일반 본문에 쓰이는 `TextList`가 여러 개 열거될 경우, 오토레이아웃으로 그룹핑하고 **기본 `gap: 12px` (`lg` 토큰)**을 적용합니다.
   - **Form 내 Accordion 배치**: 폼 형태로 열거되는 도중 위치하는 `Accordion`은 오토레이아웃을 적용하여 `Container [순번]`으로 명명합니다.
-  - **하단 "알려드립니다" 공통 패턴**:
+  - **하단 "알려드립니다" 공통 패턴 및 상태 규칙**:
     - `Container` 또는 `Container [순번]` 내부에 `Divider / Horizontal (thickness: 10px, variant: tertiary, length: full)`을 상단에 배치하고, 그 바로 아래에 `Accordion (type: basic, variant: standard, size: medium, hasDivider: false)` 컴포넌트를 순서대로 배치합니다.
-    - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**, Property는 **`hasDivider: false`**로 설정합니다.
+    - **펼침 상태(Open State) 반영**: 와이어프레임 상에서 '알려드립니다'가 펼쳐져 있는 구조인 경우, **실제 펼쳐진(Open/Expanded) 상태로 화면에 렌더링**합니다.
+    - **내부 Divider 숨김**: 알려드립니다 내부에 위치하는 Accordion은 **`hasDivider: false`를 적용하며, Accordion 내부의 divider는 항상 숨김(비노출)** 처리합니다.
+    - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**로 설정합니다.
     - 이 Container의 Auto Layout **`gap: 0px`**을 적용합니다.
 
 ---
@@ -465,6 +467,8 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - 구성 순서: `Divider / Horizontal` -> `Accordion`
   - Divider Property: `thickness: 10px`, `variant: tertiary`, `length: full`
   - Accordion Property: `type: basic`, `variant: standard`, `size: medium`, **`width: fill`**, **`hasDivider: false`** (오토레이아웃 감싸기 해제)
+  - **Divider 숨김**: Accordion 내부의 divider는 항상 숨김 처리
+  - **상태 제어**: 와이어프레임에서 펼쳐져 있다면 실제로 **펼친 상태(Expanded/Open)**로 노출
   - 그룹핑 간격: Auto Layout **`gap: 0px`**
 
 ---
@@ -506,7 +510,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - `Title / Section`과 `Infobox / Card` 조합 시 `gap: 16px`, `Infobox / Card`와 `TextList` 조합 시 `gap: 12px`를 적용합니다.
    - `Input Group`과 일반 `TextList`는 `gap: 24px`, 부가설명 성격의 불릿 `TextList`는 해당 `InputField`와 묶어 `gap: 12px`로 매핑합니다.
    - `TextList (size: 14, depth: 1)`과 `TextList` 결합 시 오토레이아웃 `gap: 8px` (`md`)을 적용합니다.
-   - `Title / Element`와 CheckBox/Radio 그룹핑 시 그리드는 Column `16px`, Row `20px`로 설정하고 긴 텍스트는 Vertical `gap: 20px`로 분기합니다.
+   - `Title / Element`와 CheckBox/Radio 그룹핑 시 그리드는 Column `16px`, Row `20px`로 설정하고 긴 텍스트는 Vertical `gap: 20px`로 적용합니다.
    - **계좌 선택 화면**:
      - 바텀시트: `hasScrollDim: True`, Slot 내 `Container (gap: 4px)`, Prefix에 해당 은행 아이콘(`size: 32`), Middle에 통장명 및 `은행명 계좌번호`, Suffix에 `checkMark` 적용
      - 일반 화면: `Container [순번]` 내 `Account Group (gap: 4px)`, 바텀시트와 동일 구조(Prefix `size: 32`)에 Suffix만 `checkBox`로 적용 (`Title / Page` -> `Tab` -> Container 간격은 `gap: 24px`)
@@ -520,7 +524,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - **피드백(Empty State) UI**: 단독형(80px), Tab 직후형(Container 80px 0), InputField/Group 직후형(Feedback padding: 24px 0, gap: 32px), Filter 결합형(Filter Area 0 20px, gap: 16px), Card 피드백형(Card padding: 48px 0, radius 16px, border) 패턴을 정확히 구분하여 매핑합니다.
    - **완료 화면**: 상단에 `Feedback` (`status-circleCheck`)을 배치하고, 후속 데이터 그룹에는 `tone: quaternary`인 Divider 및 `DataList (layout: split, size: 14)`, `gap: 12px` (`lg`)을 적용합니다.
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
-   - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 Accordion을 감싸지 않습니다.
+   - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 감싸지 않습니다. Accordion 내부의 divider는 항상 숨기고, 와이어프레임상 펼쳐진 상태라면 실제로 펼쳐진 상태로 렌더링합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
    - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다.
    - **레이어 및 그룹 네이밍**: 한글을 절대 사용하지 않고 오직 직관적인 영문 Title Case(`Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `Filter Group`, `List Group`, `Sorting Group`, `Container Title`, `Card`, `CheckBox Item`, `CheckSub` 등)로 명명합니다.
