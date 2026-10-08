@@ -177,14 +177,15 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - 체크박스 선택 시 펼쳐지는 하위 종속 항목들은 **`CheckSub`** 오토레이아웃으로 감싸고:
     - 간격 및 패딩: Auto Layout **`gap: 20px` (`2xl` 토큰)**, **`padding: 16px 0 12px`**
     - **마지막 CheckBox Item 내의 CheckSub**: **`padding: 16px 0 0`** 적용
-- **데이터 출력 Card / Surface 완성형 구조 및 컴포넌트 매핑 (Data Display Card)**:
-  - **표준 데이터 목록형 (Default)**:
+- **일반 화면 데이터 출력 Card / Surface 완성형 구조 및 컴포넌트 매핑 (Data Display Card)**:
+  - 일반 화면에서 데이터를 뿌려주는 UI는 `DataList`를 1px Divider로 열거하지 않고, `Card / Surface` 컴포넌트 내부에 다음과 같은 계층 구조로 배치합니다:
     1. **`Header`**: 상단에 위치하며, 기획/필요에 따라 **`badge`** 노출
     2. **`Body`**:
        - 하위 요소들을 감싸는 **`Groups`** 오토레이아웃 프레임 생성 (**Auto Layout `gap: 16px`**)
        - `Groups` 내부 첫 번째 요소: **`Group`** 오토레이아웃 프레임 내에 **`Card / Body / Group-A` (variant: `titleMedium`)** 배치
        - `Groups` 내부 두 번째 요소: **`Group`** 오토레이아웃 프레임 (Flow: **`vertical`**, Auto Layout **`gap: 12px`**) 생성 후, 하위에 **`Card / Body / Group-C` (variant: `textList`)**를 1개 또는 그 이상 순차 배치
     3. **`Footer`**: `Body` 하단에 위치하며 **`Card / Footer / Button` (variant: `buttonGroup`)** 배치
+    - *(참고: 위 구조는 완성형 기준이며, 와이어프레임 기획에 따라 각 영역의 노출/비노출을 유연하게 조정하여 작업합니다.)*
   - **데이터 상태 값 노출형 (Status Value Pattern)**:
     1. `Card / Surface` > `Body` 내부의 **`Groups`** 속성을 Flow: **`horizontal`**, Alignment: **`align left`**로 설정
     2. `Groups` 내부 좌측: **`Group`** 오토레이아웃 (Auto Layout **`gap: 4px`**) 내에 **`Card / Body / Group-A` (variant: `titleMedium`)** 및 **`Card / Body / Group-A` (variant: `Description`)** 수직 배치
@@ -231,18 +232,12 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **Card / Surface 연속 배치**: 카드 컴포넌트들이 열거될 경우 단일 오토레이아웃 프레임으로 그룹핑하고, 내부 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)**을 적용합니다.
   - **List 컴포넌트 패딩 예외**:
     - `List` 컴포넌트가 `Container` 내부로 들어올 때, `List` 자체에 기본 설정되어 있는 **좌우 패딩(padding-left, padding-right) 값은 `0px`로 재설정**합니다.
-  - **DataList (일반 수평 데이터 열거 구조)**:
-    - 구조: 상단 `Divider / Horizontal` + `DataList` 목록 + 하단 `Divider / Horizontal`
-    - Divider Spec: `thickness: 1px`, `tone: tertiaryMuted`, `length: full`
-    - 그룹핑 및 간격: 위 요소를 모두 묶어 단일 오토레이아웃 프레임으로 그룹핑하고 Auto Layout **`gap: 16px` (`xl` 토큰)**을 적용합니다.
-  - **DataList 후속 공지 문구 (TextList / Unordered)**:
-    - `DataList` 그룹 바로 다음에 공지 성격의 문구가 위치할 경우 `TextList / Unordered` 컴포넌트를 열거하여 배치합니다.
   - **일반 본문 TextList 연속 배치**:
     - `Infobox / Card`, `Card`, 알려드립니다 외부의 일반 본문에 쓰이는 `TextList`가 여러 개 열거될 경우, 오토레이아웃으로 그룹핑하고 **기본 `gap: 12px` (`lg` 토큰)**을 적용합니다.
   - **Form 내 Accordion 배치**: 폼 형태로 열거되는 도중 위치하는 `Accordion`은 오토레이아웃을 적용하여 `Container [순번]`으로 명명합니다.
   - **하단 "알려드립니다" 공통 패턴**:
-    - `Container` 또는 `Container [순번]` 내부에 `Divider / Horizontal (thickness: 10px, variant: tertiary, length: full)`을 상단에 배치하고, 그 바로 아래에 `Accordion (type: basic, variant: standard, size: medium)` 컴포넌트를 순서대로 배치합니다.
-    - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**로 설정합니다.
+    - `Container` 또는 `Container [순번]` 내부에 `Divider / Horizontal (thickness: 10px, variant: tertiary, length: full)`을 상단에 배치하고, 그 바로 아래에 `Accordion (type: basic, variant: standard, size: medium, hasDivider: false)` 컴포넌트를 순서대로 배치합니다.
+    - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**, Property는 **`hasDivider: false`**로 설정합니다.
     - 이 Container의 Auto Layout **`gap: 0px`**을 적용합니다.
 
 ---
@@ -439,7 +434,6 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - `List Group` 내부 Auto Layout **`gap: 4px` (`xs`)** 적용
   - Divider(10px) 포함 Container 내부 Auto Layout **`gap: 0px`** 적용
 - **Card / Surface 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
-- **DataList 일반 그룹 내부 간격**: 상·하단 Divider 포함 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
 - **선택형 바텀시트 List 간 간격**: `Container 1` 내부 Auto Layout **`gap: 8px` (`md`)** 적용 (List 자체 좌우 패딩: 0px)
 - **알려드립니다 컨텐츠 Container 내부 간격**: Divider(10px, tertiary)와 Accordion 사이 Auto Layout **`gap: 0px`** 적용
 
@@ -470,7 +464,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **하단 "알려드립니다" 패턴 컴포넌트 상세 Spec**:
   - 구성 순서: `Divider / Horizontal` -> `Accordion`
   - Divider Property: `thickness: 10px`, `variant: tertiary`, `length: full`
-  - Accordion Property: `type: basic`, `variant: standard`, `size: medium`, **`width: fill`** (오토레이아웃 감싸기 해제)
+  - Accordion Property: `type: basic`, `variant: standard`, `size: medium`, **`width: fill`**, **`hasDivider: false`** (오토레이아웃 감싸기 해제)
   - 그룹핑 간격: Auto Layout **`gap: 0px`**
 
 ---
@@ -494,7 +488,16 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 3. **컴포넌트 매핑 및 Property 적용**:
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
    - **컴포넌트 원형 명칭은 절대로 변경하지 않으며, 와이어프레임 상 볼드 여부와 무관하게 디자인 시스템의 Title 컴포넌트(`Title / Page`, `Title / Section`, `Title / Element`) 원형 스타일을 우선시하여 적용합니다.**
+   - `Title / Page` 다음에 디스크립션이 오는 경우 하위 `Description` 레이어의 가시성을 활성화합니다.
+   - `Title / Section` 우측 버튼 조합은 `Container Title (horizontal, gap: 8px, align left)`로 오토레이아웃 그룹핑합니다.
+   - 텍스트 강조 시 같은 폰트 크기 내 `medium` 변수를 쓰고 `positive`, `negative`, `blue`, `red`, `primary` 토큰 규칙을 준수합니다.
+   - 바로가기 버튼 외 아이콘 결합 버튼은 `TextButton`의 `hasPrefix: True` 설정, 아이콘 없는 버튼형 텍스트는 `hasPrefix/hasSuffix: False`, `underline: True`로 적용합니다.
    - `SelectButton`은 간결한 항목일 경우 `word`, 그렇지 않을 경우 `sentence` 타입을 적용합니다.
+   - 안내 문구는 위치에 따라 `Card / Surface` 다음은 `Infobox / Basic`, 입력 폼 내는 `Infobox / Solid`, 인풋 하단 배치는 `gap: 20px`의 `Infobox / Card`로 매핑합니다.
+   - `Infobox / Card`의 단일 항목은 불릿을 생략하고 `Dynamic/Body/xs∙14∙Light`, `text/neutral/tertiary`로 적용합니다.
+   - 입력 폼 추가 버튼은 `BoxButton (tertiary, medium)`으로 상단과 `gap: 24px`로 배치합니다.
+   - 조회 컨트롤 그룹은 `Sorting Group (gap: 12px)`으로 묶습니다.
+   - `CheckBox`는 `CheckBox Item (gap: 0)` 및 하위 `CheckSub (gap: 20px, padding: 16px 0 12px / 마지막 16px 0 0)`으로 감쌉니다.
    - 단독 컴포넌트(`StepIndicator`, `Tab` 등)라도 반드시 `Container [순번]`으로 감싸며, Figma 기본 10px gap은 0으로 제거합니다.
    - `InputField` 필수/안내 설정:
      - `Title / Element` 필수 표기는 `optional: true`, 텍스트 **`(필수)`**, `3xs medium`, 컬러 `text/accent` 적용
@@ -507,18 +510,17 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - **계좌 선택 화면**:
      - 바텀시트: `hasScrollDim: True`, Slot 내 `Container (gap: 4px)`, Prefix에 해당 은행 아이콘(`size: 32`), Middle에 통장명 및 `은행명 계좌번호`, Suffix에 `checkMark` 적용
      - 일반 화면: `Container [순번]` 내 `Account Group (gap: 4px)`, 바텀시트와 동일 구조(Prefix `size: 32`)에 Suffix만 `checkBox`로 적용 (`Title / Page` -> `Tab` -> Container 간격은 `gap: 24px`)
-   - **데이터 출력 Card / Surface**: `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)` 구조를 기획에 따라 유연하게 구성합니다.
+   - **데이터 출력 Card / Surface**:
+     - 목록형: `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`
+     - 상태값 노출형: `Body` 내 `Groups (horizontal, align left, gap: 16px)` > `Group (gap: 4px, Group-A titleMedium + Description)` + `Label / Default (tint, tone: blue/red/darkGray)`
    - **링크 리스트 패턴**: 단일 원형(List padding: 20px 20px 16px, List Group gap: 4px, 1px Divider) 및 누적형(첫 번째 0px 20px 16px, 중간 10px Divider + 20px 20px 16px, 마지막 10px Divider + 20px 20px 0px) 규칙을 준수합니다.
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
    - **약관 UI**: `Depth 1` (`Consent solid`), `Depth 2` (`Consent basic large`), `Depth 3` (`Consent basic medium`), `Outline Container`(`gap: 16px`, 복수 조합 시 `Divider 1px tertiary` 구분) 및 `Depth 4` 분기(Grid 2*2 vs Vertical 0px)를 정확히 매핑합니다.
    - **피드백(Empty State) UI**: 단독형(80px), Tab 직후형(Container 80px 0), InputField/Group 직후형(Feedback padding: 24px 0, gap: 32px), Filter 결합형(Filter Area 0 20px, gap: 16px), Card 피드백형(Card padding: 48px 0, radius 16px, border) 패턴을 정확히 구분하여 매핑합니다.
-   - **완료 화면**: 상단에 `Feedback` (`status-circleCheck`)을 배치하고, 후속 `DataList` 그룹에는 `tone: quaternary`인 Divider 및 `gap: 12px` (`lg`)을 적용합니다.
-   - 텍스트 강조 및 인라인 링크 스타일 규칙을 엄격히 적용합니다:
-     - 상태 강조는 `text/status`, 일반 강조는 `text/accent` 토큰 사용
-     - 문장 내 링크 텍스트는 `text/neutral/secondary` + `Bold` Text Style + `Underline (Offset: 25%)` 적용
+   - **완료 화면**: 상단에 `Feedback` (`status-circleCheck`)을 배치하고, 후속 데이터 그룹에는 `tone: quaternary`인 Divider 및 `DataList (layout: split, size: 14)`, `gap: 12px` (`lg`)을 적용합니다.
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
-   - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 Accordion을 감싸지 않습니다.
+   - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 Accordion을 감싸지 않습니다.
 4. **오토레이아웃 및 네이밍 구조화**:
    - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다.
    - **레이어 및 그룹 네이밍**: 한글을 절대 사용하지 않고 오직 직관적인 영문 Title Case(`Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `Filter Group`, `List Group`, `Sorting Group`, `Container Title`, `Card`, `CheckBox Item`, `CheckSub` 등)로 명명합니다.
