@@ -7,8 +7,10 @@
 - **컴포넌트 원형 보존 및 타이포그래피 우선순위 원칙 (CRITICAL)**:
   - 디자인 시스템에 등록된 **컴포넌트 명칭은 절대로 변경하지 않습니다** (예: `Consent / 계열사 정보제공`, `CheckBox / 휴대폰번호` 등 한글 명칭이나 임의의 수식어를 덧붙여 컴포넌트명을 변형하는 행위 절대 금지).
   - 와이어프레임과 컴포넌트를 매핑하는 과정에서 **`Title / Page`**, **`Title / Section`**, **`Title / Element`** 등의 타이틀 컴포넌트를 매핑할 때, **와이어프레임 상에서 볼드(Bold) 등으로 임의 표기되어 있더라도 이를 개별 수정하지 말고 디자인 시스템 컴포넌트에 사전 정의된 원형 폰트 스타일/Weight를 최우선으로 유지**하여 적용합니다.
-  - 가이드라인에 명시된 `DataList (layout: split, size: 14)`, `size: medium`, `variant: standard` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.
+  - 가이드라인에 명시된 `DataList (layout: split, size: 14)`, `size: medium`, `variant: standard`, `os: iOS` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.
   - 임의의 신규 스타일을 정의하기 전에 디자인 시스템에 일치하는 컴포넌트가 있는지 먼저 확인하고 매핑합니다.
+- **HomeIndicator 속성 규칙**:
+  - `## FOOTER` 및 바텀시트/Dialog 최하단에 배치되는 `HomeIndicator` 컴포넌트는 우측 패널의 Component Property **`os: iOS`**를 필수로 선택하여 적용합니다.
 - **SelectButton 타입 규칙**:
   - 간결한 항목들을 다룰 경우: Property **`word`** 타입 적용
   - 그렇지 않은 일반/문장형 항목인 경우: Property **`sentence`** 타입 적용
@@ -91,8 +93,8 @@
        - 개별 `Container [순번]`의 좌우 패딩은 `0px`로 유지
    - 높이 속성은 위 콘텐츠 양 규칙(Fill 또는 Hug)을 준수
 3. **`## FOOTER`**:
-   - **하단 고정 버튼(StickyButton / CTA)이 없는 경우**: `HomeIndicator`만 배치
-   - **하단 고정 버튼(StickyButton / CTA)이 있는 경우**: `StickyButton(CTA)` + `HomeIndicator` 순차 배치
+   - **하단 고정 버튼(StickyButton / CTA)이 없는 경우**: `HomeIndicator` (Property: **`os: iOS`**)만 배치
+   - **하단 고정 버튼(StickyButton / CTA)이 있는 경우**: `StickyButton(CTA)` + `HomeIndicator` (Property: **`os: iOS`**) 순차 배치
 
 ### D. 바텀시트(Bottom Sheet) 화면 규격 및 구조
 바텀시트로 기획된 화면 역시 가로 `390px`, 세로 `844px` 규격 및 오토레이아웃을 적용하며 아래 레이어 구조를 준수합니다.
@@ -107,7 +109,7 @@
   3. **`StatusBar`**:
      - 속성: `variant: iOS`, `mode: light`
      - 속성: **Position 설정(Absolute Position)하여 최상단에 띄움**
-  4. **`HomeIndicator`**: 최하단 배치
+  4. **`HomeIndicator`**: Property **`os: iOS`** 적용, 최하단 배치
 - **일반 선택형 바텀시트 (List Component 매핑 규칙)**:
   - **컴포넌트 계층**: `BottomSheet` > `Item / BottomSheet` > `Slot` 내부에 **`Container 1`**을 배치하고 그 안에 `List` 컴포넌트들을 열거합니다.
   - **오토레이아웃 간격 및 패딩**:
@@ -139,7 +141,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   3. **`StatusBar`**:
      - 속성: `variant: iOS`, `mode: light`
      - 속성: **Position 설정(Absolute Position)하여 최상단에 띄움**
-  4. **`HomeIndicator`**: 최하단 배치
+  4. **`HomeIndicator`**: Property **`os: iOS`** 적용, 최하단 배치
 
 ---
 
@@ -358,7 +360,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 ### A. Body 패딩 및 간격 기본 규칙
 - 링크 리스트가 열거되는 화면의 `## BODY`는 상단 패딩을 **`padding-top: 16px` (`xl` 토큰)**으로 적용합니다.
-- **`## BODY` 내부 간격**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격은 Auto Layout **`gap: 0px`**을 적용합니다.
+- **`## BODY` 내부 간격**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**을 적용합니다.
 - `## BODY`의 좌우 패딩은 Full-Width Divider 등이 포함되므로 **`0px`**로 설정합니다.
 
 ### B. 단일 기본 원형 구조
@@ -516,9 +518,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - 사용자가 전달한 Figma 와이어프레임 링크(또는 JSON/구조)에서 화면 흐름을 파악하고 일반/완료/바텀시트/Dialog/약관/피드백/링크 리스트 화면 여부를 판별합니다.
    - 기획서 내 중괄호(`{ ... }`) 표기 명칭을 기반으로 생성할 아트보드 레이어명을 **`화면ID_[화면을 나타내는 명칭]`** 형식으로 확정합니다.
 2. **아트보드 및 루트 프레임 세팅**:
-   - **일반 및 완료 화면**: 가로 `390px` 기준 프레임 생성 후 `## HEADER`, `## BODY`, `## FOOTER` 3단 구조 세팅 (콘텐츠 양에 따라 Fill / Hug 적용).
-   - **바텀시트 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `BottomSheet` -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` 구조로 세팅.
-   - **Dialog 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `Dialog`(화면 정중앙 배치) -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` 구조로 세팅.
+   - **일반 및 완료 화면**: 가로 `390px` 기준 프레임 생성 후 `## HEADER`, `## BODY`, `## FOOTER` 3단 구조 세팅 (콘텐츠 양에 따라 Fill / Hug 적용). `## FOOTER` 내 `HomeIndicator`는 **`os: iOS`** Property를 적용합니다.
+   - **바텀시트 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `BottomSheet` -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
+   - **Dialog 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `Dialog`(화면 정중앙 배치) -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
    - **공통 Body Auto Layout 세팅**:
      - 상하 패딩: 기본 **`padding-top: 24px` (`3xl`)**, **`padding-bottom: 32px` (`5xl`)**
      - 최상단이 `StepIndicator`, `Tab(1depth)`, `InputField(searchIcon)`인 경우 **`padding-top: 0px`** 적용
@@ -528,7 +530,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - 수직 간격: 기본 **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용). 단, `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl`)**을 우선 적용하며, 해당 컴포넌트를 감싼 `Container` / `Container [순번]` 사이에도 동일하게 적용합니다.
      - **좌우 패딩 제어**: 화면 내에 `Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
-   - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
+   - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout`, `os` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
    - **컴포넌트 원형 명칭은 절대로 변경하지 않으며, 와이어프레임 상 볼드 여부와 무관하게 디자인 시스템의 Title 컴포넌트(`Title / Page`, `Title / Section`, `Title / Element`) 원형 스타일을 우선시하여 적용합니다.**
    - `Title / Page` 다음에 디스크립션이 오는 경우 하위 `Description` 레이어의 가시성을 활성화합니다.
    - `Title / Section` 우측 버튼 조합은 `Container Title (horizontal, gap: 8px, align left)`로 오토레이아웃 그룹핑합니다.
@@ -549,6 +551,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - `Input Group`과 일반 `TextList`는 `gap: 24px`, 부가설명 성격의 불릿 `TextList`는 해당 `InputField`와 묶어 `gap: 12px`로 매핑합니다.
    - `TextList (size: 14, depth: 1)`과 `TextList` 결합 시 오토레이아웃 `gap: 8px` (`md`)을 적용합니다.
    - `Title / Element`와 CheckBox/Radio 그룹핑 시 그리드는 Column `16px`, Row `20px`로 설정하고 긴 텍스트는 Vertical `gap: 20px`로 적용합니다.
+   - `HomeIndicator` 컴포넌트는 항상 우측 속성 패널에서 **`os: iOS`** 속성을 지정합니다.
    - **Table 매핑**:
      - `Table Group` (오토레이아웃, Auto Layout `gap: 1px`) > `Slot-Body` (오토레이아웃, `border-top: stroke/md`, `border-color: border/neutral/quaternary`) > `Grid` (오토레이아웃, Flow: `grid`, `2*auto` / `3*auto` / `4*auto`) 계층 구조를 설정합니다.
      - Thead 셀: `Table / Header (variant: default)`, 행 맨 우측은 `Table / Header (variant: last)`를 적용합니다.
