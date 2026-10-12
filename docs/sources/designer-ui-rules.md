@@ -74,6 +74,7 @@
 2. **`## BODY`**:
    - 실질적인 화면 콘텐츠(Container, Container 1, Container 2 등)가 위치하는 메인 영역
    - **Auto Layout 속성 (기본 및 예외)**: Flow: **Vertical**, **`gap: 32px` (`5xl` 토큰)**
+     - **컴포넌트 조합 간격 우선 적용**: `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl` 토큰)**을 적용합니다. 각 컴포넌트를 감싼 `Container` 또는 `Container [순번]` 사이에도 동일하게 적용하며, 해당 구간에서는 기본 `gap: 32px`보다 우선합니다. (상세 규칙: 섹션 3 및 7-C)
      - **링크 리스트 전용 화면 예외**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**로 적용합니다.
    - **상하 패딩 규칙**:
      - 기본: **`padding-top: 24px` (`3xl` 토큰)**, **`padding-bottom: 32px` (`5xl` 토큰)** 적용
@@ -150,6 +151,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **간격 제어 원칙 (Padding 제어 배제 및 Gap 기반 제어)**:
   - 개별 `Container` 또는 `Container [순번]`에 적용되던 **`padding-top` 설정은 기본적으로 일체 배제(0 설정)**합니다. (단, Tab 직후 단독 피드백 Container의 `padding: 80px 0`, 링크 리스트 Container, Infobox/FullWidth 하단 콘텐츠 패딩 제외)
   - 화면의 수직 간격 흐름은 **`## BODY`의 기본 `gap: 32px` (`5xl`)** (링크 리스트 전용 화면은 `gap: 0px`) 및 각 `Container` 내부 오토레이아웃의 **`gap` 속성**만으로 제어합니다.
+  - **Infobox / Solid 다음 InputField 간격**: `Infobox / Solid` 바로 다음에 `InputField`가 위치할 경우, 두 요소 사이의 수직 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다. `InputField`가 `Container` 또는 `Container [순번]`으로 감싸져 있거나, 두 컴포넌트가 각각 Container로 감싸져 있어도 동일하게 적용합니다.
+  - **StepIndicator 직후 간격**: `StepIndicator` 또는 이를 감싼 `Container` / `Container [순번]`과 바로 다음 UI(또는 이를 감싼 Container) 사이의 수직 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다.
+  - **24px 간격 예외의 적용 우선순위**: 위 두 구간은 `## BODY`의 기본 `gap: 32px`보다 우선합니다. 해당 구간을 제어하는 부모 오토레이아웃의 `gap`에 `3xl` 토큰을 적용하고, 필요 시 해당 요소들을 별도 오토레이아웃으로 그룹핑하여 다른 구간의 간격을 유지합니다. `padding`, 빈 프레임 또는 음수 간격으로 대체하지 않습니다.
   - Container 좌우 패딩은 화면 내 Full-Width 요소(`Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal` 등) 유무에 따른 규칙(섹션 2-C 참조)에 따릅니다.
 - **Container 레이어 네이밍 (단일 컨텐츠 및 순차 부여 규칙)**:
   - **단일 컨텐츠인 경우**: 화면 내에 단 하나의 컨텐츠/블록만 존재하여 Container가 1개인 경우, 숫자 접미사 없이 **`Container`**로 단독 명명합니다.
@@ -415,10 +419,13 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **Full-Width 요소(`Accordion`, `알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등) 포함 시**: **`0px`**
   - **일반 화면**: **`20px` (`2xl`)**
 - **`## BODY` 내부 컴포넌트/Container 간 간격**: Auto Layout **`gap: 32px` (`5xl`)** 기본 적용 (단, 링크 리스트 전용 화면은 **`gap: 0px`** 적용)
+  - **24px 우선 적용 구간**: `StepIndicator`(또는 이를 감싼 Container) 직후 및 `Infobox / Solid` 다음 `InputField`(또는 이를 감싼 Container) 사이에는 **`gap: 24px` (`3xl`)**을 적용합니다. 해당 구간을 구분해 기본 32px 간격과 혼용합니다. (상세 규칙: 섹션 3 및 7-C)
 
 ---
 
 ### C. 컴포넌트 배치 간격 및 옵션 규칙
+- **`Infobox / Solid` 다음 `InputField` 사이 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용. `InputField`를 감싼 `Container` / `Container [순번]`이 이어지는 경우와 각 컴포넌트를 감싼 Container 사이에도 동일하게 적용하며, 해당 구간은 `## BODY` 기본 32px 간격보다 우선합니다.
+- **`StepIndicator`와 바로 다음 UI 사이 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용. `StepIndicator` 또는 다음 UI를 감싼 `Container` / `Container [순번]` 사이에도 동일하게 적용하며, 해당 구간은 `## BODY` 기본 32px 간격보다 우선합니다.
 - **단일 인풋 간 간격 (`Input Group` 등)**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **`Title / Section`과 `Input Group` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
 - **`Title / Section` 우측 버튼 조합 (`Container Title`)**: Flow `horizontal`, Auto Layout **`gap: 8px` (`md`)**, Alignment `align left`
@@ -518,7 +525,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - `Infobox / FullWidth` 최상단 배치 시: **`padding: 0 0 32px`**
      - 링크 리스트 화면의 경우 **`padding-top: 16px` (`xl`)** 적용
      - 단독 피드백 화면의 경우 **`padding-top: 80px` (`8xl`)** 적용
-     - 수직 간격: **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용)
+     - 수직 간격: 기본 **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용). 단, `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl`)**을 우선 적용하며, 해당 컴포넌트를 감싼 `Container` / `Container [순번]` 사이에도 동일하게 적용합니다.
      - **좌우 패딩 제어**: 화면 내에 `Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
