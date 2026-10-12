@@ -7,7 +7,7 @@
 - **컴포넌트 원형 보존 및 타이포그래피 우선순위 원칙 (CRITICAL)**:
   - 디자인 시스템에 등록된 **컴포넌트 명칭은 절대로 변경하지 않습니다** (예: `Consent / 계열사 정보제공`, `CheckBox / 휴대폰번호` 등 한글 명칭이나 임의의 수식어를 덧붙여 컴포넌트명을 변형하는 행위 절대 금지).
   - 와이어프레임과 컴포넌트를 매핑하는 과정에서 **`Title / Page`**, **`Title / Section`**, **`Title / Element`** 등의 타이틀 컴포넌트를 매핑할 때, **와이어프레임 상에서 볼드(Bold) 등으로 임의 표기되어 있더라도 이를 개별 수정하지 말고 디자인 시스템 컴포넌트에 사전 정의된 원형 폰트 스타일/Weight를 최우선으로 유지**하여 적용합니다.
-  - 가이드라인에 명시된 `DataList (layout: split, size: 14)`, `size: medium`, `variant: standard`, `os: iOS` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.
+  - 가이드라인에 명시된 `DataList (layout: split, size: 14, hasDivider: false)`, `size: medium`, `variant: standard`, `os: iOS` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.
   - 임의의 신규 스타일을 정의하기 전에 디자인 시스템에 일치하는 컴포넌트가 있는지 먼저 확인하고 매핑합니다.
 - **HomeIndicator 속성 규칙**:
   - `## FOOTER` 및 바텀시트/Dialog 최하단에 배치되는 `HomeIndicator` 컴포넌트는 우측 패널의 Component Property **`os: iOS`**를 필수로 선택하여 적용합니다.
@@ -209,21 +209,44 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **Table 하단 부속 텍스트 리스트 (`TextList / Unordered`) 연계 규칙**:
     - 단일 리스트인 경우: `Table Group` 내부에 `Slot-Body` 다음 형제 요소로 **`TextList / Unordered`** 배치
     - 복수 리스트인 경우: 리스트들을 **`TextList Group`** (Auto Layout **`gap: 8px` (`md` 토큰)**)으로 그룹핑하여 `Slot-Body` 다음 형제 요소로 배치
-- **일반 화면 데이터 출력 Card / Surface 완성형 구조 및 컴포넌트 매핑 (Data Display Card)**:
-  - 일반 화면에서 데이터를 뿌려주는 UI는 `DataList`를 1px Divider로 열거하지 않고, `Card / Surface` 컴포넌트 내부에 다음과 같은 계층 구조로 배치합니다:
-    1. **`Header`**: 상단에 위치하며, 기획/필요에 따라 **`badge`** 노출
-    2. **`Body`**:
-       - 하위 요소들을 감싸는 **`Groups`** 오토레이아웃 프레임 생성 (**Auto Layout `gap: 16px`**)
-       - `Groups` 내부 첫 번째 요소: **`Group`** 오토레이아웃 프레임 내에 **`Card / Body / Group-A` (variant: `titleMedium`)** 배치
-       - `Groups` 내부 두 번째 요소: **`Group`** 오토레이아웃 프레임 (Flow: **`vertical`**, Auto Layout **`gap: 12px`**) 생성 후, 하위에 **`Card / Body / Group-C` (variant: `textList`)**를 1개 또는 그 이상 순차 배치
-    3. **`Footer`**: `Body` 하단에 위치하며 **`Card / Footer / Button` (variant: `buttonGroup`)** 배치
-    - *(참고: 위 구조는 완성형 기준이며, 와이어프레임 기획에 따라 각 영역의 노출/비노출을 유연하게 조정하여 작업합니다.)*
-  - **데이터 상태 값 노출형 (Status Value Pattern)**:
-    1. `Card / Surface` > `Body` 내부의 **`Groups`** 속성을 Flow: **`horizontal`**, Alignment: **`align left`**로 설정
-    2. `Groups` 내부 좌측: **`Group`** 오토레이아웃 (Auto Layout **`gap: 4px`**) 내에 **`Card / Body / Group-A` (variant: `titleMedium`)** 및 **`Card / Body / Group-A` (variant: `Description`)** 수직 배치
-    3. `Groups` 내부 우측: **`Label / Default`** (variant: `tint`) 배치
-       - Tone 분기: 긍정은 **`blue`**, 부정은 **`red`**, 중립은 **`darkGray`** 적용
-    4. 좌측 `Group`과 우측 `Label / Default` 사이 간격은 Auto Layout **`gap: 16px` (`xl` 토큰)**의 수평 구조로 배치
+
+---
+
+### 데이터 표기 카드 UI 규칙 (Data Display Card Rules)
+데이터를 표기하는 카드 UI는 **내부 액션 요소(버튼 등)의 유무**에 따라 명확히 이원화하여 작업합니다.
+
+#### 1. 액션 포함형 카드: `Card / Surface`
+- **적용 조건**: 카드 틀 내부에 **버튼과 같은 액션 요소(`Card / Footer / Button` 등)가 배치되는 경우에만 사용**합니다.
+- **완성형 계층 구조**:
+  1. **`Header`**: 상단에 위치하며, 기획/필요에 따라 **`badge`** 노출
+  2. **`Body`**:
+     - 하위 요소들을 감싸는 **`Groups`** 오토레이아웃 프레임 생성 (**Auto Layout `gap: 16px`**)
+     - `Groups` 내부 첫 번째 요소: **`Group`** 오토레이아웃 프레임 내에 **`Card / Body / Group-A` (variant: `titleMedium`)** 배치
+     - `Groups` 내부 두 번째 요소: **`Group`** 오토레이아웃 프레임 (Flow: **`vertical`**, Auto Layout **`gap: 12px`**) 생성 후, 하위에 **`Card / Body / Group-C` (variant: `textList`)**를 1개 또는 그 이상 순차 배치
+  3. **`Footer`**: `Body` 하단에 위치하며 **`Card / Footer / Button` (variant: `buttonGroup`)** 배치
+- **데이터 상태 값 노출형 (Status Value Pattern)**:
+  1. `Card / Surface` > `Body` 내부의 **`Groups`** 속성을 Flow: **`horizontal`**, Alignment: **`align left`**로 설정
+  2. `Groups` 내부 좌측: **`Group`** 오토레이아웃 (Auto Layout **`gap: 4px`**) 내에 **`Card / Body / Group-A` (variant: `titleMedium`)** 및 **`Card / Body / Group-A` (variant: `Description`)** 수직 배치
+  3. `Groups` 내부 우측: **`Label / Default`** (variant: `tint`) 배치 (긍정 `blue`, 부정 `red`, 중립 `darkGray`)
+  4. 좌측 `Group`과 우측 `Label / Default` 사이 간격은 Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
+
+#### 2. 액션 미포함 정보성 카드: `Container` (타이틀 + DataList UI)
+- **적용 조건**: 내부에 액션 요소(버튼) 없이 **순수 타이틀과 DataList들만 들어가는 정보성 UI**인 경우, `Card / Surface`를 사용하지 않고 다음 오토레이아웃 프레임 구조로 구축합니다.
+- **최상위 프레임 Spec 및 레이어 네이밍**:
+  - 레이어 명칭: **`Container`** (복수 열거 시 순서대로 **`Container 1`**, **`Container 2`** 등 부여)
+  - Layout: Auto Layout, Flow: **`vertical`**, **`gap: 16px` (`xl` 토큰)**
+  - Styling: **`border: stroke/md`**, Border Color: **`border/neutral/secondary-muted`**, **`border-radius: 20px`**, **`padding: 20px`**
+- **내부 계층 구조**:
+  1. **타이틀 영역**:
+     - 텍스트 Spec: Font Size: **`font-size/body/md`**, Color: **`text/neutral/primary`**
+     - 오토레이아웃 프레임으로 감싸고 레이어 명칭은 **`Group`**으로 설정
+  2. **DataList 영역**:
+     - 개별 컴포넌트: **`DataList (layout: split, size: 14, hasDivider: false)`**
+     - 복수의 `DataList`들을 단일 오토레이아웃 프레임으로 한 번 감쌈
+     - 래핑 프레임 레이어명: **`Group`**, 간격: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+
+---
+
 - **컴포넌트별 조합 및 레이아웃 규칙**:
   - **SelectButton 조합 패턴**:
     - `SelectButton`이 `hasTitle: True` 외에 `Title / Section` (Slot에서 Description이 노출되는 경우)과 함께 쓰일 때 둘 사이 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
@@ -445,6 +468,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **`TextList (size: 14, depth: 1)` + `TextList` 결합 간격**: 내부 Auto Layout **`gap: 8px` (`md`)** 적용
 - **`Table Group` 내부 간격**: Auto Layout **`gap: 1px` (`3xs` 토큰)** 적용
 - **`TextList Group` 내부 간격 (복수 TextList 결합 시)**: 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
+- **정보성 카드 `Container` (액션 미포함) 내부 간격**: 프레임 Auto Layout **`gap: 16px` (`xl` 토큰)**, 내부 `DataList`를 묶는 `Group` 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
 - **`Title / Element` + CheckBox/Radio Group 간격**:
   - Grid 적용 시: **`gap between columns: 16px` (`xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
   - 긴 텍스트 (Vertical) 적용 시: Auto Layout **`gap: 20px` (`2xl`)** 적용
@@ -535,7 +559,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - 수직 간격: 기본 **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용). 단, `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl`)**을 우선 적용하며, 해당 컴포넌트를 감싼 `Container` / `Container [순번]` 사이에도 동일하게 적용합니다.
      - **좌우 패딩 제어**: 화면 내에 `Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
-   - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout`, `os` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
+   - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout`, `hasDivider`, `os` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
    - **컴포넌트 원형 명칭은 절대로 변경하지 않으며, 와이어프레임 상 볼드 여부와 무관하게 디자인 시스템의 Title 컴포넌트(`Title / Page`, `Title / Section`, `Title / Element`) 원형 스타일을 우선시하여 적용합니다.**
    - `Title / Page` 다음에 디스크립션이 오는 경우 하위 `Description` 레이어의 가시성을 활성화합니다.
    - `Title / Section` 우측 버튼 조합은 `Container Title (horizontal, gap: 8px, align left)`로 오토레이아웃 그룹핑합니다.
@@ -565,9 +589,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - **계좌 선택 화면**:
      - 바텀시트: `hasScrollDim: True`, Slot 내 `Container (gap: 4px)`, Prefix에 해당 은행 아이콘(`size: 32`), Middle에 통장명 및 `은행명 계좌번호`, Suffix에 `checkMark` 적용
      - 일반 화면: `Container [순번]` 내 `Account Group (gap: 4px)`, 바텀시트와 동일 구조(Prefix `size: 32`)에 Suffix만 `checkBox`로 적용 (`Title / Page` -> `Tab` -> Container 간격은 `gap: 24px`)
-   - **데이터 출력 Card / Surface**:
-     - 목록형: `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`
-     - 상태값 노출형: `Body` 내 `Groups (horizontal, align left, gap: 16px)` > `Group (gap: 4px, Group-A titleMedium + Description)` + `Label / Default (tint, tone: blue/red/darkGray)`
+   - **데이터 표기 카드 UI 매핑**:
+     - **액션 포함형**: `Card / Surface` 사용 (버튼/액션이 들어갈 때만 한정). `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`
+     - **액션 미포함형 (정보성 카드)**: `Container` 오토레이아웃 프레임(`border: stroke/md`, `border-color: border/neutral/secondary-muted`, `radius: 20px`, `padding: 20px`, `gap: 16px`) 구축. 상단에 `Group` 오토레이아웃 프레임 내 타이틀(`font-size/body/md`, `text/neutral/primary`) 배치 + 하단에 `Group` 오토레이아웃 프레임(`gap: 12px`) 내 `DataList (layout: split, size: 14, hasDivider: false)` 배치
    - **링크 리스트 패턴**: 단일 원형(List padding: 20px 20px 16px, List Group gap: 4px, 1px Divider) 및 누적형(첫 번째 0px 20px 16px, 중간 10px Divider + 20px 20px 16px, 마지막 10px Divider + 20px 20px 0px) 규칙을 준수합니다.
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
@@ -582,7 +606,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 감싸지 않습니다. Accordion 내부의 divider는 항상 숨기고, 와이어프레임상 펼쳐진 상태라면 실제로 펼쳐진 상태로 렌더링합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
-   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다.
+   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. (정보성 데이터 카드 역시 최상위 프레임명을 `Container` / `Container [순번]`으로 명명)
    - **레이어 및 그룹 네이밍**: 한글을 절대 사용하지 않고 오직 직관적인 영문 Title Case(`Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `Filter Group`, `List Group`, `Sorting Group`, `Container Title`, `Card`, `CheckBox Item`, `CheckSub`, `Table Group`, `TextList Group`, `Feedback` 등)로 명명합니다.
    - 연속된 `InputField`는 `Input Group`으로 묶고 `gap: 24px` (`3xl`)을 적용하며, 상위 `Title / Section`과 `gap: 16px` (`xl`)으로 묶어 `Group`을 구성합니다.
    - `Card / Surface`는 `gap: 12px` (`lg`), 일반 본문 `TextList`는 `gap: 12px` (`lg`), 바텀시트 일반 `List`는 `gap: 8px` (`md`), 계좌 선택 `List`는 `gap: 4px` (`xs`)으로 그룹핑합니다.
