@@ -80,10 +80,10 @@
      - **링크 리스트 전용 화면 예외**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**로 적용합니다.
    - **상하 패딩 규칙**:
      - 기본: **`padding-top: 24px` (`3xl` 토큰)**, **`padding-bottom: 32px` (`5xl` 토큰)** 적용
-     - **최상단 요소에 따른 `padding-top: 0` 예외**: `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`이 `## BODY` 최상단에 올 경우 **`padding-top: 0px`**으로 설정합니다.
+     - **최상단 요소에 따른 `padding-top: 0` 예외**: `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`, **헤더 직후 Tab 등과 맞닿는 피드백 화면의 `Tab`**이 `## BODY` 최상단에 올 경우 **`padding-top: 0px`**으로 설정합니다.
+     - **단독 피드백 화면 `padding-top: 40px` 예외**: Feedback 위 상단에 헤더만 존재하는 단독 피드백 화면의 경우 `## BODY`의 **`padding-top: 40px` (`6xl` 토큰)**을 적용합니다.
      - **Infobox / FullWidth 최상단 배치 예외**: `Infobox / FullWidth`가 `## BODY` 최상단에 올 경우 `## BODY`의 패딩을 **`padding: 0 0 32px`**로 설정하고, 직후 간격은 Auto Layout **`gap: 24px` (`3xl`)**을 적용하며, 하단에 배치되는 콘텐츠들은 `Container [순번]`에서 **`padding: 0 20px`**을 적용합니다.
      - **링크 리스트 열거 화면 예외**: 링크 리스트 패턴이 적용되는 화면의 경우 **`padding-top: 16px` (`xl` 토큰)** 적용
-     - **단독 피드백 화면 `padding-top: 80px` 예외**: 헤더 바로 다음에 별도 UI 없이 `Feedback (variant: medium)`만 올 경우 **`padding-top: 80px` (`8xl` 토큰)** 적용
    - **좌우 패딩 규칙 (Full-Width 요소 존재 여부에 따른 분기)**:
      - **Full-Width 요소(`Accordion`, `알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등)가 `## BODY`에 포함되는 경우**:
        - `## BODY`의 **`padding-left: 0px`, `padding-right: 0px`** 설정
@@ -151,7 +151,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - `StepIndicator`, `Tab` 등과 같이 단독으로 쓰이는 컴포넌트라 하더라도 독립 배치하지 않고 **`Container` (또는 `Container [순번]`)로 감싸서 적용**합니다.
   - 피그마에서 오토레이아웃 생성 시 기본으로 부여되는 **10px gap은 반드시 제거(0 또는 지정 토큰값으로 변경)**합니다.
 - **간격 제어 원칙 (Padding 제어 배제 및 Gap 기반 제어)**:
-  - 개별 `Container` 또는 `Container [순번]`에 적용되던 **`padding-top` 설정은 기본적으로 일체 배제(0 설정)**합니다. (단, Tab 직후 단독 피드백 Container의 `padding: 80px 0`, 링크 리스트 Container, Infobox/FullWidth 하단 콘텐츠 패딩 제외)
+  - 개별 `Container` 또는 `Container [순번]`에 적용되던 **`padding-top` 설정은 기본적으로 일체 배제(0 설정)**합니다. (단, Tab 직후 피드백 화면의 Container [순번] `padding-top: 40px`, 링크 리스트 Container, Infobox/FullWidth 하단 콘텐츠 패딩 제외)
   - 화면의 수직 간격 흐름은 **`## BODY`의 기본 `gap: 32px` (`5xl`)** (링크 리스트 전용 화면은 `gap: 0px`) 및 각 `Container` 내부 오토레이아웃의 **`gap` 속성**만으로 제어합니다.
   - **Infobox / Solid 다음 InputField 간격**: `Infobox / Solid` 바로 다음에 `InputField`가 위치할 경우, 두 요소 사이의 수직 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다. `InputField`가 `Container` 또는 `Container [순번]`으로 감싸져 있거나, 두 컴포넌트가 각각 Container로 감싸져 있어도 동일하게 적용합니다.
   - **StepIndicator 직후 간격**: `StepIndicator` 또는 이를 감싼 `Container` / `Container [순번]`과 바로 다음 UI(또는 이를 감싼 Container) 사이의 수직 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다.
@@ -164,7 +164,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **한글 사용 절대 금지**: 레이어 명, 그룹 명에는 **어떠한 경우에도 한글을 사용하지 않고 반드시 직관적인 영문**으로만 정의합니다.
   - **컴포넌트 고유 명칭 변경 및 한글 결합 절대 금지**: 피그마 컴포넌트 원본 고유 명칭에 한글이나 부가 수식어를 덧붙여 수정하지 않습니다 (예: `Consent / 계열사 정보제공`, `CheckBox / 휴대폰번호` 등의 형태 절대 금지). 컴포넌트는 원본 컴포넌트명을 있는 그대로 유지합니다.
   - **그룹 네이밍 포맷**: 슬래시를 사용한 세부 한글 명칭 결합 방식을 일체 배제하고, 단독 **`Group`** 또는 직관적인 **`[역할] Group`** 형태의 **Title Case 영문(단어 띄어쓰기, 첫 글자 대문자)**으로만 명명합니다.
-    - 권장 예시: `Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `CheckBox Group`, `Radio Group`, `Filter Group`, `List Group`, `Sorting Group`, `Table Group`, `TextList Group` 등
+    - 권장 예시: `Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `CheckBox Group`, `Radio Group`, `Filter Group`, `List Group`, `Sorting Group`, `Table Group`, `TextList Group`, `Feedback` 등
 - **타이틀 관련 레이아웃 규칙**:
   - **Title / Page 직후 Description 노출 시**: `Title / Page` 하위 레이어 중 **`Description`** 레이어의 가시성(눈 아이콘)을 활성화하여 사용합니다.
   - **Title / Section 우측에 버튼이 위치할 때**: 두 요소를 오토레이아웃으로 그룹핑하고 레이어명을 **`Container Title`** (Flow: **`horizontal`**, Auto Layout **`gap: 8px` (`md`)**, Alignment: **`align left`**)로 설정합니다.
@@ -320,22 +320,25 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 ### A. 화면 유형별 배치 및 간격 규칙
 1. **단독 피드백 화면 (헤더 직후 피드백만 노출되는 경우)**:
-   - 컴포넌트: `Feedback (variant: medium)`
-   - `Feedback`을 `Container` 오토레이아웃으로 감쌈
-   - `## BODY`의 **`padding-top: 80px` (`8xl` 토큰)** 적용
-2. **Tab 직후 피드백 화면**:
-   - `## BODY` 영역 내 최상단 `Tab` 배치 후 `Feedback` 노출 시
-   - `## BODY`의 **`padding-left: 0px`, `padding-right: 0px`** 설정
-   - `Feedback`을 감싼 `Container [순번]`에 **`padding: 80px 0`** 적용
+   - 컴포넌트 Spec: `Feedback (variant: medium)`
+   - 계층 구조: `## BODY` > **`Container [순번]`** 내부에 `Feedback` 배치
+   - **`## BODY` 패딩**: **`padding-top: 40px` (`6xl` 토큰)** 적용 (상단에 헤더만 존재하는 경우)
+   - **`Container [순번]` 패딩**: **`padding: 24px 0` (`3xl` 토큰)** 적용
+2. **헤더 직후 Tab 등과 맞닿는 피드백 화면 (Tab 직후 피드백)**:
+   - 컴포넌트 Spec: `Feedback (variant: medium)`
+   - **`## BODY` 패딩**: **`padding-top: 0px`**, 좌우 패딩은 **`0px`** 설정
+   - 계층 구조: `Tab` 바로 다음에 오는 `Feedback` 영역은 **`Container [순번]`**으로 감싸고, 그 내부에 **`Feedback`**이라는 오토레이아웃 프레임을 한 번 더 생성하여 컴포넌트를 배치
+   - **`Container [순번]` 패딩**: **`padding-top: 40px` (`6xl` 토큰)** 적용
+   - **내부 `Feedback` 오토레이아웃 프레임 패딩**: **`padding: 24px 0` (`3xl` 토큰)** 적용
 3. **Tab + Infobox FullWidth + InputField + Feedback 흐름**:
-   - `Tab`과 `Infobox / FullWidth`를 단일 **`Container`**로 감쌈
+   - 상위 구조: `Tab`과 `Infobox / FullWidth`를 단일 **`Container`**로 감쌈
    - 이 Container와 하위 `InputField` 간격: Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
-   - `Feedback` Spec: `Feedback (variant: small)`을 사용하며, **`Feedback`** 오토레이아웃 프레임으로 감싸고 **`padding: 24px 0`** 적용
-   - `InputField`와 `Feedback` 프레임 간격: Auto Layout **`gap: 32px` (`5xl` 토큰)** 적용
+   - `InputField`와 하단 피드백 영역 간격: Auto Layout **`gap: 32px` (`5xl` 토큰)** 적용
+   - **피드백 계층 및 패딩**: `Feedback (variant: small)`을 사용하며, **`Feedback`** 오토레이아웃 프레임으로 한 번 더 감싸고 **`padding: 24px 0` (`3xl` 토큰)** 적용
 4. **Infobox FullWidth + Group + Feedback 흐름**:
-   - `Container [순번] (Infobox / FullWidth)` -> `Container [순번] (Group)` -> `Feedback (Feedback)` 구조
+   - 구조: `Container [순번] (Infobox / FullWidth)` -> `Container [순번] (Group)` -> `Feedback (Feedback)` 구조
    - 직전 Container와 `Feedback` 사이 간격: Auto Layout **`gap: 32px` (`5xl` 토큰)** 적용
-   - `Feedback` Spec: `variant: small`, `Feedback` 오토레이아웃으로 감싸고 **`padding: 24px 0`** 적용
+   - 컴포넌트 Spec: `Feedback (variant: small)`을 사용하며, **`Feedback`** 오토레이아웃 프레임으로 감싸고 **`padding: 24px 0` (`3xl` 토큰)** 적용
 5. **Card / Surface + Filter Group + Feedback 흐름**:
    - 상위 구조: `Container [순번] (Card / Surface)` + `Container [순번] (Filter Group + Feedback)`
    - **Filter Group 내부 구조**:
@@ -346,7 +349,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - **Filter Group이 없는 경우**: 부모격인 `Container [순번]`의 Auto Layout **`gap: 0px`** 적용
 6. **카드 형태 피드백 (Card Feedback)**:
    - 데이터가 없을 때 카드로 노출되어야 하는 경우:
-   - `Container [순번]` 내에 **`Card`** 오토레이아웃 프레임 생성하고 내부에 `Feedback` 배치
+   - `Container [순번]` 내에 **`Card`** 오토레이아웃 프레임을 생성하고 내부에 `Feedback` 배치
    - **Card 프레임 Spec**:
      - `padding: 48px 0` (`7xl` 토큰)
      - `border-radius: 16px` (`radius/xl`)
@@ -360,7 +363,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 ### A. Body 패딩 및 간격 기본 규칙
 - 링크 리스트가 열거되는 화면의 `## BODY`는 상단 패딩을 **`padding-top: 16px` (`xl` 토큰)**으로 적용합니다.
-- **`## BODY` 내부 간격**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**을 적용합니다.
+- **`## BODY` 내부 간격**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격은 Auto Layout **`gap: 0px`**을 적용합니다.
 - `## BODY`의 좌우 패딩은 Full-Width Divider 등이 포함되므로 **`0px`**로 설정합니다.
 
 ### B. 단일 기본 원형 구조
@@ -413,10 +416,10 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 ### B. ## BODY 기본 간격 구조
 - **`## BODY` 기본 패딩**: `padding-top: 24px` (`3xl`), `padding-bottom: 32px` (`5xl`)
 - **`## BODY` padding-top 예외**:
-  - `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)` 최상단 배치 시: **`0px`**
+  - `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`, 헤더 직후 `Tab` 배치 시: **`0px`**
+  - 단독 피드백 화면 (헤더 바로 다음 피드백만 위치): **`40px` (`6xl`)**
   - `Infobox / FullWidth` 최상단 배치 시: **`padding: 0 0 32px`**
   - 링크 리스트 화면 패턴 적용 시: **`16px` (`xl`)**
-  - 헤더 직후 단독 `Feedback` 배치 시: **`80px` (`8xl`)**
 - **`## BODY` padding-left, padding-right 제어**:
   - **Full-Width 요소(`Accordion`, `알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등) 포함 시**: **`0px`**
   - **일반 화면**: **`20px` (`2xl`)**
@@ -466,7 +469,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - `Outline Container` 내부 기본 간격: Auto Layout **`gap: 16px` (`xl`)** 적용
   - `Outline Container` 내부 소타이틀과 `Group` / 항목 간격: Auto Layout **`gap: 8px` (`md`)** 적용
   - 긴 텍스트 `Depth 4` 내부 항목 간격: Flow `vertical`, Auto Layout **`gap: 0px`**
-- **피드백 화면 흐름 간격**:
+- **피드백 화면 흐름 패딩 및 간격**:
+  - 단독 피드백 화면: `Container [순번]`에 **`padding: 24px 0` (`3xl`)** 적용
+  - Tab 직후 피드백 화면: `Container [순번]`에 **`padding-top: 40px` (`6xl`)** 적용, 내부 `Feedback` 프레임에 **`padding: 24px 0` (`3xl`)** 적용
   - `Tab - Infobox FullWidth` Container와 `InputField` 간격: Auto Layout **`gap: 24px` (`3xl`)**
   - `InputField`와 `Feedback (padding: 24px 0)` 간격: Auto Layout **`gap: 32px` (`5xl`)**
   - `Group` Container와 `Feedback (padding: 24px 0)` 간격: Auto Layout **`gap: 32px` (`5xl`)**
@@ -523,10 +528,10 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - **Dialog 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `Dialog`(화면 정중앙 배치) -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
    - **공통 Body Auto Layout 세팅**:
      - 상하 패딩: 기본 **`padding-top: 24px` (`3xl`)**, **`padding-bottom: 32px` (`5xl`)**
-     - 최상단이 `StepIndicator`, `Tab(1depth)`, `InputField(searchIcon)`인 경우 **`padding-top: 0px`** 적용
+     - 최상단이 `StepIndicator`, `Tab(1depth)`, `InputField(searchIcon)` 또는 헤더 직후 `Tab` 배치 시: **`padding-top: 0px`** 적용
+     - 단독 피드백 화면(헤더 바로 다음 피드백만 위치): **`padding-top: 40px` (`6xl`)** 적용
      - `Infobox / FullWidth` 최상단 배치 시: **`padding: 0 0 32px`**
      - 링크 리스트 화면의 경우 **`padding-top: 16px` (`xl`)** 적용
-     - 단독 피드백 화면의 경우 **`padding-top: 80px` (`8xl`)** 적용
      - 수직 간격: 기본 **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용). 단, `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl`)**을 우선 적용하며, 해당 컴포넌트를 감싼 `Container` / `Container [순번]` 사이에도 동일하게 적용합니다.
      - **좌우 패딩 제어**: 화면 내에 `Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
@@ -567,13 +572,18 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
    - **약관 UI**: `Depth 1` (`Consent solid`), `Depth 2` (`Consent basic large`), `Depth 3` (`Consent basic medium`), `Outline Container`(`gap: 16px`, 복수 조합 시 `Divider 1px tertiary` 구분) 및 `Depth 4` 분기(Grid 2*2 vs Vertical 0px)를 정확히 매핑합니다.
-   - **피드백(Empty State) UI**: 단독형(80px), Tab 직후형(Container 80px 0), InputField/Group 직후형(Feedback padding: 24px 0, gap: 32px), Filter 결합형(Filter Area 0 20px, gap: 16px), Card 피드백형(Card padding: 48px 0, radius 16px, border) 패턴을 정확히 구분하여 매핑합니다.
+   - **피드백(Empty State) UI**:
+     - 단독형: `## BODY`의 `padding-top: 40px`, `Container [순번]` 패딩 `padding: 24px 0` 매핑
+     - Tab 직후형: `## BODY`의 `padding-top: 0px`, `Container [순번]`에 `padding-top: 40px` 부여 후 내부 `Feedback` 오토레이아웃 프레임에 `padding: 24px 0` 매핑
+     - 인풋/그룹 직후형: `Feedback` 오토레이아웃 프레임으로 한 번 더 감싸고 `padding: 24px 0`, 상단과의 간격 `gap: 32px` 매핑
+     - Filter 결합형: Filter Area `0 20px`, 간격 `gap: 16px` 매핑
+     - Card 피드백형: Card `padding: 48px 0`, `radius: 16px`, 테두리/배경 매핑
    - **완료 화면**: 상단에 `Feedback` (`status-circleCheck`)을 배치하고, 후속 데이터 그룹에는 `tone: quaternary`인 Divider 및 `DataList (layout: split, size: 14)`, `gap: 12px` (`lg`)을 적용합니다.
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 감싸지 않습니다. Accordion 내부의 divider는 항상 숨기고, 와이어프레임상 펼쳐진 상태라면 실제로 펼쳐진 상태로 렌더링합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
    - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다.
-   - **레이어 및 그룹 네이밍**: 한글을 절대 사용하지 않고 오직 직관적인 영문 Title Case(`Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `Filter Group`, `List Group`, `Sorting Group`, `Container Title`, `Card`, `CheckBox Item`, `CheckSub`, `Table Group`, `TextList Group` 등)로 명명합니다.
+   - **레이어 및 그룹 네이밍**: 한글을 절대 사용하지 않고 오직 직관적인 영문 Title Case(`Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `Filter Group`, `List Group`, `Sorting Group`, `Container Title`, `Card`, `CheckBox Item`, `CheckSub`, `Table Group`, `TextList Group`, `Feedback` 등)로 명명합니다.
    - 연속된 `InputField`는 `Input Group`으로 묶고 `gap: 24px` (`3xl`)을 적용하며, 상위 `Title / Section`과 `gap: 16px` (`xl`)으로 묶어 `Group`을 구성합니다.
    - `Card / Surface`는 `gap: 12px` (`lg`), 일반 본문 `TextList`는 `gap: 12px` (`lg`), 바텀시트 일반 `List`는 `gap: 8px` (`md`), 계좌 선택 `List`는 `gap: 4px` (`xs`)으로 그룹핑합니다.
    - `Table Group`은 `gap: 1px` (`3xs`), 복수 `TextList / Unordered`는 `TextList Group (gap: 8px)`으로 구조화합니다.
