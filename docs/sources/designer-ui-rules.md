@@ -181,15 +181,17 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **Table 구조 및 TextList 연계 규칙 (Table Pattern)**:
   - **계층 구조**: **`Table Group`** > **`Slot-Body`** > **`Grid`**
   - **`Table Group` 속성**:
-    - Auto Layout Flow: **`vertical`**
-    - 간격: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
-    - *용도: 하단에 `TextList / Unordered` 또는 `TextList Group`이 부속으로 들어갈 때 일관된 간격을 유지하기 위해 정의.*
+    - 오토레이아웃 프레임으로 묶음
+    - Flow: **`vertical`**
+    - 간격: Auto Layout **`gap: 1px` (`3xs` 토큰)** 적용
   - **`Slot-Body` 속성**:
+    - 오토레이아웃 프레임으로 세팅
     - Styling: **`border-top: stroke/md`**, Border Color: **`border/neutral/quaternary`**
-    - 내부의 `Grid` 프레임을 감싸는 Wrapper 레이어로 동작합니다.
+    - 내부의 `Grid` 오토레이아웃 프레임을 감싸는 Wrapper 레이어로 동작합니다.
   - **`Grid` 속성 및 레이아웃 분기**:
+    - 오토레이아웃 프레임으로 세팅
     - Flow: **`grid`**
-    - Column 설정: 와이어프레임 구조를 참조하여 **`2*auto`**, **`3*auto`**, 또는 **`4*auto`**로 가변 적용합니다.
+    - Grid Column 설정: 와이어프레임 구조를 참조하여 **`2*auto`**, **`3*auto`**, 또는 **`4*auto`**로 가변 적용합니다.
   - **Thead (헤더 셀) 컴포넌트 매핑 규칙**:
     - 기본 헤더 셀: **`Table / Header` (variant: `default`)**
     - 우측 맨 마지막 헤더 셀: **`Table / Header` (variant: `last`)**
@@ -338,7 +340,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - **Filter Group이 없는 경우**: 부모격인 `Container [순번]`의 Auto Layout **`gap: 0px`** 적용
 6. **카드 형태 피드백 (Card Feedback)**:
    - 데이터가 없을 때 카드로 노출되어야 하는 경우:
-   - `Container [순번]` 내에 **`Card`** 오토레이아웃 프레임을 생성하고 내부에 `Feedback` 배치
+   - `Container [순번]` 내에 **`Card`** 오토레이아웃 프레임 생성하고 내부에 `Feedback` 배치
    - **Card 프레임 Spec**:
      - `padding: 48px 0` (`7xl` 토큰)
      - `border-radius: 16px` (`radius/xl`)
@@ -426,7 +428,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **입력 폼 하단 항목추가 `BoxButton (tertiary, medium)`과 상단 항목 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **조회 컨트롤 그룹 (`Sorting Group`) 내부 간격**: Auto Layout **`gap: 12px` (`lg`)** 적용
 - **`TextList (size: 14, depth: 1)` + `TextList` 결합 간격**: 내부 Auto Layout **`gap: 8px` (`md`)** 적용
-- **`Table Group` 내부 간격**: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용 (`Slot-Body`와 하단 `TextList / Unordered` 또는 `TextList Group` 사이 간격)
+- **`Table Group` 내부 간격**: Auto Layout **`gap: 1px` (`3xs` 토큰)** 적용
 - **`TextList Group` 내부 간격 (복수 TextList 결합 시)**: 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
 - **`Title / Element` + CheckBox/Radio Group 간격**:
   - Grid 적용 시: **`gap between columns: 16px` (`xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
@@ -538,7 +540,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - `TextList (size: 14, depth: 1)`과 `TextList` 결합 시 오토레이아웃 `gap: 8px` (`md`)을 적용합니다.
    - `Title / Element`와 CheckBox/Radio 그룹핑 시 그리드는 Column `16px`, Row `20px`로 설정하고 긴 텍스트는 Vertical `gap: 20px`로 적용합니다.
    - **Table 매핑**:
-     - `Table Group` (Auto Layout `gap: 12px`) > `Slot-Body` (`border-top: stroke/md`, `border-color: border/neutral/quaternary`) > `Grid` (Flow: `grid`, `2*auto` / `3*auto` / `4*auto`) 구조를 설정합니다.
+     - `Table Group` (오토레이아웃, Auto Layout `gap: 1px`) > `Slot-Body` (오토레이아웃, `border-top: stroke/md`, `border-color: border/neutral/quaternary`) > `Grid` (오토레이아웃, Flow: `grid`, `2*auto` / `3*auto` / `4*auto`) 계층 구조를 설정합니다.
      - Thead 셀: `Table / Header (variant: default)`, 행 맨 우측은 `Table / Header (variant: last)`를 적용합니다.
      - Tbody 셀: 비타이틀 셀은 `Table / Cell (variant: default)`, 행 맨 우측은 `Table / Cell (variant: last)`를 적용하며, 셀 내부 텍스트 컬러 지정 시 폰트 Weight는 반드시 `light`를 유지합니다.
      - 하단 부속 텍스트: 단일 리스트는 `TextList / Unordered` 단독 배치, 복수인 경우 `TextList Group (gap: 8px)`으로 묶어 배치합니다.
@@ -561,5 +563,5 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - **레이어 및 그룹 네이밍**: 한글을 절대 사용하지 않고 오직 직관적인 영문 Title Case(`Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `Filter Group`, `List Group`, `Sorting Group`, `Container Title`, `Card`, `CheckBox Item`, `CheckSub`, `Table Group`, `TextList Group` 등)로 명명합니다.
    - 연속된 `InputField`는 `Input Group`으로 묶고 `gap: 24px` (`3xl`)을 적용하며, 상위 `Title / Section`과 `gap: 16px` (`xl`)으로 묶어 `Group`을 구성합니다.
    - `Card / Surface`는 `gap: 12px` (`lg`), 일반 본문 `TextList`는 `gap: 12px` (`lg`), 바텀시트 일반 `List`는 `gap: 8px` (`md`), 계좌 선택 `List`는 `gap: 4px` (`xs`)으로 그룹핑합니다.
-   - `Table Group`은 `gap: 12px` (`lg`), 복수 `TextList / Unordered`는 `TextList Group (gap: 8px)`으로 구조화합니다.
-5. **토큰 기반 간격 검증**: 섹션 7에 정의된 간격 규칙(0px, `md`, `lg`, `xl`, `2xl`, `3xl`, `5xl`, `6xl`, `7xl`, `8xl` 등)이 오토레이아웃의 gap 및 Body padding에 올바르게 매핑되었는지 최종 확인 후 결과물을 출력합니다.
+   - `Table Group`은 `gap: 1px` (`3xs`), 복수 `TextList / Unordered`는 `TextList Group (gap: 8px)`으로 구조화합니다.
+5. **토큰 기반 간격 검증**: 섹션 7에 정의된 간격 규칙(0px, `3xs`, `md`, `lg`, `xl`, `2xl`, `3xl`, `5xl`, `6xl`, `7xl`, `8xl` 등)이 오토레이아웃의 gap 및 Body padding에 올바르게 매핑되었는지 최종 확인 후 결과물을 출력합니다.
