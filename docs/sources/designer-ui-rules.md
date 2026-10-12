@@ -82,7 +82,7 @@
      - **링크 리스트 열거 화면 예외**: 링크 리스트 패턴이 적용되는 화면의 경우 **`padding-top: 16px` (`xl` 토큰)** 적용
      - **단독 피드백 화면 `padding-top: 80px` 예외**: 헤더 바로 다음에 별도 UI 없이 `Feedback (variant: medium)`만 올 경우 **`padding-top: 80px` (`8xl` 토큰)** 적용
    - **좌우 패딩 규칙 (Full-Width 요소 존재 여부에 따른 분기)**:
-     - **Full-Width 요소(`알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등)가 `## BODY`에 포함되는 경우**:
+     - **Full-Width 요소(`Accordion`, `알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등)가 `## BODY`에 포함되는 경우**:
        - `## BODY`의 **`padding-left: 0px`, `padding-right: 0px`** 설정
        - Full-Width 요소를 제외하고 크게 그룹핑되는 **`Container [순번]`들에 `padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)**을 적용 (단, 링크 리스트의 각 Container는 자체 지정 패딩을 따름)
      - **Full-Width 요소가 없는 일반 화면인 경우**:
@@ -150,7 +150,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **간격 제어 원칙 (Padding 제어 배제 및 Gap 기반 제어)**:
   - 개별 `Container` 또는 `Container [순번]`에 적용되던 **`padding-top` 설정은 기본적으로 일체 배제(0 설정)**합니다. (단, Tab 직후 단독 피드백 Container의 `padding: 80px 0`, 링크 리스트 Container, Infobox/FullWidth 하단 콘텐츠 패딩 제외)
   - 화면의 수직 간격 흐름은 **`## BODY`의 기본 `gap: 32px` (`5xl`)** (링크 리스트 전용 화면은 `gap: 0px`) 및 각 `Container` 내부 오토레이아웃의 **`gap` 속성**만으로 제어합니다.
-  - Container 좌우 패딩은 화면 내 Full-Width 요소 유무에 따른 규칙(섹션 2-C 참조)에 따릅니다.
+  - Container 좌우 패딩은 화면 내 Full-Width 요소(`Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal` 등) 유무에 따른 규칙(섹션 2-C 참조)에 따릅니다.
 - **Container 레이어 네이밍 (단일 컨텐츠 및 순차 부여 규칙)**:
   - **단일 컨텐츠인 경우**: 화면 내에 단 하나의 컨텐츠/블록만 존재하여 Container가 1개인 경우, 숫자 접미사 없이 **`Container`**로 단독 명명합니다.
   - **복수 컨텐츠인 경우**: 위에서 아래로 2개 이상의 블록이 배치될 경우, **`Container 1`**, **`Container 2`**, **`Container 3`**과 같이 숫자를 순차적으로 증가시켜 명명합니다.
@@ -411,6 +411,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - `Infobox / FullWidth` 최상단 배치 시: **`padding: 0 0 32px`**
   - 링크 리스트 화면 패턴 적용 시: **`16px` (`xl`)**
   - 헤더 직후 단독 `Feedback` 배치 시: **`80px` (`8xl`)**
+- **`## BODY` padding-left, padding-right 제어**:
+  - **Full-Width 요소(`Accordion`, `알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등) 포함 시**: **`0px`**
+  - **일반 화면**: **`20px` (`2xl`)**
 - **`## BODY` 내부 컴포넌트/Container 간 간격**: Auto Layout **`gap: 32px` (`5xl`)** 기본 적용 (단, 링크 리스트 전용 화면은 **`gap: 0px`** 적용)
 
 ---
@@ -516,7 +519,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - 링크 리스트 화면의 경우 **`padding-top: 16px` (`xl`)** 적용
      - 단독 피드백 화면의 경우 **`padding-top: 80px` (`8xl`)** 적용
      - 수직 간격: **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용)
-     - **좌우 패딩 제어**: 화면 내에 `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
+     - **좌우 패딩 제어**: 화면 내에 `Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
    - **컴포넌트 원형 명칭은 절대로 변경하지 않으며, 와이어프레임 상 볼드 여부와 무관하게 디자인 시스템의 Title 컴포넌트(`Title / Page`, `Title / Section`, `Title / Element`) 원형 스타일을 우선시하여 적용합니다.**
