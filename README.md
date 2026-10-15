@@ -18,6 +18,7 @@
 
 ## 이번에 반영한 핵심
 
+- 완료 화면의 BODY 패딩과 `Title / DataList Group` 반복 구조는 [디자이너 원문](docs/sources/designer-ui-rules.md)의 완료 화면 절 및 [D18·D19](docs/designer-rules.md)를 적용합니다. BODY padding `40px 20px 32px`, 계층별 gap 40 / 32 / 16 / 12px와 Title의 Vertical Auto Layout을 구분합니다.
 - 이름이나 비슷한 모양이 아닌 **원본 component key / variable key / style key**를 기록합니다.
 - 템플릿의 HEADER / BODY / FOOTER와 역할별 여백을 먼저 선택합니다.
 - 기획 요구사항, 참조 노드, 선택 근거, 제작 노드를 연결합니다.

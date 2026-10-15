@@ -80,6 +80,7 @@
      - **링크 리스트 전용 화면 예외**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**로 적용합니다.
    - **상하 패딩 규칙**:
      - 기본: **`padding-top: 24px` (`3xl` 토큰)**, **`padding-bottom: 32px` (`5xl` 토큰)** 적용
+     - **완료 화면 예외**: 상단 Feedback과 후속 데이터 그룹이 있는 완료 화면은 **`padding: 40px 20px 32px`** (상단 `spacing/6xl`, 좌우 `spacing/2xl`, 하단 `spacing/5xl`), Container 간 **`gap: 40px` (`spacing/6xl`)**을 적용합니다. 상세 구조는 섹션 7의 완료 화면 규칙을 따릅니다.
      - **최상단 요소에 따른 `padding-top: 0` 예외**: `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`, **헤더 직후 Tab 등과 맞닿는 피드백 화면의 `Tab`**이 `## BODY` 최상단에 올 경우 **`padding-top: 0px`**으로 설정합니다.
      - **단독 피드백 화면 `padding-top: 40px` 예외**: Feedback 위 상단에 헤더만 존재하는 단독 피드백 화면의 경우 `## BODY`의 **`padding-top: 40px` (`6xl` 토큰)**을 적용합니다.
      - **Infobox / FullWidth 최상단 배치 예외**: `Infobox / FullWidth`가 `## BODY` 최상단에 올 경우 `## BODY`의 패딩을 **`padding: 0 0 32px`**로 설정하고, 직후 간격은 Auto Layout **`gap: 24px` (`3xl`)**을 적용하며, 하단에 배치되는 콘텐츠들은 `Container [순번]`에서 **`padding: 0 20px`**을 적용합니다.
@@ -91,6 +92,7 @@
      - **Full-Width 요소가 없는 일반 화면인 경우**:
        - `## BODY`의 **`padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)** 기본 적용
        - 개별 `Container [순번]`의 좌우 패딩은 `0px`로 유지
+     - **완료 화면의 데이터 그룹 내부 Divider 예외**: `Title` 안의 `Divider / Horizontal (length: full)`은 해당 350px 콘텐츠 영역을 채우는 구분선입니다. 이 Divider만을 이유로 `## BODY`의 좌우 패딩 20px를 0으로 바꾸지 않습니다.
    - **'알려드립니다' 컨테이너 분할 필수 원칙**: `## BODY` 내에 '알려드립니다'가 위치할 경우, 다른 상단 요소들과 결합하지 않고 반드시 독립된 **`Container [순번]`으로 그룹핑하여 분할**합니다.
    - 높이 속성은 위 콘텐츠 양 규칙(Fill 또는 Hug)을 준수
 3. **`## FOOTER`**:
@@ -536,6 +538,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 
 ### B. ## BODY 기본 간격 구조
 - **`## BODY` 기본 패딩**: `padding-top: 24px` (`3xl`), `padding-bottom: 32px` (`5xl`)
+- **완료 화면 우선 규칙**: 상단 Feedback + 후속 데이터 그룹 패턴은 **`padding: 40px 20px 32px`**, **`gap: 40px` (`spacing/6xl`)**을 적용합니다. 그룹 내부의 `length: full` Divider는 BODY 좌우 패딩을 제거하는 Full-Width 요소로 취급하지 않습니다.
 - **`## BODY` padding-top 예외**:
   - `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`, 헤더 직후 `Tab` 배치 시: **`0px`**
   - 단독 피드백 화면 (헤더 바로 다음 피드백만 위치): **`40px` (`6xl`)**
@@ -619,13 +622,25 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - 연속 열거 시 오토레이아웃 그룹핑 후 **`gap: 12px` (`lg` 토큰)**을 적용합니다.
 
 #### 완료 화면(Completion Screen) 전용 레이아웃 규칙
+- **승인 기준**: [업데이트된 완료 화면](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2668-26353) (`2668:26353`, 2026-10-15 확인). 아래 규칙은 상단 Feedback + 후속 데이터 그룹을 가진 완료 화면에 적용하며, 일반 화면이나 Empty State의 간격을 일괄 변경하지 않습니다.
+- **`## BODY` 구조 및 패딩**:
+  - Flow **`vertical`**, **`padding: 40px 20px 32px`** (상단 `spacing/6xl`, 좌우 `spacing/2xl`, 하단 `spacing/5xl`).
+  - `Container 1` (Feedback)과 `Container 2` (데이터 영역) 사이의 Auto Layout **`gap: 40px` (`spacing/6xl`)**. 일반 BODY 기본 gap 32px보다 우선합니다.
+  - 좌우 정렬은 승인 예시처럼 **center**를 유지하며, 데이터 영역 `Container 2`는 가로 **Fill**로 콘텐츠 폭 350px를 채웁니다. 내용이 기본 화면 높이에 들어가면 기존 일반 규격대로 BODY 높이는 Fill입니다.
 - **상단 Feedback 영역**:
   - `## BODY` 최상단에 `Feedback` 컴포넌트를 위치시키고 `Container 1` 오토레이아웃으로 감쌉니다.
   - 하위 계층: `Item / Feedback`에서 status 아이콘을 **`status-circleCheck`**로 지정합니다.
-- **후속 DataList 그룹핑 및 간격**:
-  - Feedback 다음에 열거되는 데이터 콘텐츠는 `Container [순번]`으로 그룹핑합니다.
-  - 그룹 내부 구조: `Title / Element` (기획에 따라 노출/비노출) + `Divider / Horizontal` (`thickness: 1px`, `tone: quaternary`, `length: full`) + `DataList (layout: split, size: 14)`
-  - 오토레이아웃 간격: 해당 `Container [순번]` 내부 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+  - `Container 1` 및 후속 데이터용 Container의 패딩은 **0px**로 유지합니다. 상단 40px를 Container의 `padding-top`에 다시 더하지 않습니다. Feedback 내부 원형 속성·서체는 유지합니다.
+- **`Container 2` — 복수 데이터 그룹 간격**:
+  - Flow **`vertical`**, padding **0px**, 가로 **Fill**, 세로 **Hug**.
+  - 하나 이상의 **`Title / DataList Group`**을 순서대로 배치합니다. 복수일 때 그룹 사이의 Auto Layout **`gap: 32px` (`spacing/5xl`)**을 적용합니다. 후속 그룹의 `padding-top: 24px`로 대체하거나 추가하지 않습니다.
+- **각 `Title / DataList Group` 내부 구조**:
+  - Flow **`vertical`**, padding **0px**, 가로 **Fill**, 세로 **Hug**.
+  - 자식은 **`Title` → `DataList Group`** 순서이며, 둘 사이 Auto Layout **`gap: 16px` (`spacing/xl`)**을 적용합니다.
+  - **`Title`**: 별도의 **Vertical Auto Layout** 프레임, padding **0px**, 가로 **Fill**, 세로 **Hug**. 내부에 **`Title / Element` → `Divider / Horizontal`**을 순서대로 배치하고 **`gap: 12px` (`spacing/lg`)**를 적용합니다. Title / Element의 원형 서체(승인 예시 `KBFG Text Medium`)를 유지합니다. 기획상 타이틀이 없으면 가시성만 대응하며 임의의 빈 공간을 추가하지 않습니다.
+  - **Title 내부 Divider의 실제 Component Properties**: **`thickness: 1px`, `variant: primary`, `length: full`**. 이전 완료 화면의 `tone: quaternary` 규칙을 이 패턴에 적용하지 않습니다. 여기서 full은 콘텐츠 폭 350px이며 BODY 좌우 20px 패딩을 유지합니다.
+  - **`DataList Group`**: Vertical Auto Layout, padding **0px**, 가로 **Fill**, 세로 **Hug**. **`DataList (layout: split, size: 14, hasDivider: false)`**를 열거하고 내부 **`gap: 12px` (`spacing/lg`)**를 적용합니다. 단일 항목도 같은 그룹 구조를 유지합니다.
+- **간격 계층 검수**: BODY **40px** → 복수 `Title / DataList Group` 사이 **32px** → `Title`과 `DataList Group` 사이 **16px** → Title 내부 및 DataList 목록 내부 각각 **12px**를 서로 구분합니다. 데이터 영역 전체를 하나의 12px gap으로 평탄화하지 않습니다.
 
 #### 특수 공지 및 상태별 컴포넌트 규칙
 - **Title / Page 직후 단일 공지 문구**:
@@ -657,6 +672,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - **약관 상세 화면 (PDF)**: `## HEADER` (`StatusBar`, `AppBar`) -> `## BODY` (`Container 1`, `Container 2`) -> `Pagination / Carousel` (Absolute Position, `Y: 686px`) -> `## FOOTER` (`StickyButton`, `HomeIndicator: os iOS`) 구조로 세팅.
    - **공통 Body Auto Layout 세팅**:
      - 상하 패딩: 기본 **`padding-top: 24px` (`3xl`)**, **`padding-bottom: 32px` (`5xl`)**
+     - 상단 Feedback + 후속 데이터 그룹이 있는 완료 화면은 **`padding: 40px 20px 32px`**, Container 간 **`gap: 40px` (`spacing/6xl`)**을 우선 적용합니다. 내부 Title의 full-width Divider 때문에 BODY 좌우 패딩을 제거하지 않습니다.
      - 최상단이 `StepIndicator`, `Tab(1depth)`, `InputField(searchIcon)` 또는 헤더 직후 `Tab` 배치 시: **`padding-top: 0px`** 적용
      - 단독 피드백 화면(헤더 바로 다음 피드백만 위치): **`padding-top: 40px` (`6xl`)** 적용
      - `Infobox / FullWidth` 최상단 배치 시: **`padding: 0 0 32px`**
@@ -712,7 +728,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - 인풋/그룹 직후형: `Feedback` 오토레이아웃 프레임으로 한 번 더 감싸고 `padding: 24px 0`, 상단과의 간격 `gap: 32px` 매핑
      - Filter 결합형: Filter Area `0 20px`, 간격 `gap: 16px` 매핑
      - Card 피드백형: Card `padding: 48px 0`, `radius: 16px`, 테두리/배경 매핑
-   - **완료 화면**: 상단에 `Feedback` (`status-circleCheck`)을 배치하고, 후속 데이터 그룹에는 `tone: quaternary`인 Divider 및 `DataList (layout: split, size: 14)`, `gap: 12px` (`lg`)을 적용합니다.
+   - **완료 화면**: `Container 1`의 `Feedback` 다음에 `Container 2`를 배치합니다. Container 2는 `Title / DataList Group`들을 **gap 32px**로 열거하며, 각 그룹은 `Title` + `DataList Group`의 **gap 16px** 구조입니다. Title은 Vertical Auto Layout으로 `Title / Element` + `Divider / Horizontal (thickness: 1px, variant: primary, length: full)`을 **gap 12px**로 묶고, DataList Group은 `DataList (layout: split, size: 14, hasDivider: false)`를 **gap 12px**로 묶습니다. Container와 하위 그룹의 패딩은 0이며, BODY 패딩과 40px 간격을 중복 적용하지 않습니다.
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 감싸지 않습니다. Accordion 내부의 divider는 항상 숨기고, 와이어프레임상 펼쳐진 상태라면 실제로 펼쳐진 상태로 렌더링합니다.
 4. **오토레이아웃 및 네이밍 구조화**:

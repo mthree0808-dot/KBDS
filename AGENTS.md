@@ -21,6 +21,7 @@
 - `Data Block`과 `Text Box`는 승인된 예시와 DS 토큰·스타일·하위 컴포넌트를 사용한 Auto Layout 프레임으로 직접 구성할 수 있다. 이는 신규 라이브러리 컴포넌트 생성이나 detach 허용이 아니다. 콘텐츠 박스 이름과 내부 패딩은 페이지 `Container [순번]` 규칙과 구분한다.
 - 아웃라인형과 `surface/neutral/tertiary-muted` 회색 배경·무테형은 주변 위계·밀도와 테두리 중첩을 보고 유연하게 선택한다. 역할명은 유지하며, `Card / Surface`의 스타일 선택은 원본 공개 속성 범위에 한정한다. 상세 기준과 승인 예시는 원문 Box UI Rules 및 `docs/designer-rules.md` D28~D32를 따른다.
 - 디자이너의 명시 규칙을 기본으로 적용하고 템플릿에서 구조·역할별 근거를 확인한다. 두 자료가 다르면 `docs/designer-rules.md`의 우선순위와 차이 기록 절차를 따른다. 전체 화면에 단일 gap을 적용하지 않는다. 문구 길이에 맞추려고 폰트를 줄이거나 문구를 생략하지 않는다.
+- 상단 Feedback + 후속 데이터가 있는 완료 화면은 승인 예시 `2668:26353`과 D18·D19를 따른다. BODY padding `40px 20px 32px` / gap 40px, Container 2의 반복 `Title / DataList Group` 사이 32px, 각 그룹 내부 `Title`↔`DataList Group` 16px, Title 내부와 DataList 목록 내부 각각 12px를 구분한다. Title은 Vertical Auto Layout으로 `Title / Element`와 `Divider / Horizontal (thickness: 1px, variant: primary, length: full)`을 감싼다. Container·하위 그룹 패딩은 0이며 Title 내부 Divider 때문에 BODY 좌우 20px를 제거하지 않는다.
 - 토큰 미연결 원본 수치는 자동으로 토큰으로 승격하지 않는다. 원본 컴포넌트 내부는 상속하되 새 컨테이너에 재사용하려면 검증 가능한 템플릿 근거와 미연결 사실을 기록한다. 엄격한 토큰 전용 조건을 충족하지 못하면 해당 부분을 차단한다.
 - 이미지 영역만 표시한다. 원본 아이콘의 키와 출처를 확인한다. 현재 아이콘 페이지는 Graphic 라이브러리 이동 안내다. 이동 링크와 실제 사용 인스턴스를 추적한다.
 - wireframe → requirement → template/reference → component/token → output node의 추적표를 남긴다.

@@ -28,7 +28,7 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 
 ## 컨테이너·간격·속성 — 원문 §3, §4
 
-간격 이름은 실제 `spacing/<이름>` 변수 key로 매핑합니다. 0만 토큰 없이 허용합니다. 섹션 간격은 wrapper의 padding-top으로 적용하고 margin이나 BODY 공통 gap으로 대체하지 않습니다. 내부 목록 gap은 아래의 명시적 규칙을 사용합니다. Container 좌우는 기본 `2xl`=20, 아래 패딩은 0 또는 컴포넌트 규격을 유지하며 BODY의 32는 별도입니다. BODY의 wrapper는 위에서부터 `Container 1`, `Container 2` …로 명명합니다.
+간격 이름은 실제 `spacing/<이름>` 변수 key로 매핑합니다. 0만 토큰 없이 허용합니다. 역할별 부모 오토레이아웃의 gap과 padding은 최신 원문의 해당 화면 규칙을 기준으로 배치합니다. 내부 목록 gap은 아래의 명시적 규칙을 사용합니다. BODY의 wrapper는 위에서부터 `Container 1`, `Container 2` …로 명명합니다. **완료 화면은 최신 D18·D19의 BODY 패딩과 계층별 gap 규칙을 우선 적용하며, Container padding-top으로 대체하거나 좌우 패딩을 중복 적용하지 않습니다.**
 
 |규칙 ID|상황|설정|
 |---|---|---|
@@ -42,8 +42,8 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 |D15|DataList 직후 공지|TextList / Unordered, Container padding-top `lg`=12|
 |D16|Form 도중 Accordion|Container padding-top `2xl`=20|
 |D17|TextList size|Infobox / Card·Card·알려드립니다 Accordion 내부는 14, 일반 본문은 16|
-|D18|완료 화면 Feedback|BODY 최상단 Container 1, 좌우 `2xl`=20, 위 `6xl`=40. Item / Feedback 아이콘 status-circleCheck|
-|D19|완료 화면 DataList|선택적 Title / Element → Divider(1px, quaternary, full) → DataList(split,14). Container 내부 gap `lg`=12, 후속 동일 그룹 padding-top `3xl`=24|
+|D18|완료 화면 BODY·Feedback|상단 Feedback + 후속 데이터 패턴: BODY Vertical, padding `40px 20px 32px` (`6xl / 2xl / 5xl`), gap `6xl`=40, 가로 정렬 center. `Container 1` > Feedback, `Container 2` > 데이터 영역. 두 Container 패딩 0, 상단·좌우 여백 중복 금지. Feedback 아이콘 status-circleCheck 유지|
+|D19|완료 화면 후속 데이터|Container 2 Vertical, padding 0, 가로 Fill/세로 Hug. 복수 `Title / DataList Group` 사이 gap `5xl`=32. 각 그룹은 `Title` → `DataList Group` 순서, gap `xl`=16. Title은 Vertical Auto Layout, padding 0, `Title / Element` → `Divider / Horizontal(thickness:1px,variant:primary,length:full)`, gap `lg`=12. DataList Group도 Vertical/padding 0, `DataList(split,14,hasDivider:false)` 사이 gap `lg`=12. full Divider는 350px 콘텐츠 폭이며 BODY 좌우 패딩 제거 금지|
 |D20|Title / Page 직후 단일 공지|Infobox / Solid(size=medium,status=warning,hasSuffix=true). Container 위 `5xl`=32, 다음 Container 위 `3xl`=24|
 |D21|하단 공지 카드|Infobox / Card, Container 위 `5xl`=32. Title Area·Slot-Contents·Button Area를 기획에 따라 노출하고 Slot-Contents에 내용 배치|
 |D22|하단 알려드립니다|Divider(10px,tertiaryMuted,full) + Accordion(type=basic,variant=standard,size=medium,hasPrefix=true, Item / Prefix Icon=solid-info-circle). 묶은 Container 위 `5xl`=32|
@@ -51,6 +51,8 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 |D24|알아두세요 Box|기존 Infobox 용도라면 원본 DS 컴포넌트·전용 규칙 유지. 그 외 설명·안내 박스는 D30의 `Text Box`로 분류하고, 예시별 내부 구조·간격을 확인하여 과거 Box 수치를 일괄 적용하지 않음|
 
 간격 스케일: 3xs=1, 2xs=2, xs=4, sm=6, md=8, lg=12, xl=16, 2xl=20, 3xl=24, 4xl=28, 5xl=32, 6xl=40, 7xl=48, 8xl=80. Divider의 10px는 컴포넌트 thickness 명세이며 spacing=10 토큰을 만들라는 뜻이 아닙니다. FullWidth 및 전체 폭 Divider의 wrapper 좌우 패딩은 실제 대응 템플릿과 컴포넌트 폭 규칙을 함께 확인합니다.
+
+**D18·D19의 갱신 근거**: [완료 화면 `2668:26353`](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2668-26353), 2026-10-15 실측. BODY padding-top을 Container에 중복 배치하던 해석, 후속 그룹 padding-top 24px, 데이터 영역 전체 gap 12px 평탄화 및 완료 Divider의 quaternary 지정은 이 패턴에서 사용하지 않습니다. `Title` / `DataList Group` 내부 및 Container 2의 패딩은 모두 0입니다. 상세 노드·토큰 key는 [실측 기록](design-rules.md)의 완료 화면 갱신 절에 있습니다. 일반 화면·빈 상태·Data Block의 수치를 이 완료 패턴 값으로 일괄 변경하지 않습니다.
 
 ## 텍스트 — 원문 §1
 

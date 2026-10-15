@@ -86,3 +86,32 @@ Data Block의 기존 기본 gap 16px와 위 부모님 기본정보 패턴의 20p
 |`spacing/lg`|`466bd0e6b2233083a08d900e3be39f48196d1bee`|12px DataList Group gap|
 |`radius/2xl`|`775b8dad73eda0c378c4bd9850b4c459c9187b9c`|20px Data Block / Card 라운드|
 |`radius/lg`|`b9d31e7e721799056c4f83449ff084a697ebe489`|14px Text Box 라운드|
+
+## 완료 화면 갱신 실측 (2026-10-15)
+
+근거: [완료 화면 `2668:26353`](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2668-26353), `0:1` 페이지. 프레임 이름은 `화면ID_[증명서 진위 확인_서비스 안내]`이며 표시 문구는 발급신청 취소 완료입니다. 화면명만으로 추정하지 않고 실제 BODY와 반복 그룹을 조회하고 스크린샷을 확인했습니다. 아래 값은 상단 Feedback + 후속 데이터가 있는 완료 화면의 승인 패턴으로 D18·D19에 반영하며, 일반 화면·Empty State·Data Block 수치를 일괄 대체하지 않습니다.
+
+|역할 / 노드|확인한 구조·값|
+|---|---|
+|`## BODY` / `2668:26357`|Vertical, padding 상/우/하/좌 **40/20/32/20px**, gap **40px**, 가로 정렬 CENTER, 폭 390, 높이 646/FILL|
+|`Container 1` / `2668:26358`|Feedback wrapper, Horizontal Auto Layout, padding 0, gap 0. 원본 Feedback의 폭·중앙 배치를 유지하며 BODY 상단 패딩을 Container에 다시 더하지 않음|
+|`Container 2` / `2668:26367`|Vertical, padding 0, 가로 FILL(350px)/세로 HUG. 반복 `Title / DataList Group` 2개 사이 gap **32px**|
+|`Title / DataList Group` / `2668:26368`, `2668:26375`|Vertical, padding 0, 가로 FILL/세로 HUG. 자식은 `Title` → `DataList Group`, 사이 gap **16px**|
+|`Title` / `2668:26369`, `2668:26376`|별도 Vertical Auto Layout, padding 0, 가로 FILL/세로 HUG. `Title / Element` → `Divider / Horizontal`, 내부 gap **12px**|
+|Title 안의 Divider / `2668:26371`, `2668:26378`|실제 Component Properties `thickness:1px`, **`variant:primary`**, `length:full`. full은 350px 콘텐츠 폭이며 이 구분선 때문에 BODY 좌우 패딩을 제거하지 않음|
+|`DataList Group` / `2668:26372`, `2668:26379`|Vertical, padding 0, 가로 FILL/세로 HUG, 내부 gap **12px**. 두 그룹에 각각 DataList 2개와 1개가 있으며 모두 `layout:split`, `size:14`, `hasDivider:false`|
+|`Title / Element` / `2668:26370`, `2668:26377`|원형 서체 `KBFG Text Medium`, 텍스트 스타일 key `87439f01ad7a7fbf6b1556036328a19d5f0ef75c`. 임의 Bold로 변경하지 않음|
+
+BODY 패딩의 CSS 단축 표기는 `padding: 40px 20px 32px`입니다.
+
+### 완료 화면에서 확인한 간격 변수 key
+
+|토큰|key|적용 위치|
+|---|---|---|
+|`spacing/6xl` = 40px|`5bc593ee6f05df006566535e37f5fce0ed3a085b`|BODY padding-top 및 Container 1↔2 gap|
+|`spacing/2xl` = 20px|`5491ce4ce8c48cc4a679f8cedc426cb96bb9a141`|BODY 좌우 패딩|
+|`spacing/5xl` = 32px|`840e7bd3a0d91d1161f8dcbd3c3299310e014cac`|BODY padding-bottom 및 Container 2 내 반복 그룹 gap|
+|`spacing/xl` = 16px|`dd4b6787bca3ceba45b9b41a16963083cacea533`|각 `Title / DataList Group`의 Title↔DataList Group gap|
+|`spacing/lg` = 12px|`466bd0e6b2233083a08d900e3be39f48196d1bee`|Title 내부 및 DataList 목록 내부 gap|
+
+추가 원형 key: `Title / Element`는 `4fa94105877b4e3dad3e36f52b5be749deb2ce68`, 승인 Divider variant는 `f5e601b7152ef36e3e90e841d5d896cce328dc8d`입니다. 과거 문서의 완료 Divider `tone:quaternary`, 데이터 영역 전체 gap 12px, 후속 그룹 padding-top 24px는 이 승인 패턴에 적용하지 않습니다. 새 제작 시 현재 원본과 모드를 다시 확인하여 key를 연결합니다.
