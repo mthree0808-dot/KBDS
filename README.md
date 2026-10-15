@@ -12,7 +12,9 @@
 
 `AGENTS.md`가 작업 규칙을 전달하고 `docs/workflow.md`가 분석 → 계획 → 제작 → 검증 → 리포트 순서를 정합니다. CLI는 Figma를 직접 호출하지 않으며, Codex가 연결된 Figma MCP로 스크립트를 실행합니다. 별도 API 토큰이나 npm 패키지 설치는 필요 없습니다.
 
-디자이너 제공 문서는 `docs/sources/designer-ui-rules.md`에 원문 그대로 보존했습니다. 매 작업에서 원문과 `docs/designer-rules.md`를 먼저 읽도록 연결했습니다. 상황별 규칙 D01~D27의 적용 및 검수 결과는 작업 폴더의 `designer-review.md`에 남깁니다. 새 문서의 모든 규칙이 기존 CLI에 자동 구현된 것은 아니며, 지원 차이와 추가 검수 항목은 실행 규칙에 명시했습니다.
+디자이너 제공 문서와 사용자가 승인한 후속 개정은 `docs/sources/designer-ui-rules.md`에 반영합니다. 매 작업에서 원문과 `docs/designer-rules.md`를 먼저 읽도록 연결했습니다. 상황별 규칙 D01~D32의 적용 및 검수 결과는 작업 폴더의 `designer-review.md`에 남깁니다. 새 문서의 모든 규칙이 기존 CLI에 자동 구현된 것은 아니며, 지원 차이와 추가 검수 항목은 실행 규칙에 명시했습니다.
+
+박스 UI는 **동작·선택이 있으면 `Card / Surface`**, **사실 데이터 표시면 `Data Block`**, **기존 Infobox로 정의되지 않은 설명·안내·주의·상태 전달이면 `Text Box`**로 구분합니다. Data Block과 Text Box는 DS 토큰과 하위 컴포넌트를 사용해 Auto Layout으로 직접 구성합니다. 아웃라인형과 `surface/neutral/tertiary-muted` 회색 배경·무테형은 주변 정보 위계·밀도와 테두리 중첩에 따라 선택합니다. 역할은 스타일과 별개이며, 박스 바깥 버튼만으로 Data Block을 Card로 바꾸지 않습니다. 상세 기준은 [디자이너 규칙](docs/sources/designer-ui-rules.md)의 Box UI Rules와 [실행 규칙 D28~D32](docs/designer-rules.md)를 따릅니다.
 
 ## 이번에 반영한 핵심
 
@@ -28,7 +30,7 @@
 |경로|역할|
 |---|---|
 |`AGENTS.md`|이 폴더의 디자인 작업 규칙|
-|`docs/sources/designer-ui-rules.md`|사용자가 제공한 디자이너 원문, 변경 없이 보존|
+|`docs/sources/designer-ui-rules.md`|사용자가 제공한 디자이너 원문과 승인된 후속 규칙 개정|
 |`docs/designer-rules.md`|필수 실행 규칙·우선순위·상황별 검수·지원 차이|
 |`docs/workflow.md`|작업별 실행 절차와 복구 규칙|
 |`docs/design-rules.md`|실측한 배치·폰트·간격과 예외|

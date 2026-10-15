@@ -56,3 +56,33 @@ Color: Light / Dark. Type: Default / Large. 템플릿은 라이트·다크·큰�
 - 카드 예시 PNG의 실제 상품 이미지는 배치 참고용입니다. 산출물은 사용자 지시에 따라 이미지 영역만 표시합니다.
 
 이 목록의 예외는 사용자의 토큰 전용 조건을 완화하는 승인이 아닙니다.
+
+## 박스 UI 승인 예시와 실측 (2026-10-15)
+
+사용자가 지정한 아래 네 화면을 읽기 전용으로 조회하고 박스 스크린샷과 토큰 연결을 확인했습니다. 2026-09-28 템플릿과 구분되는 후속 승인 사례입니다. 역할·스타일 선택의 규범은 [원문 Box UI Rules](sources/designer-ui-rules.md)와 [D28~D32](designer-rules.md)를 따릅니다.
+
+|화면 / 실제 박스|역할·동작 경계|관측한 형태|
+|---|---|---|
+|[계좌 선택](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18345) / `2659:18395`, `2661:26306`|`Card / Surface` 인스턴스. 상세 이동과 이체 동작의 예시|원본 Slot·Affix 구조 유지. 패딩 20, 라운드 20. border `border/neutral/primary-muted`는 Card 원형 값이므로 Data Block의 border로 일괄 덮어쓰지 않음|
+|[고객정보 확인](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18558) / `2659:18577`|`Data Block` 프레임. 부모님 기본정보 표시. 수정 버튼은 박스 밖 형제 `Button Area`|Vertical, 패딩 20, 라운드 20, 타이틀↔DataList Group gap 20, DataList Group 내부 gap 12. Fill `surface/neutral/quaternary-muted`, border `border/neutral/secondary-muted` + `stroke/md`|
+|[상담센터 안내 — 아웃라인](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18992) / `2659:19033`|`Text Box` 프레임. 연락처를 포함하나 주목적은 설명·안내|Vertical, 패딩 20, gap 16, 라운드 14. Fill `surface/neutral/quaternary-muted`, border `border/neutral/secondary-muted`. 원본 strokeWeight 1은 관측되나 박스의 strokeWeight 변수 연결은 미관측이므로, 새 제작에서는 원문이 지정한 `stroke/md`를 명시적으로 연결|
+|[상담센터 안내 — 회색 무테](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-19168) / `2659:19188`|`Text Box` 유지. 같은 화면의 부모님 기본정보 아웃라인 Data Block과 테두리 반복을 완화|패딩 20, gap 16, 라운드 14 유지. Fill `surface/neutral/tertiary-muted`, 외곽 `strokes: []`. 내부 Divider는 유지|
+
+Data Block의 기존 기본 gap 16px와 위 부모님 기본정보 패턴의 20px는 구분합니다. 이 승인 패턴을 재사용할 때 20px를 적용하며 모든 Data Block의 간격을 일괄 변경하지 않습니다. 박스 색상이나 라운드만 보고 역할을 추정하지 않고, 안내 속 전화번호를 사실 데이터 박스로 오분류하지 않습니다.
+
+### 확인한 변수 key
+
+아래는 실제 조회한 연결 key입니다. 새 작업에서는 원본의 현재 정의와 모드를 다시 확인한 뒤 재사용합니다. 색상은 Light/Dark 모드별 alias로 연결되어 있어 관측된 흰색·회색 RGB를 고정하지 않습니다.
+
+|토큰|key|관측값 / 용도|
+|---|---|---|
+|`surface/neutral/quaternary-muted`|`13df17658e86efada0d0c1ba4402b88616a0efe1`|아웃라인 박스 및 Card의 Fill|
+|`surface/neutral/tertiary-muted`|`59093c4bcca6ee8f9e5f9af90d27f568edcef5b5`|회색 배경·무테형 Fill|
+|`border/neutral/secondary-muted`|`6f13cf9a41a7a40246b281a5b4a8270690e2226e`|Data Block / Text Box 아웃라인|
+|`border/neutral/primary-muted`|`7ceda77ef3991dd62dd315060ac6d2fafb56834e`|참조 Card의 아웃라인|
+|`stroke/md`|`74a325f74c4c0478bb096db37a311858ac4c6b7e`|1px|
+|`spacing/2xl`|`5491ce4ce8c48cc4a679f8cedc426cb96bb9a141`|20px 패딩 / 승인 Data Block 예시 gap|
+|`spacing/xl`|`dd4b6787bca3ceba45b9b41a16963083cacea533`|16px Text Box gap|
+|`spacing/lg`|`466bd0e6b2233083a08d900e3be39f48196d1bee`|12px DataList Group gap|
+|`radius/2xl`|`775b8dad73eda0c378c4bd9850b4c459c9187b9c`|20px Data Block / Card 라운드|
+|`radius/lg`|`b9d31e7e721799056c4f83449ff084a697ebe489`|14px Text Box 라운드|

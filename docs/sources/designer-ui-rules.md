@@ -278,12 +278,21 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 
 ---
 
-### 데이터 표기 카드 UI 규칙 (Data Display Card Rules)
-데이터를 표기하는 카드 UI는 **내부 액션 요소(버튼 등)의 유무**에 따라 명확히 이원화하여 작업합니다.
+### 박스 UI 역할 및 스타일 선택 규칙 (Box UI Rules)
+박스는 외형이 아닌 **사용자 동작과 콘텐츠의 주된 목적**으로 분류합니다. 먼저 역할을 정한 뒤 아웃라인 또는 회색 배경 스타일을 선택합니다. 배경·테두리를 바꿔도 역할과 레이어 명칭은 바뀌지 않습니다.
+
+|역할|사용 방식|대표 예시|
+|---|---|---|
+|동작·선택|디자인 시스템의 `Card / Surface` 인스턴스|이체, 상세 이동, 상품·계좌·항목 선택, 체크·라디오 선택|
+|사실 데이터 표시|직접 구성한 Auto Layout 프레임 `Data Block`|이름, 전화번호, 부모님 기본정보, 거래내역, 계좌정보, 금액|
+|설명·안내·주의·상태 전달|직접 구성한 Auto Layout 프레임 `Text Box`|이용 안내, 유의사항, 한국어 상담센터 안내 등 기존 Infobox로 정의되지 않은 안내 박스|
+
+기존 `Infobox / Basic`, `Infobox / Solid`, `Infobox / Card`, `Infobox / FullWidth`의 용도에 해당하면 해당 컴포넌트와 전용 규칙을 우선 적용합니다. `Text Box`를 이유로 기존 Infobox를 일괄 대체하지 않습니다.
 
 #### 1. 액션 포함형 카드: `Card / Surface`
-- **적용 조건**: 카드 틀 내부에 **버튼과 같은 액션 요소(`Card / Footer / Button` 등)가 배치되는 경우에만 사용**합니다.
-- **완성형 계층 구조**:
+- **적용 조건**: 박스 내부에 **이체·상세 이동 버튼, 체크박스·라디오 등 선택 요소가 있거나 박스 전체가 이동·선택의 동작 대상**인 경우 사용합니다. 푸터 버튼 유무만으로 판단하지 않습니다. 상품 선택, 계좌 선택, 항목 선택 등이 이에 해당합니다.
+- **동작의 경계**: `Data Block` 바깥의 형제 `Button Area`에 수정 버튼 등이 있어도 박스 자체가 동작하지 않으면 `Data Block`을 유지합니다. 데이터 표시만 하는 박스에 임의의 이동·선택 동작을 추가하여 Card로 바꾸지 않습니다.
+- **푸터 버튼형 계층 구조 예시** (선택·상세 이동형은 해당 원본 variant/공개 속성 및 Slot 구조를 따르며 불필요한 Footer를 추가하지 않음):
   1. **`Header`**: 상단에 위치하며, 기획/필요에 따라 **`badge`** 노출
   2. **`Body`**:
      - 하위 요소들을 감싸는 **`Groups`** 오토레이아웃 프레임 생성 (**Auto Layout `gap: 16px`**)
@@ -291,17 +300,19 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - `Groups` 내부 두 번째 요소: **`Group`** 오토레이아웃 프레임 (Flow: **`vertical`**, Auto Layout **`gap: 12px`**) 생성 후, 하위에 **`Card / Body / Group-C` (variant: `textList`)**를 1개 또는 그 이상 순차 배치
   3. **`Footer`**: `Body` 하단에 위치하며 **`Card / Footer / Button` (variant: `buttonGroup`)** 배치
 - **데이터 상태 값 노출형 (Status Value Pattern)**:
+  - 상태 값이나 Label이 있다는 이유만으로 `Card / Surface`를 사용하지 않습니다. 아래 Card 패턴은 실제 동작이 함께 있을 때만 적용하며, 동작 없는 사실 데이터는 `Data Block`, 설명·안내 중심 상태 메시지는 `Text Box`로 분류합니다.
   1. `Card / Surface` > `Body` 내부의 **`Groups`** 속성을 Flow: **`horizontal`**, Alignment: **`align left`**로 설정
   2. `Groups` 내부 좌측: **`Group`** 오토레이아웃 (Auto Layout **`gap: 4px`**) 내에 **`Card / Body / Group-A` (variant: `titleMedium`)** 및 **`Card / Body / Group-A` (variant: `Description`)** 수직 배치
   3. `Groups` 내부 우측: **`Label / Default`** (variant: `tint`) 배치 (긍정 `blue`, 부정 `red`, 중립 `darkGray`)
   4. 좌측 `Group`과 우측 `Label / Default` 사이 간격은 Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
 
 #### 2. 액션 미포함 정보성 카드: `Data Block` (타이틀 + DataList UI)
-- **적용 조건**: 내부에 액션 요소(버튼) 없이 **순수 타이틀과 DataList들만 들어가는 정보성 UI**인 경우, `Card / Surface`를 사용하지 않고 다음 오토레이아웃 프레임 구조로 구축합니다.
+- **적용 조건**: 내부 동작 없이 이름·전화번호·거래내역·계좌정보·금액 등 **사실 데이터를 보여주는 UI**인 경우, `Card / Surface`를 사용하지 않고 직접 오토레이아웃 프레임으로 구성합니다. 타이틀과 DataList가 대표 구조이며, 정보의 성격에 맞는 원본 텍스트·컴포넌트 조합도 허용합니다.
 - **최상위 프레임 Spec 및 레이어 네이밍**:
   - 레이어 명칭: **`Data Block`** (단일인 경우 `Data Block`, 복수 열거 시 순서대로 **`Data Block 1`**, **`Data Block 2`** 등 부여, 복수를 묶을 시 **`Data Block Group`**)
   - Layout: Auto Layout, Flow: **`vertical`**, **`gap: 16px` (`xl` 토큰)**
-  - Styling: **`border: stroke/md`**, Border Color: **`border/neutral/secondary-muted`**, **`border-radius: 20px`**, **`padding: 20px`**
+  - 기본 아웃라인 Styling: **`border: stroke/md`**, Border Color: **`border/neutral/secondary-muted`**, Fill: **`surface/neutral/quaternary-muted`**, **`border-radius: 20px` (`radius/2xl`)**, **`padding: 20px` (`spacing/2xl`)**. 아래 스타일 선택 기준에 따라 회색 배경·무테 형태도 허용합니다.
+  - **승인 예시의 간격 차이**: 아래 부모님 기본정보 예시(`2659:18577`)는 타이틀과 `DataList Group` 사이가 **`20px` (`spacing/2xl`)**입니다. 이 패턴을 재사용할 때는 20px를 적용하며, 기존 기본 16px 규칙을 모든 Data Block에서 일괄 변경하지 않습니다.
 - **내부 계층 구조**:
   1. **타이틀 영역**:
      - 텍스트 Spec: Font Size: **`font-size/body/md`**, Color: **`text/neutral/primary`**
@@ -310,6 +321,24 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - 개별 컴포넌트: **`DataList (layout: split, size: 14, hasDivider: false)`**
      - 복수의 `DataList`들을 단일 오토레이아웃 프레임으로 한 번 감쌈
      - 래핑 프레임 레이어명: **`DataList Group`**, 간격: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+
+#### 3. 설명·안내형 박스: `Text Box`
+- **적용 조건**: 데이터의 조회·대조보다 설명, 이용 안내, 주의, 상태 전달이 주목적이며 기존 Infobox 용도에 해당하지 않는 박스입니다. 한국어 상담센터처럼 전화번호·이메일이 포함되어도 안내 문맥이 주목적이면 `Text Box`로 분류합니다. 단순 연락처 텍스트의 존재를 버튼이나 선택 동작으로 간주하지 않습니다.
+- **구성**: `Card / Surface`를 사용하거나 분리(detach)하지 않고 Auto Layout 프레임으로 직접 만듭니다. 레이어명은 단일 `Text Box`, 복수 `Text Box 1`, `Text Box 2` 등이며, 반복 목록은 `Text Box Group`으로 묶습니다.
+- **참조 예시의 기본 구조**: Flow `vertical`, 패딩 **20px (`spacing/2xl`)**, 내부 간격 **16px (`spacing/xl`)**, 라운드 **14px (`radius/lg`)**. 필요에 따라 원본 `Title / Section`, `TextList / Unordered`, `Divider / Horizontal` 등을 조합합니다. Data Block의 DataList 구조나 20px 라운드를 일괄 적용하지 않습니다.
+
+#### 4. 아웃라인 / 회색 배경 스타일의 선택
+- **아웃라인형**: 독립된 정보 영역의 경계를 명확히 구분할 때 사용합니다. 직접 만드는 `Data Block` / `Text Box`의 참조 스타일은 Fill **`surface/neutral/quaternary-muted`**, Border **`stroke/md` + `border/neutral/secondary-muted`**입니다.
+- **회색 배경·무테형**: Fill **`surface/neutral/tertiary-muted`**, **외곽 border 제거(`strokes: []`)**로 적용합니다. 같은 화면에 아웃라인 박스가 이어지거나 박스 안에 박스가 놓여 경계선이 중첩되는 경우, 보조 설명·안내 영역을 부드럽게 구분할 때 우선 고려합니다. 내부 콘텐츠 구분용 Divider까지 일괄 제거한다는 뜻은 아닙니다.
+- **선택 재량**: 고정된 한 형태를 모든 화면에 적용하지 않습니다. 주변 박스의 테두리 반복, 주·보조 정보 위계, 콘텐츠 밀도와 구분 필요성을 보고 두 형태를 유연하게 선택합니다. 중첩을 줄이되 서로 다른 영역의 구분과 가독성은 유지합니다. 선택은 매번 사용자 승인 없이 진행할 수 있으며 적용 이유를 작업의 기존 검수 기록에 간단히 남깁니다.
+- **유지할 것**: 역할명, 콘텐츠·동작, 원본 서체·컴포넌트, 역할별 패딩·라운드·간격과 연결된 DS 토큰은 유지합니다. 색상·간격·스타일·컴포넌트를 새로 만들지 않습니다. `Card / Surface`는 원본 variant/공개 속성이 지원하는 범위에서 스타일을 선택하며 임의 재구성하거나 detach하지 않습니다.
+- **네이밍 적용 범위**: 페이지 레이아웃용 `Container [순번]`과 콘텐츠 박스인 `Data Block` / `Text Box`는 별개입니다. 페이지 Container 규칙 때문에 콘텐츠 박스 이름을 Container로 바꾸거나 박스 자체의 20px 내부 패딩을 제거하지 않습니다.
+
+#### 5. 사용자 승인 Figma 예시 (2026-10-15 확인)
+- [동작형 Card / Surface — 계좌 선택·이체](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18345): 박스 `2659:18395`, `2661:26306`.
+- [정보 표시형 Data Block — 부모님 기본정보](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18558): 박스 `2659:18577`; 외부 수정 버튼은 형제 `Button Area`에 위치합니다.
+- [아웃라인형 Text Box — 한국어 상담센터](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18992): 박스 `2659:19033`.
+- [회색 배경·무테형 Text Box — 아웃라인 Data Block과 함께 배치](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-19168): 박스 `2659:19188`; Fill `surface/neutral/tertiary-muted`, `strokes: []`.
 
 ---
 
@@ -667,9 +696,12 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - **계좌 선택 화면**:
      - 바텀시트: `hasScrollDim: True`, Slot 내 `Container (gap: 4px)`, Prefix에 해당 은행 아이콘(`size: 32`), Middle에 통장명 및 `은행명 계좌번호`, Suffix에 `checkMark` 적용
      - 일반 화면: `Container [순번]` 내 `Account Group (gap: 4px)`, 바텀시트와 동일 구조(Prefix `size: 32`)에 Suffix만 `checkBox`로 적용 (`Title / Page` -> `Tab` -> Container 간격은 `gap: 24px`)
-   - **데이터 표기 카드 UI 매핑**:
-     - **액션 포함형**: `Card / Surface` 사용 (버튼/액션이 들어갈 때만 한정). `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`
+   - **박스 UI 매핑** (역할을 먼저 분류하고 아웃라인 / 회색 배경·무테 스타일을 선택; 상세 규칙과 승인 예시는 섹션 3의 Box UI Rules 참조):
+     - **액션 포함형**: `Card / Surface` 사용 (버튼/액션이 들어갈 때만 한정). 푸터 버튼형의 예시는 `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`. 상세 이동·선택형에 이 Footer 구조를 강제하지 않고 원본 variant/공개 속성·Slot을 따릅니다.
      - **액션 미포함형 (정보성 카드)**: **`Data Block`** 오토레이아웃 프레임(`border: stroke/md`, `border-color: border/neutral/secondary-muted`, `radius: 20px`, `padding: 20px`, `gap: 16px`) 구축. 상단에 `Title` 오토레이아웃 프레임 내 타이틀(`font-size/body/md`, `text/neutral/primary`) 배치 + 하단에 `DataList Group` 오토레이아웃 프레임(`gap: 12px`) 내 `DataList (layout: split, size: 14, hasDivider: false)` 배치
+     - **동작 판정**: Footer 버튼 외에 상세 이동·이체·체크·라디오·박스 전체 선택도 Card에 해당합니다. 외부 형제 `Button Area`의 버튼만으로 Data Block을 Card로 바꾸지 않습니다. 상태 Label만 있는 경우도 자동으로 Card에 해당하지 않습니다.
+     - **설명·안내형**: 기존 Infobox로 정의되지 않은 설명·주의·상태 메시지는 **`Text Box`**로 직접 구성합니다. 참조 패딩 20px, 내부 gap 16px, 라운드 14px를 각각 DS 토큰으로 연결합니다.
+     - **스타일 선택**: 아웃라인 경계가 반복·중첩되면 `surface/neutral/tertiary-muted` + border 제거 형태를 우선 고려합니다. 역할과 스타일을 혼동하지 않고 주변 위계·밀도·가독성으로 선택합니다. Data Block의 승인된 부모님 기본정보 패턴은 내부 gap 20px를 적용합니다.
    - **링크 리스트 패턴**: 단일 원형(List padding: 20px 20px 16px, List Group gap: 4px, 1px Divider) 및 누적형(첫 번째 0px 20px 16px, 중간 10px Divider + 20px 20px 16px, 마지막 10px Divider + 20px 20px 0px) 규칙을 준수합니다.
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
@@ -684,7 +716,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 감싸지 않습니다. Accordion 내부의 divider는 항상 숨기고, 와이어프레임상 펼쳐진 상태라면 실제로 펼쳐진 상태로 렌더링합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
-   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. (정보성 데이터 카드 최상위 프레임은 `Data Block` / `Data Block [순번]`)
+   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. (정보성 데이터 박스 자체는 `Data Block` / `Data Block [순번]`, 설명·안내 박스 자체는 `Text Box` / `Text Box [순번]`)
    - **레이어 및 그룹 네이밍 (한글 사용 절대 금지)**:
      - 2개 요소 그룹핑: 슬래시 앞단 명칭을 결합하여 `[컴포넌트 1] / [컴포넌트 2]` (예: `Title / InputField`)
      - 3개 이상 요소 그룹핑: `[첫 번째 컴포넌트] / Contents` (예: `Title / Contents`)
