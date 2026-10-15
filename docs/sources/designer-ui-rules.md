@@ -10,7 +10,7 @@
   - 가이드라인에 명시된 `DataList (layout: split, size: 14, hasDivider: false)`, `size: medium`, `variant: standard`, `os: iOS` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.
   - 임의의 신규 스타일을 정의하기 전에 디자인 시스템에 일치하는 컴포넌트가 있는지 먼저 확인하고 매핑합니다.
 - **HomeIndicator 속성 규칙**:
-  - `## FOOTER` 및 바텀시트/Dialog 최하단에 배치되는 `HomeIndicator` 컴포넌트는 우측 패널의 Component Property **`os: iOS`**를 필수로 선택하여 적용합니다.
+  - `## FOOTER` 및 바텀시트/Dialog/Popup 최하단에 배치되는 `HomeIndicator` 컴포넌트는 우측 패널의 Component Property **`os: iOS`**를 필수로 선택하여 적용합니다.
 - **SelectButton 타입 규칙**:
   - 간결한 항목들을 다룰 경우: Property **`word`** 타입 적용
   - 그렇지 않은 일반/문장형 항목인 경우: Property **`sentence`** 타입 적용
@@ -55,7 +55,7 @@
 - **아트보드 네이밍**: 기획서 와이어프레임 내 페이지 ID가 공란이므로, 기획서 상의 중괄호(`{ ... }`)로 표기된 화면 명칭을 확인하여 다음 규칙으로 명명합니다.
   - **네이밍 포맷**: `화면ID_[화면을 나타내는 명칭]`
   - *(예: 기획서에 `{한글잔액증명서_발급신청}`으로 표기된 경우 -> `화면ID_한글잔액증명서_발급신청`)*
-- **바텀시트 및 Dialog 아트보드 Background**: 바텀시트 및 Dialog 화면 프레임 자체의 Background는 반드시 **`background/neutral/white`** 변수를 적용합니다.
+- **바텀시트, Dialog, Full Popup 아트보드 Background**: 바텀시트, Dialog, 풀팝업 화면 프레임 자체의 Background는 반드시 **`background/neutral/white`** 변수를 적용합니다.
 
 ### B. 일반 페이지 기본 규격 및 Resizing
 - **규격**: 가로 `390px`, 기본 세로 `844px`
@@ -91,6 +91,7 @@
      - **Full-Width 요소가 없는 일반 화면인 경우**:
        - `## BODY`의 **`padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)** 기본 적용
        - 개별 `Container [순번]`의 좌우 패딩은 `0px`로 유지
+   - **'알려드립니다' 컨테이너 분할 필수 원칙**: `## BODY` 내에 '알려드립니다'가 위치할 경우, 다른 상단 요소들과 결합하지 않고 반드시 독립된 **`Container [순번]`으로 그룹핑하여 분할**합니다.
    - 높이 속성은 위 콘텐츠 양 규칙(Fill 또는 Hug)을 준수
 3. **`## FOOTER`**:
    - **하단 고정 버튼(StickyButton / CTA)이 없는 경우**: `HomeIndicator` (Property: **`os: iOS`**)만 배치
@@ -143,10 +144,43 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - 속성: **Position 설정(Absolute Position)하여 최상단에 띄움**
   4. **`HomeIndicator`**: Property **`os: iOS`** 적용, 최하단 배치
 
+### F. 풀팝업(Full Popup) 화면 규격 및 구조
+풀팝업으로 기획된 화면의 레이어 및 오토레이아웃 계층 구조입니다.
+- **아트보드 Background**: **`background/neutral/white`**
+- **레이어 계층 구조**:
+  - `StatusBar` (Position 설정(Absolute)하여 최상단에 띄움)
+  - `Popup`
+    - `Slot`
+      - `Header` (오토레이아웃) > 내부 필수: `AppBar`
+      - `Body` (오토레이아웃) > 내부 필수: **`Container 1`**, **`Container 2`** 등 순차 열거
+      - `Footer` (오토레이아웃) > 내부 필수: `HomeIndicator` (Property: **`os: iOS`**)
+
+### G. 약관 상세 화면 (PDF 뷰어 화면) 전용 규격 및 구조
+PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃 구조입니다.
+- **아트보드 Background**: **`background/neutral/white`**
+- **1. `## HEADER`**: `StatusBar`, `AppBar` 순차 배치
+- **2. `## BODY`**:
+  - **`Container 1`**:
+    - Styling: `background-color: background/neutral/light-gray`, `padding: 12px 20px`
+    - 내부 구조: **`Title / IconContainer Group`** (Auto Layout, `gap: 16px`, Alignment: **`align right`**)
+      - 하위 좌측: **`Title`** (오토레이아웃 아님, 텍스트 스타일: **`xs･14･medium`**)
+      - 하위 우측: **`IconContainer Group`** (Auto Layout, `gap: 16px`) > **`IconContainer`** (`size: 14`, 왼쪽부터 차례로 `icon: line-magnify`, `line-arrowDown`, `line-menu` 3개 배치)
+  - **`Container 2`**:
+    - Styling: `background-color: background/neutral/light-gray`, `padding: 12px`
+    - 내부 구조:
+      - **`Rectangle`**: `background-color: background/neutral/white`, `border-width: stroke/md`, `border-color: border/neutral/tertiary-muted`
+      - **'pdf 약관 내용' 텍스트**: 텍스트 스타일: **`md･16･bold`**, Color: **`text/neutral/placeholder`**, 속성: **Position(Absolute Position) 설정 후 상하좌우 정중앙(Center Alignment)** 배치
+- **3. `Pagination / Carousel` (Floating Position)**:
+  - 위치: `## BODY` 바로 다음에 위치시키되, 우측 패널에서 **Position(Absolute Position)**으로 설정
+  - 좌표: 화면상에서 `## FOOTER` 바로 위(**`Y: 686px`**)에 플로팅 배치
+- **4. `## FOOTER`**:
+  - **`StickyButton`**: Property `variant: white`, `hasCTA: True`, `hasScrollDim: True`, 하위 ButtonGroup 속성 `count: 1`
+  - **`HomeIndicator`**: Property **`os: iOS`**
+
 ---
 
 ## 3. Figma Auto Layout & Naming Rules (피그마 오토레이아웃 및 네이밍)
-- **기본 레이아웃 원칙**: `## BODY` 내부를 구성하는 모든 블록 요소는 기본적으로 **Auto Layout**을 적용합니다. (단, Infobox / FullWidth 제외)
+- **기본 레이아웃 원칙**: `## BODY` 내부를 구성하는 모든 블록 요소는 기본적으로 **Auto Layout**을 적용합니다. (단, Infobox / FullWidth 등 자체 완결형 블록 제외)
 - **단독 컴포넌트 Container 적용 및 기본 gap(10px) 제거 원칙**:
   - `StepIndicator`, `Tab` 등과 같이 단독으로 쓰이는 컴포넌트라 하더라도 독립 배치하지 않고 **`Container` (또는 `Container [순번]`)로 감싸서 적용**합니다.
   - 피그마에서 오토레이아웃 생성 시 기본으로 부여되는 **10px gap은 반드시 제거(0 또는 지정 토큰값으로 변경)**합니다.
@@ -160,11 +194,43 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **Container 레이어 네이밍 (단일 컨텐츠 및 순차 부여 규칙)**:
   - **단일 컨텐츠인 경우**: 화면 내에 단 하나의 컨텐츠/블록만 존재하여 Container가 1개인 경우, 숫자 접미사 없이 **`Container`**로 단독 명명합니다.
   - **복수 컨텐츠인 경우**: 위에서 아래로 2개 이상의 블록이 배치될 경우, **`Container 1`**, **`Container 2`**, **`Container 3`**과 같이 숫자를 순차적으로 증가시켜 명명합니다.
-- **레이어 및 그룹 네이밍 절대 규칙 (엄격 준수)**:
-  - **한글 사용 절대 금지**: 레이어 명, 그룹 명에는 **어떠한 경우에도 한글을 사용하지 않고 반드시 직관적인 영문**으로만 정의합니다.
-  - **컴포넌트 고유 명칭 변경 및 한글 결합 절대 금지**: 피그마 컴포넌트 원본 고유 명칭에 한글이나 부가 수식어를 덧붙여 수정하지 않습니다 (예: `Consent / 계열사 정보제공`, `CheckBox / 휴대폰번호` 등의 형태 절대 금지). 컴포넌트는 원본 컴포넌트명을 있는 그대로 유지합니다.
-  - **그룹 네이밍 포맷**: 슬래시를 사용한 세부 한글 명칭 결합 방식을 일체 배제하고, 단독 **`Group`** 또는 직관적인 **`[역할] Group`** 형태의 **Title Case 영문(단어 띄어쓰기, 첫 글자 대문자)**으로만 명명합니다.
-    - 권장 예시: `Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `CheckBox Group`, `Radio Group`, `Filter Group`, `List Group`, `Sorting Group`, `Table Group`, `TextList Group`, `Feedback` 등
+  - **'알려드립니다' Container**: 화면 하단 '알려드립니다'는 반드시 별도의 **`Container [순번]`**으로 독립 그룹핑합니다.
+
+---
+
+### 레이어 계층 구조 및 네이밍 체계 (Layer Naming Hierarchy)
+레이어 명, 그룹 명에는 **어떠한 경우에도 한글을 사용하지 않고 반드시 직관적인 영문**으로만 정의합니다. 컴포넌트 원형 고유 명칭은 절대 변경하지 않되, 오토레이아웃 그룹핑 시 아래의 명명 공식을 엄격히 준수합니다.
+
+#### 1. 복합 컴포넌트 그룹핑 네이밍 공식
+컴포넌트명이 `Title / Page`와 같이 슬래시(`/`)를 포함하는 경우, 오토레이아웃 레이어명을 조합할 때는 **슬래시 앞단의 대표 명칭(`Title`)만 사용**합니다.
+- **2개 요소 결합형**: `[컴포넌트/그룹 1 앞단] / [컴포넌트/그룹 2 앞단]`
+  - *(예: `Title / Page`와 `InputField` 결합 시 -> **`Title / InputField`**)*
+- **3개 이상 요소 결합형 (세 덩이 이상 형성 시)**: `[첫 번째 컴포넌트/그룹 앞단] / Contents`
+  - *(예 1: `Title / Page` + `InputField` + `Accordion` 결합 시 -> **`Title / Contents`**)*
+  - *(예 2: `Title / Text` + `Title / Text` 열거 결합 시 -> **`Title / Contents`**)*
+
+#### 2. 단수 및 복수 컴포넌트 오토레이아웃 네이밍
+- **복수 컴포넌트 열거 시**: 동일 컴포넌트들이 반복 열거되어 오토레이아웃으로 묶일 때는 컴포넌트명 뒤에 **`Group`**을 붙입니다.
+  - 예시: `InputField Group` (복수의 InputField), `Accordion Group` (복수의 Accordion), `Radio Group` (복수의 Radio), `TextList Group`, `Table Group`, `Account Group`, `Consent Group`, `Card Group`, `Data Block Group` 등
+- **단수 컴포넌트 래핑 시**: 화면 최상단 `StepIndicator`나 하단 `알려드립니다` 등의 영향으로 Full-Width 화면에서 단일 컴포넌트에 좌우 `padding: 0 20px` 등을 부여하기 위해 불가피하게 오토레이아웃으로 감싸는 경우, `Group`을 붙이지 않고 해당 **`[컴포넌트명]` 단독**으로 명명합니다.
+  - 예시: 단일 InputField를 감쌀 경우 -> **`InputField`**, 단일 Accordion을 감쌀 경우 -> **`Accordion`**
+
+#### 3. 버튼 영역 오토레이아웃 규칙 (`Button Area`)
+- `## BODY` 영역 내에서 `BoxButton`, `Pagination / Basic` (더보기) 또는 기타 일반 버튼 컴포넌트가 배치될 경우:
+  - 오토레이아웃 프레임명: **`Button Area`**
+  - 간격: Auto Layout **`gap: 0px`** 지정
+  - 정렬: 기획서 와이어프레임에 따라 **`align center`** 또는 **`align right`**로 정렬 속성 설정
+
+#### 4. 체크박스 및 라디오 컴포넌트 규칙
+- **CheckBox**: 항상 오토레이아웃 프레임 **`CheckBox`** (Auto Layout **`gap: 0px`**)로 감쌉니다. (종속 하위 항목은 **`CheckSub`** 유지)
+- **Radio**: **`Radio` 컴포넌트는 개별 오토레이아웃으로 감싸지 않고 컴포넌트 원형 그대로 열거**하며, 이들을 감싸는 상위 **`Radio Group`의 내부 간격은 Auto Layout `gap: 20px` (`2xl` 토큰)**을 적용합니다.
+
+#### 5. 타이틀과 일반 텍스트 결합 규칙
+- `Title / Section` 또는 `Title / Element`와 일반 텍스트(Description 등)가 결합될 때:
+  - 텍스트를 단독으로 두지 않고, 반드시 **`Text` (Auto Layout `gap: 0px`)**라는 오토레이아웃 프레임으로 감싸서 계층을 구성합니다.
+
+---
+
 - **타이틀 관련 레이아웃 규칙**:
   - **Title / Page 직후 Description 노출 시**: `Title / Page` 하위 레이어 중 **`Description`** 레이어의 가시성(눈 아이콘)을 활성화하여 사용합니다.
   - **Title / Section 우측에 버튼이 위치할 때**: 두 요소를 오토레이아웃으로 그룹핑하고 레이어명을 **`Container Title`** (Flow: **`horizontal`**, Auto Layout **`gap: 8px` (`md`)**, Alignment: **`align left`**)로 설정합니다.
@@ -178,12 +244,12 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **InputField, SelectButton 등 밑에 Infobox / Card가 위치할 때**: 두 요소 사이 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)**을 적용합니다.
   - **Infobox / Card 내부 단일 항목 텍스트 규칙**: 항목이 단 1개인 경우, 기획서상 불릿으로 표기되어 있더라도 불릿을 제거한 일반 텍스트로 삽입하며, 타이포그래피 스타일은 **`Dynamic/Body/xs∙14∙Light`**, 컬러는 **`text/neutral/tertiary`**를 적용합니다.
 - **입력 폼 항목 추가 버튼 패턴**:
-  - 입력 폼 형태에서 사용자가 항목을 추가할 수 있는 구조인 경우, 마지막 입력 항목 바로 아래에 **`BoxButton (variant: tertiary, size: medium)`**을 배치하고, 위 항목과의 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다.
-- **체크박스 아이템 및 서브 항목 패턴 (CheckBox Item & CheckSub)**:
-  - `CheckBox`는 항상 **`CheckBox Item`** (Auto Layout **`gap: 0px`**) 프레임으로 감쌉니다.
+  - 입력 폼 형태에서 사용자가 항목을 추가할 수 있는 구조인 경우, 마지막 입력 항목 바로 아래에 `Button Area` 또는 **`BoxButton (variant: tertiary, size: medium)`**을 배치하고, 위 항목과의 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다.
+- **체크박스 아이템 및 서브 항목 패턴 (CheckBox & CheckSub)**:
+  - `CheckBox`는 항상 **`CheckBox`** (Auto Layout **`gap: 0px`**) 프레임으로 감쌉니다.
   - 체크박스 선택 시 펼쳐지는 하위 종속 항목들은 **`CheckSub`** 오토레이아웃으로 감싸고:
     - 간격 및 패딩: Auto Layout **`gap: 20px` (`2xl` 토큰)**, **`padding: 16px 0 12px`**
-    - **마지막 CheckBox Item 내의 CheckSub**: **`padding: 16px 0 0`** 적용
+    - **마지막 CheckBox 내의 CheckSub**: **`padding: 16px 0 0`** 적용
 - **Table 구조 및 TextList 연계 규칙 (Table Pattern)**:
   - **계층 구조**: **`Table Group`** > **`Slot-Body`** > **`Grid`**
   - **`Table Group` 속성**:
@@ -230,20 +296,20 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   3. `Groups` 내부 우측: **`Label / Default`** (variant: `tint`) 배치 (긍정 `blue`, 부정 `red`, 중립 `darkGray`)
   4. 좌측 `Group`과 우측 `Label / Default` 사이 간격은 Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
 
-#### 2. 액션 미포함 정보성 카드: `Container` (타이틀 + DataList UI)
+#### 2. 액션 미포함 정보성 카드: `Data Block` (타이틀 + DataList UI)
 - **적용 조건**: 내부에 액션 요소(버튼) 없이 **순수 타이틀과 DataList들만 들어가는 정보성 UI**인 경우, `Card / Surface`를 사용하지 않고 다음 오토레이아웃 프레임 구조로 구축합니다.
 - **최상위 프레임 Spec 및 레이어 네이밍**:
-  - 레이어 명칭: **`Container`** (복수 열거 시 순서대로 **`Container 1`**, **`Container 2`** 등 부여)
+  - 레이어 명칭: **`Data Block`** (단일인 경우 `Data Block`, 복수 열거 시 순서대로 **`Data Block 1`**, **`Data Block 2`** 등 부여, 복수를 묶을 시 **`Data Block Group`**)
   - Layout: Auto Layout, Flow: **`vertical`**, **`gap: 16px` (`xl` 토큰)**
   - Styling: **`border: stroke/md`**, Border Color: **`border/neutral/secondary-muted`**, **`border-radius: 20px`**, **`padding: 20px`**
 - **내부 계층 구조**:
   1. **타이틀 영역**:
      - 텍스트 Spec: Font Size: **`font-size/body/md`**, Color: **`text/neutral/primary`**
-     - 오토레이아웃 프레임으로 감싸고 레이어 명칭은 **`Group`**으로 설정
+     - 오토레이아웃 프레임으로 감싸고 레이어 명칭은 **`Title`**로 설정
   2. **DataList 영역**:
      - 개별 컴포넌트: **`DataList (layout: split, size: 14, hasDivider: false)`**
      - 복수의 `DataList`들을 단일 오토레이아웃 프레임으로 한 번 감쌈
-     - 래핑 프레임 레이어명: **`Group`**, 간격: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+     - 래핑 프레임 레이어명: **`DataList Group`**, 간격: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
 
 ---
 
@@ -255,15 +321,15 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **Infobox / Card 조합 패턴**:
     - `Infobox / Card`와 단수 또는 복수의 `TextList`가 조합될 시 둘 사이 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
   - **Input & TextList 조합 패턴**:
-    - **Input Group 다음 일반 TextList 노출**: `Input Group`과 `TextList`를 그룹핑하고 둘 사이 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
+    - **InputField Group 다음 일반 TextList 노출**: `InputField Group`과 `TextList`를 그룹핑하고 둘 사이 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
     - **특정 InputField의 부가설명 성격 TextList**: 불릿 리스트 형태로 추가 설명이 들어갈 때는 해당 `InputField`와 `TextList`를 별도로 묶어 그룹핑하고 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
     - *(참고: 불릿이 아닌 단순 문장형 부연 설명은 `InputField` 내부의 `hasFooter: True` 및 `Item / Footer / hint`를 사용합니다.)*
   - **TextList (size: 14, depth: 1) 상호 결합 패턴**:
     - `TextList (size: 14, depth: 1)` 및 `TextList` 컴포넌트들이 오토레이아웃으로 함께 묶일 때 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
-  - **Title / Element + 복수 CheckBox / Radio 조합 패턴**:
-    - 복수의 CheckBox 요소들은 **`CheckBox Group`**, 복수의 Radio 요소들은 **`Radio Group`**으로 명명하여 묶음
-    - `Title / Element`와 `CheckBox Group` (또는 `Radio Group`)을 합쳐 **`Group`** 오토레이아웃으로 그룹핑
-    - **표준 레이아웃 (Grid 형태)**:
+  - **Title / Element + Radio Group / CheckBox Group 조합 패턴**:
+    - **Title / Element와 Radio Group 사이 간격**: Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
+    - **Radio Group 내부 구조**: `Radio` 컴포넌트는 오토레이아웃으로 감싸지 않고 원형 그대로 열거하며, 내부 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
+    - **CheckBox 그리드 레이아웃**:
       - Flow: **`grid`** (기획서에 따라 `3*1`, `2*auto` 등 설정)
       - 간격: **`gap between columns: 16px` (`xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
     - **항목 텍스트가 긴 경우 (Vertical 형태)**:
@@ -273,7 +339,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
     - `List` 내부 Spec: 바텀시트 계좌 선택과 동일하게 `Slot-Prefix`의 `Item / Prefix (size: 32)`로 설정하되, `Slot-Suffix`의 `Item / Suffix`는 **`variant: checkBox`**로 적용
     - **`Title / Page` -> `Tab` -> `Container [순번]` (은행 선택 항목) 구조인 경우**: 요소 간 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
   - **Title / Page 조합 패턴**:
-    - **Title / Page + Infobox / Solid**: 오토레이아웃 그룹핑 후 Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
+    - **Title / Page + Infobox / Solid**: Property **`size: medium`** 적용 후 오토레이아웃 그룹핑, Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
     - **Title / Page + Infobox / Card**: 최상단 배치 시 둘 사이 Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
     - **Title / Page + Image Area + ProgressStep + Infobox / Card 흐름**:
       1. `Title / Page` 다음에 오는 `ImageContainer`는 **`Image Area`**라는 오토레이아웃으로 감싸고 **`padding: 40px 0`** 적용
@@ -281,17 +347,20 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
       3. `ProgressStep` 다음에 `Infobox / Card`가 올 경우 둘 사이 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
     - **Title / Page + InputField + Card / Surface**: 세 요소를 오토레이아웃으로 그룹핑하고 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
     - **Title / Section + InputField 조합**:
-      1. `InputField`들을 먼저 오토레이아웃으로 묶어 **`Input Group`**으로 명명하고 **`gap: 24px` (`3xl` 토큰)** 적용
-      2. `Title / Section`과 `Input Group`을 오토레이아웃으로 그룹핑하여 **`Group`**으로 명명하고 **`gap: 16px` (`xl` 토큰)** 적용
-  - **InputField 연속 배치**: 단일 오토레이아웃 프레임(`Input Group`)으로 묶고, 내부 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다.
-  - **Card / Surface 연속 배치**: 카드 컴포넌트들이 열거될 경우 단일 오토레이아웃 프레임으로 그룹핑하고, 내부 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)**을 적용합니다.
+      1. `InputField`들을 먼저 오토레이아웃으로 묶어 **`InputField Group`**으로 명명하고 **`gap: 24px` (`3xl` 토큰)** 적용
+      2. `Title / Section`과 `InputField Group`을 오토레이아웃으로 그룹핑하여 **`Title / InputField`**로 명명하고 **`gap: 16px` (`xl` 토큰)** 적용
+  - **InputField 연속 배치**: 단일 오토레이아웃 프레임(`InputField Group`)으로 묶고, 내부 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다.
+  - **Card / Surface 또는 Data Block 연속 배치**:
+    - 카드들이 열거될 경우 각각 **`Card Group`** 또는 **`Data Block Group`**으로 그룹핑하고 내부 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)**을 적용합니다.
+    - **더보기 버튼 연계**: `Card Group` 또는 `Data Block Group` 바로 다음에 더보기 컴포넌트(`Pagination / Basic`)가 위치할 경우, 더보기 컴포넌트를 **`Button Area`**로 감싸고, 그룹과 `Button Area` 사이의 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)**을 적용합니다.
   - **List 컴포넌트 패딩 예외**:
     - `List` 컴포넌트가 `Container` 내부로 들어올 때, `List` 자체에 기본 설정되어 있는 **좌우 패딩(padding-left, padding-right) 값은 `0px`로 재설정**합니다.
   - **일반 본문 TextList 연속 배치**:
     - `Infobox / Card`, `Card`, 알려드립니다 외부의 일반 본문에 쓰이는 `TextList`가 여러 개 열거될 경우, 오토레이아웃으로 그룹핑하고 **기본 `gap: 12px` (`lg` 토큰)**을 적용합니다.
-  - **Form 내 Accordion 배치**: 폼 형태로 열거되는 도중 위치하는 `Accordion`은 오토레이아웃을 적용하여 `Container [순번]`으로 명명합니다.
+  - **Form 내 Accordion 배치**: 폼 형태로 열거되는 도중 위치하는 `Accordion`은 오토레이아웃을 적용하여 `Container [순번]`으로 명명합니다. (복수 열거 시 `Accordion Group`)
   - **하단 "알려드립니다" 공통 패턴 및 상태 규칙**:
     - `Container` 또는 `Container [순번]` 내부에 `Divider / Horizontal (thickness: 10px, variant: tertiary, length: full)`을 상단에 배치하고, 그 바로 아래에 `Accordion (type: basic, variant: standard, size: medium, hasDivider: false)` 컴포넌트를 순서대로 배치합니다.
+    - **독립 컨테이너 분할 필수**: '알려드립니다'는 다른 본문 요소와 합치지 않고 반드시 **독립된 `Container [순번]`으로 그룹핑하여 분할**합니다.
     - **펼침 상태(Open State) 반영**: 와이어프레임 상에서 '알려드립니다'가 펼쳐져 있는 구조인 경우, **실제 펼쳐진(Open/Expanded) 상태로 화면에 렌더링**합니다.
     - **내부 Divider 숨김**: 알려드립니다 내부에 위치하는 Accordion은 **`hasDivider: false`를 적용하며, Accordion 내부의 divider는 항상 숨김(비노출)** 처리합니다.
     - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**로 설정합니다.
@@ -454,28 +523,33 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 ### C. 컴포넌트 배치 간격 및 옵션 규칙
 - **`Infobox / Solid` 다음 `InputField` 사이 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용. `InputField`를 감싼 `Container` / `Container [순번]`이 이어지는 경우와 각 컴포넌트를 감싼 Container 사이에도 동일하게 적용하며, 해당 구간은 `## BODY` 기본 32px 간격보다 우선합니다.
 - **`StepIndicator`와 바로 다음 UI 사이 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용. `StepIndicator` 또는 다음 UI를 감싼 `Container` / `Container [순번]` 사이에도 동일하게 적용하며, 해당 구간은 `## BODY` 기본 32px 간격보다 우선합니다.
-- **단일 인풋 간 간격 (`Input Group` 등)**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
+- **단일 인풋 간 간격 (`InputField Group` 등)**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **`Title / Section`과 `Input Group` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
 - **`Title / Section` 우측 버튼 조합 (`Container Title`)**: Flow `horizontal`, Auto Layout **`gap: 8px` (`md`)**, Alignment `align left`
+- **`Title / Section` 또는 `Title / Element` + 일반 텍스트 결합**: 일반 텍스트는 **`Text (gap: 0px)`** 오토레이아웃으로 감싸서 결합
+- **`Title / Element`와 `Radio Group` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
+- **`Radio Group` 내부 간격**: Auto Layout **`gap: 20px` (`2xl`)** 적용 (내부 `Radio`는 개별 오토레이아웃 없이 컴포넌트 원형 그대로 배치)
 - **`Title / Section`과 `SelectButton` (Description 노출 시) 사이 간격**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **`Title / Section`과 `Infobox / Card` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
 - **`Infobox / Card`와 `TextList` 사이 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
-- **`Input Group`과 일반 `TextList` 사이 간격**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
+- **`InputField Group`과 일반 `TextList` 사이 간격**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **`InputField`와 부가설명 `TextList` 사이 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
 - **`InputField`, `SelectButton` 등과 하단 `Infobox / Card` 사이 간격**: Auto Layout **`gap: 20px` (`2xl`)** 적용
-- **입력 폼 하단 항목추가 `BoxButton (tertiary, medium)`과 상단 항목 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용
+- **버튼 영역 (`Button Area`) 속성**: Auto Layout **`gap: 0px`**, 필요에 따라 **`align center`**, **`align right`** 적용
+- **입력 폼 하단 항목추가 버튼 (`Button Area` 또는 `BoxButton`)과 상단 항목 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **조회 컨트롤 그룹 (`Sorting Group`) 내부 간격**: Auto Layout **`gap: 12px` (`lg`)** 적용
 - **`TextList (size: 14, depth: 1)` + `TextList` 결합 간격**: 내부 Auto Layout **`gap: 8px` (`md`)** 적용
 - **`Table Group` 내부 간격**: Auto Layout **`gap: 1px` (`3xs` 토큰)** 적용
 - **`TextList Group` 내부 간격 (복수 TextList 결합 시)**: 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
-- **정보성 카드 `Container` (액션 미포함) 내부 간격**: 프레임 Auto Layout **`gap: 16px` (`xl` 토큰)**, 내부 `DataList`를 묶는 `Group` 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
-- **`Title / Element` + CheckBox/Radio Group 간격**:
+- **정보성 카드 `Data Block` (액션 미포함) 내부 간격**: 프레임 Auto Layout **`gap: 16px` (`xl` 토큰)**, 내부 `DataList`를 묶는 `DataList Group` 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+- **`Card Group` 또는 `Data Block Group`과 하단 더보기(`Pagination / Basic`) 사이 간격**: 더보기 컴포넌트를 `Button Area`로 감싸고 둘 사이 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
+- **`Title / Element` + CheckBox 그리드 간격**:
   - Grid 적용 시: **`gap between columns: 16px` (`xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
   - 긴 텍스트 (Vertical) 적용 시: Auto Layout **`gap: 20px` (`2xl`)** 적용
 - **체크박스 아이템 간격 및 패딩**:
-  - `CheckBox Item`: Auto Layout **`gap: 0px`**
+  - `CheckBox`: Auto Layout **`gap: 0px`**
   - `CheckSub` (종속 항목): Auto Layout **`gap: 20px` (`2xl`)**, **`padding: 16px 0 12px`** (마지막 아이템은 `padding: 16px 0 0`)
-- **`Title / Page`와 `Infobox / Solid` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
+- **`Title / Page`와 `Infobox / Solid` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용 (Infobox / Solid Property: **`size: medium`**)
 - **`Title / Page`와 `Infobox / Card` 사이 간격 (최상단)**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
 - **`Title / Page`와 `InputField + Card / Surface` 그룹 내부 간격**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **`Title / Page` -> `Tab` -> `Container` (은행 선택 항목) 사이 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용
@@ -504,7 +578,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - `List` 프레임 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
   - `List Group` 내부 Auto Layout **`gap: 4px` (`xs`)** 적용
   - Divider(10px) 포함 Container 내부 Auto Layout **`gap: 0px`** 적용
-- **Card / Surface 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
+- **Card / Surface 및 Data Block 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
 - **선택형 바텀시트 List 간 간격**: `Container 1` 내부 Auto Layout **`gap: 8px` (`md`)** 적용 (List 자체 좌우 패딩: 0px)
 - **알려드립니다 컨텐츠 Container 내부 간격**: Divider(10px, tertiary)와 Accordion 사이 Auto Layout **`gap: 0px`** 적용
 
@@ -527,7 +601,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 #### 특수 공지 및 상태별 컴포넌트 규칙
 - **Title / Page 직후 단일 공지 문구**:
   - `Title / Page` 다음에 공지 성격의 단일 문구가 나오는 경우 `Infobox / Solid` 컴포넌트 사용
-  - Property: `size: medium`, `status: warning`, `hasSuffix: false`
+  - Property: **`size: medium`**, `status: warning`, `hasSuffix: false`
   - 두 요소 간 오토레이아웃 그룹핑 후 **`gap: 16px` (`xl` 토큰)** 적용
 - **화면 하단 공지형 카드 (Infobox / Card)**:
   - 화면 하단에 '알려드립니다' 대신 공지 성격의 내용을 넣을 때 `Infobox / Card` 컴포넌트 사용
@@ -544,12 +618,14 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 ## 8. Workflow & Processing Order (작업 지침)
 1. **Figma 링크 분석 및 화면 식별/네이밍**:
-   - 사용자가 전달한 Figma 와이어프레임 링크(또는 JSON/구조)에서 화면 흐름을 파악하고 일반/완료/바텀시트/Dialog/약관/피드백/링크 리스트 화면 여부를 판별합니다.
+   - 사용자가 전달한 Figma 와이어프레임 링크(또는 JSON/구조)에서 화면 흐름을 파악하고 일반/완료/바텀시트/Dialog/풀팝업/약관상세(PDF)/피드백/링크 리스트 화면 여부를 판별합니다.
    - 기획서 내 중괄호(`{ ... }`) 표기 명칭을 기반으로 생성할 아트보드 레이어명을 **`화면ID_[화면을 나타내는 명칭]`** 형식으로 확정합니다.
 2. **아트보드 및 루트 프레임 세팅**:
    - **일반 및 완료 화면**: 가로 `390px` 기준 프레임 생성 후 `## HEADER`, `## BODY`, `## FOOTER` 3단 구조 세팅 (콘텐츠 양에 따라 Fill / Hug 적용). `## FOOTER` 내 `HomeIndicator`는 **`os: iOS`** Property를 적용합니다.
    - **바텀시트 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `BottomSheet` -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
    - **Dialog 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `Dialog`(화면 정중앙 배치) -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
+   - **풀팝업 화면**: 배경 **`background/neutral/white`**, `StatusBar` (Absolute) -> `Popup` > `Slot` > `Header` (`AppBar`) + `Body` (`Container [순번]`) + `Footer` (`HomeIndicator: os iOS`) 구조로 세팅.
+   - **약관 상세 화면 (PDF)**: `## HEADER` (`StatusBar`, `AppBar`) -> `## BODY` (`Container 1`, `Container 2`) -> `Pagination / Carousel` (Absolute Position, `Y: 686px`) -> `## FOOTER` (`StickyButton`, `HomeIndicator: os iOS`) 구조로 세팅.
    - **공통 Body Auto Layout 세팅**:
      - 상하 패딩: 기본 **`padding-top: 24px` (`3xl`)**, **`padding-bottom: 32px` (`5xl`)**
      - 최상단이 `StepIndicator`, `Tab(1depth)`, `InputField(searchIcon)` 또는 헤더 직후 `Tab` 배치 시: **`padding-top: 0px`** 적용
@@ -558,28 +634,30 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - 링크 리스트 화면의 경우 **`padding-top: 16px` (`xl`)** 적용
      - 수직 간격: 기본 **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용). 단, `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl`)**을 우선 적용하며, 해당 컴포넌트를 감싼 `Container` / `Container [순번]` 사이에도 동일하게 적용합니다.
      - **좌우 패딩 제어**: 화면 내에 `Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
+     - **'알려드립니다' 분할**: '알려드립니다'는 항상 독립된 `Container [순번]`으로 분할하여 배치합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout`, `hasDivider`, `os` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
    - **컴포넌트 원형 명칭은 절대로 변경하지 않으며, 와이어프레임 상 볼드 여부와 무관하게 디자인 시스템의 Title 컴포넌트(`Title / Page`, `Title / Section`, `Title / Element`) 원형 스타일을 우선시하여 적용합니다.**
    - `Title / Page` 다음에 디스크립션이 오는 경우 하위 `Description` 레이어의 가시성을 활성화합니다.
+   - `Title / Section` 또는 `Title / Element`에 일반 텍스트가 결합될 시 일반 텍스트를 **`Text (gap: 0px)`** 오토레이아웃으로 감싸서 계층을 구성합니다.
+   - `Title / Element`와 `Radio Group`은 `gap: 16px`, `Radio Group` 내부의 `Radio`는 개별 오토레이아웃 없이 컴포넌트 그대로 열거하며 `gap: 20px`를 적용합니다.
    - `Title / Section` 우측 버튼 조합은 `Container Title (horizontal, gap: 8px, align left)`로 오토레이아웃 그룹핑합니다.
    - 텍스트 강조 시 같은 폰트 크기 내 `medium` 변수를 쓰고 `positive`, `negative`, `blue`, `red`, `primary` 토큰 규칙을 준수합니다. (단, `Table / Cell` 내 텍스트 컬러 지정 시에는 Weight를 `medium`으로 올리지 않고 `light`를 유지)
    - 바로가기 버튼 외 아이콘 결합 버튼은 `TextButton`의 `hasPrefix: True` 설정, 아이콘 없는 버튼형 텍스트는 `hasPrefix/hasSuffix: False`, `underline: True`로 적용합니다.
    - `SelectButton`은 간결한 항목일 경우 `word`, 그렇지 않을 경우 `sentence` 타입을 적용합니다.
-   - 안내 문구는 위치에 따라 `Card / Surface` 다음은 `Infobox / Basic`, 입력 폼 내는 `Infobox / Solid`, 인풋 하단 배치는 `gap: 20px`의 `Infobox / Card`로 매핑합니다.
+   - 안내 문구는 위치에 따라 `Card / Surface` 다음은 `Infobox / Basic`, 입력 폼 내는 `Infobox / Solid (size: medium)`, 인풋 하단 배치는 `gap: 20px`의 `Infobox / Card`로 매핑합니다.
    - `Infobox / Card`의 단일 항목은 불릿을 생략하고 `Dynamic/Body/xs∙14∙Light`, `text/neutral/tertiary`로 적용합니다.
-   - 입력 폼 추가 버튼은 `BoxButton (tertiary, medium)`으로 상단과 `gap: 24px`로 배치합니다.
+   - 본문 내 버튼 요소 및 더보기(`Pagination / Basic`)는 **`Button Area` (gap: 0px, align center/right)** 오토레이아웃 프레임으로 배치합니다.
    - 조회 컨트롤 그룹은 `Sorting Group (gap: 12px)`으로 묶습니다.
-   - `CheckBox`는 `CheckBox Item (gap: 0)` 및 하위 `CheckSub (gap: 20px, padding: 16px 0 12px / 마지막 16px 0 0)`으로 감쌉니다.
+   - `CheckBox`는 `CheckBox (gap: 0)` 및 하위 `CheckSub (gap: 20px, padding: 16px 0 12px / 마지막 16px 0 0)`으로 감쌉니다.
    - 단독 컴포넌트(`StepIndicator`, `Tab` 등)라도 반드시 `Container [순번]`으로 감싸며, Figma 기본 10px gap은 0으로 제거합니다.
    - `InputField` 필수/안내 설정:
      - `Title / Element` 필수 표기는 `optional: true`, 텍스트 **`(필수)`**, `3xs medium`, 컬러 `text/accent` 적용
      - 단순 문장형 부연 설명/안내 문구는 `InputField`의 **`hasFooter: True`** 및 **`Item / Footer / hint`**에 적용
    - `SelectButton`과 `Title / Section (Description 노출)` 조합 시 `gap: 24px`를 적용합니다.
    - `Title / Section`과 `Infobox / Card` 조합 시 `gap: 16px`, `Infobox / Card`와 `TextList` 조합 시 `gap: 12px`를 적용합니다.
-   - `Input Group`과 일반 `TextList`는 `gap: 24px`, 부가설명 성격의 불릿 `TextList`는 해당 `InputField`와 묶어 `gap: 12px`로 매핑합니다.
+   - `InputField Group`과 일반 `TextList`는 `gap: 24px`, 부가설명 성격의 불릿 `TextList`는 해당 `InputField`와 묶어 `gap: 12px`로 매핑합니다.
    - `TextList (size: 14, depth: 1)`과 `TextList` 결합 시 오토레이아웃 `gap: 8px` (`md`)을 적용합니다.
-   - `Title / Element`와 CheckBox/Radio 그룹핑 시 그리드는 Column `16px`, Row `20px`로 설정하고 긴 텍스트는 Vertical `gap: 20px`로 적용합니다.
    - `HomeIndicator` 컴포넌트는 항상 우측 속성 패널에서 **`os: iOS`** 속성을 지정합니다.
    - **Table 매핑**:
      - `Table Group` (오토레이아웃, Auto Layout `gap: 1px`) > `Slot-Body` (오토레이아웃, `border-top: stroke/md`, `border-color: border/neutral/quaternary`) > `Grid` (오토레이아웃, Flow: `grid`, `2*auto` / `3*auto` / `4*auto`) 계층 구조를 설정합니다.
@@ -591,7 +669,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - 일반 화면: `Container [순번]` 내 `Account Group (gap: 4px)`, 바텀시트와 동일 구조(Prefix `size: 32`)에 Suffix만 `checkBox`로 적용 (`Title / Page` -> `Tab` -> Container 간격은 `gap: 24px`)
    - **데이터 표기 카드 UI 매핑**:
      - **액션 포함형**: `Card / Surface` 사용 (버튼/액션이 들어갈 때만 한정). `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`
-     - **액션 미포함형 (정보성 카드)**: `Container` 오토레이아웃 프레임(`border: stroke/md`, `border-color: border/neutral/secondary-muted`, `radius: 20px`, `padding: 20px`, `gap: 16px`) 구축. 상단에 `Group` 오토레이아웃 프레임 내 타이틀(`font-size/body/md`, `text/neutral/primary`) 배치 + 하단에 `Group` 오토레이아웃 프레임(`gap: 12px`) 내 `DataList (layout: split, size: 14, hasDivider: false)` 배치
+     - **액션 미포함형 (정보성 카드)**: **`Data Block`** 오토레이아웃 프레임(`border: stroke/md`, `border-color: border/neutral/secondary-muted`, `radius: 20px`, `padding: 20px`, `gap: 16px`) 구축. 상단에 `Title` 오토레이아웃 프레임 내 타이틀(`font-size/body/md`, `text/neutral/primary`) 배치 + 하단에 `DataList Group` 오토레이아웃 프레임(`gap: 12px`) 내 `DataList (layout: split, size: 14, hasDivider: false)` 배치
    - **링크 리스트 패턴**: 단일 원형(List padding: 20px 20px 16px, List Group gap: 4px, 1px Divider) 및 누적형(첫 번째 0px 20px 16px, 중간 10px Divider + 20px 20px 16px, 마지막 10px Divider + 20px 20px 0px) 규칙을 준수합니다.
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
@@ -606,9 +684,17 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 감싸지 않습니다. Accordion 내부의 divider는 항상 숨기고, 와이어프레임상 펼쳐진 상태라면 실제로 펼쳐진 상태로 렌더링합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
-   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. (정보성 데이터 카드 역시 최상위 프레임명을 `Container` / `Container [순번]`으로 명명)
-   - **레이어 및 그룹 네이밍**: 한글을 절대 사용하지 않고 오직 직관적인 영문 Title Case(`Group`, `Groups`, `Input Group`, `Account Group`, `Consent Group`, `Text Group`, `Filter Group`, `List Group`, `Sorting Group`, `Container Title`, `Card`, `CheckBox Item`, `CheckSub`, `Table Group`, `TextList Group`, `Feedback` 등)로 명명합니다.
-   - 연속된 `InputField`는 `Input Group`으로 묶고 `gap: 24px` (`3xl`)을 적용하며, 상위 `Title / Section`과 `gap: 16px` (`xl`)으로 묶어 `Group`을 구성합니다.
-   - `Card / Surface`는 `gap: 12px` (`lg`), 일반 본문 `TextList`는 `gap: 12px` (`lg`), 바텀시트 일반 `List`는 `gap: 8px` (`md`), 계좌 선택 `List`는 `gap: 4px` (`xs`)으로 그룹핑합니다.
+   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. (정보성 데이터 카드 최상위 프레임은 `Data Block` / `Data Block [순번]`)
+   - **레이어 및 그룹 네이밍 (한글 사용 절대 금지)**:
+     - 2개 요소 그룹핑: 슬래시 앞단 명칭을 결합하여 `[컴포넌트 1] / [컴포넌트 2]` (예: `Title / InputField`)
+     - 3개 이상 요소 그룹핑: `[첫 번째 컴포넌트] / Contents` (예: `Title / Contents`)
+     - 복수 열거 컴포넌트: `[컴포넌트명] Group` (예: `InputField Group`, `Accordion Group`, `Radio Group`, `TextList Group`, `Table Group`, `Account Group`, `Card Group`, `Data Block Group` 등)
+     - 단수 컴포넌트 래핑(패딩 목적 등): `[컴포넌트명]` 단독 (예: `InputField`, `Accordion`)
+     - 버튼 영역: **`Button Area`** (Auto Layout `gap: 0px`, `align center` / `align right`)
+     - 일반 텍스트 래핑: **`Text`** (Auto Layout `gap: 0px`)
+     - 기본 그룹: Title Case 영문 (`Group`, `Groups`, `Container Title`, `Card`, `Data Block`, `CheckBox`, `CheckSub`, `Feedback` 등)
+   - 연속된 `InputField`는 `InputField Group`으로 묶고 `gap: 24px` (`3xl`)을 적용하며, 상위 `Title / Section`과 `gap: 16px` (`xl`)으로 묶어 `Title / InputField`를 구성합니다.
+   - `Card / Surface` 및 `Data Block`은 각각 열거 시 `Card Group` / `Data Block Group` (`gap: 12px`, `lg`)으로 묶고, 하단 더보기(`Button Area`)와의 간격은 `gap: 20px` (`2xl`)을 적용합니다.
+   - 일반 본문 `TextList`는 `gap: 12px` (`lg`), 바텀시트 일반 `List`는 `gap: 8px` (`md`), 계좌 선택 `List`는 `gap: 4px` (`xs`)으로 그룹핑합니다.
    - `Table Group`은 `gap: 1px` (`3xs`), 복수 `TextList / Unordered`는 `TextList Group (gap: 8px)`으로 구조화합니다.
 5. **토큰 기반 간격 검증**: 섹션 7에 정의된 간격 규칙(0px, `3xs`, `md`, `lg`, `xl`, `2xl`, `3xl`, `5xl`, `6xl`, `7xl`, `8xl` 등)이 오토레이아웃의 gap 및 Body padding에 올바르게 매핑되었는지 최종 확인 후 결과물을 출력합니다.
