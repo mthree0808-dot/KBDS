@@ -230,6 +230,8 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 #### 5. 타이틀과 일반 텍스트 결합 규칙
 - `Title / Section` 또는 `Title / Element`와 일반 텍스트(Description 등)가 결합될 때:
   - 텍스트를 단독으로 두지 않고, 반드시 **`Text` (Auto Layout `gap: 0px`)**라는 오토레이아웃 프레임으로 감싸서 계층을 구성합니다.
+- **일반 본문 내 `Title / Section` + 단일 TextList 결합 예외 (CRITICAL)**:
+  - 일반 본문에서 계층(Hierarchy)을 정의하는 도중 **`Title / Section` 바로 다음에 단일 항목의 `TextList / Unordered`가 올 경우, 불릿을 임의로 제거하거나 일반 텍스트로 치환하지 않고 불릿이 유지된 디자인 시스템 컴포넌트 `TextList / Unordered`를 그대로 정의**하여 사용합니다.
 
 ---
 
@@ -572,7 +574,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 - **조회 컨트롤 그룹 (`Sorting Group`) 내부 간격**: Auto Layout **`gap: 12px` (`lg`)** 적용
 - **`TextList (size: 14, depth: 1)` + `TextList` 결합 간격**: 내부 Auto Layout **`gap: 8px` (`md`)** 적용
 - **`Table Group` 내부 간격**: Auto Layout **`gap: 1px` (`3xs` 토큰)** 적용
-- **`TextList Group` 내부 간격 (복수 TextList 결합 시)**: 내부 Auto Layout **`gap: 8px` (`md`)** 적용
+- **`TextList Group` 내부 간격 (복수 TextList 결합 시)**: 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
 - **정보성 카드 `Data Block` (액션 미포함) 내부 간격**: 프레임 Auto Layout **`gap: 16px` (`xl` 토큰)**, 내부 `DataList`를 묶는 `DataList Group` 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
 - **`Card Group` 또는 `Data Block Group`과 하단 더보기(`Pagination / Basic`) 사이 간격**: 더보기 컴포넌트를 `Button Area`로 감싸고 둘 사이 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
 - **`Title / Element` + CheckBox 그리드 간격**:
@@ -684,7 +686,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout`, `hasDivider`, `os` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.
    - **컴포넌트 원형 명칭은 절대로 변경하지 않으며, 와이어프레임 상 볼드 여부와 무관하게 디자인 시스템의 Title 컴포넌트(`Title / Page`, `Title / Section`, `Title / Element`) 원형 스타일을 우선시하여 적용합니다.**
    - `Title / Page` 다음에 디스크립션이 오는 경우 하위 `Description` 레이어의 가시성을 활성화합니다.
-   - `Title / Section` 또는 `Title / Element`에 일반 텍스트가 결합될 시 일반 텍스트를 **`Text (gap: 0px)`** 오토레이아웃으로 감싸서 계층을 구성합니다.
+   - `Title / Section` 또는 `Title / Element`에 일반 텍스트가 결합될 시 일반 텍스트를 **`Text (gap: 0px)`** 오토레이아웃으로 감싸서 계층을 구성합니다. 단, **일반 본문에서 `Title / Section` 다음에 단일 항목의 `TextList / Unordered`가 올 경우 불릿이 유지된 컴포넌트 그대로 정의**합니다.
    - `Title / Element`와 `Radio Group`은 `gap: 16px`, `Radio Group` 내부의 `Radio`는 개별 오토레이아웃 없이 컴포넌트 그대로 열거하며 `gap: 20px`를 적용합니다.
    - `Title / Section` 우측 버튼 조합은 `Container Title (horizontal, gap: 8px, align left)`로 오토레이아웃 그룹핑합니다.
    - 텍스트 강조 시 같은 폰트 크기 내 `medium` 변수를 쓰고 `positive`, `negative`, `blue`, `red`, `primary` 토큰 규칙을 준수합니다. (단, `Table / Cell` 내 텍스트 컬러 지정 시에는 Weight를 `medium`으로 올리지 않고 `light`를 유지)
