@@ -5,7 +5,8 @@
 ## 1. Reference Sources (디자인 시스템)
 
 ### 사용자 승인 갱신 (2026-10-19): Tab 후속 간격과 조회 내역
-- **Tab 후속 일반 콘텐츠 간격**: 1depth·2depth·3depth Tab 다음에 Infobox / Card, 입력, 목록, Data Block 등 일반 콘텐츠가 이어지면 **gap 24px (`spacing/3xl`)**을 적용합니다. 각각 Container로 감싸져 있어도 실제 간격은 24px입니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 다른 구간의 간격은 유지하도록 해당 요소를 Auto Layout으로 그룹핑하고, 패딩이나 빈 프레임으로 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
+- **Tab 후속 일반 콘텐츠 간격과 계층**: 1depth·2depth·3depth Tab 다음에 Infobox / Card, 입력, 목록, Data Block 등 일반 콘텐츠가 이어지면 **gap 24px (`spacing/3xl`)**을 적용합니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 같은 콘텐츠 블록은 하나의 `Container [순번]` 안에 구성하며, 간격을 맞추기 위해 각 요소를 별도 Container로 감싼 뒤 외부 복합 래퍼에 넣지 않습니다. 패딩이나 빈 프레임으로 간격을 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
+- **Tab + Infobox / Card 필수 구조 (2026-10-19 사용자 교정)**: `## BODY > Container 1 > Tab, Infobox / Card`로 구성합니다. `Tab`과 `Infobox / Card`는 **Container 1의 직계 자식**이며 Container 1의 Vertical Auto Layout gap에 `spacing/3xl`=24px를 연결합니다. `Tab / Infobox > Container 1, Container 2` 구조와, Tab·Infobox를 각각 Container로 감싸는 구조는 금지합니다. 이 규칙은 아래 일반 복합 그룹 네이밍 공식보다 우선합니다. Tab은 화면 폭을 채우고, Infobox / Card는 좌우 20px 여백이 남는 콘텐츠 폭으로 가운데 정렬합니다. 다음 독립 본문 블록은 형제 `Container 2`부터 순차 명명합니다.
 - **건별 조회 내역의 Data Block 매핑**: 고객명·이용기관·이용서비스·인증완료처럼 한 건을 구성하는 사실 데이터는 와이어프레임의 평면 DataList Group·상하 Divider 형태를 그대로 복제하지 않고 **건별 Data Block**으로 치환합니다. 문구·값·순서·건수는 보존합니다. 일반 수평 DataList의 Divider 규칙보다 이 매핑을 우선하며, 완료 화면의 별도 Feedback·데이터 구조는 유지합니다.
 - **승인 참조**: [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979), [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994). 두 링크는 스타일 대안이며, 반복 건마다 서로 다른 스타일을 강제하지 않습니다.
 - **구조와 토큰**: Vertical Auto Layout, padding 20px (`spacing/2xl`), radius 20px (`radius/2xl`), Title↔DataList Group gap 16px (`spacing/xl`), 목록 내부 gap 12px (`spacing/lg`). 각 DataList는 `layout: split`, `size: 14`, `hasDivider: false`를 적용합니다. 아웃라인은 `surface/neutral/quaternary-muted` + `border/neutral/secondary-muted` + `stroke/md`, 회색 무테는 `surface/neutral/tertiary-muted` + `strokes: []`를 사용합니다.
@@ -212,6 +213,8 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 레이어 명, 그룹 명에는 **어떠한 경우에도 한글을 사용하지 않고 반드시 직관적인 영문**으로만 정의합니다. 컴포넌트 원형 고유 명칭은 절대 변경하지 않되, 오토레이아웃 그룹핑 시 아래의 명명 공식을 엄격히 준수합니다.
 
 #### 1. 복합 컴포넌트 그룹핑 네이밍 공식
+아래 공식은 필요한 내부 복합 그룹에 적용하며, 페이지 `Container [순번]`를 외부 복합 래퍼로 감싸는 근거가 아닙니다. Tab + Infobox / Card는 앞서 정의한 하나의 Container 안에 두 컴포넌트를 직계 자식으로 두는 구조를 우선합니다.
+
 컴포넌트명이 `Title / Page`와 같이 슬래시(`/`)를 포함하는 경우, 오토레이아웃 레이어명을 조합할 때는 **슬래시 앞단의 대표 명칭(`Title`)만 사용**합니다.
 - **2개 요소 결합형**: `[컴포넌트/그룹 1 앞단] / [컴포넌트/그룹 2 앞단]`
   - *(예: `Title / Page`와 `InputField` 결합 시 -> **`Title / InputField`**)*
