@@ -394,10 +394,11 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - **Title / Page 조합 패턴**:
     - **Title / Page + Infobox / Solid**: Property **`size: medium`** 적용 후 오토레이아웃 그룹핑, Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
     - **Title / Page + Infobox / Card**: 최상단 배치 시 둘 사이 Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
-    - **Title / Page + Image Area + ProgressStep + Infobox / Card 흐름**:
-      1. `Title / Page` 다음에 오는 `ImageContainer`는 **`Image Area`**라는 오토레이아웃으로 감싸고 **`padding: 40px 0`** 적용
-      2. `Image Area` 다음에 `ProgressStep`이 올 경우 둘 사이 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
-      3. `ProgressStep` 다음에 `Infobox / Card`가 올 경우 둘 사이 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
+    - **Title / Page + Image Area + 후속 콘텐츠 흐름 (2026-10-19 사용자 교정)**:
+      1. `Title / Page`와 `Image Area`는 같은 `Container [순번]`의 직계 자식으로 배치하고 **gap 0px**을 적용합니다. 이미지 앞에 별도 Container나 여백을 추가하지 않습니다.
+      2. `Image Area`는 [승인 참조 10580:10543](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10580-10543)를 따릅니다. Vertical Auto Layout, 가로 Fill·세로 Hug, 내부 gap 0, **padding 40px 0 (`spacing/6xl`)**입니다. 내부 `ImageContainer`는 **ratio 2:1 / 가로 Fill / 세로 Fixed**이며 콘텐츠 폭 350px일 때 **350×175px**, 전체 Image Area는 **350×255px**입니다. 임의의 96×96 정사각형으로 축소하지 않습니다. 실제 이미지는 별도 요청 없이 추가하지 않습니다.
+      3. `Image Area` 다음에 `ProgressStep`, `Infobox / Card` 등 콘텐츠가 이어지면 종류와 무관하게 **gap 24px (`spacing/3xl`)**을 적용합니다. 내부 패딩 40px와 외부 후속 gap 24px를 구분합니다.
+      4. `ProgressStep` 다음에 `Infobox / Card`가 올 경우 둘 사이 **gap 24px (`spacing/3xl`)**을 유지합니다.
     - **Title / Page + InputField + Card / Surface**: 세 요소를 오토레이아웃으로 그룹핑하고 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
     - **Title / Section + InputField 조합**:
       1. `InputField`들을 먼저 오토레이아웃으로 묶어 **`InputField Group`**으로 명명하고 **`gap: 24px` (`3xl` 토큰)** 적용
@@ -609,8 +610,9 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 - **`Title / Page` -> `Tab` -> `Container` (은행 선택 항목) 사이 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **계좌 선택 리스트 그룹 내부 간격 (일반 및 바텀시트)**: Auto Layout **`gap: 4px` (`xs`)** 적용
 - **Image Area 흐름 간격**:
-  - `Image Area` 내부 패딩: `padding: 40px 0`
-  - `Image Area`와 `ProgressStep` 간격: Auto Layout **`gap: 24px` (`3xl`)** 적용
+  - `Title / Page` → `Image Area`: 같은 Container 안에서 **gap 0px**
+  - `Image Area` 내부 패딩: **40px 0 (`spacing/6xl`)**, Vertical / Fill·Hug / gap 0. 내부 `ImageContainer`는 **ratio 2:1 / Fill·Fixed**로 콘텐츠 폭 350px 기준 350×175px, 전체 영역 350×255px
+  - `Image Area` → 후속 콘텐츠(`ProgressStep`, `Infobox / Card` 등): **gap 24px (`spacing/3xl`)**
   - `ProgressStep`과 `Infobox / Card` 간격: Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **Infobox / FullWidth 최상단 배치 시 하단 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **약관 UI 간격**:
@@ -752,7 +754,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - Filter 결합형: Filter Area `0 20px`, 간격 `gap: 16px` 매핑
      - Card 피드백형: Card `padding: 48px 0`, `radius: 16px`, 테두리/배경 매핑
    - **완료 화면**: `Container 1`의 `Feedback` 다음에 `Container 2`를 배치합니다. Container 2는 `Title / DataList Group`들을 **gap 32px**로 열거하며, 각 그룹은 `Title` + `DataList Group`의 **gap 16px** 구조입니다. Title은 Vertical Auto Layout으로 `Title / Element` + `Divider / Horizontal (thickness: 1px, variant: primary, length: full)`을 **gap 12px**로 묶고, DataList Group은 `DataList (layout: split, size: 14, hasDivider: false)`를 **gap 12px**로 묶습니다. Container와 하위 그룹의 패딩은 0이며, BODY 패딩과 40px 간격을 중복 적용하지 않습니다.
-   - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
+   - `Title / Page` → `Image Area` gap 0px, `Image Area` → 후속 콘텐츠 gap 24px를 검수합니다. 승인 참조 `10580:10543`처럼 Image Area padding 40px 0, 내부 이미지 ratio 2:1 / Fill·Fixed(폭 350px 기준 350×175px), 전체 영역 높이 255px를 확인합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 감싸지 않습니다. Accordion 내부의 divider는 항상 숨기고, 와이어프레임상 펼쳐진 상태라면 실제로 펼쳐진 상태로 렌더링합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
    - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. 정보성 데이터 박스 자체는 단일·복수 모두 `Data Block`, 설명·안내 박스 자체는 단일·복수 모두 `Text Box`로 명명합니다. Group 내부 반복 자식에 순번을 붙이지 않으며 페이지 Container의 순번 규칙과 구분합니다.

@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## Title / Page 이후 Image Area 교정 (2026-10-19)
+
+사용자 승인 참조: [MO Image Area 10580:10543](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10580-10543). 부모 Container 1의 직계 자식은 Title / Page → Image Area이며 gap 0입니다. Image Area는 Vertical, Fill·Hug, padding 40/0/40/0, gap 0, 350×255px입니다. 내부 ImageContainer는 ratio 2:1, Fill·Fixed, 350×175px이며 원형 key는 `a680e6cb6e2aa701a6c19e00aadf45b42d947ec4`입니다. 상하 패딩은 `spacing/6xl` key `5bc593ee6f05df006566535e37f5fce0ed3a085b`입니다. 참조의 별도 Pretendard 더미 설명 라벨은 제품 콘텐츠로 복제하지 않으며 이미지 영역만 유지합니다.
+
+적용 화면 [얼굴확인 안내 67:1947](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=67-1947): Container 1 > Title / Page, Image Area로 병합하고, 다음 Container 2 > Infobox / Card와 실제 간격 24px를 적용합니다. 후속 gap은 `spacing/3xl` key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`입니다. 이 0/24px 규칙은 일반 BODY gap보다 우선합니다.
+
 ## 최소 바텀시트·완료 Feedback 크기 갱신 (2026-10-19)
 
 사용자 지정 `0P0j17OPstNhC3LWjBdBGy / 44:898`에서 BottomSheet 높이·minHeight 211px, Slot 세로 Fill·높이 82px를 확인했습니다. 최소 콘텐츠에 의해 남는 높이는 Slot이 흡수하며 내부 본문은 Hug로 유지합니다. `47:972`는 사용자 교정에 따라 Feedback Large로 지정합니다. 실제 공개 속성은 `varient: large`, 원형 key는 `3cb5580a388f0ea35f0840f442f932ceba856ad6`입니다. 완료 화면은 항상 Large를 사용하며, 외국인 안내의 경고 상태와 문구·버튼은 유지합니다.
