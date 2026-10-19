@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 생체정보 바텀시트 텍스트·계층 교정 (2026-10-19)
+
+사용자 지정 산출물 `0P0j17OPstNhC3LWjBdBGy / 44:899, 44:900`의 단일 Slot Container는 `Container`로 명명하고 일반 본문을 `Text` Auto Layout으로 감쌉니다. 구조는 `Slot > Container > Text > Content`, Text gap·padding 0 및 Fill/Hug입니다.
+
+원본 MO 라이브러리에서 재확인한 `Dynamic/Body/md∙16∙Light` key는 `161acb8a632b6627494a8a2b575e49ed8a12f3a6`, 동일 계열 Medium key는 `1c8368513c856adb717a8f46922bc5f4a800bb66`입니다. 두 스타일 모두 KBFG Text, 기본 크기 16px·행간 22px이며 fontFamily·fontSize·fontWeight·lineHeight·letterSpacing이 원본 변수에 연결됩니다. 직접 fontName을 바꾼 강조 구간에서 style 및 fontWeight alias가 누락되어, 구간별 원본 Medium 스타일 적용으로 복원했습니다. 새 제작에도 구간별 스타일·변수 연결 검수를 적용합니다.
+
 ## Tab 후속 간격·조회 내역 승인 갱신 (2026-10-19)
 
 일반 콘텐츠의 Tab 직후 간격은 `spacing/3xl`=24px(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)입니다. BODY 기본 32px보다 우선합니다. 사용자 교정에 따라 `## BODY > Container 1 > Tab, Infobox / Card`로 구성하며 두 컴포넌트는 Container 1의 직계 자식입니다. 외부 `Tab / Infobox` 래퍼와 각 컴포넌트의 별도 Container를 만들지 않습니다. 이 화면에서 Container 1 gap 24px, Tab 폭 390px, Infobox 폭 350px·x=20px를 실측했습니다. 다음 독립 본문 블록은 형제 Container 2로 명명합니다.

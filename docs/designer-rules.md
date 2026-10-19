@@ -60,6 +60,8 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 
 ## 텍스트 — 원문 §1
 
+2026-10-19 사용자 교정: 바텀시트 등 각 Slot의 Container가 하나이면 `Container`로 명명합니다. 일반 본문은 `Slot > Container > Text > Content` 구조이며 `Text`는 Vertical Auto Layout, gap·padding 0, 가로 Fill·세로 Hug입니다. 강조 구간은 원본 Medium Text Style의 key로 적용하고 직접 fontName/fontWeight를 덮어쓰지 않습니다. 모든 구간의 Text Style과 fontFamily·fontSize·fontWeight·lineHeight·letterSpacing 변수 alias, 색상 변수를 원본과 대조하며, 일부 구간의 연결 누락도 실패입니다.
+
 |규칙 ID|상황|설정|
 |---|---|---|
 |D25|상태/피드백 의미 강조|적합한 `text/status/*` 변수|

@@ -18,6 +18,10 @@
   - 와이어프레임과 컴포넌트를 매핑하는 과정에서 **`Title / Page`**, **`Title / Section`**, **`Title / Element`** 등의 타이틀 컴포넌트를 매핑할 때, **와이어프레임 상에서 볼드(Bold) 등으로 임의 표기되어 있더라도 이를 개별 수정하지 말고 디자인 시스템 컴포넌트에 사전 정의된 원형 폰트 스타일/Weight를 최우선으로 유지**하여 적용합니다.
   - 가이드라인에 명시된 `DataList (layout: split, size: 14, hasDivider: false)`, `size: medium`, `variant: standard`, `os: iOS` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.
   - 임의의 신규 스타일을 정의하기 전에 디자인 시스템에 일치하는 컴포넌트가 있는지 먼저 확인하고 매핑합니다.
+- **텍스트 스타일·변수 연결 보존 (2026-10-19 사용자 교정, CRITICAL)**:
+  - 일반 본문과 문장 내 강조 구간 모두 원본 KBDS Text Style의 key로 스타일을 연결합니다. 변수의 이름·key와 alias 연결을 보존하며, 동일 이름의 새 변수나 고정 수치로 대체하지 않습니다.
+  - 강조는 동일 크기 계열의 원본 Medium Text Style을 해당 구간에 적용합니다. 예: 일반 본문 `Dynamic/Body/md∙16∙Light`, Face ID·지문 강조 구간 `Dynamic/Body/md∙16∙Medium`. `fontName`, `fontWeight` 또는 크기·행간·자간을 직접 덮어써 Text Style과 변수 연결을 끊지 않습니다. 혼합 스타일을 적용할 때는 구간별 Text Style 적용 API(예: `setRangeTextStyleIdAsync`)를 사용합니다.
+  - 변경 전 현재 구간의 서체를 로드하고, 변경 후 모든 구간의 style key와 `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing` 변수 alias를 원본 스타일과 대조합니다. 텍스트 색상 변수도 유지합니다. 화면에 같은 서체로 보이더라도 스타일·변수 연결이 누락된 구간은 검수 실패입니다.
 - **HomeIndicator 속성 규칙**:
   - `## FOOTER` 및 바텀시트/Dialog/Popup 최하단에 배치되는 `HomeIndicator` 컴포넌트는 우측 패널의 Component Property **`os: iOS`**를 필수로 선택하여 적용합니다.
 - **SelectButton 타입 규칙**:
@@ -204,6 +208,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - Container 좌우 패딩은 화면 내 Full-Width 요소(`Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal` 등) 유무에 따른 규칙(섹션 2-C 참조)에 따릅니다.
 - **Container 레이어 네이밍 (단일 컨텐츠 및 순차 부여 규칙)**:
   - **단일 컨텐츠인 경우**: 화면 내에 단 하나의 컨텐츠/블록만 존재하여 Container가 1개인 경우, 숫자 접미사 없이 **`Container`**로 단독 명명합니다.
+  - **Slot 내부에도 동일 적용**: 바텀시트·Dialog·Popup 등의 개별 Slot 안에서 Container가 하나이면 **`Container`**로 명명합니다. 전체 파일의 다른 화면이나 다른 Slot의 Container 개수는 합산하지 않습니다. 해당 Slot에 Container가 복수인 경우에만 순번을 붙입니다.
   - **복수 컨텐츠인 경우**: 위에서 아래로 2개 이상의 블록이 배치될 경우, **`Container 1`**, **`Container 2`**, **`Container 3`**과 같이 숫자를 순차적으로 증가시켜 명명합니다.
   - **'알려드립니다' Container**: 화면 하단 '알려드립니다'는 반드시 별도의 **`Container [순번]`**으로 독립 그룹핑합니다.
 
@@ -240,6 +245,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 - **Radio**: **`Radio` 컴포넌트는 개별 오토레이아웃으로 감싸지 않고 컴포넌트 원형 그대로 열거**하며, 이들을 감싸는 상위 **`Radio Group`의 내부 간격은 Auto Layout `gap: 20px` (`2xl` 토큰)**을 적용합니다.
 
 #### 5. 타이틀과 일반 텍스트 결합 규칙
+- **일반 텍스트 공통 래핑 (2026-10-19 사용자 교정)**: 타이틀과의 결합 여부와 관계없이, Slot·Container에 배치하는 일반 본문은 **`Text`**라는 Vertical Auto Layout 프레임으로 감쌉니다. gap과 padding은 0, 가로 Fill·세로 Hug로 설정하고 내부 텍스트도 가로 Fill·세로 Hug 및 자동 높이로 구성합니다. 바텀시트의 단일 본문 블록은 **`Slot > Container > Text > Content`** 구조를 적용합니다. `Content`는 편집 가능한 텍스트 레이어이며, 일반 텍스트를 Container의 직계 자식으로 두지 않습니다. 기존 DS 컴포넌트 내부의 원형 계층과 불릿 TextList 사용 규칙은 유지합니다.
 - `Title / Section` 또는 `Title / Element`와 일반 텍스트(Description 등)가 결합될 때:
   - 텍스트를 단독으로 두지 않고, 반드시 **`Text` (Auto Layout `gap: 0px`)**라는 오토레이아웃 프레임으로 감싸서 계층을 구성합니다.
 - **일반 본문 내 `Title / Section` + 단일 TextList 결합 예외 (CRITICAL)**:
