@@ -514,31 +514,36 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 ## 6. 링크 리스트 화면 전용 패턴 (Link List Layout Rules)
 화면 내에 링크 리스트들이 그룹화되어 열거되는 화면의 오토레이아웃 및 패딩 규칙입니다.
 
+- **최종 사용자 교정 (2026-10-19)**: `Title / Section`과 `List Group`을 감싸는 오토레이아웃 프레임은 **`Title / List Group`**으로 명명합니다. 래퍼를 `List`라고 부르지 않으며, 실제 `List` 컴포넌트 인스턴스의 고유 이름은 그대로 유지합니다.
+- **`Container 2`, `Container 3` 이상**: `Title / List Group`의 **padding-top 24px (`spacing/3xl`)**, 그 안의 `List Group`의 **gap 0px**을 적용합니다. `Title / List Group` 자체의 Title↔List Group gap은 기존 **16px (`spacing/xl`)**을 유지합니다. 철회된 내부 List Group gap 24px를 적용하지 않습니다. `Container 1`의 패딩·내부 목록 gap은 기존 규칙을 유지합니다.
+
 ### A. Body 패딩 및 간격 기본 규칙
 - 링크 리스트가 열거되는 화면의 `## BODY`는 상단 패딩을 **`padding-top: 16px` (`xl` 토큰)**으로 적용합니다.
 - **`## BODY` 내부 간격**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격은 Auto Layout **`gap: 0px`**을 적용합니다.
 - `## BODY`의 좌우 패딩은 Full-Width Divider 등이 포함되므로 **`0px`**로 설정합니다.
 
 ### B. 단일 기본 원형 구조
-- `Container [순번]` 내부에 **`List`** 오토레이아웃 프레임을 배치:
+- `Container [순번]` 내부에 **`Title / List Group`** 오토레이아웃 프레임을 배치:
   - 프레임 속성: Auto Layout **`gap: 16px` (`xl` 토큰)**, **`padding: 20px 20px 16px`**
-- **`List` 프레임 내부 구조**:
+- **`Title / List Group` 프레임 내부 구조**:
   1. 상단에 **`Title / Section`** 배치
-  2. 하단에 **`List Group`** 오토레이아웃 프레임 (Auto Layout **`gap: 4px` (`xs` 토큰)**) 배치
+  2. 하단에 **`List Group`** 오토레이아웃 프레임 (기본 Auto Layout **`gap: 4px` (`xs` 토큰)**; `Container 2` 이상에서는 **gap 0px**) 배치
   3. `List Group` 내부에 **`List`** 컴포넌트들을 순차 배치하고, 각 `List` 컴포넌트 사이마다 **`Divider / Horizontal (thickness: 1px, variant: tertiary, length: full)`**을 삽입
   4. **마지막 `List` 컴포넌트 하단에는 Divider를 생략**
 
 ### C. 복수 열거(누적) 시 Container별 패딩 및 Divider 규칙
 링크 리스트 블록이 2개 이상 누적되어 쌓일 때의 순서별 규칙입니다.
 - **첫 번째 `Container 1`**:
-  - 내부 `List` 프레임 속성: Auto Layout **`gap: 16px` (`xl`)**, **`padding: 0px 20px 16px`**
+  - 내부 `Title / List Group` 프레임 속성: Auto Layout **`gap: 16px` (`xl`)**, **`padding: 0px 20px 16px`**
 - **두 번째 및 중간 `Container [순번]`**:
   - `Container [순번]` 자체 속성: Auto Layout **`gap: 0px`**
   - 상단에 **`Divider / Horizontal (thickness: 10px, variant: tertiary, length: full)`** 배치
-  - 그 아래에 `List` 프레임 배치: Auto Layout **`gap: 16px` (`xl`)**, **`padding: 20px 20px 16px`**
+  - 그 아래에 `Title / List Group` 프레임 배치: Auto Layout **`gap: 16px` (`xl`)**, **`padding: 24px 20px 16px`**
+  - 내부 `List Group`은 **gap 0px**로 설정합니다.
 - **마지막 `Container [순번]`**:
   - 상단에 **`Divider / Horizontal (thickness: 10px, variant: tertiary, length: full)`** 배치
-  - 그 아래에 `List` 프레임 배치: Auto Layout **`gap: 16px` (`xl`)**, **`padding: 20px 20px 0px`**
+  - 그 아래에 `Title / List Group` 프레임 배치: Auto Layout **`gap: 16px` (`xl`)**, **`padding: 24px 20px 0px`**
+  - 내부 `List Group`은 **gap 0px**로 설정합니다.
 
 ---
 
@@ -638,8 +643,9 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - `Group` Container와 `Feedback (padding: 24px 0)` 간격: Auto Layout **`gap: 32px` (`5xl`)**
   - `Filter Group`과 `Feedback` 간격: Auto Layout **`gap: 16px` (`xl`)**
 - **링크 리스트 그룹 간격**:
-  - `List` 프레임 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
-  - `List Group` 내부 Auto Layout **`gap: 4px` (`xs`)** 적용
+  - `Title / List Group` 내부 Title↔List Group Auto Layout **`gap: 16px` (`xl`)** 적용
+  - `Container 1`의 `List Group` 내부는 **gap 4px (`spacing/xs`)**, `Container 2` 이상은 **gap 0px** 적용
+  - `Container 2` 이상 `Title / List Group`의 **padding-top 24px (`spacing/3xl`)** 적용
   - Divider(10px) 포함 Container 내부 Auto Layout **`gap: 0px`** 적용
 - **Card / Surface 및 Data Block 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
 - **선택형 바텀시트 List 간 간격**: `Container 1` 내부 Auto Layout **`gap: 8px` (`md`)** 적용 (List 자체 좌우 패딩: 0px)
@@ -750,7 +756,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - **동작 판정**: Footer 버튼 외에 상세 이동·이체·체크·라디오·박스 전체 선택도 Card에 해당합니다. 외부 형제 `Button Area`의 버튼만으로 Data Block을 Card로 바꾸지 않습니다. 상태 Label만 있는 경우도 자동으로 Card에 해당하지 않습니다.
      - **설명·안내형**: 기존 Infobox로 정의되지 않은 설명·주의·상태 메시지는 **`Text Box`**로 직접 구성합니다. 참조 패딩 20px, 내부 gap 16px, 라운드 14px를 각각 DS 토큰으로 연결합니다.
      - **스타일 선택**: 아웃라인 경계가 반복·중첩되면 `surface/neutral/tertiary-muted` + border 제거 형태를 우선 고려합니다. 역할과 스타일을 혼동하지 않고 주변 위계·밀도·가독성으로 선택합니다. Data Block의 승인된 부모님 기본정보 패턴은 내부 gap 20px를 적용합니다.
-   - **링크 리스트 패턴**: 단일 원형(List padding: 20px 20px 16px, List Group gap: 4px, 1px Divider) 및 누적형(첫 번째 0px 20px 16px, 중간 10px Divider + 20px 20px 16px, 마지막 10px Divider + 20px 20px 0px) 규칙을 준수합니다.
+   - **링크 리스트 패턴**: 래퍼 이름은 `Title / List Group`이며 실제 `List` 컴포넌트 이름과 구분합니다. 단일 원형은 padding 20px 20px 16px / 목록 gap 4px, 누적형 첫 번째는 padding 0px 20px 16px / 목록 gap 4px입니다. Container 2 이상은 10px Divider 아래 래퍼 padding-top 24px, 내부 List Group gap 0px를 적용합니다(중간 padding 24px 20px 16px / 마지막 24px 20px 0px). Title↔목록 gap 16px는 유지합니다.
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
    - **약관 UI**: `Depth 1` (`Consent solid`), `Depth 2` (`Consent basic large`), `Depth 3` (`Consent basic medium`), `Outline Container`(`gap: 16px`, 복수 조합 시 `Divider 1px tertiary` 구분) 및 `Depth 4` 분기(Grid 2*2 vs Vertical 0px)를 정확히 매핑합니다.

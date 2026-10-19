@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 인증서관리 링크 목록 최종 교정 (2026-10-19)
+
+작업 파일 `zNwpdAWcBMOM5ExkiBUoGn`, 페이지 `1:278`, 일반 `2006:46` / 비로그인 `2006:2031` / 빠른 로그인·자동로그인 `2006:2415`에 반영했습니다. 제목과 목록을 감싼 여섯 래퍼 `2006:914`, `2006:1765`, `2006:2086`, `2006:2280`, `2006:2470`, `2006:2664`의 최종 이름은 `Title / List Group`입니다. 실제 `List` 인스턴스 이름·계층은 유지합니다.
+
+Container 2의 래퍼 `2006:1765`, `2006:2280`, `2006:2664`는 padding-top 24px이며 `spacing/3xl` key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`를 연결했습니다. 내부 List Group `2006:1792`, `2006:2307`, `2006:2691`의 itemSpacing은 0px로 설정하고 이전 gap 변수 연결은 해제했습니다. Container 3 이상에도 같은 규칙을 적용합니다. 래퍼의 Title↔목록 gap 16px와 Container 1의 기존 패딩·목록 gap은 유지합니다. 내부 목록 gap 24px는 철회된 중간 지시이며 최종값이 아닙니다. 변경 후 세 화면은 390×844 / BODY Fill로 검수했습니다.
+
 ## PDF 약관 상세 최종 교정 (2026-10-19)
 
 원본 `0P0j17OPstNhC3LWjBdBGy / 72:9033` → 작업본 `82:1994`. Container 1 `82:2355`는 Title Area `72:9038`의 속성·변수와 일치하며 Horizontal / padding 12,20,0,20 / gap 16 / Fill·Hug / 높이 36입니다. Container 2 `82:2373`는 body `72:9045`의 속성·변수와 일치하며 Vertical / 양 축 center / padding·gap 12 / Fill·Fill입니다. BODY `82:1998`의 세로 Fill과 FOOTER `82:2012`의 원본 Absolute / Fixed 390·Hug를 함께 적용한 뒤 실제 높이는 BODY 744, Container 2 708, FOOTER 126으로 확인했습니다. 레이어명·계층을 보존했습니다.

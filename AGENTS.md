@@ -31,6 +31,8 @@
 - 모든 Figma 변경 전에 설치된 figma-use 및 화면 제작 시 figma-generate-design 스킬을 읽는다. 도구 지원 여부는 실제 API 정의로 확인한다.
 - 디자이너 규칙의 상황별 적용/비적용, Component Properties, 토큰 key, 실제 결과 노드와 검사 근거를 작업별 `designer-review.md`에 기록한다. 해당 규칙에 FAIL/미검증이 있으면 CLI PASS만으로 완료 처리하지 않는다.
 
+- 링크 목록의 제목·목록 래퍼 이름은 `Title / List Group`이다. Container 2 이상에서는 이 래퍼 padding-top 24px(`spacing/3xl`), 내부 `List Group` gap 0px를 적용한다. 래퍼 자체 gap 16px와 Container 1 기존 값은 유지하고, 실제 List 컴포넌트 이름은 변경하지 않는다. 내부 목록 gap 24px는 철회된 값이다.
+
 ## 실행
 
 `node src/cli.mjs help`로 명령을 확인한다. 별도 패키지 설치와 API 토큰은 필요 없다.
