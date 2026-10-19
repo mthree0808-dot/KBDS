@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## Tab 후속 간격·조회 내역 승인 갱신 (2026-10-19)
+
+일반 콘텐츠의 Tab 직후 간격은 `spacing/3xl`=24px(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)입니다. 각각 Container로 감싸져도 동일하며 BODY 기본 32px보다 우선합니다.
+
+사용자 지정 [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979)과 [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994)을 직접 재조회했습니다. 두 박스 모두 Vertical, padding 20px, radius 20px, Title↔목록 gap 16px, 목록 gap 12px입니다. 각각 `spacing/2xl`, `radius/2xl`, `spacing/xl`, `spacing/lg`에 연결되어 있습니다. outline fill은 `surface/neutral/quaternary-muted`, stroke는 `border/neutral/secondary-muted` + `stroke/md`; 무테 fill은 `surface/neutral/tertiary-muted`, strokes는 빈 배열입니다.
+
+고객명~인증완료 등 건별 사실 데이터는 기획서의 평면 목록 대신 이 Data Block을 우선합니다. 제목이 없는 내역은 Title을 숨기며, 복수 박스 gap은 12px입니다. 완료 화면과 특수 Feedback 구조는 원문의 별도 규칙을 유지합니다.
+
 확인일: 2026-09-28. 아래 값은 확인한 템플릿의 근거이며 모든 화면에 무조건 적용하는 전역 규칙이 아닙니다.
 
 디자이너 문서 추가 이후의 규범은 `docs/designer-rules.md` 및 연결된 원문을 함께 따릅니다. 이 문서는 과거 실측 기록을 보존합니다. 명시된 제작 규칙과 다른 관측값(예: StepIndicator wrapper)을 그대로 복제하지 않습니다.

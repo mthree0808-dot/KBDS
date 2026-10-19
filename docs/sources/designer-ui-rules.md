@@ -3,6 +3,14 @@
 이 문서는 Figma 와이어프레임을 바탕으로 일관된 UI 화면을 생성할 때 참조하는 디자인 가이드라인입니다.
 
 ## 1. Reference Sources (디자인 시스템)
+
+### 사용자 승인 갱신 (2026-10-19): Tab 후속 간격과 조회 내역
+- **Tab 후속 일반 콘텐츠 간격**: 1depth·2depth·3depth Tab 다음에 Infobox / Card, 입력, 목록, Data Block 등 일반 콘텐츠가 이어지면 **gap 24px (`spacing/3xl`)**을 적용합니다. 각각 Container로 감싸져 있어도 실제 간격은 24px입니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 다른 구간의 간격은 유지하도록 해당 요소를 Auto Layout으로 그룹핑하고, 패딩이나 빈 프레임으로 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
+- **건별 조회 내역의 Data Block 매핑**: 고객명·이용기관·이용서비스·인증완료처럼 한 건을 구성하는 사실 데이터는 와이어프레임의 평면 DataList Group·상하 Divider 형태를 그대로 복제하지 않고 **건별 Data Block**으로 치환합니다. 문구·값·순서·건수는 보존합니다. 일반 수평 DataList의 Divider 규칙보다 이 매핑을 우선하며, 완료 화면의 별도 Feedback·데이터 구조는 유지합니다.
+- **승인 참조**: [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979), [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994). 두 링크는 스타일 대안이며, 반복 건마다 서로 다른 스타일을 강제하지 않습니다.
+- **구조와 토큰**: Vertical Auto Layout, padding 20px (`spacing/2xl`), radius 20px (`radius/2xl`), Title↔DataList Group gap 16px (`spacing/xl`), 목록 내부 gap 12px (`spacing/lg`). 각 DataList는 `layout: split`, `size: 14`, `hasDivider: false`를 적용합니다. 아웃라인은 `surface/neutral/quaternary-muted` + `border/neutral/secondary-muted` + `stroke/md`, 회색 무테는 `surface/neutral/tertiary-muted` + `strokes: []`를 사용합니다.
+- **기획에 없는 요소**: 제목이 없으면 참조의 Title을 숨기고 빈 공간이나 임의 제목을 추가하지 않습니다. 기획에 없는 툴팁·아이콘도 숨깁니다. 복수 건은 `Data Block Group` 안에 `Data Block 1`, `Data Block 2`로 열거하고 gap 12px (`spacing/lg`)를 적용합니다.
+
 - **Design System URL**: `https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/MO-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC?m=auto&node-id=0-1&t=k9nL7yLI1W2gR3hE-1`
 - **컴포넌트 원형 보존 및 타이포그래피 우선순위 원칙 (CRITICAL)**:
   - 디자인 시스템에 등록된 **컴포넌트 명칭은 절대로 변경하지 않습니다** (예: `Consent / 계열사 정보제공`, `CheckBox / 휴대폰번호` 등 한글 명칭이나 임의의 수식어를 덧붙여 컴포넌트명을 변형하는 행위 절대 금지).
