@@ -24,7 +24,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 
 |규칙 ID|적용 상황|필수 확인|
 |---|---|---|
-|D01|화면 이름|기획서 `{…}` 명칭으로 `화면ID_명칭`. 원문의 전제처럼 ID가 비어 있으면 `화면ID`를 그대로 사용하고 임의 ID를 만들지 않음. 실제 ID가 있으면 그것을 사용하고 매핑 기록|
+|D01|화면 이름|화면 주변의 화면 ID(요구사항 ID) 영역까지 읽어 해당 화면과 연결. ID가 있으면 `실제ID_화면명`(예: `F2K0000_화면명`), 공란이면 기존 `화면ID_화면명` 유지. 기획서 `{…}` 명칭을 사용하고 임의 ID를 만들지 않음. 미확인은 공란으로 단정하지 않고 명시|
 |D02|일반/완료 화면|폭 390, Vertical. 내용이 844 이내이면 화면 높이 Fixed 844 + BODY Fill. 초과하면 화면 높이 Hug + BODY Hug|
 |D03|일반/완료 루트|직계 자식 `## HEADER`, `## BODY`, `## FOOTER`, 모두 Vertical Auto Layout|
 |D04|HEADER / FOOTER|HEADER: StatusBar → AppBar. FOOTER: CTA 있으면 StickyButton → HomeIndicator, 없으면 HomeIndicator만|
