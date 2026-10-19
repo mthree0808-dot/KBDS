@@ -74,6 +74,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 
 ## 6. 실제 결과 검증과 시각 검수
 
+PDF 약관 상세 검수는 원본 `72:9033`과 작업본을 속성별 비교합니다. BODY 세로 Fill, Container 1↔Title Area 및 Container 2↔body의 레이아웃·정렬·패딩·gap·Resizing·변수 alias 일치, FOOTER의 Absolute·위치·constraints·Hug를 확인합니다. 레이어명과 부모/자식 순서는 유지합니다. Pagination의 type이 INSTANCE이고 실제 mainComponent key가 연결되어 있는지 확인하며 SVG/Frame 대체는 실패입니다. 원본 숫자 서체를 유지한 인스턴스 복제를 사용합니다. 저장 후 Fill 높이가 재계산되는 것을 재조회하여 390×844 기준 BODY 744 / Container 2 708 / FOOTER 126을 대조한 뒤 화면을 검수합니다.
+
 Image Area는 승인 원본 `10580:10543`에서 더미 그래픽과 “더미이미지” 라벨까지 가져와 적용합니다. 그래픽의 원본 이미지 hash·크롭 변환과 라벨의 위치·외형을 비교합니다. 빈 플레이스홀더만 있거나 라벨이 빠지면 실패입니다. 원본 라벨 폰트를 로드할 수 없으면 대체 폰트를 쓰지 말고 원본 outline SVG로 외형을 보존하고 벡터 전환 사실을 명시합니다.
 
 Title / Page 이후 Image Area는 동일 Container의 직계 자식인지와 실제 경계 간격 0px를 확인합니다. 승인 참조 `10580:10543`의 Vertical / Fill·Hug / padding 40px 0 / gap 0 및 ImageContainer ratio 2:1 / Fill·Fixed(350×175px), 전체 영역 350×255px를 대조합니다. 다음 콘텐츠가 ProgressStep인지 Infobox / Card인지와 무관하게 실제 간격 24px 및 `spacing/3xl` 연결을 검사합니다. 내부 패딩을 외부 gap으로 대체하거나 별도 빈 Container로 간격을 만들지 않습니다.

@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## PDF 약관 상세 최종 교정 (2026-10-19)
+
+원본 `0P0j17OPstNhC3LWjBdBGy / 72:9033` → 작업본 `82:1994`. Container 1 `82:2355`는 Title Area `72:9038`의 속성·변수와 일치하며 Horizontal / padding 12,20,0,20 / gap 16 / Fill·Hug / 높이 36입니다. Container 2 `82:2373`는 body `72:9045`의 속성·변수와 일치하며 Vertical / 양 축 center / padding·gap 12 / Fill·Fill입니다. BODY `82:1998`의 세로 Fill과 FOOTER `82:2012`의 원본 Absolute / Fixed 390·Hug를 함께 적용한 뒤 실제 높이는 BODY 744, Container 2 708, FOOTER 126으로 확인했습니다. 레이어명·계층을 보존했습니다.
+
+Pagination `86:2136`은 key `6955cc776fae1a9f38a3e93e8ecabfe286a4db6c`의 실제 인스턴스입니다. 기존 SVG Frame `82:2376`은 제거했습니다. 원본 인스턴스를 clone한 뒤 `group`/`ungroup`으로 같은 파일 내 대상 부모에 옮겨 Pretendard SemiBold를 포함한 원본 서체·변수를 보존했습니다. 텍스트 수정이나 폰트 대체 없이 이동했으며, 임시 Group은 제거했습니다. 향후 이 경로 또는 검증된 인스턴스 복제를 우선하고 Pagination을 벡터로 대체하지 않습니다. 원본에 없는 size 14 아이콘을 추정하지 않고 실제 템플릿의 size 24를 사용합니다.
+
 ## Title / Page 이후 Image Area 교정 (2026-10-19)
 
 사용자 승인 참조: [MO Image Area 10580:10543](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10580-10543). 부모 Container 1의 직계 자식은 Title / Page → Image Area이며 gap 0입니다. Image Area는 Vertical, Fill·Hug, padding 40/0/40/0, gap 0, 350×255px입니다. 내부 ImageContainer는 ratio 2:1, Fill·Fixed, 350×175px이며 원형 key는 `a680e6cb6e2aa701a6c19e00aadf45b42d947ec4`입니다. 상하 패딩은 `spacing/6xl` key `5bc593ee6f05df006566535e37f5fce0ed3a085b`입니다. **사용자 재교정: 원본 더미 그래픽과 “더미이미지” 라벨을 포함한 Image Area 전체를 재사용합니다.** 앞서 라벨과 그래픽을 생략하던 해석은 폐기합니다. 원본 이미지 hash `b1f2e8f30a4712713e5005c50b82808ca63b2cfb`와 크롭 변환을 그대로 보존합니다. 더미 라벨은 원형의 위치·크기·외형을 유지합니다. 현재 MCP에서 원형 Pretendard SemiBold 로드가 불가하여 대상 `78:1416`에는 원본 라벨의 outline SVG를 적용했습니다. 이 라벨은 편집 가능한 TEXT가 아닌 벡터이며, 제품 본문 서체·스타일·변수 규칙은 그대로 유지합니다.

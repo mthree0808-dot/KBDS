@@ -174,14 +174,21 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 ### G. 약관 상세 화면 (PDF 뷰어 화면) 전용 규격 및 구조
 PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃 구조입니다.
+
+- **최종 승인 매핑 (2026-10-19, 우선 적용)**: [원본 72:9033](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=72-9033)의 속성을 [작업본 82:1994](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=82-1994)에 매핑합니다. 레이어명·계층은 유지하고 해당 레이어의 속성·변수 alias만 맞춥니다.
+  - `## BODY`는 세로 **Fill**입니다. `Container 1`은 원본 `Title Area`와 동일하게 Horizontal, 가로 Fill·세로 Hug, 정렬 right/center, gap 16px, padding **12px 20px 0**입니다. 내부 아이콘은 현재 원형 템플릿의 **size 24**를 사용합니다(원형에 size 14 variant 없음).
+  - `Container 2`는 원본 `body`와 동일하게 Vertical, 가로·세로 **Fill**, 양 축 center, gap 12px, padding 12px입니다. BODY 또는 Container 2를 Hug/Fixed로 남기지 않습니다.
+  - `Pagination / Carousel`는 **반드시 원본과 연결된 실제 컴포넌트 인스턴스**를 사용합니다. key `6955cc776fae1a9f38a3e93e8ecabfe286a4db6c`, variant black / size medium. 원본 서체·변수와 Absolute 위치를 보존하며 SVG·벡터·일반 Frame으로 대체하지 않습니다. Pretendard 로드 제한만으로 원본 인스턴스를 포기하지 않습니다.
+  - `## FOOTER`는 원본 속성에 맞춰 **Absolute / 가로 Fixed 390 / 세로 Hug**로 매핑합니다. 위치·constraints·패딩·간격·변수 연결도 보존하며 BODY의 Fill 영역 위에 겹쳐 배치됩니다. 일반 Auto Layout 흐름에 놓아 BODY 높이를 줄이지 않습니다.
+  - 390×844 기준 검수값: HEADER 100px, BODY Fill **744px**, Container 1 **36px**, Container 2 Fill **708px**, FOOTER Hug **126px**. Footer 내부 StickyButton은 hasScrollDim true, HomeIndicator는 iOS입니다. 변경 직후 값에만 의존하지 않고 저장 후 재계산된 Fill 높이를 검수합니다.
 - **아트보드 Background**: **`background/neutral/white`**
 - **1. `## HEADER`**: `StatusBar`, `AppBar` 순차 배치
 - **2. `## BODY`**:
   - **`Container 1`**:
-    - Styling: `background-color: background/neutral/light-gray`, `padding: 12px 20px`
+    - Styling: `background-color: background/neutral/light-gray`, `padding: 12px 20px 0`
     - 내부 구조: **`Title / IconContainer Group`** (Auto Layout, `gap: 16px`, Alignment: **`align right`**)
       - 하위 좌측: **`Title`** (오토레이아웃 아님, 텍스트 스타일: **`xs･14･medium`**)
-      - 하위 우측: **`IconContainer Group`** (Auto Layout, `gap: 16px`) > **`IconContainer`** (`size: 14`, 왼쪽부터 차례로 `icon: line-magnify`, `line-arrowDown`, `line-menu` 3개 배치)
+      - 하위 우측: **`IconContainer Group`** (Auto Layout, `gap: 16px`) > **`IconContainer`** (`size: 24` (현재 원형), 왼쪽부터 차례로 `icon: line-magnify`, `line-arrowDown`, `line-menu` 3개 배치)
   - **`Container 2`**:
     - Styling: `background-color: background/neutral/light-gray`, `padding: 12px`
     - 내부 구조:
