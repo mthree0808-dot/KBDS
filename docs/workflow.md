@@ -74,6 +74,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 
 ## 6. 실제 결과 검증과 시각 검수
 
+Image Area는 승인 원본 `10580:10543`에서 더미 그래픽과 “더미이미지” 라벨까지 가져와 적용합니다. 그래픽의 원본 이미지 hash·크롭 변환과 라벨의 위치·외형을 비교합니다. 빈 플레이스홀더만 있거나 라벨이 빠지면 실패입니다. 원본 라벨 폰트를 로드할 수 없으면 대체 폰트를 쓰지 말고 원본 outline SVG로 외형을 보존하고 벡터 전환 사실을 명시합니다.
+
 Title / Page 이후 Image Area는 동일 Container의 직계 자식인지와 실제 경계 간격 0px를 확인합니다. 승인 참조 `10580:10543`의 Vertical / Fill·Hug / padding 40px 0 / gap 0 및 ImageContainer ratio 2:1 / Fill·Fixed(350×175px), 전체 영역 350×255px를 대조합니다. 다음 콘텐츠가 ProgressStep인지 Infobox / Card인지와 무관하게 실제 간격 24px 및 `spacing/3xl` 연결을 검사합니다. 내부 패딩을 외부 gap으로 대체하거나 별도 빈 Container로 간격을 만들지 않습니다.
 
 최소 높이가 적용되는 짧은 콘텐츠 바텀시트에서는 Slot의 `layoutSizingVertical`이 FILL인지, 내부 Container·Text는 Hug인지, 버튼 아래에 불필요한 잔여 공간이 없는지 검수합니다. 완료 화면의 Feedback은 실제 공개 속성 `varient: large`와 Large component key를 확인합니다. 이전 Medium 인스턴스의 내부 size override가 남아 있으면 Large 원형과 대조해 복원하되, 상태 아이콘·문구·버튼 override는 유지합니다. 완료 화면이 아닌 Empty State에는 기존 상황별 규칙을 적용합니다.
@@ -88,7 +90,7 @@ receipt의 rootId와 pageId로 실제 산출물을 전체 재수집합니다. �
 - 기획의 모든 문구/상태/화면과 디자인의 대응
 - 템플릿 대비 역할별 여백, 본문 밀도, HEADER/BODY/FOOTER 배치
 - 완료 화면 D18·D19: BODY 패딩의 상/우/하/좌와 계층별 gap 40/32/16/12, `Title`의 실제 Vertical Auto Layout 및 `Title / Element`→primary Divider 순서, DataList의 `hasDivider:false`, 하위 프레임 패딩 0과 토큰 연결. 이전 quaternary Divider나 그룹별 padding-top 24px가 남아 있지 않은지 확인
-- 실제 이미지 없는 영역 표시와 DS 아이콘 출처
+- 일반 이미지는 영역만 표시하되, 승인 Image Area의 더미 그래픽·라벨 전체 포함 여부와 DS 아이콘 출처
 - 긴 한국어 문구의 줄바꿈, 잘림, 겹침, 비정상 크기, 스크롤/하단 버튼
 - D28~D32: Card/Data Block/Text Box의 역할과 실제 동작 경계, 박스 명칭, 실제 fill/border·패딩·라운드·gap 토큰, 테두리 중첩 완화와 영역 구분·가독성. 회색 무테 선택 시 외곽 border가 실제로 제거됐는지 확인하고 내부 Divider와 구분
 

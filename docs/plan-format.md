@@ -36,7 +36,7 @@
 |layout|자동 레이아웃 referenceId|원본 구조·토큰 연결 보존|
 |instance|componentKey, 선택적 properties|정확한 variant 컴포넌트를 import하고 instance 생성|
 |text|characters|원본 단일 구간 text style과 색상 토큰 연결|
-|image-region|이미지 없는 자동 레이아웃 referenceId|빈 영역; 이미지를 생성하거나 다운로드하지 않음|
+|image-region|자동 레이아웃 referenceId|일반 이미지는 빈 영역. 승인 Image Area `10580:10543`는 더미 그래픽·라벨 전체를 전용 MCP 경로로 보존하며 일반 컴파일러에서 빈 영역으로 축소하지 않음|
 
 properties는 실제 Figma 속성 키를 사용합니다. `Label#...` 같은 suffix를 추정하지 않습니다. variant 변경은 정확한 componentKey 선택과 함께 계획에 반영합니다. 공개되지 않은 내부 text override는 일반 컴파일러 지원 범위 밖입니다.
 

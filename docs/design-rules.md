@@ -2,7 +2,7 @@
 
 ## Title / Page 이후 Image Area 교정 (2026-10-19)
 
-사용자 승인 참조: [MO Image Area 10580:10543](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10580-10543). 부모 Container 1의 직계 자식은 Title / Page → Image Area이며 gap 0입니다. Image Area는 Vertical, Fill·Hug, padding 40/0/40/0, gap 0, 350×255px입니다. 내부 ImageContainer는 ratio 2:1, Fill·Fixed, 350×175px이며 원형 key는 `a680e6cb6e2aa701a6c19e00aadf45b42d947ec4`입니다. 상하 패딩은 `spacing/6xl` key `5bc593ee6f05df006566535e37f5fce0ed3a085b`입니다. 참조의 별도 Pretendard 더미 설명 라벨은 제품 콘텐츠로 복제하지 않으며 이미지 영역만 유지합니다.
+사용자 승인 참조: [MO Image Area 10580:10543](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10580-10543). 부모 Container 1의 직계 자식은 Title / Page → Image Area이며 gap 0입니다. Image Area는 Vertical, Fill·Hug, padding 40/0/40/0, gap 0, 350×255px입니다. 내부 ImageContainer는 ratio 2:1, Fill·Fixed, 350×175px이며 원형 key는 `a680e6cb6e2aa701a6c19e00aadf45b42d947ec4`입니다. 상하 패딩은 `spacing/6xl` key `5bc593ee6f05df006566535e37f5fce0ed3a085b`입니다. **사용자 재교정: 원본 더미 그래픽과 “더미이미지” 라벨을 포함한 Image Area 전체를 재사용합니다.** 앞서 라벨과 그래픽을 생략하던 해석은 폐기합니다. 원본 이미지 hash `b1f2e8f30a4712713e5005c50b82808ca63b2cfb`와 크롭 변환을 그대로 보존합니다. 더미 라벨은 원형의 위치·크기·외형을 유지합니다. 현재 MCP에서 원형 Pretendard SemiBold 로드가 불가하여 대상 `78:1416`에는 원본 라벨의 outline SVG를 적용했습니다. 이 라벨은 편집 가능한 TEXT가 아닌 벡터이며, 제품 본문 서체·스타일·변수 규칙은 그대로 유지합니다.
 
 적용 화면 [얼굴확인 안내 67:1947](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=67-1947): Container 1 > Title / Page, Image Area로 병합하고, 다음 Container 2 > Infobox / Card와 실제 간격 24px를 적용합니다. 후속 gap은 `spacing/3xl` key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`입니다. 이 0/24px 규칙은 일반 BODY gap보다 우선합니다.
 
@@ -77,7 +77,7 @@ Color: Light / Dark. Type: Default / Large. 템플릿은 라이트·다크·큰�
 - `10638:16311` gap=10, `10580:10346`, `10580:10427` gap=9는 변수 연결이 없습니다. 단일 자식에서는 gap이 화면에 영향을 주지 않을 수 있지만 새 자식 추가 시 의미가 생깁니다. 자동 컴파일은 차단합니다. 활성 간격이 필요한 새 조합은 동일 역할의 토큰 연결 예시를 찾아 사용합니다.
 - 원본에는 로컬 목록에서 빠진 변수 ID와 remote alias가 있습니다. 로컬 변수 목록에 없다는 이유로 새 토큰을 만들지 않습니다. 참조 ID → 실제 key → 원본 승인 범위를 재검증합니다.
 - 아이콘은 2026-09-28 Graphic 라이브러리로 이동했다는 원본 하이퍼링크를 확인했습니다. 새 아이콘은 해당 System Icon 키를 사용합니다. 기존 컴포넌트의 이전 아이콘 의존성이 남아 있으면 출처 확인 후 별도 기록하며 임의 교체하지 않습니다.
-- 카드 예시 PNG의 실제 상품 이미지는 배치 참고용입니다. 산출물은 사용자 지시에 따라 이미지 영역만 표시합니다.
+- 카드 예시 PNG의 실제 상품 이미지는 배치 참고용입니다. 산출물은 사용자 지시에 따라 이미지 영역만 표시하되, 승인된 Image Area `10580:10543`는 더미 그래픽·라벨을 포함해 재사용하는 예외입니다.
 
 이 목록의 예외는 사용자의 토큰 전용 조건을 완화하는 승인이 아닙니다.
 
