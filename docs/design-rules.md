@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## InputField 보조 버튼·도움말 선택 목록 승인 (2026-10-19)
+
+InputField 뒤에 해결방법 등의 보조 버튼이 오는 패턴은 [2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)의 조합 `2025:7406`을 기준으로 합니다. `InputField / Button Area`는 Vertical / Fill·Hug / gap 12px이며 자식은 InputField → Button Area입니다. Button Area는 gap 0 / 우측 정렬 / Fill·Hug, TextButton은 `primary / xsmall` / prefix false / suffix true / underline false / Hug·Hug입니다. 실제 원형 key는 `d2cd717a7480b1c96a42b9fd9335055dc1ba68f1`, 버튼 높이는 17px입니다. Title과 조합 간격은 24px입니다. 적용 화면은 인증번호 입력 `2050:1586`이며 7:00 타이머와 다시받기 버튼은 유지했습니다.
+
+도움말 기획 `CdyCQv4aFslTl7MGoQxmU9 / 4469:44517`은 [고객정보 관리 185:14891](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=185-14891)의 테두리 없는 List 구성으로 매핑합니다. Slot padding 0/0/20/0, Container padding 0/20/0/20, List Group gap 0, List padding 12/0/12/0입니다. List key는 `4e49c191a8a8b7aa357c533168784411107b1e9d`, Prefix는 기본 `Item / Prefix (bgIcon)` key `79287fcb98e330378785cba4e19e9e83a7475478`(아이콘 48×48, 래퍼 폭 52), Suffix는 pageIndicator key `e53ffc35cc7fc4c362102ceb06618845712183ce`입니다. 주 문구 16 Bold style key `c0b7c927f31310c8297f679419d5a38377fc74db`, 부연 문구 14 Light key `b9f5d92dffa67d9779e50c32f2c9f732a727fe8a`를 사용합니다. 최종 아이콘은 작업자가 지정하므로 기본 인스턴스를 유지합니다. 적용 화면 `2050:2207`은 기획의 본문 안내를 Text로 보존하고 목록과 gap 16px로 묶었습니다.
+
 ## 페이지 ID에 따른 이름 규칙 확정 (2026-10-19)
 
 사용자 지시로 기획서의 페이지 ID가 있으면 `실제페이지ID_화면명`(예: `F730_화면명`)으로 명명합니다. ID가 공란이면 기존 `화면ID_화면명`을 유지합니다. 링크된 프레임 내부뿐 아니라 주변 ID 영역도 읽고 해당 화면과 연결하며, ID 미확인 상태를 공란으로 단정하거나 임의 ID를 만들지 않습니다. 접두어는 `페이지 ID` 필드만 기준으로 하며 요구사항 ID나 화면명·상위 프레임명·주석의 `730MF`·`750MF` 등을 ID로 사용하지 않습니다. `-`는 공란으로 처리하고 `F730`은 형식 예시입니다. 이 규칙은 앞으로의 제작·계획·검수에 적용하며, 아래 과거 산출물 이름은 당시 기록으로 보존합니다.

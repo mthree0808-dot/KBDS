@@ -59,6 +59,10 @@
   - `InputField`에 붙는 부연 설명이나 안내 문구 중, 불릿 리스트 형태가 아닌 단순 일반 문장 형태인 경우:
     - `InputField`의 Property **`hasFooter: True`** 설정
     - 하위 계층인 **`Item / Footer / hint`**에 해당 안내 텍스트를 적용
+- **InputField 다음 보조 버튼 조합 (2026-10-19 사용자 승인)**:
+  - [휴대폰 인증 기준 2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)처럼 입력 필드 다음에 해결방법·도움말 등의 보조 버튼이 오는 경우, **`InputField / Button Area`** Vertical Auto Layout 안에 **`InputField` → `Button Area`** 순서로 배치합니다. 조합은 가로 Fill·세로 Hug, **gap 12px (`spacing/lg`)**입니다.
+  - `Button Area`는 가로 Fill·세로 Hug, gap 0, 가로 우측 정렬(`counterAxisAlignItems: MAX`), 세로 가운데 정렬입니다. 내부는 실제 **`TextButton` (`variant: primary`, `size: xsmall`, `hasPrefix: false`, `hasSuffix: true`, `underline: false`)** 인스턴스와 우측 이동 화살표를 사용하며 버튼 자체는 Hug·Hug입니다.
+  - 상위 Container에서 `Title / Page`와 이 조합 사이 간격은 24px (`spacing/3xl`)입니다. InputField 내부 타이머·다시받기 등의 기존 속성과 기획 문구는 유지합니다. 입력 필드 뒤의 보조 이동 버튼 패턴이며, 독립 CTA나 InputField 내부 버튼까지 일괄 변경하지 않습니다.
 
 ---
 
@@ -139,6 +143,12 @@
     - 체크가 활성화된 `List`는 `hasSuffix: True` 설정
     - 하위 계층: `Slot-Suffix` > `Item / Suffix`에서 `variant: checkMark` 적용
   - **데이터 매핑**: 기획서에 명시된 리스트 항목 텍스트를 `List` 컴포넌트에 순차적으로 1:1 매핑합니다.
+- **도움말·이용 방법 선택 바텀시트 (2026-10-19 사용자 승인, 위 일반 선택형보다 우선)**:
+  - [인증번호 입력 도움말 기획](https://www.figma.com/design/CdyCQv4aFslTl7MGoQxmU9/?node-id=4469-44517)과 같은 이용 방법 선택 화면은 [추가 본인 인증 기준 185:14891](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=185-14891)처럼 **테두리 카드 없이 `List` 인스턴스**로 구성합니다.
+  - `BottomSheet > Slot > Container > List Group > List`를 기본으로 하며, 기획에 본문 안내가 있으면 Container의 `Text > Content` 다음에 `List Group`을 배치하고 둘 사이 gap 16px (`spacing/xl`)을 적용합니다. 단일 Container 이름에는 순번을 붙이지 않습니다.
+  - Slot padding은 `0px 0px 20px`, Container는 `0px 20px`, 내부 `List Group` gap은 **0px**입니다. List는 가로 Fill·세로 Hug, 자체 padding `12px 0`, `hasHeader: false`, `hasPrefix: true`, `hasSuffix: true`입니다.
+  - `Slot-Prefix`에는 **`Item / Prefix (variant: bgIcon)` 기본 인스턴스**를 둡니다. 원형의 48×48px 아이콘 영역(래퍼 폭 52px)을 유지하며, 최종 아이콘은 작업자가 직접 교체하므로 임의의 전화·챗봇 아이콘으로 매핑하지 않습니다.
+  - Middle은 주 문구 16px Bold, 부연 문구가 있으면 14px Light 및 보조 텍스트 색상으로 배치합니다. Suffix는 **`Item / Suffix (variant: pageIndicator)`** 우측 화살표를 사용합니다. 원본 Text Style·색상·서체 변수 연결을 유지하고 기획의 문구와 항목 순서를 보존합니다.
 - **계좌 선택 전용 바텀시트 화면 패턴**:
   - **BottomSheet Property**: **`hasScrollDim: True`** 설정
   - **컴포넌트 계층**: `BottomSheet` > `Slot` 내부를 **`Container`**로 감싸고 Auto Layout **`gap: 4px` (`xs` 토큰)** 설정
