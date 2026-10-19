@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 최소 바텀시트·완료 Feedback 크기 갱신 (2026-10-19)
+
+사용자 지정 `0P0j17OPstNhC3LWjBdBGy / 44:898`에서 BottomSheet 높이·minHeight 211px, Slot 세로 Fill·높이 82px를 확인했습니다. 최소 콘텐츠에 의해 남는 높이는 Slot이 흡수하며 내부 본문은 Hug로 유지합니다. `47:972`는 사용자 교정에 따라 Feedback Large로 지정합니다. 실제 공개 속성은 `varient: large`, 원형 key는 `3cb5580a388f0ea35f0840f442f932ceba856ad6`입니다. 완료 화면은 항상 Large를 사용하며, 외국인 안내의 경고 상태와 문구·버튼은 유지합니다.
+
 ## 생체정보 바텀시트 텍스트·계층 교정 (2026-10-19)
 
 사용자 지정 산출물 `0P0j17OPstNhC3LWjBdBGy / 44:899, 44:900`의 단일 Slot Container는 `Container`로 명명하고 일반 본문을 `Text` Auto Layout으로 감쌉니다. 구조는 `Slot > Container > Text > Content`, Text gap·padding 0 및 Fill/Hug입니다.

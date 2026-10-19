@@ -74,6 +74,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 
 ## 6. 실제 결과 검증과 시각 검수
 
+최소 높이가 적용되는 짧은 콘텐츠 바텀시트에서는 Slot의 `layoutSizingVertical`이 FILL인지, 내부 Container·Text는 Hug인지, 버튼 아래에 불필요한 잔여 공간이 없는지 검수합니다. 완료 화면의 Feedback은 실제 공개 속성 `varient: large`와 Large component key를 확인합니다. 이전 Medium 인스턴스의 내부 size override가 남아 있으면 Large 원형과 대조해 복원하되, 상태 아이콘·문구·버튼 override는 유지합니다. 완료 화면이 아닌 Empty State에는 기존 상황별 규칙을 적용합니다.
+
 각 Slot을 독립 범위로 보아 Container가 하나이면 순번 없는 `Container`인지 확인합니다. 일반 본문은 `Container > Text(Vertical Auto Layout, gap·padding 0, Fill/Hug) > Content`로 감쌉니다. 텍스트 강조를 직접 fontName/fontWeight 변경으로 구현하지 않고 원본 Text Style key를 구간별 적용합니다. 최종 `getStyledTextSegments`에서 모든 구간의 style key와 fontFamily·fontSize·fontWeight·lineHeight·letterSpacing alias를 해당 원본 스타일과 비교하고 색상 변수도 검사합니다. 폰트가 같아 보여도 연결이 끊긴 구간은 통과시키지 않습니다.
 
 레이어명 검수 시 `[레이어명] Group` 내부의 반복 자식에는 순번을 붙이지 않았는지 확인합니다. `Data Block Group` 안의 자식은 모두 `Data Block`이어야 합니다. `Container 1`, `Container 2` 등 별도 정의된 페이지 Container의 순번은 유지합니다.

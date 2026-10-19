@@ -32,6 +32,8 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 
 ## 컨테이너·간격·속성 — 원문 §3, §4
 
+2026-10-19 사용자 교정: 최소 높이가 적용되는 짧은 콘텐츠 BottomSheet는 Slot의 세로 Resizing을 Fill로 설정하여 남는 높이를 흡수합니다. 원형 minHeight를 유지하고 내부 Container·Text는 Hug로 둡니다. 완료 화면의 Feedback은 항상 Large(실제 공개 속성 `varient: large`)이며, 일반 피드백·Empty State 크기 규칙보다 우선합니다. 지정 화면 `44:898`의 Slot Fill, `47:972`의 Feedback Large를 적용·검수합니다. 상태 아이콘과 문구·버튼은 기획대로 보존하고 내부 크기·서체는 Large 원형을 따릅니다.
+
 간격 이름은 실제 `spacing/<이름>` 변수 key로 매핑합니다. 0만 토큰 없이 허용합니다. 역할별 부모 오토레이아웃의 gap과 padding은 최신 원문의 해당 화면 규칙을 기준으로 배치합니다. 내부 목록 gap은 아래의 명시적 규칙을 사용합니다. BODY의 wrapper는 위에서부터 `Container 1`, `Container 2` …로 명명합니다. **완료 화면은 최신 D18·D19의 BODY 패딩과 계층별 gap 규칙을 우선 적용하며, Container padding-top으로 대체하거나 좌우 패딩을 중복 적용하지 않습니다.**
 
 |규칙 ID|상황|설정|

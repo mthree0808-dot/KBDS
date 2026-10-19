@@ -115,6 +115,8 @@
 ### D. 바텀시트(Bottom Sheet) 화면 규격 및 구조
 바텀시트로 기획된 화면 역시 가로 `390px`, 세로 `844px` 규격 및 오토레이아웃을 적용하며 아래 레이어 구조를 준수합니다.
 
+- **최소 콘텐츠 바텀시트의 Slot 높이 (2026-10-19 사용자 교정)**: 본문이 짧아 원본 BottomSheet의 최소 높이가 적용되는 경우, **Slot의 세로 Resizing을 Fill**(`layoutSizingVertical: FILL`)로 설정합니다. 원본 minHeight와 바텀시트 높이는 유지하고 남는 높이를 Slot이 흡수하여 하단 버튼 뒤에 불필요한 여백이 남지 않도록 합니다. Slot 안의 Container·Text·텍스트 자체는 Hug를 유지합니다. 긴 콘텐츠의 기존 Hug·스크롤 패턴까지 일괄 Fill로 바꾸지 않습니다. 승인 예시는 [권유직원 등록](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=44-898)입니다.
+
 - **아트보드 자체 Background**: **`background/neutral/white`**
 - **레이어 계층 및 Position 구조**:
   1. **`Dimmed`**:
@@ -642,6 +644,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - 연속 열거 시 오토레이아웃 그룹핑 후 **`gap: 12px` (`lg` 토큰)**을 적용합니다.
 
 #### 완료 화면(Completion Screen) 전용 레이아웃 규칙
+- **Feedback 크기 필수 규칙 (2026-10-19 사용자 교정)**: **완료 화면에서 Feedback은 항상 Large**를 사용합니다. 디자인 시스템의 실제 공개 속성명은 `varient`, 값은 `large`이므로 API에서는 `varient: large`로 설정합니다. 완료 화면에는 Medium·Small을 적용하지 않으며, 일반 피드백·Empty State의 크기 규칙보다 이 완료 화면 규칙을 우선합니다. [외국인 이용불가 안내](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=47-972)도 사용자가 지정한 이 규칙의 적용 화면입니다. 상태 아이콘·문구·버튼은 해당 기획을 유지하고, 내부 아이콘 크기·서체·간격은 Large 원형을 따릅니다. 완료 화면이 아닌 Empty State에는 기존 상황별 크기 규칙을 유지합니다.
 - **승인 기준**: [업데이트된 완료 화면](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2668-26353) (`2668:26353`, 2026-10-15 확인). 아래 규칙은 상단 Feedback + 후속 데이터 그룹을 가진 완료 화면에 적용하며, 일반 화면이나 Empty State의 간격을 일괄 변경하지 않습니다.
 - **`## BODY` 구조 및 패딩**:
   - Flow **`vertical`**, **`padding: 40px 20px 32px`** (상단 `spacing/6xl`, 좌우 `spacing/2xl`, 하단 `spacing/5xl`).
