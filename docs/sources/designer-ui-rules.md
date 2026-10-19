@@ -9,7 +9,7 @@
 - **건별 조회 내역의 Data Block 매핑**: 고객명·이용기관·이용서비스·인증완료처럼 한 건을 구성하는 사실 데이터는 와이어프레임의 평면 DataList Group·상하 Divider 형태를 그대로 복제하지 않고 **건별 Data Block**으로 치환합니다. 문구·값·순서·건수는 보존합니다. 일반 수평 DataList의 Divider 규칙보다 이 매핑을 우선하며, 완료 화면의 별도 Feedback·데이터 구조는 유지합니다.
 - **승인 참조**: [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979), [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994). 두 링크는 스타일 대안이며, 반복 건마다 서로 다른 스타일을 강제하지 않습니다.
 - **구조와 토큰**: Vertical Auto Layout, padding 20px (`spacing/2xl`), radius 20px (`radius/2xl`), Title↔DataList Group gap 16px (`spacing/xl`), 목록 내부 gap 12px (`spacing/lg`). 각 DataList는 `layout: split`, `size: 14`, `hasDivider: false`를 적용합니다. 아웃라인은 `surface/neutral/quaternary-muted` + `border/neutral/secondary-muted` + `stroke/md`, 회색 무테는 `surface/neutral/tertiary-muted` + `strokes: []`를 사용합니다.
-- **기획에 없는 요소**: 제목이 없으면 참조의 Title을 숨기고 빈 공간이나 임의 제목을 추가하지 않습니다. 기획에 없는 툴팁·아이콘도 숨깁니다. 복수 건은 `Data Block Group` 안에 `Data Block 1`, `Data Block 2`로 열거하고 gap 12px (`spacing/lg`)를 적용합니다.
+- **기획에 없는 요소**: 제목이 없으면 참조의 Title을 숨기고 빈 공간이나 임의 제목을 추가하지 않습니다. 기획에 없는 툴팁·아이콘도 숨깁니다. 복수 건은 `Data Block Group` 안에 모두 `Data Block`이라는 동일한 레이어명으로 열거하고 gap 12px (`spacing/lg`)를 적용합니다.
 
 - **Design System URL**: `https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/MO-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC?m=auto&node-id=0-1&t=k9nL7yLI1W2gR3hE-1`
 - **컴포넌트 원형 보존 및 타이포그래피 우선순위 원칙 (CRITICAL)**:
@@ -222,6 +222,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 #### 2. 단수 및 복수 컴포넌트 오토레이아웃 네이밍
 - **복수 컴포넌트 열거 시**: 동일 컴포넌트들이 반복 열거되어 오토레이아웃으로 묶일 때는 컴포넌트명 뒤에 **`Group`**을 붙입니다.
   - 예시: `InputField Group` (복수의 InputField), `Accordion Group` (복수의 Accordion), `Radio Group` (복수의 Radio), `TextList Group`, `Table Group`, `Account Group`, `Consent Group`, `Card Group`, `Data Block Group` 등
+- **Group 내부 반복 자식의 레이어명 (2026-10-19 사용자 승인)**: `[레이어명] Group` 안에 반복되는 자식은 모두 원래 레이어명을 사용하며 숫자 순번을 붙이지 않습니다. 예를 들어 `Data Block Group`의 자식은 모두 `Data Block`, `Text Box Group`의 자식은 모두 `Text Box`, `InputField Group`의 자식은 모두 `InputField`로 명명합니다. `Container 1`, `Container 2`처럼 별도로 정의된 페이지 Container 순번 규칙은 예외로 유지하며, 컴포넌트 원형 명칭도 유지합니다.
 - **단수 컴포넌트 래핑 시**: 화면 최상단 `StepIndicator`나 하단 `알려드립니다` 등의 영향으로 Full-Width 화면에서 단일 컴포넌트에 좌우 `padding: 0 20px` 등을 부여하기 위해 불가피하게 오토레이아웃으로 감싸는 경우, `Group`을 붙이지 않고 해당 **`[컴포넌트명]` 단독**으로 명명합니다.
   - 예시: 단일 InputField를 감쌀 경우 -> **`InputField`**, 단일 Accordion을 감쌀 경우 -> **`Accordion`**
 
@@ -321,7 +322,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 #### 2. 액션 미포함 정보성 카드: `Data Block` (타이틀 + DataList UI)
 - **적용 조건**: 내부 동작 없이 이름·전화번호·거래내역·계좌정보·금액 등 **사실 데이터를 보여주는 UI**인 경우, `Card / Surface`를 사용하지 않고 직접 오토레이아웃 프레임으로 구성합니다. 타이틀과 DataList가 대표 구조이며, 정보의 성격에 맞는 원본 텍스트·컴포넌트 조합도 허용합니다.
 - **최상위 프레임 Spec 및 레이어 네이밍**:
-  - 레이어 명칭: **`Data Block`** (단일인 경우 `Data Block`, 복수 열거 시 순서대로 **`Data Block 1`**, **`Data Block 2`** 등 부여, 복수를 묶을 시 **`Data Block Group`**)
+  - 레이어 명칭: 단일·복수 모두 **`Data Block`**. 복수는 **`Data Block Group`**으로 묶고, 내부 자식은 모두 **`Data Block`**으로 명명하며 순번을 붙이지 않습니다.
   - Layout: Auto Layout, Flow: **`vertical`**, **`gap: 16px` (`xl` 토큰)**
   - 기본 아웃라인 Styling: **`border: stroke/md`**, Border Color: **`border/neutral/secondary-muted`**, Fill: **`surface/neutral/quaternary-muted`**, **`border-radius: 20px` (`radius/2xl`)**, **`padding: 20px` (`spacing/2xl`)**. 아래 스타일 선택 기준에 따라 회색 배경·무테 형태도 허용합니다.
   - **승인 예시의 간격 차이**: 아래 부모님 기본정보 예시(`2659:18577`)는 타이틀과 `DataList Group` 사이가 **`20px` (`spacing/2xl`)**입니다. 이 패턴을 재사용할 때는 20px를 적용하며, 기존 기본 16px 규칙을 모든 Data Block에서 일괄 변경하지 않습니다.
@@ -336,7 +337,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 
 #### 3. 설명·안내형 박스: `Text Box`
 - **적용 조건**: 데이터의 조회·대조보다 설명, 이용 안내, 주의, 상태 전달이 주목적이며 기존 Infobox 용도에 해당하지 않는 박스입니다. 한국어 상담센터처럼 전화번호·이메일이 포함되어도 안내 문맥이 주목적이면 `Text Box`로 분류합니다. 단순 연락처 텍스트의 존재를 버튼이나 선택 동작으로 간주하지 않습니다.
-- **구성**: `Card / Surface`를 사용하거나 분리(detach)하지 않고 Auto Layout 프레임으로 직접 만듭니다. 레이어명은 단일 `Text Box`, 복수 `Text Box 1`, `Text Box 2` 등이며, 반복 목록은 `Text Box Group`으로 묶습니다.
+- **구성**: `Card / Surface`를 사용하거나 분리(detach)하지 않고 Auto Layout 프레임으로 직접 만듭니다. 레이어명은 단일·복수 모두 `Text Box`이며, 반복 목록은 `Text Box Group`으로 묶고 내부 자식에 순번을 붙이지 않습니다.
 - **참조 예시의 기본 구조**: Flow `vertical`, 패딩 **20px (`spacing/2xl`)**, 내부 간격 **16px (`spacing/xl`)**, 라운드 **14px (`radius/lg`)**. 필요에 따라 원본 `Title / Section`, `TextList / Unordered`, `Divider / Horizontal` 등을 조합합니다. Data Block의 DataList 구조나 20px 라운드를 일괄 적용하지 않습니다.
 
 #### 4. 아웃라인 / 회색 배경 스타일의 선택
@@ -742,7 +743,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - `Image Area`(`padding: 40px 0`), `ProgressStep`(`gap: 24px`), `Infobox / Card`(`gap: 24px`) 흐름을 준수합니다.
    - 하단 공지 영역은 `Divider(10px, tertiary) + Accordion(width: fill, hasDivider: false, gap: 0)`으로 구성하며 별도의 오토레이아웃으로 감싸지 않습니다. Accordion 내부의 divider는 항상 숨기고, 와이어프레임상 펼쳐진 상태라면 실제로 펼쳐진 상태로 렌더링합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
-   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. (정보성 데이터 박스 자체는 `Data Block` / `Data Block [순번]`, 설명·안내 박스 자체는 `Text Box` / `Text Box [순번]`)
+   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. 정보성 데이터 박스 자체는 단일·복수 모두 `Data Block`, 설명·안내 박스 자체는 단일·복수 모두 `Text Box`로 명명합니다. Group 내부 반복 자식에 순번을 붙이지 않으며 페이지 Container의 순번 규칙과 구분합니다.
    - **레이어 및 그룹 네이밍 (한글 사용 절대 금지)**:
      - 2개 요소 그룹핑: 슬래시 앞단 명칭을 결합하여 `[컴포넌트 1] / [컴포넌트 2]` (예: `Title / InputField`)
      - 3개 이상 요소 그룹핑: `[첫 번째 컴포넌트] / Contents` (예: `Title / Contents`)
