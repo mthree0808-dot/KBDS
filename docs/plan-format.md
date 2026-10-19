@@ -4,7 +4,7 @@
 
 상단 Feedback + 후속 데이터가 있는 완료 화면의 reason에는 D18·D19와 승인 참조 `2668:26353`을 연결합니다. BODY padding `40px 20px 32px`, BODY gap 40px, 반복 `Title / DataList Group` 간 32px, `Title`↔`DataList Group` 간 16px, Title 내부와 DataList 목록 내부 각각 12px를 해당 부모별로 기록합니다. `Title`은 Vertical Auto Layout이며 `Title / Element` + `Divider / Horizontal (thickness:1px,variant:primary,length:full)`을 감쌉니다. Container·하위 그룹 패딩 0, DataList의 `hasDivider:false`와 각 토큰 key도 기록하고, 데이터 영역을 단일 12px gap 구조로 평탄화하지 않습니다.
 
-디자이너 규칙도 기본으로 적용합니다. 각 노드의 reason에 관련 D01~D32를 기록하고 `designer-review.md`에서 적용값·근거·결과 노드를 연결합니다. 화면 주변의 화면 ID(요구사항 ID) 영역을 확인하여 ID가 있으면 `실제ID_화면명`(예: `F2K0000_화면명`), 공란이면 기존 `화면ID_화면명`으로 계획합니다. ID 미확인 상태를 공란으로 단정하거나 임의 ID를 만들지 않습니다. 현재 일반 생성기의 root 이름 `MO/runId`와는 차이가 있으므로 그대로 완료 처리하지 않습니다. 전용 경로 및 미지원 규칙 처리 기준은 `docs/designer-rules.md`를 참조합니다.
+디자이너 규칙도 기본으로 적용합니다. 각 노드의 reason에 관련 D01~D32를 기록하고 `designer-review.md`에서 적용값·근거·결과 노드를 연결합니다. 화면 주변의 페이지 ID 영역을 확인하여 ID가 있으면 `실제페이지ID_화면명`(예: `F730_화면명`), 공란이면 기존 `화면ID_화면명`으로 계획합니다. ID 미확인 상태를 공란으로 단정하거나 임의 ID를 만들지 않습니다. 현재 일반 생성기의 root 이름 `MO/runId`와는 차이가 있으므로 그대로 완료 처리하지 않습니다. 전용 경로 및 미지원 규칙 처리 기준은 `docs/designer-rules.md`를 참조합니다.
 
 박스의 reason에는 D28~D32에 따라 역할(`Card / Surface` / `Data Block` / `Text Box`), 동작이 박스 내부/전체에 있는지 또는 외부 형제 `Button Area`에만 있는지, 아웃라인/회색 무테 선택 이유, 참조 노드와 실제 토큰 key를 기록합니다. 회색 무테는 `surface/neutral/tertiary-muted` + 외곽 `strokes: []`를 명시합니다. 안내 박스는 기존 Infobox 적용 여부를 먼저 확인합니다. 기존 `kind: layout`으로 직접 구성한 Data Block/Text Box의 참조·토큰을 연결하며, 새 kind나 신규 컴포넌트를 추가한다는 의미는 아닙니다. CLI만으로 역할·스타일 판단이 검증된 것으로 처리하지 않습니다.
 
