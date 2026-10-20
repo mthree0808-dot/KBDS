@@ -4,6 +4,12 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### 은행·증권사 선택 화면 통일 (2026-10-20 사용자 최종 확정)
+- 앞으로 은행·증권사 선택 화면은 [은행/증권사 선택 2101:12453](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2101-12453)을 공통 기준으로 재사용합니다. 종전 `2109:3661`의 심볼 매핑만 참고하는 범위를 넘어, 바텀시트·Tab·GridButton·아이템·기관 심볼의 구성과 속성을 함께 통일합니다. 다른 선택형 버튼의 일반 primary/grid 예시보다 이 전용 기준을 우선합니다.
+- **바텀시트와 Tab**: 제목은 `은행/증권사 선택`, 닫기 버튼을 유지합니다. BottomSheet의 `hasScrollDim: true`, `hasStickyButton: true`를 유지하고 StickyButton은 `hasCTA: false`, `hasSubButton: false`, `hasScrollDim: true`로 하단 스크롤 딤만 표시합니다. Slot은 가로 Fill·세로 Hug / padding `0 0 20px` / gap 24px이며, 직계 자식은 `Tab` → `GridButton` 순서입니다. Tab은 `1depth / extendable: false`, 은행·증권사 두 항목과 기획의 선택 상태를 사용합니다.
+- **기관 Grid**: GridButton은 `variant: secondary / type: grid`, 가로 Fill·세로 Hug / 좌우 padding 20px입니다. 내부 Slot의 실제 Grid Auto Layout은 3열 균등 FLEX 1, 행·열 gap 8px, 행 높이 Hug를 유지합니다. 참조의 18개·6행은 현재 은행 목록의 결과이며 실제 행 수는 기획 항목 수에 맞춥니다. 기관명·순서·중복·선택/비활성 상태는 기획대로 보존합니다.
+- **기관 아이템과 심볼**: `Item / Vertical`은 secondary / hasIcon true / hasSubLabel false, padding 16px / gap 12px / Grid 셀 가로·세로 Fill을 유지합니다. 참조의 셀 높이는 100px이며 고정 3열 기준 현재 폭은 약 111.33px입니다. IconContainer는 size 36, Label과 내부 문구는 원본 Hug·서체·변수를 유지합니다. 기관별 원본 심볼을 공개 instance-swap 속성으로 매핑하고 기본 ICON·공통 아이콘·다른 기관 심볼로 대체하지 않습니다. 카드·List·primary GridButton으로 임의 변형하지 않습니다.
+
 ### CTA Label Hug 및 은행·증권사 심볼 (2026-10-20 사용자 확정)
 - **CTA 문구는 원본 Hug 상속**: `StickyButton > ButtonGroup > BoxButton > Label > 버튼명`에서 Label과 내부 텍스트의 원형 가로·세로 Hug를 유지합니다. 텍스트는 원형 `textAutoResize: WIDTH_AND_HEIGHT`를 상속하며 문구만 변경합니다. `resize()`·고정 width·`textAutoResize: HEIGHT`·일반 본문용 Fill/자동 높이 처리를 버튼명에 적용하지 않습니다. CTA 바깥 버튼의 Fill 또는 원형 높이와 내부 Label/문구의 Hug는 구분합니다.
 - **크기 override 금지 및 검수**: 원본이 이미 Hug이므로 매번 크기 속성을 재설정하지 않습니다. 잘못된 크기 override만 제거하고 문구·상태·아이콘·원형 서체·스타일·변수를 보존합니다. `49px` 등 현재 측정된 폭은 Hug의 계산 결과일 수 있으므로 숫자만으로 고정폭 여부를 판단하지 않고 Resizing과 override를 확인합니다. 문구 변경 뒤 자연스럽게 폭이 갱신되는지 검수합니다.

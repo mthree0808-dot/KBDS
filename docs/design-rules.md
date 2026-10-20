@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 은행·증권사 선택 공통 화면 최종 기준 (2026-10-20)
+
+사용자 최종 참조는 [2101:12453](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2101-12453)입니다. 390×844 화면의 BottomSheet `2101:12482`는 현재 높이 766px / hasScrollDim true / hasStickyButton true이며, StickyButton은 CTA·SubButton false / ScrollDim true입니다. Slot은 Fill·Hug / padding 0,0,20,0 / gap 24px이고, Tab(1depth, extendable false) → GridButton(secondary/grid, 좌우 padding 20px) 순서입니다.
+
+내부 실제 Grid `I2101:12482;2554:147808;2101:12481;2597:176253;2101:12462`의 레이어명은 현재 Container 1이지만 layoutMode는 GRID입니다. 3열 FLEX 1·1·1 / 6행 HUG / 행·열 gap 8px / 18개 아이템입니다. Item / Vertical은 secondary, padding 16px, gap 12px, Fill·Fill, hasIcon true / hasSubLabel false이며 현재 셀은 약 111.33×100px입니다. IconContainer size 36에 기관별 원본 심볼이 연결되어 있고 Label·문구는 Hug·Hug입니다. 향후 동일 유형은 이 전체 구성과 속성을 통일하여 사용하며 기획에 맞춰 항목·순서·상태·행 수를 바꿉니다. 현재 6행·18개를 다른 목록에 강제하지 않습니다. 종전 아래 `2109:3661`의 기관별 원본 key 근거는 계속 유효하되 화면 패턴의 최종 기준은 `2101:12453`입니다.
+
 ## CTA Label Hug·기관별 심볼 확정 (2026-10-20)
 
 CTA 원본 BoxButton(primary/large) key `fa61e02668d4cdbaa3804bebdf3b37cdef9b274d`의 Label은 Hug·Hug, 내부 `버튼명` TEXT도 Hug·Hug / WIDTH_AND_HEIGHT입니다. 원형 기본 문구의 측정 폭 49px는 Fixed 지시가 아닙니다. 승인 교정 `0P0j17OPstNhC3LWjBdBGy / 72:8029`의 ‘확인’은 고정폭 49 + HEIGHT override를 제거한 뒤 원형 Hug / WIDTH_AND_HEIGHT / 자연 폭 33px로 복원했습니다. ‘다시 촬영’은 원형 Hug에서 자연 폭 71px입니다. 33·49·71px를 제작 스크립트의 고정 width로 사용하지 않고 문구만 바꿉니다. 공통 본문 텍스트 처리에서 CTA 내부 Label/버튼명은 제외합니다.
@@ -17,7 +23,7 @@ CTA 원본 BoxButton(primary/large) key `fa61e02668d4cdbaa3804bebdf3b37cdef9b274
 |우체국|071-우정사업본부-bg|`2da6044e20079ff5fee0736aad13e3b2ce65ec7b`|
 |하나|081-하나은행-bg|`680b8b7b88a4c678eabaf84243f1c2c3680a7dc5`|
 
-향후 은행·증권사 선택에서도 각 기관명과 원본 심볼의 실제 key를 대조합니다. 현재 은행 목록·3×3 구성·size 36을 모든 기획에 강제하지 않으며, 증권사에는 해당 증권사의 원본을 확인하여 적용합니다. 기본 ICON이나 다른 기관 로고를 추정 대체로 사용하지 않습니다.
+향후 은행·증권사 선택에서도 각 기관명과 원본 심볼의 실제 key를 대조합니다. 위 최종 승인 `2101:12453`의 3열·size 36과 전체 화면 패턴을 통일 적용하며, 목록과 행 수·선택 상태는 기획에 따릅니다. 증권사에는 해당 증권사의 원본을 확인하여 적용합니다. 기본 ICON이나 다른 기관 로고를 추정 대체로 사용하지 않습니다.
 
 ## 선택형 버튼 GridButton 승인 (2026-10-20)
 
