@@ -59,9 +59,10 @@
   - `InputField`에 붙는 부연 설명이나 안내 문구 중, 불릿 리스트 형태가 아닌 단순 일반 문장 형태인 경우:
     - `InputField`의 Property **`hasFooter: True`** 설정
     - 하위 계층인 **`Item / Footer / hint`**에 해당 안내 텍스트를 적용
-- **InputField 다음 보조 버튼 조합 (2026-10-19 사용자 승인)**:
+- **InputField 및 박스 아래 보조 TextButton (2026-10-20 최종 교정)**:
   - [휴대폰 인증 기준 2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)처럼 입력 필드 다음에 해결방법·도움말 등의 보조 버튼이 오는 경우, **`InputField / Button Area`** Vertical Auto Layout 안에 **`InputField` → `Button Area`** 순서로 배치합니다. 조합은 가로 Fill·세로 Hug, **gap 12px (`spacing/lg`)**입니다.
-  - `Button Area`는 가로 Fill·세로 Hug, gap 0, 가로 우측 정렬(`counterAxisAlignItems: MAX`), 세로 가운데 정렬입니다. 내부는 실제 **`TextButton` (`variant: primary`, `size: xsmall`, `hasPrefix: false`, `hasSuffix: true`, `underline: false`)** 인스턴스와 우측 이동 화살표를 사용하며 버튼 자체는 Hug·Hug입니다.
+  - `Button Area`는 가로 Fill·세로 Hug, gap 0, 가로 우측 정렬(`counterAxisAlignItems: MAX`), 세로 가운데 정렬입니다. 내부는 실제 **`TextButton` (`variant: secondary`, `size: xsmall`, `hasPrefix: false`, `hasSuffix: true`, `underline: false`)** 인스턴스와 우측 이동 화살표를 사용하며 버튼 자체는 Hug·Hug입니다.
+  - **최종 variant 기준**: [휴대폰 인증 2025:7407](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-7407)의 하단 TextButton `2025:7417`처럼 **인풋 조합 및 박스 아래에 별도 배치하는 TextButton은 `variant: secondary`**를 사용합니다. 앞서 이 패턴에 기록한 `primary`는 `secondary`로 교정합니다. 박스의 기존 간격·정렬·버튼 크기는 유지하며, 박스 아래에도 InputField 조합의 간격·크기를 일괄 복제하지 않습니다. InputField 내부의 버튼과 독립 CTA에는 이 규칙을 일괄 적용하지 않습니다.
   - 상위 Container에서 `Title / Page`와 이 조합 사이 간격은 24px (`spacing/3xl`)입니다. InputField 내부 타이머·다시받기 등의 기존 속성과 기획 문구는 유지합니다. 입력 필드 뒤의 보조 이동 버튼 패턴이며, 독립 CTA나 InputField 내부 버튼까지 일괄 변경하지 않습니다.
 
 ---
