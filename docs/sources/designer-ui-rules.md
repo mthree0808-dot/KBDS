@@ -327,14 +327,23 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 
 |역할|사용 방식|대표 예시|
 |---|---|---|
-|동작·선택|디자인 시스템의 `Card / Surface` 인스턴스|이체, 상세 이동, 상품·계좌·항목 선택, 체크·라디오 선택|
+|버튼형 선택지|디자인 시스템의 `GridButton` 인스턴스|모바일 주민등록증·운전면허증 등 선택지를 버튼으로 열거하고 선택하는 UI|
+|동작·복합 카드|디자인 시스템의 `Card / Surface` 인스턴스|이체, 상세 이동, 정보와 동작을 결합한 카드. 버튼형 선택지는 GridButton 규칙 우선|
 |사실 데이터 표시|직접 구성한 Auto Layout 프레임 `Data Block`|이름, 전화번호, 부모님 기본정보, 거래내역, 계좌정보, 금액|
 |설명·안내·주의·상태 전달|직접 구성한 Auto Layout 프레임 `Text Box`|이용 안내, 유의사항, 한국어 상담센터 안내 등 기존 Infobox로 정의되지 않은 안내 박스|
 
 기존 `Infobox / Basic`, `Infobox / Solid`, `Infobox / Card`, `Infobox / FullWidth`의 용도에 해당하면 해당 컴포넌트와 전용 규칙을 우선 적용합니다. `Text Box`를 이유로 기존 Infobox를 일괄 대체하지 않습니다.
 
+#### 0. 선택지 버튼 UI: `GridButton` (2026-10-20 사용자 승인)
+- **적용 조건**: [신분증 촬영_모바일 2074:1554](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2074-1554)처럼 복수의 선택지를 버튼 형태로 제시하고 사용자가 선택하는 UI는 실제 **`GridButton`** 컴포넌트로 구성합니다. 이 패턴은 일반적인 Card / Surface의 선택·동작 판정 규칙보다 우선하며, Card들을 나란히 놓아 대체하지 않습니다. 셀렉트 바텀시트의 List·계좌 선택 등 별도로 정한 전용 패턴은 해당 규칙을 유지합니다.
+- **계층**: **`GridButton > Slot > Grid > Item / Vertical`** 등 원형 아이템 인스턴스 구조를 유지합니다. 컴포넌트를 detach하거나 Slot 밖에 별도 Grid를 만들어 흉내 내지 않습니다. 원형 컴포넌트와 반복 아이템의 이름에 임의 순번을 붙이지 않습니다.
+- **기획별 Grid 수정**: **Slot 안의 `Grid` 오토레이아웃**에서 행·열 수, 아이템 수·배치 순서, 열 너비와 간격을 기획에 맞춰 조정합니다. 기준 화면의 1행 2열을 모든 화면에 고정 적용하지 않습니다. 실제 `layoutMode: GRID`를 유지하며, 행 자동 확장(`gridAutoTracks: ROWS`)을 쓰는 경우 열 수와 아이템 수에 따라 행 수가 결정되도록 합니다.
+- **현재 승인 예시**: `GridButton (variant: primary, type: grid)` / Grid **1행 2열**, 동일한 Fill 열 2개, 가로 Fill·세로 Hug, 행·열 gap **8px (`spacing/md`)**, 선택지 순서는 모바일 주민등록증 → 모바일 운전면허증입니다. 이 수치는 현재 기획의 예시이며 다른 기획에서는 Grid 구성을 다시 맞춥니다.
+- **상태·내용**: 기획의 기본 선택 여부, disabled/pressed/selected 상태, 레이블·보조 레이블·아이콘을 원형의 공개 속성으로 매핑합니다. 현재 예시는 `Item / Vertical (variant: primary, selected: false)` 2개이며 기획대로 초기 CTA 비활성을 유지합니다. 서체·변수·아이콘 컴포넌트 연결을 보존합니다.
+- **조합 네이밍**: 하단 별도 Button Area와 묶는 경우 상위 래퍼는 **`GridButton / Button Area`**로 명명합니다. 내부 GridButton과 Slot·Grid·아이템의 원형 이름은 유지합니다.
+
 #### 1. 액션 포함형 카드: `Card / Surface`
-- **적용 조건**: 박스 내부에 **이체·상세 이동 버튼, 체크박스·라디오 등 선택 요소가 있거나 박스 전체가 이동·선택의 동작 대상**인 경우 사용합니다. 푸터 버튼 유무만으로 판단하지 않습니다. 상품 선택, 계좌 선택, 항목 선택 등이 이에 해당합니다.
+- **적용 조건**: 위 GridButton 버튼형 선택지에 해당하지 않는 박스에서 **이체·상세 이동 버튼, 체크박스·라디오 등 복합 선택 요소가 있거나 박스 전체가 이동·선택의 동작 대상**인 경우 사용합니다. 푸터 버튼 유무만으로 판단하지 않습니다. 상품 선택, 계좌 선택, 항목 선택 등이 이에 해당합니다.
 - **동작의 경계**: `Data Block` 바깥의 형제 `Button Area`에 수정 버튼 등이 있어도 박스 자체가 동작하지 않으면 `Data Block`을 유지합니다. 데이터 표시만 하는 박스에 임의의 이동·선택 동작을 추가하여 Card로 바꾸지 않습니다.
 - **푸터 버튼형 계층 구조 예시** (선택·상세 이동형은 해당 원본 variant/공개 속성 및 Slot 구조를 따르며 불필요한 Footer를 추가하지 않음):
   1. **`Header`**: 상단에 위치하며, 기획/필요에 따라 **`badge`** 노출
@@ -774,6 +783,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - 바텀시트: `hasScrollDim: True`, Slot 내 `Container (gap: 4px)`, Prefix에 해당 은행 아이콘(`size: 32`), Middle에 통장명 및 `은행명 계좌번호`, Suffix에 `checkMark` 적용
      - 일반 화면: `Container [순번]` 내 `Account Group (gap: 4px)`, 바텀시트와 동일 구조(Prefix `size: 32`)에 Suffix만 `checkBox`로 적용 (`Title / Page` -> `Tab` -> Container 간격은 `gap: 24px`)
    - **박스 UI 매핑** (역할을 먼저 분류하고 아웃라인 / 회색 배경·무테 스타일을 선택; 상세 규칙과 승인 예시는 섹션 3의 Box UI Rules 참조):
+     - **버튼형 선택지**: `GridButton` 실제 인스턴스를 우선 사용하고 Slot 내부 Grid의 행·열·아이템 수와 순서를 기획에 맞게 조정합니다. `2074:1554`의 1행 2열을 전역 고정하지 않습니다.
      - **액션 포함형**: `Card / Surface` 사용 (버튼/액션이 들어갈 때만 한정). 푸터 버튼형의 예시는 `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`. 상세 이동·선택형에 이 Footer 구조를 강제하지 않고 원본 variant/공개 속성·Slot을 따릅니다.
      - **액션 미포함형 (정보성 카드)**: **`Data Block`** 오토레이아웃 프레임(`border: stroke/md`, `border-color: border/neutral/secondary-muted`, `radius: 20px`, `padding: 20px`, `gap: 16px`) 구축. 상단에 `Title` 오토레이아웃 프레임 내 타이틀(`font-size/body/md`, `text/neutral/primary`) 배치 + 하단에 `DataList Group` 오토레이아웃 프레임(`gap: 12px`) 내 `DataList (layout: split, size: 14, hasDivider: false)` 배치
      - **동작 판정**: Footer 버튼 외에 상세 이동·이체·체크·라디오·박스 전체 선택도 Card에 해당합니다. 외부 형제 `Button Area`의 버튼만으로 Data Block을 Card로 바꾸지 않습니다. 상태 Label만 있는 경우도 자동으로 Card에 해당하지 않습니다.

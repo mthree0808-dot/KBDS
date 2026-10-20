@@ -15,6 +15,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 ## 화면과 구조 — 원문 §2, §5
 
 ### 2026-10-19 승인 규칙 우선 적용
+- 2026-10-20 선택형 버튼 UI: `2074:1554`처럼 선택지를 버튼으로 열거하는 화면은 Card / Surface 대신 실제 **GridButton**을 우선합니다. `GridButton > Slot > Grid > Item / Vertical` 원형을 유지하고 **Slot 안 Grid의 행·열·아이템 수·순서**를 기획에 맞춰 조정합니다. 현재 primary/grid, 1행 2열·균등 Fill·gap 8px는 예시이며 전역 고정하지 않습니다. 하단 Button Area 조합 래퍼는 `GridButton / Button Area`입니다. List 셀렉트 바텀시트 등 기존 전용 패턴은 유지합니다.
 - 2026-10-20 필수/선택 최종 교정: 필수 InputField는 Title / Element의 `optional: false`로 optional 래퍼를 숨깁니다. 필수가 아닌 항목은 `optional: true`와 기본 `(선택)` 문구·색상·서체·스타일·변수를 그대로 유지합니다. 기존 `(필수)`·강조색 재정의는 원형으로 복원하며 표기 대신 래퍼 가시성만 제어합니다.
 - 2026-10-20 최종 교정: [2025:7407](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-7407)의 하단 TextButton처럼 **인풋 조합 및 박스 아래에 별도 배치하는 TextButton의 variant는 secondary**입니다. 종전 인풋 조합의 primary 지정은 철회하며 기존 크기·간격·정렬은 유지합니다. InputField 내부 버튼과 독립 CTA까지 일괄 변경하지 않습니다.
 - InputField 뒤 보조 이동 버튼은 [2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)의 `InputField / Button Area > InputField, Button Area` 구조로 묶고 gap 12px를 적용합니다. 상위 Title과의 간격은 24px입니다. Button Area는 Fill·Hug / gap 0 / 우측 정렬이며 TextButton은 실제 `secondary / xsmall`, prefix false / suffix true(우측 화살표) / underline false / Hug·Hug입니다. 내부 입력 버튼이나 독립 CTA까지 일반화하지 않습니다.
@@ -86,7 +87,7 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 
 |규칙 ID|상황|필수 확인|
 |---|---|---|
-|D28|동작·선택 박스|`Card / Surface` 인스턴스. 이체·상세 이동·체크/라디오·상품/계좌/항목 선택 및 박스 전체 클릭 동작 포함. Footer 버튼이 없어도 해당. 상태 Label만으로 Card 판정 금지. 외부 형제 `Button Area`의 버튼은 박스 내부 동작으로 세지 않음|
+|D28|동작·선택 박스|버튼형 선택지는 GridButton 우선(2074:1554 및 Slot 내부 Grid 가변 적용). 그 밖의 복합 카드에는 `Card / Surface` 인스턴스. 이체·상세 이동·체크/라디오·상품/계좌/항목 선택 및 박스 전체 클릭 동작 포함. Footer 버튼이 없어도 해당. 상태 Label만으로 Card 판정 금지. 외부 형제 `Button Area`의 버튼은 박스 내부 동작으로 세지 않음|
 |D29|사실 데이터 표시|`Data Block` Auto Layout 프레임 직접 구성. 이름·전화번호·거래내역·계좌정보·금액 등이 대상. 복수 항목의 대표 구조는 `Title` + `DataList Group` > `DataList(split,14,hasDivider:false)`. 단일 라벨·값 쌍은 승인 참조 `KFlklMvGmg0MXGfAXvpprn / 1147:62`의 `1148:3021`처럼 **`Data Block > DataList` 직접 배치**, 내부 Group·Title·Divider 없음. 패딩·라운드 20 / Fill·Hug / 회색 무테, Label 14 Light 좌측·Data 14 Medium 우측. 섹션 Title은 박스 밖 형제, gap 16. 완료 화면 전용 그룹에는 일괄 적용하지 않음. Card를 detach하여 만들지 않음|
 |D30|설명·안내·주의·상태 박스|기존 Infobox 용도는 해당 컴포넌트 유지. 그 밖은 `Text Box` Auto Layout으로 직접 구성. 상담센터 전화번호·이메일이 포함돼도 주목적이 안내이면 Text Box. 참조 패딩 `spacing/2xl`=20, gap `spacing/xl`=16, 라운드 `radius/lg`=14|
 |D31|아웃라인 / 회색 배경 선택|직접 구성한 박스의 아웃라인은 `surface/neutral/quaternary-muted` + `stroke/md` + `border/neutral/secondary-muted`. 회색 배경은 `surface/neutral/tertiary-muted`, 외곽 `strokes: []`. 테두리 반복·중첩, 주·보조 위계, 밀도와 가독성을 보고 유연하게 선택. 내부 Divider는 별도 판단. Card는 공개 속성이 지원하는 범위만 사용|

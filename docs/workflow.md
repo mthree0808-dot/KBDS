@@ -24,11 +24,13 @@
 
 2026-10-20 단일 항목 Data Block: 박스 안 라벨·값 쌍이 하나면 `KFlklMvGmg0MXGfAXvpprn / 1147:62`의 제공회사/KB국민은행 박스 `1148:3021`처럼 `Data Block > DataList(split,14,hasDivider:false)`로 직접 구성합니다. 단일 DataList에 Group을 추가하지 않고, 패딩·라운드 20 / 회색 무테 / Label 좌측·Data 우측 정렬 / Fill·Hug를 검수합니다. 섹션 Title은 박스 밖 형제, gap 16px입니다. 복수 항목과 완료 화면의 별도 그룹 구조는 유지합니다.
 
-박스마다 D28~D32를 적용합니다. 기존 Infobox에 해당하는지 먼저 확인하고, 그 밖에는 내부/전체 동작이 있으면 `Card / Surface`, 사실 데이터 표시이면 `Data Block`, 설명·안내·주의·상태 전달이면 `Text Box`로 구분합니다. 박스 밖의 형제 `Button Area`는 내부 동작으로 세지 않습니다. 역할을 정한 다음 아웃라인 또는 회색 배경·무테 형태를 고릅니다. 아웃라인의 반복·중첩, 정보 위계·밀도·가독성을 보고 선택하며, 매번 사용자 승인을 요청하지 않습니다.
+박스마다 D28~D32를 적용합니다. 기존 Infobox에 해당하는지 먼저 확인하고, 그 밖에는 버튼형 선택지를 `GridButton`으로 먼저 구분하고, 나머지 내부/전체 동작이 있으면 `Card / Surface`, 사실 데이터 표시이면 `Data Block`, 설명·안내·주의·상태 전달이면 `Text Box`로 구분합니다. 박스 밖의 형제 `Button Area`는 내부 동작으로 세지 않습니다. 역할을 정한 다음 아웃라인 또는 회색 배경·무테 형태를 고릅니다. 아웃라인의 반복·중첩, 정보 위계·밀도·가독성을 보고 선택하며, 매번 사용자 승인을 요청하지 않습니다.
 
 화면 제작에는 설치된 figma-use와 figma-generate-design 스킬을 적용합니다. 현재 프로젝트의 Code Connect가 없으면 없음으로 기록하고 기존 화면/기획서 인스턴스에서 매핑합니다. 마지막에 원본 라이브러리로 제한한 검색을 사용합니다.
 
 ## 3. 템플릿 선택과 측정
+
+2026-10-20 선택형 버튼 UI: 신분증 종류 선택 등 버튼형 선택지는 실제 GridButton을 우선합니다. 승인 화면 `zNwpdAWcBMOM5ExkiBUoGn / 2074:1554`의 GridButton > Slot > Grid 구조를 재사용하고 Slot 내부 Grid의 행·열·아이템 수·순서를 기획에 맞게 조정합니다. 1행 2열은 현재 예시이며 모든 화면에 고정 적용하지 않습니다. native selected/disabled 상태·레이블·아이콘·변수 연결과 Grid 내부 배치를 검수하며, 일반 Card / Surface 선택 판정보다 이 규칙을 우선합니다. 셀렉트 바텀시트 List 등 별도 전용 규칙은 유지합니다.
 
 2026-10-20 필수·선택 및 알려드립니다 교정: InputField 필수 항목은 Title / Element의 optional false / optional 래퍼 비노출을 검수합니다. 필수가 아닌 항목은 optional true / 기본 `(선택)` 문구와 색상·서체·스타일·변수를 원형 그대로 보존합니다. 기존 `(필수)` 및 강조색 재정의는 원형으로 복원합니다. 알려드립니다는 `zNwpdAWcBMOM5ExkiBUoGn / 2075:2064` 하단처럼 전용 Container(gap·padding 0, Full Width) > 외부 10px tertiary full Divider → basic/standard/medium Accordion(hasPrefix true, solid-info-circle, hasDivider false, expanded true)으로 하단 버튼 위에 배치합니다. 상단 본문과 간격 32px, 내부 TextList size 14 / Slot gap 8px를 확인하며 Accordion만 단독 배치하지 않습니다.
 

@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## 선택형 버튼 GridButton 승인 (2026-10-20)
+
+기준 [신분증 촬영_모바일 2074:1554](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2074-1554)의 GridButton `2071:4500`은 실제 primary/grid 인스턴스(key `e48a66fa51b31fd8e86b1703a35f07c07e3373e0`)입니다. 계층은 GridButton > Slot > Grid > Item / Vertical이며, Grid `I2071:4500;2597:176342;2071:4497`은 layoutMode GRID / 1행 2열 / gridAutoTracks ROWS / 가로 Fill·세로 Hug / 행·열 gap 8px입니다. 두 열은 각각 FLEX 1, 행은 HUG입니다. 현재 350px 폭에서 아이템은 각각 171×121px입니다.
+
+아이템 원형 key는 `291367f54029e6b11c4ca9550c83816ca72bffe1`, 속성은 variant primary / selected false / hasIcon true / hasSubLabel false입니다. 아이콘 영역은 36px이며, 사용자 지정 모바일 주민등록증·모바일 운전면허증의 아이콘과 레이블을 보존했습니다. 기존 상위 래퍼 `2074:1878`만 GridButton / Button Area로 정리했습니다.
+
+같은 유형은 실제 GridButton을 사용하며 Slot 안 Grid의 행·열·아이템 수와 배치 순서를 기획에 맞게 수정합니다. 현재 1행 2열, 171×121px를 다른 기획에 고정 적용하지 않습니다. 선택·비활성 상태와 폰트·변수 연결은 원형을 유지하고 Card / Surface를 병렬 배치하여 대신하지 않습니다. 셀렉트 바텀시트 List 등 별도 전용 패턴은 유지합니다.
+
 ## InputField 필수·선택 및 하단 알려드립니다 최종 교정 (2026-10-20)
 
 사용자 지정 [신분증 확인 2075:2064](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2075-2064)의 이름·주민등록번호·면허번호·발급일은 모두 필수입니다. 네 InputField의 Title / Element에서 optional 속성을 false로 설정하여 optional 프레임 전체를 숨겼습니다. 기존 `(필수)`와 강조색·서체 재정의는 원형의 `(선택)` 및 Text Style·색상 변수로 복원했습니다. 앞으로 필수는 optional 래퍼 비노출, 필수가 아닌 항목은 기본 `(선택)`과 원형 색상·서체·스타일·변수를 그대로 노출합니다. 필수 상태를 표시하려고 텍스트나 색상을 바꾸지 않습니다.
