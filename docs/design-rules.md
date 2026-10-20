@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 단일 InputField 오토레이아웃 명명 재확정 (2026-10-20)
+
+승인 교정 화면 `zNwpdAWcBMOM5ExkiBUoGn / 2141:10091`에서 단일 입력을 감싼 프레임 `I2141:10093;752:55797;2141:10499`를 `InputField Group`에서 `InputField`로 수정했습니다. Vertical Auto Layout / 390×86px / 단일 자식 InputField 인스턴스 `I2141:10093;752:55797;2141:10534`와 기존 위치·패딩·크기·계층은 유지했습니다. 필요에 의해 단일 컴포넌트를 감싼 래퍼는 컴포넌트와 같은 이름을 쓰며, Group은 복수 반복에만 사용합니다. Full-Width·일반 화면·바텀시트에 같은 규칙을 적용합니다.
+
 ## 은행·증권사 선택 공통 화면 최종 기준 (2026-10-20)
 
 사용자 최종 참조는 [2101:12453](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2101-12453)입니다. 390×844 화면의 BottomSheet `2101:12482`는 현재 높이 766px / hasScrollDim true / hasStickyButton true이며, StickyButton은 CTA·SubButton false / ScrollDim true입니다. Slot은 Fill·Hug / padding 0,0,20,0 / gap 24px이고, Tab(1depth, extendable false) → GridButton(secondary/grid, 좌우 padding 20px) 순서입니다.

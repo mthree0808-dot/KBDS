@@ -30,6 +30,8 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-20 단일 컴포넌트 래퍼 명명 검수: Auto Layout을 만들었다는 이유만으로 Group을 붙이지 않습니다. 단일 InputField의 패딩·정렬·배치용 래퍼는 `2141:10091`처럼 `InputField > InputField`로 명명하고, 같은 컴포넌트가 복수로 반복될 때만 `InputField Group`을 사용합니다. Full-Width·일반 화면·바텀시트를 동일하게 검사합니다. 명칭만 수정할 때는 자식 ID·계층·레이아웃·크기·간격을 전후 비교하여 보존합니다.
+
 2026-10-20 은행·증권사 선택 최종 기준: 이 유형을 발견하면 `zNwpdAWcBMOM5ExkiBUoGn / 2101:12453`의 전체 패턴을 우선 재사용합니다. BottomSheet 제목·닫기·스크롤 딤과 CTA 없는 StickyButton, Slot의 1depth 은행/증권사 Tab → secondary/grid GridButton 순서 / gap 24 / 하단 padding 20, GridButton 좌우 padding 20을 대조합니다. 내부 Grid는 3열 균등 FLEX / 행·열 gap 8 / 행 높이 Hug, Item / Vertical은 secondary / padding 16 / gap 12 / hasIcon true / hasSubLabel false / Fill·Fill, IconContainer는 36px 및 기관별 원본 심볼을 유지합니다. 참조의 6행·18개는 현재 목록의 결과이므로 기획의 기관명·순서·중복·상태에 맞춰 행 수를 조정합니다. 실제 Grid는 참조에서 Container 1이라는 레이어명을 사용하므로 이름만으로 Grid를 찾지 않고 layoutMode GRID를 확인합니다. Tab↔Grid 24px, 아이템 Label·문구 Hug, 스크롤 딤, 기관별 심볼과 원본 스타일·변수를 최종 검수합니다. 일반 선택형 primary/grid 예시는 이 유형에 적용하지 않습니다.
 
 2026-10-20 CTA 제작·검수: 원본 BoxButton의 Label과 버튼명은 Hug·Hug / 텍스트 WIDTH_AND_HEIGHT를 상속합니다. 버튼명을 편집할 때 현재 폰트를 로드한 뒤 characters만 변경하며 크기·width·textAutoResize를 다시 지정하지 않습니다. 공통 본문 자동 높이/Fill 처리 대상에서 CTA 텍스트를 제외합니다. 기존 잘못된 크기 override를 제거할 때 다른 상태·아이콘·문구·스타일·변수 override는 보존합니다. 실제 Resizing과 크기 override 유무를 검사하며 계산된 폭 49px를 고정 스펙으로 복제하지 않습니다. CTA 바깥 Fill과 내부 Label/문구 Hug를 각각 대조합니다.

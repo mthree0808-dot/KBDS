@@ -265,8 +265,9 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 - **복수 컴포넌트 열거 시**: 동일 컴포넌트들이 반복 열거되어 오토레이아웃으로 묶일 때는 컴포넌트명 뒤에 **`Group`**을 붙입니다.
   - 예시: `InputField Group` (복수의 InputField), `Accordion Group` (복수의 Accordion), `Radio Group` (복수의 Radio), `TextList Group`, `Table Group`, `Account Group`, `Consent Group`, `Card Group`, `Data Block Group` 등
 - **Group 내부 반복 자식의 레이어명 (2026-10-19 사용자 승인)**: `[레이어명] Group` 안에 반복되는 자식은 모두 원래 레이어명을 사용하며 숫자 순번을 붙이지 않습니다. 예를 들어 `Data Block Group`의 자식은 모두 `Data Block`, `Text Box Group`의 자식은 모두 `Text Box`, `InputField Group`의 자식은 모두 `InputField`로 명명합니다. `Container 1`, `Container 2`처럼 별도로 정의된 페이지 Container 순번 규칙은 예외로 유지하며, 컴포넌트 원형 명칭도 유지합니다.
-- **단수 컴포넌트 래핑 시**: 화면 최상단 `StepIndicator`나 하단 `알려드립니다` 등의 영향으로 Full-Width 화면에서 단일 컴포넌트에 좌우 `padding: 0 20px` 등을 부여하기 위해 불가피하게 오토레이아웃으로 감싸는 경우, `Group`을 붙이지 않고 해당 **`[컴포넌트명]` 단독**으로 명명합니다.
+- **단수 컴포넌트 래핑 시 (2026-10-20 사용자 재확정)**: 단일 컴포넌트를 패딩·정렬·배치 등 필요에 의해 오토레이아웃으로 감싸도 반복 그룹이 아니므로 `Group`을 붙이지 않고 해당 **`[컴포넌트명]` 단독**으로 명명합니다. Full-Width 화면의 좌우 패딩뿐 아니라 일반 화면·바텀시트의 단일 래퍼에도 동일하게 적용합니다. `Group`은 같은 컴포넌트가 복수로 반복될 때만 사용합니다.
   - 예시: 단일 InputField를 감쌀 경우 -> **`InputField`**, 단일 Accordion을 감쌀 경우 -> **`Accordion`**
+  - [여권만료일 입력 2141:10091](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2141-10091)처럼 단일 InputField를 감싸는 오토레이아웃은 **`InputField > InputField`**(바깥 Auto Layout / 안쪽 원본 컴포넌트)로 명명합니다. 이 경우 `InputField Group`은 잘못된 이름이며, 이름 교정 시 기존 계층·패딩·크기·컴포넌트 속성은 유지합니다.
 
 #### 3. 버튼 영역 오토레이아웃 규칙 (`Button Area`)
 - `## BODY` 영역 내에서 `BoxButton`, `Pagination / Basic` (더보기) 또는 기타 일반 버튼 컴포넌트가 배치될 경우:
