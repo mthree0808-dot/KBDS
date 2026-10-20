@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## InputField 필수·선택 및 하단 알려드립니다 최종 교정 (2026-10-20)
+
+사용자 지정 [신분증 확인 2075:2064](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2075-2064)의 이름·주민등록번호·면허번호·발급일은 모두 필수입니다. 네 InputField의 Title / Element에서 optional 속성을 false로 설정하여 optional 프레임 전체를 숨겼습니다. 기존 `(필수)`와 강조색·서체 재정의는 원형의 `(선택)` 및 Text Style·색상 변수로 복원했습니다. 앞으로 필수는 optional 래퍼 비노출, 필수가 아닌 항목은 기본 `(선택)`과 원형 색상·서체·스타일·변수를 그대로 노출합니다. 필수 상태를 표시하려고 텍스트나 색상을 바꾸지 않습니다.
+
+하단 알려드립니다의 승인된 원형은 전용 컨테이너 `2071:4202`(Full Width 390 / gap·padding 0) > 외부 Divider `2071:4203`(10px / tertiary / full, key `d1a200f3e40be0db71dc5873437dedd977d1b3e7`) → Accordion `2071:4207`(key `b92f854c8b1436c0fba64b704ae991e7d68028e3`)입니다. Accordion은 basic / standard / medium / expanded true / hasPrefix true / hasDivider false이며 Prefix는 solid-info-circle(key `c6afd5f6833dcfcd9bf15b7a9181e72c24beb700`)입니다. 본문 TextList / Unordered는 size 14, Slot-contents gap 8px입니다. 본문과의 간격은 32px, 위치는 하단 버튼 위이며 이 구성을 알려드립니다 노출 화면에 재사용합니다. 내부 1px Divider 비노출과 외부 10px Divider 노출을 구분하고 Accordion만 단독 배치하지 않습니다. 이 화면의 사용자가 변경한 72×72 이미지 영역은 보존했습니다.
+
 ## 단일 항목 Data Block 승인 (2026-10-20)
 
 기준은 [그룹 내 고객정보 제공 안내 1147:62](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=1147-62)의 고객정보 제공내역입니다. `Container 2 (1148:2995)`의 형제 `Title / Section (1148:2996)` → `Data Block (1148:3021)` 사이 gap은 16px입니다. 박스는 Vertical / Fill·Hug / padding 20 / radius 20 / gap 16, Fill `surface/neutral/tertiary-muted` key `59093c4bcca6ee8f9e5f9af90d27f568edcef5b5`, strokes는 빈 배열입니다. 단일 자식은 `DataList (1148:3023)`이며 중간 `DataList Group`과 박스 내부 Title은 없습니다.

@@ -47,14 +47,10 @@
 - **텍스트 버튼(TextButton) 및 아이콘 조합 규칙**:
   - 바로가기 버튼을 제외하고, 아이콘과 버튼이 조합될 경우 `TextButton`의 **`hasPrefix: True`**로 설정하고 버튼의 명칭/역할과 매핑되는 아이콘을 적용합니다.
   - 아이콘이 들어가지 않되 버튼으로 쓰여야 하는 경우: **`hasPrefix: False`**, **`hasSuffix: False`**, **`underline: True`** 설정
-- **InputField 필수/선택 표기 규칙 (`Title / Element`)**:
-  - `InputField` 레이블 상단 `Title / Element` 컴포넌트 적용 시:
-    - **속성 설정**: Property `optional: true` 설정
-    - **선택 표기**: 기획서상 선택 항목인 경우 텍스트를 그대로 `"선택"`으로 유지
-    - **필수 표기 (* 표기 항목)**: 기획서상 `*`로 표기된 필수 항목인 경우:
-      - 표기 텍스트: `*` 대신 **`(필수)`**로 표기
-      - 텍스트 폰트 크기/스타일: **`3xs`** 스케일, Font Weight: **`medium`**
-      - Color Token: **`text/accent`** 컬러 변수 적용
+- **InputField 필수/선택 표기 규칙 (`Title / Element`, 2026-10-20 최종 교정)**:
+  - 기획서상 **필수 항목(`*` 등)은 `optional` 래퍼 레이어를 비노출**합니다. 공개 속성 **`optional: false`**로 설정하고 실제 `optional` 프레임의 `visible: false`를 검수합니다. 텍스트만 지워 공간을 남기지 않으며, `*`나 `(필수)` 표기를 새로 노출하지 않습니다.
+  - 기획서상 **필수가 아닌 항목은 `optional: true`**로 설정하고 원형 `Title / Element`의 기본 **`(선택)`**을 그대로 노출합니다. **색상·서체·Text Style·변수 연결은 어떤 것도 변경하지 않습니다.** 임의 강조색이나 필수 표기용 스타일로 덮어쓰지 않습니다.
+  - 기존 `(필수)`·강조색 재정의가 남아 있다면 원형의 `(선택)` 텍스트·스타일·색상으로 복원한 뒤 필수 여부에 따라 래퍼 가시성만 제어합니다. 종전 `optional: true + (필수) + 3xs medium + text/accent` 지시는 폐기합니다.
 - **InputField 자체 하단 안내/힌트 문구 규칙 (`hasFooter`)**:
   - `InputField`에 붙는 부연 설명이나 안내 문구 중, 불릿 리스트 형태가 아닌 단순 일반 문장 형태인 경우:
     - `InputField`의 Property **`hasFooter: True`** 설정
@@ -447,7 +443,8 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - **하단 "알려드립니다" 공통 패턴 및 상태 규칙**:
     - `Container` 또는 `Container [순번]` 내부에 `Divider / Horizontal (thickness: 10px, variant: tertiary, length: full)`을 상단에 배치하고, 그 바로 아래에 `Accordion (type: basic, variant: standard, size: medium, hasDivider: false)` 컴포넌트를 순서대로 배치합니다.
     - **독립 컨테이너 분할 필수**: '알려드립니다'는 다른 본문 요소와 합치지 않고 반드시 **독립된 `Container [순번]`으로 그룹핑하여 분할**합니다.
-    - **펼침 상태(Open State) 반영**: 와이어프레임 상에서 '알려드립니다'가 펼쳐져 있는 구조인 경우, **실제 펼쳐진(Open/Expanded) 상태로 화면에 렌더링**합니다.
+    - **승인된 하단 구성 필수 재사용 (2026-10-20)**: [신분증 확인 2075:2064](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2075-2064)의 하단 전용 컨테이너 `2071:4202`처럼 구성합니다. **외부 Divider(10px, tertiary, full) → Accordion**, 컨테이너 gap·padding 0, 가로 Full Width, 본문과의 간격 32px이며 하단 버튼 위에 배치합니다. Accordion만 단독으로 본문 끝에 붙이지 않습니다.
+    - **Accordion 속성**: `type: basic`, `variant: standard`, `size: medium`, `hasPrefix: true`, Prefix의 아이콘은 **`solid-info-circle`**, `hasDivider: false`, `expanded: true`로 설정합니다. 원형 제목·화살표·슬롯 계층을 유지합니다. 본문 `TextList / Unordered`는 size 14, Slot-contents gap 8px를 유지하며 불릿을 일반 텍스트로 바꾸지 않습니다.
     - **내부 Divider 숨김**: 알려드립니다 내부에 위치하는 Accordion은 **`hasDivider: false`를 적용하며, Accordion 내부의 divider는 항상 숨김(비노출)** 처리합니다.
     - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**로 설정합니다.
     - 이 Container의 Auto Layout **`gap: 0px`**을 적용합니다.
@@ -719,7 +716,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - Divider Property: `thickness: 10px`, `variant: tertiary`, `length: full`
   - Accordion Property: `type: basic`, `variant: standard`, `size: medium`, **`width: fill`**, **`hasDivider: false`** (오토레이아웃 감싸기 해제)
   - **Divider 숨김**: Accordion 내부의 divider는 항상 숨김 처리
-  - **상태 제어**: 와이어프레임에서 펼쳐져 있다면 실제로 **펼친 상태(Expanded/Open)**로 노출
+  - **최종 승인 기준 (2026-10-20)**: `2075:2064` 하단처럼 `hasPrefix: true` + `solid-info-circle`, `expanded: true`, 본문 TextList size 14 / Slot-contents gap 8px를 적용합니다. 외부 10px Divider와 내부 Divider 비노출을 구분합니다.
   - 그룹핑 간격: Auto Layout **`gap: 0px`**
 
 ---
@@ -761,7 +758,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - `CheckBox`는 `CheckBox (gap: 0)` 및 하위 `CheckSub (gap: 20px, padding: 16px 0 12px / 마지막 16px 0 0)`으로 감쌉니다.
    - 단독 컴포넌트(`StepIndicator`, `Tab` 등)라도 반드시 `Container [순번]`으로 감싸며, Figma 기본 10px gap은 0으로 제거합니다.
    - `InputField` 필수/안내 설정:
-     - `Title / Element` 필수 표기는 `optional: true`, 텍스트 **`(필수)`**, `3xs medium`, 컬러 `text/accent` 적용
+     - `Title / Element` 필수 항목은 **`optional: false` 및 optional 래퍼 비노출**. 필수가 아닌 항목은 **`optional: true` 및 원형 `(선택)` 문구·색상·서체·스타일·변수 그대로** 노출. `(필수)` 표기나 색상 재정의를 추가하지 않습니다.
      - 단순 문장형 부연 설명/안내 문구는 `InputField`의 **`hasFooter: True`** 및 **`Item / Footer / hint`**에 적용
    - `SelectButton`과 `Title / Section (Description 노출)` 조합 시 `gap: 24px`를 적용합니다.
    - `Title / Section`과 `Infobox / Card` 조합 시 `gap: 16px`, `Infobox / Card`와 `TextList` 조합 시 `gap: 12px`를 적용합니다.

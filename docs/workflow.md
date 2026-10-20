@@ -30,6 +30,8 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-20 필수·선택 및 알려드립니다 교정: InputField 필수 항목은 Title / Element의 optional false / optional 래퍼 비노출을 검수합니다. 필수가 아닌 항목은 optional true / 기본 `(선택)` 문구와 색상·서체·스타일·변수를 원형 그대로 보존합니다. 기존 `(필수)` 및 강조색 재정의는 원형으로 복원합니다. 알려드립니다는 `zNwpdAWcBMOM5ExkiBUoGn / 2075:2064` 하단처럼 전용 Container(gap·padding 0, Full Width) > 외부 10px tertiary full Divider → basic/standard/medium Accordion(hasPrefix true, solid-info-circle, hasDivider false, expanded true)으로 하단 버튼 위에 배치합니다. 상단 본문과 간격 32px, 내부 TextList size 14 / Slot gap 8px를 확인하며 Accordion만 단독 배치하지 않습니다.
+
 2026-10-20 TextButton 최종 교정: 인풋 조합 및 박스 아래에 별도 배치하는 TextButton은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:7407`의 `2025:7417`처럼 variant secondary로 계획·제작·검수합니다. 종전 인풋 조합의 primary 지정은 철회합니다. 크기·간격·정렬은 각 승인 패턴을 유지하며, InputField 내부 버튼과 독립 CTA에는 일괄 적용하지 않습니다.
 
 2026-10-20 승인 규칙: 체크마크로 선택 상태를 표시하는 셀렉트 바텀시트의 List는 체크마크 노출 여부와 관계없이 높이 48px / 세로 Fixed로 계획·제작·검수합니다. 비노출 상태의 원형 Hug 높이 46px를 그대로 사용하지 않으며, 선택 전후의 List 높이와 항목 위치가 동일한지 확인합니다. 도움말·이용 방법 선택 List의 별도 높이에는 일괄 적용하지 않습니다.
