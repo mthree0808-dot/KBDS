@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## 단일 항목 Data Block 승인 (2026-10-20)
+
+기준은 [그룹 내 고객정보 제공 안내 1147:62](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=1147-62)의 고객정보 제공내역입니다. `Container 2 (1148:2995)`의 형제 `Title / Section (1148:2996)` → `Data Block (1148:3021)` 사이 gap은 16px입니다. 박스는 Vertical / Fill·Hug / padding 20 / radius 20 / gap 16, Fill `surface/neutral/tertiary-muted` key `59093c4bcca6ee8f9e5f9af90d27f568edcef5b5`, strokes는 빈 배열입니다. 단일 자식은 `DataList (1148:3023)`이며 중간 `DataList Group`과 박스 내부 Title은 없습니다.
+
+DataList 원형 key는 `689423c84906f367c21aa49c4bc1f8315ed8afa1`, 속성은 split / 14 / hasDivider false입니다. 가로 Fill·세로 Hug이며 원형 Slot은 Horizontal / gap 12입니다. Label은 가로 Hug / 좌측 정렬 / 14 Light style key `b9f5d92dffa67d9779e50c32f2c9f732a727fe8a` / `text/neutral/tertiary`; Data는 남는 폭 Fill / 우측 정렬 / 14 Medium style key `87439f01ad7a7fbf6b1556036328a19d5f0ef75c` / `text/neutral/primary`입니다. 참조의 350×60px 박스 안 DataList는 310×20px이며, 이 높이를 Fixed로 강제하지 않고 박스·DataList의 Hug를 유지합니다. 원본 인스턴스와 Slot 계층·서체·색상 변수 연결을 보존합니다.
+
+박스 내부 라벨·값 쌍이 하나일 때 이 구조를 재사용합니다. 여러 항목을 담은 단일 박스는 이 예외에 해당하지 않으며 기존 DataList Group을 유지합니다. 완료 화면의 별도 Title / DataList Group 패턴도 일괄 변경하지 않습니다.
+
 ## 셀렉트 바텀시트 List 높이 통일 (2026-10-20)
 
 사용자 확정: 체크마크가 보이는 List는 48px, 보이지 않는 List는 46px로 달라지던 상태를 **모두 48px / 세로 Fixed**(`layoutSizingVertical: FIXED`)로 통일합니다. `hasSuffix`는 체크마크 노출만 제어하고 비노출 상태에서도 높이를 유지합니다. 선택 전후 항목 위치와 목록 높이가 달라지지 않는지 검수합니다. 실제 List 인스턴스와 내부 계층·서체·변수 연결은 보존하며, 아이콘과 부연 문구가 있는 도움말/이용 방법 선택 List의 별도 높이에는 일괄 적용하지 않습니다.

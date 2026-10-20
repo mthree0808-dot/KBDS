@@ -370,6 +370,14 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - 복수의 `DataList`들을 단일 오토레이아웃 프레임으로 한 번 감쌈
      - 래핑 프레임 레이어명: **`DataList Group`**, 간격: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
 
+- **단일 항목 Data Block 전용 구조 (2026-10-20 사용자 승인)**:
+  - 적용 조건은 **박스 안의 라벨·값 쌍이 하나인 경우**입니다. Data Block 자체의 개수가 하나라는 뜻과 구분합니다. [고객정보 제공 안내 1147:62](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=1147-62)의 `고객정보 제공내역` 아래 **`제공회사 / KB국민은행`** 박스(`1148:3021`)를 기준으로 합니다.
+  - **`Data Block > DataList`**로 직접 배치하며, 단일 DataList를 `DataList Group`으로 감싸지 않습니다. DataList는 실제 인스턴스 **`layout: split`, `size: 14`, `hasDivider: false`**를 사용하고 원형 `Slot > Label, Data` 계층을 유지합니다.
+  - Data Block은 Vertical Auto Layout / 가로 Fill·세로 Hug / padding 20px (`spacing/2xl`) / radius 20px (`radius/2xl`) / gap 16px (`spacing/xl`)입니다. 기본 외형은 참조의 **`surface/neutral/tertiary-muted` + `strokes: []`**로 적용합니다. 단일 자식의 gap을 여백이나 빈 프레임으로 구현하지 않습니다.
+  - DataList는 가로 Fill·세로 Hug, Slot은 Horizontal / gap 12px (`spacing/lg`)입니다. Label은 좌측 정렬·가로 Hug·14px Light·`text/neutral/tertiary`, Data는 남는 폭 Fill·우측 정렬·14px Medium·`text/neutral/primary`입니다. 원본 Text Style과 서체·색상 변수 연결을 유지합니다.
+  - 섹션 제목이 있으면 참조처럼 **Data Block 바깥의 형제 `Title / Section`**으로 두고 제목↔박스 gap 16px를 적용합니다. 박스 안에 임의의 Title이나 Divider를 추가하지 않습니다. 참조 폭 350px에서 박스 높이는 60px이나 **높이 Fixed 60px로 고정하지 않고 Hug**를 유지합니다.
+  - 이 단일 항목 구조는 일반 Data Block의 복수 DataList 그룹 규칙보다 우선합니다. 복수 항목은 기존 `DataList Group`을 유지하고, 별도로 정의된 완료 화면의 `Title / DataList Group` 구조에는 일괄 적용하지 않습니다.
+
 #### 3. 설명·안내형 박스: `Text Box`
 - **적용 조건**: 데이터의 조회·대조보다 설명, 이용 안내, 주의, 상태 전달이 주목적이며 기존 Infobox 용도에 해당하지 않는 박스입니다. 한국어 상담센터처럼 전화번호·이메일이 포함되어도 안내 문맥이 주목적이면 `Text Box`로 분류합니다. 단순 연락처 텍스트의 존재를 버튼이나 선택 동작으로 간주하지 않습니다.
 - **구성**: `Card / Surface`를 사용하거나 분리(detach)하지 않고 Auto Layout 프레임으로 직접 만듭니다. 레이어명은 단일·복수 모두 `Text Box`이며, 반복 목록은 `Text Box Group`으로 묶고 내부 자식에 순번을 붙이지 않습니다.
