@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 셀렉트 바텀시트 List 높이 통일 (2026-10-20)
+
+사용자 확정: 체크마크가 보이는 List는 48px, 보이지 않는 List는 46px로 달라지던 상태를 **모두 48px / 세로 Fixed**(`layoutSizingVertical: FIXED`)로 통일합니다. `hasSuffix`는 체크마크 노출만 제어하고 비노출 상태에서도 높이를 유지합니다. 선택 전후 항목 위치와 목록 높이가 달라지지 않는지 검수합니다. 실제 List 인스턴스와 내부 계층·서체·변수 연결은 보존하며, 아이콘과 부연 문구가 있는 도움말/이용 방법 선택 List의 별도 높이에는 일괄 적용하지 않습니다.
+
 ## InputField 보조 버튼·도움말 선택 목록 승인 (2026-10-19)
 
 InputField 뒤에 해결방법 등의 보조 버튼이 오는 패턴은 [2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)의 조합 `2025:7406`을 기준으로 합니다. `InputField / Button Area`는 Vertical / Fill·Hug / gap 12px이며 자식은 InputField → Button Area입니다. Button Area는 gap 0 / 우측 정렬 / Fill·Hug, TextButton은 `primary / xsmall` / prefix false / suffix true / underline false / Hug·Hug입니다. 실제 원형 key는 `d2cd717a7480b1c96a42b9fd9335055dc1ba68f1`, 버튼 높이는 17px입니다. Title과 조합 간격은 24px입니다. 적용 화면은 인증번호 입력 `2050:1586`이며 7:00 타이머와 다시받기 버튼은 유지했습니다.

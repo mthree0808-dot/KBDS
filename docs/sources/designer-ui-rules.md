@@ -142,6 +142,10 @@
   - **체크 활성화 상태 (Active/Selected)**:
     - 체크가 활성화된 `List`는 `hasSuffix: True` 설정
     - 하위 계층: `Slot-Suffix` > `Item / Suffix`에서 `variant: checkMark` 적용
+  - **체크마크 노출 여부에 따른 높이 통일 (2026-10-20 사용자 확정)**:
+    - 셀렉트 바텀시트의 `List`는 체크마크가 노출되거나 비노출이어도 **모두 높이 48px / 세로 Fixed**(`layoutSizingVertical: FIXED`)로 설정합니다. 체크마크 비노출 시 원형의 Hug 높이 46px로 줄어드는 동작은 허용하지 않습니다.
+    - `hasSuffix`로 체크마크 노출 여부만 제어하고, 선택 상태 변경 전후에도 List 높이 48px와 항목 위치를 유지합니다. 실제 List 인스턴스·내부 계층·서체·변수 연결은 보존합니다.
+    - 이 규칙은 체크마크로 선택 상태를 표시하는 셀렉트 바텀시트 List에 적용하며, 아이콘·부연 문구를 포함한 도움말/이용 방법 선택 List의 높이까지 일괄 48px로 변경하지 않습니다.
   - **데이터 매핑**: 기획서에 명시된 리스트 항목 텍스트를 `List` 컴포넌트에 순차적으로 1:1 매핑합니다.
 - **도움말·이용 방법 선택 바텀시트 (2026-10-19 사용자 승인, 위 일반 선택형보다 우선)**:
   - [인증번호 입력 도움말 기획](https://www.figma.com/design/CdyCQv4aFslTl7MGoQxmU9/?node-id=4469-44517)과 같은 이용 방법 선택 화면은 [추가 본인 인증 기준 185:14891](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=185-14891)처럼 **테두리 카드 없이 `List` 인스턴스**로 구성합니다.
@@ -661,6 +665,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - Divider(10px) 포함 Container 내부 Auto Layout **`gap: 0px`** 적용
 - **Card / Surface 및 Data Block 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
 - **선택형 바텀시트 List 간 간격**: `Container 1` 내부 Auto Layout **`gap: 8px` (`md`)** 적용 (List 자체 좌우 패딩: 0px)
+- **셀렉트 바텀시트 List 높이**: 체크마크 노출·비노출 모두 **48px / 세로 Fixed**. 비노출 시 46px Hug로 축소하지 않습니다. 항목 간 gap과 List 자체 높이를 별도로 검수합니다.
 - **알려드립니다 컨텐츠 Container 내부 간격**: Divider(10px, tertiary)와 Accordion 사이 Auto Layout **`gap: 0px`** 적용
 
 #### TextList 사이즈 및 그룹 간격 규칙
