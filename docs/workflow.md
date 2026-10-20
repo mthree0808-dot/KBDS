@@ -30,6 +30,10 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-20 CTA 제작·검수: 원본 BoxButton의 Label과 버튼명은 Hug·Hug / 텍스트 WIDTH_AND_HEIGHT를 상속합니다. 버튼명을 편집할 때 현재 폰트를 로드한 뒤 characters만 변경하며 크기·width·textAutoResize를 다시 지정하지 않습니다. 공통 본문 자동 높이/Fill 처리 대상에서 CTA 텍스트를 제외합니다. 기존 잘못된 크기 override를 제거할 때 다른 상태·아이콘·문구·스타일·변수 override는 보존합니다. 실제 Resizing과 크기 override 유무를 검사하며 계산된 폭 49px를 고정 스펙으로 복제하지 않습니다. CTA 바깥 Fill과 내부 Label/문구 Hug를 각각 대조합니다.
+
+2026-10-20 은행·증권사 선택 제작·검수: `2109:3661`처럼 GridButton 내부 IconContainer에 기관별 원본 심볼을 instance-swap으로 연결합니다. MO 원본 F07. System Icon(`1:672`) > 04 로고(`18273:39357`)에서 기관명·기관 코드·key를 확인하고 은행은 logo/bg/bank/ 원본을 매핑합니다. 증권사는 해당 증권사의 원본 심볼을 확인합니다. 항목 순서·중복·Grid·선택 상태·IconContainer 원형 크기를 보존하며 기본 ICON, 공통 아이콘, 다른 기관 심볼이 남지 않았는지 구조와 화면을 함께 검수합니다. 도움말 목록의 작업자 아이콘 지정 예외를 이 유형에 적용하지 않습니다. 확인하지 못한 기관은 추정 대체하지 않습니다.
+
 2026-10-20 선택형 버튼 UI: 신분증 종류 선택 등 버튼형 선택지는 실제 GridButton을 우선합니다. 승인 화면 `zNwpdAWcBMOM5ExkiBUoGn / 2074:1554`의 GridButton > Slot > Grid 구조를 재사용하고 Slot 내부 Grid의 행·열·아이템 수·순서를 기획에 맞게 조정합니다. 1행 2열은 현재 예시이며 모든 화면에 고정 적용하지 않습니다. native selected/disabled 상태·레이블·아이콘·변수 연결과 Grid 내부 배치를 검수하며, 일반 Card / Surface 선택 판정보다 이 규칙을 우선합니다. 셀렉트 바텀시트 List 등 별도 전용 규칙은 유지합니다.
 
 2026-10-20 필수·선택 및 알려드립니다 교정: InputField 필수 항목은 Title / Element의 optional false / optional 래퍼 비노출을 검수합니다. 필수가 아닌 항목은 optional true / 기본 `(선택)` 문구와 색상·서체·스타일·변수를 원형 그대로 보존합니다. 기존 `(필수)` 및 강조색 재정의는 원형으로 복원합니다. 알려드립니다는 `zNwpdAWcBMOM5ExkiBUoGn / 2075:2064` 하단처럼 전용 Container(gap·padding 0, Full Width) > 외부 10px tertiary full Divider → basic/standard/medium Accordion(hasPrefix true, solid-info-circle, hasDivider false, expanded true)으로 하단 버튼 위에 배치합니다. 상단 본문과 간격 32px, 내부 TextList size 14 / Slot gap 8px를 확인하며 Accordion만 단독 배치하지 않습니다.

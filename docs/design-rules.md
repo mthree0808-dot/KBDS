@@ -1,5 +1,24 @@
 # 실측 디자인 규칙
 
+## CTA Label Hug·기관별 심볼 확정 (2026-10-20)
+
+CTA 원본 BoxButton(primary/large) key `fa61e02668d4cdbaa3804bebdf3b37cdef9b274d`의 Label은 Hug·Hug, 내부 `버튼명` TEXT도 Hug·Hug / WIDTH_AND_HEIGHT입니다. 원형 기본 문구의 측정 폭 49px는 Fixed 지시가 아닙니다. 승인 교정 `0P0j17OPstNhC3LWjBdBGy / 72:8029`의 ‘확인’은 고정폭 49 + HEIGHT override를 제거한 뒤 원형 Hug / WIDTH_AND_HEIGHT / 자연 폭 33px로 복원했습니다. ‘다시 촬영’은 원형 Hug에서 자연 폭 71px입니다. 33·49·71px를 제작 스크립트의 고정 width로 사용하지 않고 문구만 바꿉니다. 공통 본문 텍스트 처리에서 CTA 내부 Label/버튼명은 제외합니다.
+
+은행 선택 승인 화면 `zNwpdAWcBMOM5ExkiBUoGn / 2109:3661`은 GridButton > Slot > Grid > Item / Vertical > IconContainer(size 36)를 유지합니다. 3행 3열·행/열 gap 8px, 기획의 ‘산업’ 중복을 보존하고 IconContainer 공개 속성 `icon#1029:35`만 해당 기관의 원본 심볼로 매핑했습니다. 원본 위치는 MO 파일 `09eGMNTNnkE0CTxPdr7lnk` / F07. System Icon `1:672` / 04 로고 `18273:39357`, description `logo/bg/bank/`입니다.
+
+|항목|원본 심볼|component key|
+|---|---|---|
+|KB국민|004-국민은행-bg|`969c6fc330be845f0281651764a1cdce2a699646`|
+|기업|003-기업은행-bg|`1044fcdde2ac6d7659d7fa8e82984c5c710607c4`|
+|농협|011-농협-bg|`ad1c6471517df99d7d7158e8213e24856592cd3f`|
+|산업(두 항목)|002-산업은행-bg|`199d229be1be231878c49fdd3c6d8f0d35291d81`|
+|신한|088-신한은행-bg|`83421380f7b611c5e27c06706fb7af90c1fdb304`|
+|우리|020-우리은행-bg|`d4b484b9f650e51ff418efd88559dff8f6898664`|
+|우체국|071-우정사업본부-bg|`2da6044e20079ff5fee0736aad13e3b2ce65ec7b`|
+|하나|081-하나은행-bg|`680b8b7b88a4c678eabaf84243f1c2c3680a7dc5`|
+
+향후 은행·증권사 선택에서도 각 기관명과 원본 심볼의 실제 key를 대조합니다. 현재 은행 목록·3×3 구성·size 36을 모든 기획에 강제하지 않으며, 증권사에는 해당 증권사의 원본을 확인하여 적용합니다. 기본 ICON이나 다른 기관 로고를 추정 대체로 사용하지 않습니다.
+
 ## 선택형 버튼 GridButton 승인 (2026-10-20)
 
 기준 [신분증 촬영_모바일 2074:1554](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2074-1554)의 GridButton `2071:4500`은 실제 primary/grid 인스턴스(key `e48a66fa51b31fd8e86b1703a35f07c07e3373e0`)입니다. 계층은 GridButton > Slot > Grid > Item / Vertical이며, Grid `I2071:4500;2597:176342;2071:4497`은 layoutMode GRID / 1행 2열 / gridAutoTracks ROWS / 가로 Fill·세로 Hug / 행·열 gap 8px입니다. 두 열은 각각 FLEX 1, 행은 HUG입니다. 현재 350px 폭에서 아이템은 각각 171×121px입니다.

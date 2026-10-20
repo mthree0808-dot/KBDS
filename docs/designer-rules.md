@@ -15,6 +15,8 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 ## 화면과 구조 — 원문 §2, §5
 
 ### 2026-10-19 승인 규칙 우선 적용
+- 2026-10-20 CTA 원형 보존: `BoxButton > Label > 버튼명`의 Label·텍스트는 원형 Hug·Hug, 텍스트 자동 크기는 WIDTH_AND_HEIGHT를 상속합니다. 문구만 바꾸고 resize·고정 width·HEIGHT·본문용 Fill/자동 높이 처리를 적용하지 않습니다. 잘못된 크기 override를 복원할 때 다른 상태·아이콘·서체·변수는 보존합니다. 폭 49px 같은 측정값 자체가 아니라 실제 Resizing·override와 문구 변경에 따른 자연 폭을 검수합니다. 바깥 CTA 버튼의 Fill과 내부 문구의 Hug를 혼동하지 않습니다.
+- 2026-10-20 은행·증권사 선택: 승인 화면 `2109:3661`처럼 GridButton 내부 Item / Vertical의 IconContainer에 각 기관의 원본 심볼을 instance-swap으로 연결합니다. MO F07. System Icon > 04 로고의 기관명·기관 코드·key를 확인하며 기본 ICON·공통 아이콘으로 납품하지 않습니다. 항목명·순서·중복·상태·Grid 구성 및 IconContainer 크기를 유지합니다. 증권사도 해당 증권사의 심볼을 확인하며, 도움말 목록의 기본 아이콘 유지 예외를 적용하지 않습니다.
 - 2026-10-20 선택형 버튼 UI: `2074:1554`처럼 선택지를 버튼으로 열거하는 화면은 Card / Surface 대신 실제 **GridButton**을 우선합니다. `GridButton > Slot > Grid > Item / Vertical` 원형을 유지하고 **Slot 안 Grid의 행·열·아이템 수·순서**를 기획에 맞춰 조정합니다. 현재 primary/grid, 1행 2열·균등 Fill·gap 8px는 예시이며 전역 고정하지 않습니다. 하단 Button Area 조합 래퍼는 `GridButton / Button Area`입니다. List 셀렉트 바텀시트 등 기존 전용 패턴은 유지합니다.
 - 2026-10-20 필수/선택 최종 교정: 필수 InputField는 Title / Element의 `optional: false`로 optional 래퍼를 숨깁니다. 필수가 아닌 항목은 `optional: true`와 기본 `(선택)` 문구·색상·서체·스타일·변수를 그대로 유지합니다. 기존 `(필수)`·강조색 재정의는 원형으로 복원하며 표기 대신 래퍼 가시성만 제어합니다.
 - 2026-10-20 최종 교정: [2025:7407](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-7407)의 하단 TextButton처럼 **인풋 조합 및 박스 아래에 별도 배치하는 TextButton의 variant는 secondary**입니다. 종전 인풋 조합의 primary 지정은 철회하며 기존 크기·간격·정렬은 유지합니다. InputField 내부 버튼과 독립 CTA까지 일괄 변경하지 않습니다.

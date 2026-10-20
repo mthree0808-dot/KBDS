@@ -4,6 +4,12 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### CTA Label Hug 및 은행·증권사 심볼 (2026-10-20 사용자 확정)
+- **CTA 문구는 원본 Hug 상속**: `StickyButton > ButtonGroup > BoxButton > Label > 버튼명`에서 Label과 내부 텍스트의 원형 가로·세로 Hug를 유지합니다. 텍스트는 원형 `textAutoResize: WIDTH_AND_HEIGHT`를 상속하며 문구만 변경합니다. `resize()`·고정 width·`textAutoResize: HEIGHT`·일반 본문용 Fill/자동 높이 처리를 버튼명에 적용하지 않습니다. CTA 바깥 버튼의 Fill 또는 원형 높이와 내부 Label/문구의 Hug는 구분합니다.
+- **크기 override 금지 및 검수**: 원본이 이미 Hug이므로 매번 크기 속성을 재설정하지 않습니다. 잘못된 크기 override만 제거하고 문구·상태·아이콘·원형 서체·스타일·변수를 보존합니다. `49px` 등 현재 측정된 폭은 Hug의 계산 결과일 수 있으므로 숫자만으로 고정폭 여부를 판단하지 않고 Resizing과 override를 확인합니다. 문구 변경 뒤 자연스럽게 폭이 갱신되는지 검수합니다.
+- **은행·증권사 선택은 실제 기관 심볼 매핑**: [은행/증권사 선택 2109:3661](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2109-3661)처럼 `GridButton > Slot > Grid > Item / Vertical > IconContainer`를 유지하고 IconContainer의 공개 instance-swap 속성에 해당 은행·증권사의 원본 심볼을 적용합니다. 기본 `ICON`, 공통 아이콘, 임의 로고나 다른 기관 심볼로 대신하지 않습니다. 이 유형은 도움말 목록에서 작업자가 아이콘을 지정하도록 기본 아이콘만 두는 예외와 구분합니다.
+- **범위와 출처**: 기획의 항목명·순서·중복·선택 상태와 Grid 행·열 구성을 보존합니다. 심볼은 MO 디자인 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 F07. System Icon 페이지 `1:672` > `04 로고`(`18273:39357`)에서 기관명·기관 코드·component key를 확인하여 사용합니다. 은행은 `logo/bg/bank/` 원본을 우선하며 증권사는 해당 증권사 원본을 확인합니다. IconContainer의 원형 크기와 인스턴스 구조를 유지하고 detach·직접 그리기를 하지 않습니다. 심볼을 확인하지 못하면 다른 기관으로 추정 대체하지 않고 미확인으로 명시합니다.
+
 ### 사용자 승인 갱신 (2026-10-19): Tab 후속 간격과 조회 내역
 - **Tab 후속 일반 콘텐츠 간격과 계층**: 1depth·2depth·3depth Tab 다음에 Infobox / Card, 입력, 목록, Data Block 등 일반 콘텐츠가 이어지면 **gap 24px (`spacing/3xl`)**을 적용합니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 같은 콘텐츠 블록은 하나의 `Container [순번]` 안에 구성하며, 간격을 맞추기 위해 각 요소를 별도 Container로 감싼 뒤 외부 복합 래퍼에 넣지 않습니다. 패딩이나 빈 프레임으로 간격을 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
 - **Tab + Infobox / Card 필수 구조 (2026-10-19 사용자 교정)**: `## BODY > Container 1 > Tab, Infobox / Card`로 구성합니다. `Tab`과 `Infobox / Card`는 **Container 1의 직계 자식**이며 Container 1의 Vertical Auto Layout gap에 `spacing/3xl`=24px를 연결합니다. `Tab / Infobox > Container 1, Container 2` 구조와, Tab·Infobox를 각각 Container로 감싸는 구조는 금지합니다. 이 규칙은 아래 일반 복합 그룹 네이밍 공식보다 우선합니다. Tab은 화면 폭을 채우고, Infobox / Card는 좌우 20px 여백이 남는 콘텐츠 폭으로 가운데 정렬합니다. 다음 독립 본문 블록은 형제 `Container 2`부터 순차 명명합니다.
