@@ -4,6 +4,11 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### Infobox 후속 간격·선택 그룹 간격·임의 강조 금지 (2026-10-21 사용자 최종 교정)
+- **Infobox / Card 다음 콘텐츠**: 콘텐츠 종류와 무관하게 바로 다음 콘텐츠와의 외부 간격은 **24px (`spacing/3xl`)**로 적용합니다. 각각을 감싼 Container 사이에도 같은 실제 간격을 적용하며 BODY 기본 32px 및 종전 Infobox / Card → TextList 12px보다 우선합니다. 카드 내부 Slot·TextList 간격이나 카드 앞쪽 Title·InputField와의 간격은 이 규칙으로 변경하지 않습니다. 빈 프레임·중복 padding으로 간격을 더하지 않습니다.
+- **선택 그룹 내부 간격**: `Radio Group`과 `Checkbox Group`(기존 표기 `CheckBox Group` 포함)의 반복 항목 사이 gap은 **20px (`spacing/2xl`)**입니다. Horizontal·Vertical 모두 적용하고 Grid는 행·열 gap 모두 20px로 설정합니다. 개별 Radio·CheckBox 원형 내부 간격, 단일 CheckBox 래퍼 gap 0, Title / Element와 그룹 사이 gap 16px는 별도 규칙을 유지합니다.
+- **기획에 없는 문장 내 강조·링크 추가 금지**: 메뉴명·대괄호·다른 화면을 언급하는 문장이라는 이유만으로 Bold/Medium, 강조색, 밑줄, hyperlink·이동 동작을 추가하지 않습니다. 기획 또는 사용자 지시에 명시된 구간에만 해당 강조·링크 규칙을 적용합니다. `[고객정보조회(개인정보열람)]`처럼 기획에 강조·링크가 없는 구간은 주변 일반 본문과 동일한 원본 Text Style·Weight·색상을 유지합니다. 링크 스타일 규칙은 이미 링크로 확정된 구간의 표현 방법이며, 링크 여부를 임의 판정하는 근거가 아닙니다.
+
 ### 인포박스 단일 안내와 본문 섹션 제목 (2026-10-21 사용자 재확정)
 - **인포박스 안의 단일 안내 항목**: [발급폐기내역조회 2158:10984](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-10984)처럼 인포박스 콘텐츠에 `TextList / Unordered`가 하나만 들어가는 경우, 불릿 없는 일반 텍스트로 구성합니다. 한 항목이 여러 줄로 줄바꿈되거나 문장을 여러 개 포함해도 항목 수를 늘려 해석하지 않습니다. 일반 텍스트는 `Text` Vertical Auto Layout(gap·padding 0, Fill·Hug) > 편집 가능한 `Content`로 감싸고 원본 Text Style·변수·색상 연결을 유지합니다. Infobox / Card는 기존 단일 항목 규칙의 `Dynamic/Body/xs∙14∙Light` 및 `text/neutral/tertiary`를 따르고, 다른 인포박스는 각 원형의 해당 본문 스타일을 유지합니다. 복수 안내 항목의 TextList와 인포박스 밖 일반 본문의 단일 TextList 유지 규칙은 구분합니다.
 - **본문 구획의 제목은 실제 Title / Section 사용**: [재외국민 비대상 안내 2157:9320](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2157-9320)의 `재외국민이란?`, `재외국민 등록방법(1가지 선택)`처럼 뒤따르는 설명·목록을 대표하는 섹션 제목은 실제 **`Title / Section` 컴포넌트 인스턴스**로 구성합니다. 일반 Text에 Medium/Bold를 적용하거나 래퍼 이름만 Title로 바꾸어 대신하지 않습니다. 제목 문구만 매핑하고 원형 서체·Weight·스타일·변수·공개 속성을 유지하며, 기획에 없는 SubTitle·Description·아이콘·suffix는 원형 노출 속성으로 숨깁니다. 아래 설명은 일반 Text, 목록은 해당 TextList 규칙을 따릅니다. 제목으로 보이는 외형뿐 아니라 실제 인스턴스·mainComponent key를 검수합니다.
@@ -55,6 +60,7 @@
   - 간결한 항목들을 다룰 경우: Property **`word`** 타입 적용
   - 그렇지 않은 일반/문장형 항목인 경우: Property **`sentence`** 타입 적용
 - **텍스트 강조 및 Color Token 세부 규칙**:
+  - **적용 전제**: 기획 또는 사용자 지시에 명시된 문장 내 강조에만 아래 스타일을 적용합니다. 메뉴명·대괄호만 보고 강조를 새로 만들지 않습니다.
   - 텍스트에 강조색(긍정, 부정, 단순 강조 등)을 적용할 때, 기본적으로 **동일 폰트 크기 계열 내 `medium` 타입의 텍스트 스타일/변수**를 적용합니다.
   - **테이블 내 예외 규칙 (CRITICAL)**: **`Table / Cell`에 들어가는 텍스트는 시맨틱(의미형)/비시맨틱(단순 강조) 특정 컬러를 적용하더라도 폰트의 Weight를 `medium`으로 변경하지 않고, 원형 그대로 `light`를 유지합니다.**
   - **시맨틱 상태 강조**:
@@ -65,6 +71,7 @@
     - 단순 빨간색 강조: **`text/accent/red`**
     - 단순 검정색 강조: **`text/neutral/primary`**
 - **인라인 링크 텍스트 스타일 (TextList / Unordered 및 일반 텍스트 공통)**:
+  - **적용 전제**: 기획 또는 사용자 지시에서 링크로 명시된 구간에만 적용합니다. 단순 메뉴명·다른 화면 언급·대괄호를 링크로 추정하지 않으며, 기획에 없는 링크 외형이나 URL·이동 동작을 추가하지 않습니다.
   - 문장 중간에 링크 처리되는 부분을 표기할 경우:
     - **Color Token**: `text/neutral/secondary`
     - **Typography**: 동일 폰트 계열 내 `bold`로 정의된 Text Style 적용
@@ -300,6 +307,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 #### 4. 체크박스 및 라디오 컴포넌트 규칙
 - **CheckBox**: 항상 오토레이아웃 프레임 **`CheckBox`** (Auto Layout **`gap: 0px`**)로 감쌉니다. (종속 하위 항목은 **`CheckSub`** 유지)
 - **Radio**: **`Radio` 컴포넌트는 개별 오토레이아웃으로 감싸지 않고 컴포넌트 원형 그대로 열거**하며, 이들을 감싸는 상위 **`Radio Group`의 내부 간격은 Auto Layout `gap: 20px` (`2xl` 토큰)**을 적용합니다.
+- **선택 그룹 공통**: `Radio Group`과 `Checkbox Group`(`CheckBox Group`)의 반복 항목 gap은 **20px (`spacing/2xl`)**이며 Grid는 행·열 gap 모두 20px입니다. 개별 컴포넌트 원형 내부 간격과 단일 CheckBox 래퍼 gap 0은 유지합니다.
 
 #### 5. 타이틀과 일반 텍스트 결합 규칙
 - **일반 텍스트 공통 래핑 (2026-10-19 사용자 교정)**: 타이틀과의 결합 여부와 관계없이, Slot·Container에 배치하는 일반 본문은 **`Text`**라는 Vertical Auto Layout 프레임으로 감쌉니다. gap과 padding은 0, 가로 Fill·세로 Hug로 설정하고 내부 텍스트도 가로 Fill·세로 Hug 및 자동 높이로 구성합니다. 바텀시트의 단일 본문 블록은 **`Slot > Container > Text > Content`** 구조를 적용합니다. `Content`는 편집 가능한 텍스트 레이어이며, 일반 텍스트를 Container의 직계 자식으로 두지 않습니다. 기존 DS 컴포넌트 내부의 원형 계층과 불릿 TextList 사용 규칙은 유지합니다.
@@ -446,7 +454,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - **Title / Section 조합 패턴**:
     - `Title / Section`과 `Infobox / Card`가 조합될 시 둘 사이 Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
   - **Infobox / Card 조합 패턴**:
-    - `Infobox / Card`와 단수 또는 복수의 `TextList`가 조합될 시 둘 사이 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+    - `Infobox / Card` 다음 콘텐츠와의 외부 간격은 단수·복수 `TextList`를 포함하여 **`gap: 24px` (`spacing/3xl`)** 적용. 카드 내부 간격과 카드 앞쪽 간격은 별도 규칙을 유지
   - **Input & TextList 조합 패턴**:
     - **InputField Group 다음 일반 TextList 노출**: `InputField Group`과 `TextList`를 그룹핑하고 둘 사이 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
     - **특정 InputField의 부가설명 성격 TextList**: 불릿 리스트 형태로 추가 설명이 들어갈 때는 해당 `InputField`와 `TextList`를 별도로 묶어 그룹핑하고 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
@@ -456,9 +464,10 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - **Title / Element + Radio Group / CheckBox Group 조합 패턴**:
     - **Title / Element와 Radio Group 사이 간격**: Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
     - **Radio Group 내부 구조**: `Radio` 컴포넌트는 오토레이아웃으로 감싸지 않고 원형 그대로 열거하며, 내부 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
+    - **Checkbox Group 내부 구조**: `Checkbox Group`(`CheckBox Group`)의 항목 간 Auto Layout **`gap: 20px` (`spacing/2xl`)** 적용. 개별 CheckBox 원형 내부와 단일 래퍼 gap 0은 유지
     - **CheckBox 그리드 레이아웃**:
       - Flow: **`grid`** (기획서에 따라 `3*1`, `2*auto` 등 설정)
-      - 간격: **`gap between columns: 16px` (`xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
+      - 간격: **`gap between columns: 20px` (`2xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
     - **항목 텍스트가 긴 경우 (Vertical 형태)**:
       - 항목 텍스트 길이가 길어 grid 배치가 곤란한 경우 `Group`의 Flow 속성을 **`vertical`**로 설정하고 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
   - **일반 화면 계좌 선택 패턴**:
@@ -666,9 +675,10 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 - **`Title / Section` 또는 `Title / Element` + 일반 텍스트 결합**: 일반 텍스트는 **`Text (gap: 0px)`** 오토레이아웃으로 감싸서 결합
 - **`Title / Element`와 `Radio Group` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
 - **`Radio Group` 내부 간격**: Auto Layout **`gap: 20px` (`2xl`)** 적용 (내부 `Radio`는 개별 오토레이아웃 없이 컴포넌트 원형 그대로 배치)
+- **`Checkbox Group` (`CheckBox Group`) 내부 간격**: Auto Layout **`gap: 20px` (`2xl`)** 적용. Grid의 행·열 gap도 모두 20px이며 개별 CheckBox 원형 내부 간격은 보존
 - **`Title / Section`과 `SelectButton` (Description 노출 시) 사이 간격**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **`Title / Section`과 `Infobox / Card` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
-- **`Infobox / Card`와 `TextList` 사이 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
+- **`Infobox / Card` 다음 콘텐츠와의 외부 간격**: `TextList`를 포함해 **`gap: 24px` (`3xl`)** 적용. 카드 내부 Slot/TextList 간격과 구분
 - **`InputField Group`과 일반 `TextList` 사이 간격**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **`InputField`와 부가설명 `TextList` 사이 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
 - **`InputField`, `SelectButton` 등과 하단 `Infobox / Card` 사이 간격**: Auto Layout **`gap: 20px` (`2xl`)** 적용
@@ -681,7 +691,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 - **정보성 카드 `Data Block` (액션 미포함) 내부 간격**: 프레임 Auto Layout **`gap: 16px` (`xl` 토큰)**, 내부 `DataList`를 묶는 `DataList Group` 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
 - **`Card Group` 또는 `Data Block Group`과 하단 더보기(`Pagination / Basic`) 사이 간격**: 더보기 컴포넌트를 `Button Area`로 감싸고 둘 사이 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
 - **`Title / Element` + CheckBox 그리드 간격**:
-  - Grid 적용 시: **`gap between columns: 16px` (`xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
+  - Grid 적용 시: **`gap between columns: 20px` (`2xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
   - 긴 텍스트 (Vertical) 적용 시: Auto Layout **`gap: 20px` (`2xl`)** 적용
 - **체크박스 아이템 간격 및 패딩**:
   - `CheckBox`: Auto Layout **`gap: 0px`**
@@ -796,6 +806,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - `Title / Page` 다음에 디스크립션이 오는 경우 하위 `Description` 레이어의 가시성을 활성화합니다.
    - `Title / Section` 또는 `Title / Element`에 일반 텍스트가 결합될 시 일반 텍스트를 **`Text (gap: 0px)`** 오토레이아웃으로 감싸서 계층을 구성합니다. 단, **일반 본문에서 `Title / Section` 다음에 단일 항목의 `TextList / Unordered`가 올 경우 불릿이 유지된 컴포넌트 그대로 정의**합니다.
    - `Title / Element`와 `Radio Group`은 `gap: 16px`, `Radio Group` 내부의 `Radio`는 개별 오토레이아웃 없이 컴포넌트 그대로 열거하며 `gap: 20px`를 적용합니다.
+   - `Checkbox Group`(`CheckBox Group`) 내부 반복 항목도 gap 20px이며 Grid의 행·열 gap 모두 spacing/2xl=20px를 적용합니다. 개별 Radio·CheckBox 내부 간격과 단일 CheckBox 래퍼 gap 0은 변경하지 않습니다.
    - `Title / Section` 우측 버튼 조합은 `Container Title (horizontal, gap: 8px, align left)`로 오토레이아웃 그룹핑합니다.
    - 텍스트 강조 시 같은 폰트 크기 내 `medium` 변수를 쓰고 `positive`, `negative`, `blue`, `red`, `primary` 토큰 규칙을 준수합니다. (단, `Table / Cell` 내 텍스트 컬러 지정 시에는 Weight를 `medium`으로 올리지 않고 `light`를 유지)
    - 바로가기 버튼 외 아이콘 결합 버튼은 `TextButton`의 `hasPrefix: True` 설정, 아이콘 없는 버튼형 텍스트는 `hasPrefix/hasSuffix: False`, `underline: True`로 적용합니다.
@@ -810,7 +821,8 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - `Title / Element` 필수 항목은 **`optional: false` 및 optional 래퍼 비노출**. 필수가 아닌 항목은 **`optional: true` 및 원형 `(선택)` 문구·색상·서체·스타일·변수 그대로** 노출. `(필수)` 표기나 색상 재정의를 추가하지 않습니다.
      - 단순 문장형 부연 설명/안내 문구는 `InputField`의 **`hasFooter: True`** 및 **`Item / Footer / hint`**에 적용
    - `SelectButton`과 `Title / Section (Description 노출)` 조합 시 `gap: 24px`를 적용합니다.
-   - `Title / Section`과 `Infobox / Card` 조합 시 `gap: 16px`, `Infobox / Card`와 `TextList` 조합 시 `gap: 12px`를 적용합니다.
+   - `Title / Section` 다음 `Infobox / Card` 조합 시 gap 16px를 유지하고, `Infobox / Card` 다음 콘텐츠와의 외부 gap은 TextList를 포함해 24px를 적용합니다. 카드 내부 간격과 혼동하지 않습니다.
+   - 문장 내 강조·링크는 기획 또는 사용자 지시에서 명시된 구간에만 적용합니다. 단순 메뉴명·대괄호는 주변 본문 스타일을 유지하며, 기획에 없는 강조 굵기·강조색·밑줄·링크 동작을 추가하지 않습니다.
    - `InputField Group`과 일반 `TextList`는 `gap: 24px`, 부가설명 성격의 불릿 `TextList`는 해당 `InputField`와 묶어 `gap: 12px`로 매핑합니다.
    - `TextList (size: 14, depth: 1)`과 `TextList` 결합 시 오토레이아웃 `gap: 8px` (`md`)을 적용합니다.
    - `HomeIndicator` 컴포넌트는 항상 우측 속성 패널에서 **`os: iOS`** 속성을 지정합니다.

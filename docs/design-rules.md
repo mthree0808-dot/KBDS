@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## Infobox 후속 24px·선택 그룹 20px·임의 인라인 링크 교정 (2026-10-21)
+
+사용자 확정: Infobox / Card 다음 콘텐츠와의 외부 간격은 spacing/3xl=24px(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)입니다. 단수·복수 TextList 등 콘텐츠 종류에 관계없이 적용하고 카드 내부 Slot·TextList 간격이나 카드 앞쪽 간격과 구분합니다. 종전 Card → TextList 12px보다 이 최신 규칙을 우선합니다. Radio Group 및 Checkbox Group(CheckBox Group)의 항목 gap은 spacing/2xl=20px(key `5491ce4ce8c48cc4a679f8cedc426cb96bb9a141`)이며 Grid 행·열 모두 20px입니다. 개별 컴포넌트 내부와 단일 CheckBox 래퍼 gap 0은 유지합니다.
+
+조회한 [통지방법 변경 1151:257](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=1151-257)의 Radio Group `1152:648`은 gap 16px였습니다. 인포박스 문장 `I1152:572;902:52528;1152:610;1026:36811`에서 `[고객정보조회(개인정보열람)]` 구간만 14 Bold(`b0999af182e5ce7eb9ea259cac7dfb02a47f9920`) / text/neutral/secondary / UNDERLINE이며 주변은 14 Light(`b9f5d92dffa67d9779e50c32f2c9f732a727fe8a`) / text/neutral/tertiary / 밑줄 없음이었습니다. 해당 구간의 실제 hyperlink 값은 null이므로 URL이 연결된 링크라고 보고하지 않습니다.
+
+사용자는 기획에 해당 강조·링크가 없다고 확인했습니다. 링크로 명시되지 않은 메뉴명에 인라인 링크 표현 규칙을 적용한 매핑 오류이며, 메뉴명·대괄호만으로 강조나 이동 기능을 추가하지 않습니다. 일반 본문과 동일한 원본 스타일·색상·변수를 유지해야 합니다. 이번 작업은 MD 갱신과 화면 읽기이며 해당 Figma 화면을 수정했다는 의미는 아닙니다.
+
 ## 일반 화면의 Popup 래퍼 오적용 — 사용자 교정 (2026-10-21)
 
 사용자는 [인증 요청(iOS) 2027:732](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2027-732)를 Popup으로 감싼 제작을 지적하고 [휴대폰 인증 2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)처럼 최상위 HEADER·BODY·FOOTER로 구성하도록 확정했습니다. 조회한 기존 작업본은 직계 `StatusBar` + `Popup`(`2027:744`) > `Slot` > `Header`, `Body`, `Footer` 구조였으며, 비교 기준은 직계 `## HEADER`(`2025:6835`), `## BODY`(`2025:6838`), `## FOOTER`(`2025:6878`) 구조였습니다.

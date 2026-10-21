@@ -30,6 +30,8 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-21 간격·인라인 표현 계획: Infobox / Card 다음 콘텐츠의 외부 gap은 종류와 관계없이 spacing/3xl=24px로 계획합니다. 카드 내부 간격 및 카드 앞쪽 간격은 보존하며 종전 Card → TextList 12px를 재사용하지 않습니다. Radio Group과 Checkbox Group(CheckBox Group)의 반복 항목 gap은 spacing/2xl=20px이고 Grid 행·열도 모두 20px입니다. 개별 컴포넌트 내부·단일 CheckBox 래퍼 gap 0·Title / Element ↔ 그룹 gap 16px는 별도 유지합니다. 메뉴명·대괄호만으로 강조·링크를 추정하지 않고 기획 또는 사용자 지시의 명시 구간에만 적용합니다. 링크 판별과 링크 스타일 적용을 분리합니다.
+
 2026-10-21 화면 유형과 루트 구조를 먼저 판별합니다. 일반 화면은 `2025:6834`처럼 아트보드 직계 `## HEADER` / `## BODY` / `## FOOTER`를 기본으로 계획하고, 기획의 페이지 형태 또는 사용자 명시 지시로 풀팝업임이 확인될 때만 Popup 템플릿을 선택합니다. iOS·인증/PIN·X 버튼·기존 제작본의 Popup 사용만으로 분류하지 않습니다. 사용자 교정 대상 `2027:732`를 일반 인증 화면의 복제 원형으로 재사용하지 않습니다. 템플릿을 복제하기 전에 예정 유형과 실제 루트 계층을 대조합니다.
 
 2026-10-21 Chip 직후 간격: 다음 콘텐츠의 역할부터 판별합니다. Chip / Basic 다음이 Feedback 또는 Feedback 래퍼이면 부모 Auto Layout gap을 spacing/3xl = 24px로 계획하며 승인 기준 `2180:10209`의 최신 예외를 우선합니다. Data Block Group·목록·일반 본문 등 그 밖의 다음 콘텐츠는 spacing/md = 8px를 유지합니다. Chip 내부 패딩과 후속 그룹 내부 간격·패딩을 함께 바꾸거나 빈 프레임·중복 padding-top을 추가하지 않습니다.
@@ -105,6 +107,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 반환된 receipt를 저장합니다. 성공은 `BUILT_REQUIRES_REVIEW`이며 최종 PASS가 아닙니다. `PARTIAL_FAILURE`면 영향 ID를 먼저 읽고 부분 생성 상태를 확인합니다. 사용자가 기존 작업을 보존하도록 요청한 경우 그대로 지킵니다. 이번 run에서 만든 노드만 안전하게 복구하고 실패 이력을 남깁니다. 실패한 명령을 무조건 반복하거나 파일 전체를 초기화하지 않습니다.
 
 ## 6. 실제 결과 검증과 시각 검수
+
+2026-10-21 간격·임의 강조 검수: Infobox / Card 바깥의 다음 콘텐츠 경계 간격이 24px인지 확인하고 카드 내부 gap과 합산하지 않습니다. Radio Group 및 Checkbox Group의 실제 항목 gap 20px와 Grid 행·열 20px를 확인하며 개별 원형 내부까지 변경하지 않습니다. 기획과 대조해 문장 구간별 Text Style·Weight·색상·밑줄·hyperlink 및 이동 동작을 검사합니다. 기획에 없는 메뉴명 강조·링크 외형이 있으면 FAIL이며, `[고객정보조회(개인정보열람)]`처럼 URL 없는 Bold·밑줄도 허용 근거가 되지 않습니다. 문서 반영과 실제 화면 수정 여부를 구분하여 보고합니다.
 
 2026-10-21 D03 루트 계층 검수: 일반 화면의 실제 직계 자식이 `## HEADER`, `## BODY`, `## FOOTER`이고 모두 Vertical Auto Layout인지, StatusBar가 HEADER 안에 있는지 확인합니다. 일반 화면에 `Popup > Slot > Header / Body / Footer`가 남으면 외형이 같아도 FAIL입니다. 풀팝업은 제작 전에 확인한 명시 근거와 Popup 계층을 대조하며, 화면 유형 미확인을 Popup 사용 근거로 처리하지 않습니다. 문서 갱신과 실제 화면 구조 수정은 별도로 완료 보고합니다.
 
