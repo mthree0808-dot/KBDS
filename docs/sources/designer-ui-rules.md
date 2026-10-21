@@ -163,9 +163,11 @@
   - **오토레이아웃 간격 및 패딩**:
     - `List`들을 감싸는 `Container 1`의 Auto Layout **`gap: 8px` (`md` 토큰)**을 적용합니다.
     - `Container` 내에 삽입되는 `List` 컴포넌트 자체의 **좌우 패딩(padding-left, padding-right)은 `0px`**으로 설정합니다.
-  - **체크 활성화 상태 (Active/Selected)**:
-    - 체크가 활성화된 `List`는 `hasSuffix: True` 설정
-    - 하위 계층: `Slot-Suffix` > `Item / Suffix`에서 `variant: checkMark` 적용
+  - **체크 활성화 상태 및 기본 선택 우선순위 (2026-10-21 사용자 확정)**:
+    - [계좌번호 선택 기준 2230:10109](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2230-10109)의 [BottomSheet 2230:10111](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2230-10111)처럼, 항목을 선택하고 체크마크로 현재 선택을 표시하는 List형 바텀시트에 적용합니다. 계좌 선택 전용 패턴에도 같은 선택 우선순위를 적용합니다.
+    - **기획에 초기 선택 항목이나 선택할 항목의 순서가 별도로 명시되어 있으면 그 항목을 최우선**으로 적용합니다. 별도 지정이 없으면 **화면에서 위에서 두 번째 `List`**를 기본 선택으로 표시합니다. `눌러서 선택` 같은 안내 항목도 실제 List로 노출되면 첫 번째 항목으로 세며, 항목을 재정렬하거나 실제 데이터 항목만 다시 세지 않습니다.
+    - 선택한 `List`의 공개 속성을 **`hasSuffix: True`**, 하위 **`Slot-Suffix > Item / Suffix`의 공개 속성을 `variant: checkMark`**로 설정합니다. 우측 프로퍼티 패널에서도 해당 원본 인스턴스와 속성이 유지되어야 합니다.
+    - 일반 단일 선택에서는 나머지 `List`의 `hasSuffix: False`를 유지합니다. 원본 기획의 복수 선택 상태가 명시된 경우에는 그 상태를 따릅니다. 항목 문구·순서·컴포넌트 연결과 아래의 48px 높이 규칙을 보존합니다.
   - **체크마크 노출 여부에 따른 높이 통일 (2026-10-20 사용자 확정)**:
     - 셀렉트 바텀시트의 `List`는 체크마크가 노출되거나 비노출이어도 **모두 높이 48px / 세로 Fixed**(`layoutSizingVertical: FIXED`)로 설정합니다. 체크마크 비노출 시 원형의 Hug 높이 46px로 줄어드는 동작은 허용하지 않습니다.
     - `hasSuffix`로 체크마크 노출 여부만 제어하고, 선택 상태 변경 전후에도 List 높이 48px와 항목 위치를 유지합니다. 실제 List 인스턴스·내부 계층·서체·변수 연결은 보존합니다.

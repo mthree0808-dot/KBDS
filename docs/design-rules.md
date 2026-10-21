@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## 항목 선택 바텀시트 기본 체크마크 (2026-10-21)
+
+사용자 확정: [계좌번호 선택 2230:10109](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2230-10109), BottomSheet `2230:10111`을 기준으로 합니다. 체크마크로 선택을 표시하는 List형 바텀시트에서는 **기획에서 지정한 초기 선택 항목·선택 순서가 우선**이며, 별도 지정이 없으면 **화면에서 위에서 두 번째 List**를 기본 선택으로 표시합니다. `눌러서 선택`처럼 안내 문구인 List도 노출 순서에 포함하고, 실제 데이터 항목만 세거나 순서를 바꾸지 않습니다.
+
+선택 List의 `hasSuffix: true`와 `Slot-Suffix > Item / Suffix`의 `variant: checkMark`를 원본 공개 속성으로 설정합니다. 일반 단일 선택의 다른 항목은 `hasSuffix: false`입니다. 기획에 복수 선택이 명시되면 그 상태를 보존합니다. 체크 노출·비노출 모두 List 높이 48px / 세로 Fixed를 유지하며 문구·순서·서체·변수·우측 프로퍼티 패널 편집 연결을 보존합니다. 계좌 선택 전용 패턴에도 이 선택 우선순위를 적용합니다.
+
+참조 화면은 조회 시점에 이미 두 번째 List만 hasSuffix true / Item / Suffix checkMark였으며, 5개 List가 모두 높이 48px / Fixed였습니다. 이번 규칙 반영을 위해 해당 화면을 다시 수정하지 않았습니다.
+
 ## Chip 직후 콘텐츠 간격 — 사용자 확정 (2026-10-21)
 
 사용자 최종 교정: [2180:10209](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2180-10209)처럼 Chip / Basic 다음에 Feedback 또는 Feedback 래퍼가 놓이면 부모 Auto Layout의 itemSpacing은 **24px / spacing/3xl**(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)을 연결합니다. 종전 Feedback까지 포함했던 8px 지정은 이 경우에 한해 대체합니다. Data Block Group·목록·일반 본문 등 그 밖의 다음 콘텐츠와의 gap은 **8px / spacing/md**(key `05c59452624fbed61e5be4c26c8a03c54be6dcad`)를 유지합니다. 이는 사용자 지정 규칙이며 새 실측 결과나 화면 수정 완료를 뜻하지 않습니다. Chip 원형 내부 패딩, Data Block Group 반복 박스 gap 12px, Feedback 내부 패딩은 별도로 유지하며 빈 프레임·중복 padding-top으로 외부 간격을 추가하지 않습니다.

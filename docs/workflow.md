@@ -50,6 +50,8 @@
 
 2026-10-20 TextButton 최종 교정: 인풋 조합 및 박스 아래에 별도 배치하는 TextButton은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:7407`의 `2025:7417`처럼 variant secondary로 계획·제작·검수합니다. 종전 인풋 조합의 primary 지정은 철회합니다. 크기·간격·정렬은 각 승인 패턴을 유지하며, InputField 내부 버튼과 독립 CTA에는 일괄 적용하지 않습니다.
 
+2026-10-21 항목 선택 바텀시트 기본 선택: 기획에 명시된 초기 선택 항목·선택할 항목의 순서를 먼저 확인합니다. 지정이 없으면 화면에서 위에서 두 번째 List를 기본 선택으로 계획하며, 안내 List도 노출 순서에 포함하고 재정렬하지 않습니다. 기준은 `2230:10109 / 2230:10111`입니다. 선택 List의 hasSuffix true와 Slot-Suffix > Item / Suffix의 variant checkMark를 공개 속성으로 적용하고, 일반 단일 선택의 나머지는 hasSuffix false로 둡니다. 기획에 복수 선택이 명시되면 해당 상태를 따릅니다. 검수 시 실제 체크마크 위치·원본 인스턴스·프로퍼티 패널 편집 연결과 체크 유무 모두 48px / Fixed인지 확인합니다. 계좌 선택 전용 패턴에도 같은 선택 우선순위를 적용합니다.
+
 2026-10-20 승인 규칙: 체크마크로 선택 상태를 표시하는 셀렉트 바텀시트의 List는 체크마크 노출 여부와 관계없이 높이 48px / 세로 Fixed로 계획·제작·검수합니다. 비노출 상태의 원형 Hug 높이 46px를 그대로 사용하지 않으며, 선택 전후의 List 높이와 항목 위치가 동일한지 확인합니다. 도움말·이용 방법 선택 List의 별도 높이에는 일괄 적용하지 않습니다.
 
 2026-10-19 승인 패턴: InputField 뒤 보조 이동 버튼은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:6834`의 `InputField / Button Area`(gap 12px)와 우측 정렬 Button Area / TextButton secondary·xsmall·suffix true·underline false를 매핑합니다. 도움말·이용 방법 선택 바텀시트는 `KFlklMvGmg0MXGfAXvpprn / 185:14891`의 테두리 없는 List 패턴을 적용하고, 목록 gap 0·List padding 12/0·기본 Item / Prefix(bgIcon)·Suffix pageIndicator를 확인합니다. 기획 본문이 있으면 Text로 보존하고 목록과 gap 16px로 배치합니다. 아이콘은 작업자가 직접 지정하므로 기본 인스턴스만 두며, 전체 Card 패턴이나 일반 선택 바텀시트의 gap 8px를 이 경우에 적용하지 않습니다. 상세 수치와 키는 원문 및 실측 디자인 규칙을 따릅니다.
