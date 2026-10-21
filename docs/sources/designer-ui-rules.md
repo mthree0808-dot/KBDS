@@ -26,6 +26,9 @@
 
 - **Design System URL**: `https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/MO-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC?m=auto&node-id=0-1&t=k9nL7yLI1W2gR3hE-1`
 - **컴포넌트 원형 보존 및 타이포그래피 우선순위 원칙 (CRITICAL)**:
+  - **원본 동작 보존 검수 (2026-10-21)**: 컴포넌트 인스턴스라는 사실과 외형 일치만으로 원형 보존을 판정하지 않습니다. 부모 variant가 내부 아이템 타입을 바꾸는 컴포넌트는 원본 기본 아이템과 연결 방식을 우선 유지하고, Slot을 비운 뒤 특정 타입의 아이템으로 일괄 교체하지 않습니다. 콘텐츠를 넣도록 설계된 일반 Slot까지 편집 금지하는 규칙은 아닙니다.
+  - **Chip 전환 회귀 검수**: `Chip / Basic`은 원본에서 single은 `Item / SolidChip`, multiple은 `Item / LineChip`입니다. 실제 화면에 넣을 문구·항목 수·선택 상태를 적용한 뒤 `single → multiple → single` 및 사용하는 extended 상태를 왕복하여 내부 실제 component key·타입, 문구·선택 상태·서체·변수·배치를 비교합니다. 바깥 variant 값만 바뀌고 Slot 내부 타입이 고정되면 실패입니다. 검수 후에는 원래 기획 상태로 복원합니다.
+  - **Slot override 한계 처리**: 기본 아이템의 문구·상태·가시성 변경도 도구에서 Slot override로 처리될 수 있으므로 '기본 아이템만 수정하면 해결된다'고 추정하지 않습니다. 원본과 수정본을 분리해 검증하고, 도구·원본 연결 구조·제작 방식 중 원인을 확인합니다. 동작이 보존되지 않으면 완료로 보고하지 않고 제한을 명시합니다. 검증 없이 원본 라이브러리 수정이 필수라고 단정하거나, 별도 허용 없이 원본을 변경·detach·새 컴포넌트로 대체하지 않습니다.
   - 디자인 시스템에 등록된 **컴포넌트 명칭은 절대로 변경하지 않습니다** (예: `Consent / 계열사 정보제공`, `CheckBox / 휴대폰번호` 등 한글 명칭이나 임의의 수식어를 덧붙여 컴포넌트명을 변형하는 행위 절대 금지).
   - 와이어프레임과 컴포넌트를 매핑하는 과정에서 **`Title / Page`**, **`Title / Section`**, **`Title / Element`** 등의 타이틀 컴포넌트를 매핑할 때, **와이어프레임 상에서 볼드(Bold) 등으로 임의 표기되어 있더라도 이를 개별 수정하지 말고 디자인 시스템 컴포넌트에 사전 정의된 원형 폰트 스타일/Weight를 최우선으로 유지**하여 적용합니다.
   - 가이드라인에 명시된 `DataList (layout: split, size: 14, hasDivider: false)`, `size: medium`, `variant: standard`, `os: iOS` 등의 속성은 Figma 컴포넌트 우측 패널의 **Component Properties(컴포넌트 속성)**를 의미하므로 정확히 일치시켜 적용합니다.

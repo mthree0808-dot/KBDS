@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## Chip Slot override와 동작 보존 검증 (2026-10-21)
+
+대상 `zNwpdAWcBMOM5ExkiBUoGn / 2158:8074`의 Chip `2158:8561`은 Slot을 비운 뒤 SolidChip 3개를 넣은 상태입니다. 원본 MO `09eGMNTNnkE0CTxPdr7lnk / 1027:61807`은 single에 SolidChip, multiple에 LineChip을 정의합니다. 새 원본 인스턴스를 아무 수정 없이 multiple로 바꾸면 LineChip으로 전환됐지만, 작업본의 맞춤 Slot은 SolidChip으로 유지돼 실패했습니다.
+
+별도 임시 인스턴스에서 기본 아이템의 문구만 변경, selected만 변경, 마지막 항목 visible만 변경하는 세 경우를 분리해 검사했습니다. 현재 도구 경로에서는 세 경우 모두 multiple 전환 뒤 Slot 내부 SolidChip이 유지됐습니다. 임시 인스턴스는 모두 삭제했고 이 시험으로 실제 화면의 동작을 복구했다고 처리하지 않았습니다. 따라서 '새 인스턴스에 기본 아이템만 수정하면 해결된다'는 가정은 채택하지 않습니다. 이 결과만으로 Figma 전체의 동작이나 원본 라이브러리 변경 필요성까지 단정하지 않습니다. 실제 문구·상태를 적용한 인스턴스의 왕복 전환이 통과해야 원본 동작 보존 PASS입니다.
+
 ## 단일 InputField 오토레이아웃 명명 재확정 (2026-10-20)
 
 승인 교정 화면 `zNwpdAWcBMOM5ExkiBUoGn / 2141:10091`에서 단일 입력을 감싼 프레임 `I2141:10093;752:55797;2141:10499`를 `InputField Group`에서 `InputField`로 수정했습니다. Vertical Auto Layout / 390×86px / 단일 자식 InputField 인스턴스 `I2141:10093;752:55797;2141:10534`와 기존 위치·패딩·크기·계층은 유지했습니다. 필요에 의해 단일 컴포넌트를 감싼 래퍼는 컴포넌트와 같은 이름을 쓰며, Group은 복수 반복에만 사용합니다. Full-Width·일반 화면·바텀시트에 같은 규칙을 적용합니다.

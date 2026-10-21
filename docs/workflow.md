@@ -96,6 +96,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 
 ## 6. 실제 결과 검증과 시각 검수
 
+2026-10-21 원본 동작 회귀 검수: 부모 variant가 내부 타입을 바꾸는 컴포넌트는 화면용 문구·항목 수·선택 상태를 모두 적용한 임시 인스턴스에서 실제 전환을 시험합니다. Chip은 single → multiple → single 및 사용하는 extended 상태를 왕복하고 내부 SolidChip/LineChip의 component key·문구·상태·서체·변수·배치를 비교합니다. 원본 무수정 대조군과 수정본을 구분하며, 실패 시 문구 변경·nested 속성·가시성·Slot 교체를 나눠 원인을 좁힙니다. 임시 검증 노드는 제거하고 실제 화면은 기획 상태를 보존합니다. 바깥 variant만 바뀌는 것은 PASS가 아니며, 기본 아이템 편집만으로 해결됐다고 추정하지 않습니다. 원본 라이브러리 수정 필요성은 별도 근거 없이 단정하지 않고, 화면 동작 실패는 문서 보완과 구분하여 남깁니다.
+
 링크 리스트 화면은 제목·목록 래퍼 이름이 `Title / List Group`인지 확인합니다. 실제 List 인스턴스는 이름을 바꾸지 않습니다. Container 2 이상에서 래퍼 padding-top 24px 및 spacing/3xl alias, 내부 List Group gap 0px와 이전 gap 변수 해제를 각각 검수합니다. Title↔목록 gap 16px 및 Container 1의 기존 값은 유지합니다. 목록 gap 24px를 최종 규칙으로 오인하지 않습니다. 내용 높이를 다시 계산해 844px 내에서는 화면 Fixed 844 / BODY Fill, 초과하면 Hug를 적용하고 화면을 확인합니다.
 
 PDF 약관 상세 검수는 원본 `72:9033`과 작업본을 속성별 비교합니다. BODY 세로 Fill, Container 1↔Title Area 및 Container 2↔body의 레이아웃·정렬·패딩·gap·Resizing·변수 alias 일치, FOOTER의 Absolute·위치·constraints·Hug를 확인합니다. 레이어명과 부모/자식 순서는 유지합니다. Pagination의 type이 INSTANCE이고 실제 mainComponent key가 연결되어 있는지 확인하며 SVG/Frame 대체는 실패입니다. 원본 숫자 서체를 유지한 인스턴스 복제를 사용합니다. 저장 후 Fill 높이가 재계산되는 것을 재조회하여 390×844 기준 BODY 744 / Container 2 708 / FOOTER 126을 대조한 뒤 화면을 검수합니다.
