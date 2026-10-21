@@ -15,6 +15,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 ## 화면과 구조 — 원문 §2, §5
 
 ### 2026-10-19 승인 규칙 우선 적용
+- 2026-10-21 일반 화면의 Popup 오적용 방지: 일반 화면은 아트보드 직계 `## HEADER` / `## BODY` / `## FOOTER` 3단 구조를 기본으로 합니다. Popup은 기획 페이지 형태 또는 사용자 명시 지시로 풀팝업이 확인된 경우에만 사용합니다. iOS·인증/PIN·X 버튼·기존 템플릿의 Popup 사용은 분류 근거가 아닙니다. `2025:6834`를 일반 구조 기준으로 삼으며 `2027:732`의 Popup 래퍼는 사용자 교정 대상입니다. 템플릿 복제 전 유형·계층을 대조하고 최종 직계 자식·Vertical Auto Layout·StatusBar의 HEADER 소속을 검사합니다. 이번 문서 갱신을 화면 구조 수정 완료로 보고하지 않습니다.
 - 2026-10-21 Chip 후속 간격 최종 교정: Chip / Basic 바로 다음이 Feedback 또는 Feedback 래퍼이면 부모 Auto Layout gap은 spacing/3xl = 24px입니다. 승인 기준은 `2180:10209`이며 종전 Feedback 포함 8px 지정보다 이 예외를 우선합니다. Data Block Group·목록·일반 콘텐츠와의 gap은 spacing/md = 8px를 유지합니다. Chip 내부 패딩, Data Block Group 내부 박스 간격, Feedback 내부 패딩은 별도로 유지하며 추가 빈 프레임·padding-top으로 외부 간격을 중복하지 않습니다.
 - 2026-10-21 인포박스 단일 안내·섹션 제목 재확정: `2158:10984`처럼 인포박스 안 TextList / Unordered가 한 항목뿐이면 불릿 없는 `Text` Auto Layout > `Content`로 매핑합니다. Infobox / Card 본문은 14 Light / text/neutral/tertiary와 원본 변수·스타일을 유지합니다. 여러 줄·문장 수를 항목 수로 오해하지 않으며 복수 항목과 인포박스 밖 일반 본문의 단일 TextList 유지 규칙은 구분합니다. `2157:9320`의 재외국민이란?·재외국민 등록방법(1가지 선택)은 실제 Title / Section 인스턴스를 사용해야 하며 일반 Text의 Medium/Bold나 이름만 바꾼 Frame으로 대신하지 않습니다. 설명은 Text, 목록은 해당 TextList로 구성하고 제목의 원형·공개 속성·component key를 검수합니다.
 - 2026-10-21 Chip·Data Block·빈 상태 최종 피드백: `2158:8074`처럼 가로 스와이프 기획의 Chip / Basic은 hasControl false / extended false / Slot Horizontal·NO_WRAP / 우측 화살표 실제 비노출로 구성합니다. 모든 항목 노출을 위한 확장·줄바꿈·축소·문구 생략은 금지하며 원본 variant·항목·선택 상태·연결은 유지합니다. 상단 회색 Infobox / Card와 솔리드 Data Block이 중첩되면 Data Block을 승인 수정본의 아웃라인(흰색 계열 fill + secondary-muted border + stroke/md, padding·radius 20)으로 적용합니다. D31 일반 선택 재량보다 이 상황 규칙을 우선합니다. 데이터가 없는 Feedback은 `2150:14233`의 status-nodata 원본을 필수 사용하며 status-noResult 돋보기로 대신하지 않습니다. Empty State의 기존 크기·문구·간격은 유지합니다.
@@ -40,7 +41,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 |---|---|---|
 |D01|화면 이름|화면 주변의 페이지 ID 영역까지 읽어 해당 화면과 연결. ID가 있으면 `실제페이지ID_화면명`(예: `F730_화면명`), 공란이면 기존 `화면ID_화면명` 유지. 기획서 `{…}` 명칭을 사용. 요구사항 ID·상위 프레임명·화면명·주석의 숫자/약어를 페이지 ID로 추정하지 않으며 `-`는 공란으로 처리. 미확인은 공란으로 단정하지 않고 명시|
 |D02|일반/완료 화면|폭 390, Vertical. 내용이 844 이내이면 화면 높이 Fixed 844 + BODY Fill. 초과하면 화면 높이 Hug + BODY Hug|
-|D03|일반/완료 루트|직계 자식 `## HEADER`, `## BODY`, `## FOOTER`, 모두 Vertical Auto Layout|
+|D03|일반/완료 루트 및 Popup 적용 판별|직계 자식 `## HEADER`, `## BODY`, `## FOOTER`, 모두 Vertical Auto Layout. 일반 화면 전체를 Popup으로 감싸면 FAIL. Popup은 기획 페이지 형태 또는 사용자 명시 지시에서 풀팝업이 확인된 경우만 허용하며 iOS·인증/PIN·X 버튼·기존 템플릿만으로 추정하지 않음. StatusBar는 일반 화면 HEADER 안에 배치|
 |D04|HEADER / FOOTER|HEADER: StatusBar → AppBar. FOOTER: CTA 있으면 StickyButton → HomeIndicator, 없으면 HomeIndicator만|
 |D05|BODY|padding-bottom `spacing/5xl`=32. StepIndicator는 BODY 최상단 직접 자식, Container 없음. HEADER 직후 Infobox / FullWidth도 BODY 직접 자식|
 |D06|바텀시트|390×844 Auto Layout. Dimmed(전체 크기, Absolute, `background/overlay/dimmed`) → BottomSheet → StatusBar(Absolute, iOS/light, 최상단) → HomeIndicator(최하단)|
