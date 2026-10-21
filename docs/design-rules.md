@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 인포박스 단일 안내·본문 섹션 제목 사용자 교정 (2026-10-21)
+
+사용자는 [발급폐기내역조회 2158:10984](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-10984)의 인포박스 내부에 단일 TextList / Unordered를 넣은 제작을 교정했습니다. 단일 안내는 불릿 없는 일반 Text > Content로 구성하고, Infobox / Card의 기존 14 Light / text/neutral/tertiary 및 Text Style·변수 연결을 유지합니다. 일반 본문에서 Title / Section 다음에 오는 단일 TextList의 불릿을 유지하는 별도 규칙에는 적용하지 않습니다.
+
+[재외국민 비대상 안내 2157:9320](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2157-9320)의 재외국민이란?·재외국민 등록방법(1가지 선택)을 일반 Text로 만든 것은 섹션 제목 역할을 놓친 매핑 오류입니다. 실제 Title / Section 인스턴스와 원형 스타일·변수·속성을 사용하며, 아래 설명과 목록을 각각 일반 Text / TextList로 구분합니다. 단순히 같은 서체를 적용한 것은 컴포넌트 사용의 대체 근거가 아닙니다. 이번 요청은 MD 갱신이며 문서 반영을 실제 화면 수정 완료로 기록하지 않습니다.
+
 ## Chip 스와이프·아웃라인 Data Block·status-nodata 승인 (2026-10-21)
 
 사용자가 구분한 이전 제작본은 `2150:13784`, 직접 수정한 기준은 [2158:8074](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-8074)입니다. 기준 Chip `2158:8561`은 single / extended false / hasControl false, 390×68px, clipsContent true입니다. Slot은 Horizontal / NO_WRAP이고 우측 ControlContainer는 노출되지 않습니다. 이전 제작본은 extended true의 WRAP·확장 화살표를 사용하여 가로 스와이프 기획을 바꾼 오류입니다. 이후 가로 스와이프 기획은 한 줄과 화살표 비노출을 유지합니다. 참조의 overflowDirection은 NONE으로 관측됐으므로 이 읽기만으로 실제 프로토타입 스와이프 동작을 검증했다고 기록하지 않습니다.

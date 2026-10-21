@@ -4,6 +4,10 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### 인포박스 단일 안내와 본문 섹션 제목 (2026-10-21 사용자 재확정)
+- **인포박스 안의 단일 안내 항목**: [발급폐기내역조회 2158:10984](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-10984)처럼 인포박스 콘텐츠에 `TextList / Unordered`가 하나만 들어가는 경우, 불릿 없는 일반 텍스트로 구성합니다. 한 항목이 여러 줄로 줄바꿈되거나 문장을 여러 개 포함해도 항목 수를 늘려 해석하지 않습니다. 일반 텍스트는 `Text` Vertical Auto Layout(gap·padding 0, Fill·Hug) > 편집 가능한 `Content`로 감싸고 원본 Text Style·변수·색상 연결을 유지합니다. Infobox / Card는 기존 단일 항목 규칙의 `Dynamic/Body/xs∙14∙Light` 및 `text/neutral/tertiary`를 따르고, 다른 인포박스는 각 원형의 해당 본문 스타일을 유지합니다. 복수 안내 항목의 TextList와 인포박스 밖 일반 본문의 단일 TextList 유지 규칙은 구분합니다.
+- **본문 구획의 제목은 실제 Title / Section 사용**: [재외국민 비대상 안내 2157:9320](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2157-9320)의 `재외국민이란?`, `재외국민 등록방법(1가지 선택)`처럼 뒤따르는 설명·목록을 대표하는 섹션 제목은 실제 **`Title / Section` 컴포넌트 인스턴스**로 구성합니다. 일반 Text에 Medium/Bold를 적용하거나 래퍼 이름만 Title로 바꾸어 대신하지 않습니다. 제목 문구만 매핑하고 원형 서체·Weight·스타일·변수·공개 속성을 유지하며, 기획에 없는 SubTitle·Description·아이콘·suffix는 원형 노출 속성으로 숨깁니다. 아래 설명은 일반 Text, 목록은 해당 TextList 규칙을 따릅니다. 제목으로 보이는 외형뿐 아니라 실제 인스턴스·mainComponent key를 검수합니다.
+
 ### Chip 가로 스와이프·Data Block 아웃라인·데이터 없음 아이콘 (2026-10-21 사용자 확정)
 - **Chip / Basic의 기획 방식 보존**: [사용자 수정 기준 2158:8074](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-8074)처럼 기획이 좌우 스와이프를 표현한 경우, Chip은 한 줄 가로 스와이프/스크롤 형태로 구성하고 우측 확장·접기 화살표를 노출하지 않습니다. `hasControl: false`, `extended: false`, Slot Horizontal / NO_WRAP과 원본 클리핑을 유지합니다. 모든 항목을 한 화면에 보이게 하려고 확장형·여러 줄·폰트 축소·문구 생략으로 바꾸지 않습니다. 뒤 항목이 일부 보이거나 뷰포트 밖에 있는 것은 가로 스와이프 기획의 일부입니다. 항목명·순서·선택 상태·원본 variant 및 전환 연결을 보존합니다. 속성 값만 false인지 보지 말고 실제 ControlContainer와 화살표가 비노출인지 확인합니다. 프로토타입 스크롤 동작을 구현·완료 보고할 때는 실제 가로 스크롤 설정과 동작을 별도로 검증합니다.
 - **Infobox / Card와 이어지는 Data Block**: 위 사용자 수정본처럼 상단 회색 Infobox / Card와 Data Block의 솔리드 배경이 반복되어 시각적으로 중첩되는 경우, 하단 Data Block은 **아웃라인형**을 사용합니다. Fill `surface/neutral/quaternary-muted` + Border `border/neutral/secondary-muted` + `stroke/md`, padding·radius 20px를 적용하고 DataList의 문구·순서·스타일·변수·기존 간격을 보존합니다. 역할명은 Data Block이며 Card / Surface로 바꾸지 않습니다. 이 경우 아래 일반적인 아웃라인/회색 무테 선택 재량보다 본 규칙을 우선합니다. 다른 맥락의 회색 무테 허용까지 전역 폐지하지는 않습니다.
@@ -291,6 +295,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 
 #### 5. 타이틀과 일반 텍스트 결합 규칙
 - **일반 텍스트 공통 래핑 (2026-10-19 사용자 교정)**: 타이틀과의 결합 여부와 관계없이, Slot·Container에 배치하는 일반 본문은 **`Text`**라는 Vertical Auto Layout 프레임으로 감쌉니다. gap과 padding은 0, 가로 Fill·세로 Hug로 설정하고 내부 텍스트도 가로 Fill·세로 Hug 및 자동 높이로 구성합니다. 바텀시트의 단일 본문 블록은 **`Slot > Container > Text > Content`** 구조를 적용합니다. `Content`는 편집 가능한 텍스트 레이어이며, 일반 텍스트를 Container의 직계 자식으로 두지 않습니다. 기존 DS 컴포넌트 내부의 원형 계층과 불릿 TextList 사용 규칙은 유지합니다.
+- **본문과 제목 역할 구분 (2026-10-21)**: 위 일반 Text 래핑 규칙은 제목 컴포넌트를 일반 본문으로 대체하라는 뜻이 아닙니다. 본문 섹션 제목은 실제 `Title / Section`을 사용하고, 설명·안내 본문만 `Text > Content`로 구성합니다. `재외국민이란?`, `재외국민 등록방법(1가지 선택)`을 일반 Text로 만든 기존 제작 방식은 잘못된 매핑입니다.
 - `Title / Section` 또는 `Title / Element`와 일반 텍스트(Description 등)가 결합될 때:
   - 텍스트를 단독으로 두지 않고, 반드시 **`Text` (Auto Layout `gap: 0px`)**라는 오토레이아웃 프레임으로 감싸서 계층을 구성합니다.
 - **일반 본문 내 `Title / Section` + 단일 TextList 결합 예외 (CRITICAL)**:
@@ -309,7 +314,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - **Card / Surface 다음에 안내성 문구가 노출될 때**: **`Infobox / Basic`** 컴포넌트로 매핑하여 배치합니다.
   - **입력 폼(InputField, SelectButton 등)에서 안내 문구가 노출될 때**: **`Infobox / Solid`** 컴포넌트로 매핑하여 배치합니다.
   - **InputField, SelectButton 등 밑에 Infobox / Card가 위치할 때**: 두 요소 사이 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)**을 적용합니다.
-  - **Infobox / Card 내부 단일 항목 텍스트 규칙**: 항목이 단 1개인 경우, 기획서상 불릿으로 표기되어 있더라도 불릿을 제거한 일반 텍스트로 삽입하며, 타이포그래피 스타일은 **`Dynamic/Body/xs∙14∙Light`**, 컬러는 **`text/neutral/tertiary`**를 적용합니다.
+  - **Infobox / Card 내부 단일 항목 텍스트 규칙 (2026-10-21 재확정)**: 항목이 단 1개인 경우, 기획서상 불릿으로 표기되어 있거나 기존 화면에 `TextList / Unordered` 하나로 들어가 있더라도 불릿 없는 일반 `Text > Content`로 구성합니다. 타이포그래피 스타일은 **`Dynamic/Body/xs∙14∙Light`**, 컬러는 **`text/neutral/tertiary`**를 적용합니다. 문구·줄바꿈·변수 연결은 보존합니다. 복수 항목의 불릿 및 인포박스 밖 `Title / Section` 다음 단일 TextList 유지 예외와 혼동하지 않습니다.
 - **입력 폼 항목 추가 버튼 패턴**:
   - 입력 폼 형태에서 사용자가 항목을 추가할 수 있는 구조인 경우, 마지막 입력 항목 바로 아래에 `Button Area` 또는 **`BoxButton (variant: tertiary, size: medium)`**을 배치하고, 위 항목과의 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다.
 - **체크박스 아이템 및 서브 항목 패턴 (CheckBox & CheckSub)**:
