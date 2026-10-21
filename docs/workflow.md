@@ -30,7 +30,7 @@
 
 ## 3. 템플릿 선택과 측정
 
-2026-10-21 Chip 직후 간격: Chip / Basic과 이어지는 Data Block Group 또는 다음 콘텐츠를 배치할 부모 Auto Layout gap을 spacing/md = 8px로 계획합니다. 목록·일반 본문·Feedback 래퍼에도 같은 인접 규칙을 적용하고 기존 일반 간격보다 우선합니다. Chip 내부 패딩과 후속 그룹 내부 간격·패딩을 함께 바꾸거나 빈 프레임·중복 padding-top을 추가하지 않습니다.
+2026-10-21 Chip 직후 간격: 다음 콘텐츠의 역할부터 판별합니다. Chip / Basic 다음이 Feedback 또는 Feedback 래퍼이면 부모 Auto Layout gap을 spacing/3xl = 24px로 계획하며 승인 기준 `2180:10209`의 최신 예외를 우선합니다. Data Block Group·목록·일반 본문 등 그 밖의 다음 콘텐츠는 spacing/md = 8px를 유지합니다. Chip 내부 패딩과 후속 그룹 내부 간격·패딩을 함께 바꾸거나 빈 프레임·중복 padding-top을 추가하지 않습니다.
 
 2026-10-21 본문 역할 매핑: 인포박스 안내의 논리적 항목 수를 확인합니다. 한 항목이면 기존 TextList / Unordered가 있어도 불릿 없는 Text Auto Layout > Content로 계획하고, Infobox / Card의 14 Light / text/neutral/tertiary 및 원형 스타일·변수를 유지합니다. 복수 항목 및 인포박스 밖 일반 본문의 단일 TextList는 해당 불릿 규칙을 유지합니다. 설명·목록을 대표하는 본문 섹션 제목은 실제 Title / Section으로 매핑합니다. 기준은 `2158:10984`의 단일 인포박스 안내와 `2157:9320`의 재외국민이란?·재외국민 등록방법(1가지 선택)입니다.
 
@@ -102,7 +102,7 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 
 ## 6. 실제 결과 검증과 시각 검수
 
-2026-10-21 Chip 후속 간격 검수: Chip / Basic 직후 콘텐츠와의 부모 itemSpacing이 8px이고 spacing/md에 연결되는지 확인합니다. 외부 gap과 Chip 내부 패딩·Data Block Group 내부 박스 간격·Feedback 내부 패딩을 구분하며, 인접 구간에 16/24/32px 또는 추가 여백이 중복되지 않았는지 검사합니다.
+2026-10-21 Chip 후속 간격 검수: Chip / Basic 직후가 Feedback 또는 Feedback 래퍼이면 부모 itemSpacing이 24px / spacing/3xl인지, 그 밖의 Data Block Group·목록·일반 콘텐츠이면 8px / spacing/md인지 확인합니다. 외부 gap과 Chip 내부 패딩·Data Block Group 내부 박스 간격·Feedback 내부 패딩을 구분하며, 인접 구간에 종전 값이나 추가 여백이 중복되지 않았는지 검사합니다.
 
 2026-10-21 인포박스·섹션 제목 검수: 단일 인포박스 안내에 불필요한 bullet/TextList가 남지 않았는지, 일반 Text > Content의 Fill·Hug와 Text Style·색상·변수 연결이 보존되는지 확인합니다. 본문 섹션 제목은 일반 Text의 Weight나 Frame 이름이 아닌 실제 Title / Section 인스턴스·mainComponent key·공개 속성으로 검수합니다. 기획에 없는 SubTitle·Description·아이콘·suffix는 원형 노출 속성을 사용하고, 뒤따르는 설명·목록의 역할과 기존 간격을 유지합니다.
 

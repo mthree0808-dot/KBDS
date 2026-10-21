@@ -2,7 +2,7 @@
 
 ## Chip 직후 콘텐츠 간격 — 사용자 확정 (2026-10-21)
 
-사용자는 Chip / Basic → Data Block Group 또는 다음 콘텐츠 사이의 gap을 8px로 지정했습니다. 부모 Auto Layout의 itemSpacing에 spacing/md(key `05c59452624fbed61e5be4c26c8a03c54be6dcad`)를 연결합니다. 이는 사용자 지정 규칙이며 새 실측 결과나 화면 수정 완료를 뜻하지 않습니다. Chip 원형 내부 패딩, Data Block Group의 반복 박스 gap 12px, Feedback 내부 패딩과 구분합니다. Chip 직후 구간의 기존 16/24/32px 적용은 이 8px 규칙으로 대체합니다.
+사용자 최종 교정: [2180:10209](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2180-10209)처럼 Chip / Basic 다음에 Feedback 또는 Feedback 래퍼가 놓이면 부모 Auto Layout의 itemSpacing은 **24px / spacing/3xl**(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)을 연결합니다. 종전 Feedback까지 포함했던 8px 지정은 이 경우에 한해 대체합니다. Data Block Group·목록·일반 본문 등 그 밖의 다음 콘텐츠와의 gap은 **8px / spacing/md**(key `05c59452624fbed61e5be4c26c8a03c54be6dcad`)를 유지합니다. 이는 사용자 지정 규칙이며 새 실측 결과나 화면 수정 완료를 뜻하지 않습니다. Chip 원형 내부 패딩, Data Block Group 반복 박스 gap 12px, Feedback 내부 패딩은 별도로 유지하며 빈 프레임·중복 padding-top으로 외부 간격을 추가하지 않습니다.
 
 ## 인포박스 단일 안내·본문 섹션 제목 사용자 교정 (2026-10-21)
 
