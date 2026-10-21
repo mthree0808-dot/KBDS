@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## Chip 직후 콘텐츠 간격 — 사용자 확정 (2026-10-21)
+
+사용자는 Chip / Basic → Data Block Group 또는 다음 콘텐츠 사이의 gap을 8px로 지정했습니다. 부모 Auto Layout의 itemSpacing에 spacing/md(key `05c59452624fbed61e5be4c26c8a03c54be6dcad`)를 연결합니다. 이는 사용자 지정 규칙이며 새 실측 결과나 화면 수정 완료를 뜻하지 않습니다. Chip 원형 내부 패딩, Data Block Group의 반복 박스 gap 12px, Feedback 내부 패딩과 구분합니다. Chip 직후 구간의 기존 16/24/32px 적용은 이 8px 규칙으로 대체합니다.
+
 ## 인포박스 단일 안내·본문 섹션 제목 사용자 교정 (2026-10-21)
 
 사용자는 [발급폐기내역조회 2158:10984](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-10984)의 인포박스 내부에 단일 TextList / Unordered를 넣은 제작을 교정했습니다. 단일 안내는 불릿 없는 일반 Text > Content로 구성하고, Infobox / Card의 기존 14 Light / text/neutral/tertiary 및 Text Style·변수 연결을 유지합니다. 일반 본문에서 Title / Section 다음에 오는 단일 TextList의 불릿을 유지하는 별도 규칙에는 적용하지 않습니다.
