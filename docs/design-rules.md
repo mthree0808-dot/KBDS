@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 기획 강조 보존 및 동일 크기 Medium — 사용자 명확화 (2026-10-21)
+
+사용자는 이전 지적이 기획에 없는 링크·Bold의 임의 추가에 관한 것이며, 기획에 있는 텍스트 강조는 그대로 반영해야 한다고 명확히 했습니다. 강조 구간과 링크 유무를 기획대로 보존하되 본문 강조 굵기는 동일 텍스트 크기·계열의 원본 Medium Text Style과 연결된 medium 변수로만 매핑합니다. 기획에 Bold로 표현된 강조도 14 Light → 14 Medium, 16 Light → 16 Medium처럼 처리하며 Bold·Semibold·크기 확대·고정 fontWeight로 바꾸지 않습니다. 굵기만 표시됐다면 색상·밑줄·링크를 추가하지 않고 각각 기획상 명시 여부를 따로 확인합니다.
+
+종전 인라인 링크 스타일의 Bold 지정도 이 최신 Medium 기준으로 교정합니다. DS 제목·CTA 등의 원형 Weight 전체를 바꾸는 규칙은 아닙니다. 앞 절의 실제 작업본에서 관측한 14 Bold 기록은 과거 오류 관측값으로 유지하며 향후 권장 스타일로 해석하지 않습니다. 이번 변경은 문서 갱신이며 화면 수정 완료를 의미하지 않습니다.
+
 ## Infobox 후속 24px·선택 그룹 20px·임의 인라인 링크 교정 (2026-10-21)
 
 사용자 확정: Infobox / Card 다음 콘텐츠와의 외부 간격은 spacing/3xl=24px(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)입니다. 단수·복수 TextList 등 콘텐츠 종류에 관계없이 적용하고 카드 내부 Slot·TextList 간격이나 카드 앞쪽 간격과 구분합니다. 종전 Card → TextList 12px보다 이 최신 규칙을 우선합니다. Radio Group 및 Checkbox Group(CheckBox Group)의 항목 gap은 spacing/2xl=20px(key `5491ce4ce8c48cc4a679f8cedc426cb96bb9a141`)이며 Grid 행·열 모두 20px입니다. 개별 컴포넌트 내부와 단일 CheckBox 래퍼 gap 0은 유지합니다.

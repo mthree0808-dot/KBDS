@@ -8,6 +8,7 @@
 - **Infobox / Card 다음 콘텐츠**: 콘텐츠 종류와 무관하게 바로 다음 콘텐츠와의 외부 간격은 **24px (`spacing/3xl`)**로 적용합니다. 각각을 감싼 Container 사이에도 같은 실제 간격을 적용하며 BODY 기본 32px 및 종전 Infobox / Card → TextList 12px보다 우선합니다. 카드 내부 Slot·TextList 간격이나 카드 앞쪽 Title·InputField와의 간격은 이 규칙으로 변경하지 않습니다. 빈 프레임·중복 padding으로 간격을 더하지 않습니다.
 - **선택 그룹 내부 간격**: `Radio Group`과 `Checkbox Group`(기존 표기 `CheckBox Group` 포함)의 반복 항목 사이 gap은 **20px (`spacing/2xl`)**입니다. Horizontal·Vertical 모두 적용하고 Grid는 행·열 gap 모두 20px로 설정합니다. 개별 Radio·CheckBox 원형 내부 간격, 단일 CheckBox 래퍼 gap 0, Title / Element와 그룹 사이 gap 16px는 별도 규칙을 유지합니다.
 - **기획에 없는 문장 내 강조·링크 추가 금지**: 메뉴명·대괄호·다른 화면을 언급하는 문장이라는 이유만으로 Bold/Medium, 강조색, 밑줄, hyperlink·이동 동작을 추가하지 않습니다. 기획 또는 사용자 지시에 명시된 구간에만 해당 강조·링크 규칙을 적용합니다. `[고객정보조회(개인정보열람)]`처럼 기획에 강조·링크가 없는 구간은 주변 일반 본문과 동일한 원본 Text Style·Weight·색상을 유지합니다. 링크 스타일 규칙은 이미 링크로 확정된 구간의 표현 방법이며, 링크 여부를 임의 판정하는 근거가 아닙니다.
+- **기획에 있는 강조는 반드시 반영 — 동일 크기 Medium (2026-10-21 최종 명확화)**: 위 금지 규칙은 기획의 강조·링크를 생략하라는 뜻이 아닙니다. 기획에 표시된 강조 구간과 링크는 보존하며, 본문 강조 굵기는 **현재와 동일한 텍스트 크기·계열의 `medium` 변수에 연결된 원본 Medium Text Style로만** 변경합니다. 기획에서 Bold로 표현했더라도 강조 의도를 동일 크기 Medium으로 매핑하고 Bold·Semibold·크기 확대·고정 fontWeight 값으로 대신하지 않습니다. 예: 14 Light → 14 Medium, 16 Light → 16 Medium. 굵기만 강조된 경우 색상·밑줄·링크를 덧붙이지 않고, 색상·밑줄·링크는 각각 기획에 명시된 표현만 따릅니다. 실제 링크 구간의 굵기도 Medium 기준을 우선합니다. 제목·CTA 등 DS 컴포넌트의 원형 Weight 전체를 일괄 Medium으로 바꾸는 규칙은 아닙니다.
 
 ### 인포박스 단일 안내와 본문 섹션 제목 (2026-10-21 사용자 재확정)
 - **인포박스 안의 단일 안내 항목**: [발급폐기내역조회 2158:10984](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-10984)처럼 인포박스 콘텐츠에 `TextList / Unordered`가 하나만 들어가는 경우, 불릿 없는 일반 텍스트로 구성합니다. 한 항목이 여러 줄로 줄바꿈되거나 문장을 여러 개 포함해도 항목 수를 늘려 해석하지 않습니다. 일반 텍스트는 `Text` Vertical Auto Layout(gap·padding 0, Fill·Hug) > 편집 가능한 `Content`로 감싸고 원본 Text Style·변수·색상 연결을 유지합니다. Infobox / Card는 기존 단일 항목 규칙의 `Dynamic/Body/xs∙14∙Light` 및 `text/neutral/tertiary`를 따르고, 다른 인포박스는 각 원형의 해당 본문 스타일을 유지합니다. 복수 안내 항목의 TextList와 인포박스 밖 일반 본문의 단일 TextList 유지 규칙은 구분합니다.
@@ -52,7 +53,7 @@
   - 임의의 신규 스타일을 정의하기 전에 디자인 시스템에 일치하는 컴포넌트가 있는지 먼저 확인하고 매핑합니다.
 - **텍스트 스타일·변수 연결 보존 (2026-10-19 사용자 교정, CRITICAL)**:
   - 일반 본문과 문장 내 강조 구간 모두 원본 KBDS Text Style의 key로 스타일을 연결합니다. 변수의 이름·key와 alias 연결을 보존하며, 동일 이름의 새 변수나 고정 수치로 대체하지 않습니다.
-  - 강조는 동일 크기 계열의 원본 Medium Text Style을 해당 구간에 적용합니다. 예: 일반 본문 `Dynamic/Body/md∙16∙Light`, Face ID·지문 강조 구간 `Dynamic/Body/md∙16∙Medium`. `fontName`, `fontWeight` 또는 크기·행간·자간을 직접 덮어써 Text Style과 변수 연결을 끊지 않습니다. 혼합 스타일을 적용할 때는 구간별 Text Style 적용 API(예: `setRangeTextStyleIdAsync`)를 사용합니다.
+  - 기획에 표시된 강조 구간을 생략하지 않고 동일 크기 계열의 원본 Medium Text Style 및 연결된 medium 변수를 해당 구간에 적용합니다. 예: 일반 본문 `Dynamic/Body/md∙16∙Light`, Face ID·지문 강조 구간 `Dynamic/Body/md∙16∙Medium`. Bold·Semibold 또는 크기 확대를 강조 수단으로 대신하지 않습니다. `fontName`, `fontWeight` 또는 크기·행간·자간을 직접 덮어써 Text Style과 변수 연결을 끊지 않습니다. 혼합 스타일을 적용할 때는 구간별 Text Style 적용 API(예: `setRangeTextStyleIdAsync`)를 사용합니다.
   - 변경 전 현재 구간의 서체를 로드하고, 변경 후 모든 구간의 style key와 `fontFamily`, `fontSize`, `fontWeight`, `lineHeight`, `letterSpacing` 변수 alias를 원본 스타일과 대조합니다. 텍스트 색상 변수도 유지합니다. 화면에 같은 서체로 보이더라도 스타일·변수 연결이 누락된 구간은 검수 실패입니다.
 - **HomeIndicator 속성 규칙**:
   - `## FOOTER` 및 바텀시트/Dialog/Popup 최하단에 배치되는 `HomeIndicator` 컴포넌트는 우측 패널의 Component Property **`os: iOS`**를 필수로 선택하여 적용합니다.
@@ -74,7 +75,7 @@
   - **적용 전제**: 기획 또는 사용자 지시에서 링크로 명시된 구간에만 적용합니다. 단순 메뉴명·다른 화면 언급·대괄호를 링크로 추정하지 않으며, 기획에 없는 링크 외형이나 URL·이동 동작을 추가하지 않습니다.
   - 문장 중간에 링크 처리되는 부분을 표기할 경우:
     - **Color Token**: `text/neutral/secondary`
-    - **Typography**: 동일 폰트 계열 내 `bold`로 정의된 Text Style 적용
+    - **Typography (2026-10-21 최종 교정)**: 동일 텍스트 크기·계열 내 `medium` 변수에 연결된 원본 Medium Text Style 적용. 종전 링크 구간 Bold 지정은 Medium으로 교정
     - **Type Settings**:
       - `Decoration`: **Underline** 체크
       - `Underline Details > Offset`: **`25%`** 설정
@@ -822,7 +823,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
      - 단순 문장형 부연 설명/안내 문구는 `InputField`의 **`hasFooter: True`** 및 **`Item / Footer / hint`**에 적용
    - `SelectButton`과 `Title / Section (Description 노출)` 조합 시 `gap: 24px`를 적용합니다.
    - `Title / Section` 다음 `Infobox / Card` 조합 시 gap 16px를 유지하고, `Infobox / Card` 다음 콘텐츠와의 외부 gap은 TextList를 포함해 24px를 적용합니다. 카드 내부 간격과 혼동하지 않습니다.
-   - 문장 내 강조·링크는 기획 또는 사용자 지시에서 명시된 구간에만 적용합니다. 단순 메뉴명·대괄호는 주변 본문 스타일을 유지하며, 기획에 없는 강조 굵기·강조색·밑줄·링크 동작을 추가하지 않습니다.
+   - 문장 내 강조·링크는 기획 또는 사용자 지시에서 명시된 구간을 빠짐없이 반영합니다. 강조 굵기는 동일 텍스트 크기·계열의 Medium 스타일/medium 변수로만 매핑하고 Bold·Semibold·크기 확대로 대신하지 않습니다. 단순 메뉴명·대괄호는 주변 본문 스타일을 유지하며, 기획에 없는 강조 굵기·강조색·밑줄·링크 동작을 추가하지 않습니다. 굵기·색상·밑줄·링크 유무를 각각 독립적으로 대조합니다.
    - `InputField Group`과 일반 `TextList`는 `gap: 24px`, 부가설명 성격의 불릿 `TextList`는 해당 `InputField`와 묶어 `gap: 12px`로 매핑합니다.
    - `TextList (size: 14, depth: 1)`과 `TextList` 결합 시 오토레이아웃 `gap: 8px` (`md`)을 적용합니다.
    - `HomeIndicator` 컴포넌트는 항상 우측 속성 패널에서 **`os: iOS`** 속성을 지정합니다.
