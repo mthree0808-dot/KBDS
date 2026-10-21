@@ -4,6 +4,11 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### Chip 가로 스와이프·Data Block 아웃라인·데이터 없음 아이콘 (2026-10-21 사용자 확정)
+- **Chip / Basic의 기획 방식 보존**: [사용자 수정 기준 2158:8074](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-8074)처럼 기획이 좌우 스와이프를 표현한 경우, Chip은 한 줄 가로 스와이프/스크롤 형태로 구성하고 우측 확장·접기 화살표를 노출하지 않습니다. `hasControl: false`, `extended: false`, Slot Horizontal / NO_WRAP과 원본 클리핑을 유지합니다. 모든 항목을 한 화면에 보이게 하려고 확장형·여러 줄·폰트 축소·문구 생략으로 바꾸지 않습니다. 뒤 항목이 일부 보이거나 뷰포트 밖에 있는 것은 가로 스와이프 기획의 일부입니다. 항목명·순서·선택 상태·원본 variant 및 전환 연결을 보존합니다. 속성 값만 false인지 보지 말고 실제 ControlContainer와 화살표가 비노출인지 확인합니다. 프로토타입 스크롤 동작을 구현·완료 보고할 때는 실제 가로 스크롤 설정과 동작을 별도로 검증합니다.
+- **Infobox / Card와 이어지는 Data Block**: 위 사용자 수정본처럼 상단 회색 Infobox / Card와 Data Block의 솔리드 배경이 반복되어 시각적으로 중첩되는 경우, 하단 Data Block은 **아웃라인형**을 사용합니다. Fill `surface/neutral/quaternary-muted` + Border `border/neutral/secondary-muted` + `stroke/md`, padding·radius 20px를 적용하고 DataList의 문구·순서·스타일·변수·기존 간격을 보존합니다. 역할명은 Data Block이며 Card / Surface로 바꾸지 않습니다. 이 경우 아래 일반적인 아웃라인/회색 무테 선택 재량보다 본 규칙을 우선합니다. 다른 맥락의 회색 무테 허용까지 전역 폐지하지는 않습니다.
+- **데이터가 없는 경우의 아이콘**: 조회 결과·이력·내역 등 표시할 데이터가 없는 모든 Empty State의 Feedback은 [기준 2150:14233](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2150-14233)처럼 **`status-nodata`** 원본 아이콘을 사용합니다. `status-noResult` 돋보기·검색 아이콘, 경고·완료 아이콘 등으로 임의 대체하지 않습니다. `Item / Feedback`의 공개 status instance-swap 속성으로 연결하고 실제 mainComponent key까지 확인합니다. Feedback 크기·문구·간격은 해당 Empty State 규칙을 유지하며, 아이콘 통일을 이유로 완료 화면 Large 규칙을 빈 상태에 적용하지 않습니다.
+
 ### 은행·증권사 선택 화면 통일 (2026-10-20 사용자 최종 확정)
 - 앞으로 은행·증권사 선택 화면은 [은행/증권사 선택 2101:12453](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2101-12453)을 공통 기준으로 재사용합니다. 종전 `2109:3661`의 심볼 매핑만 참고하는 범위를 넘어, 바텀시트·Tab·GridButton·아이템·기관 심볼의 구성과 속성을 함께 통일합니다. 다른 선택형 버튼의 일반 primary/grid 예시보다 이 전용 기준을 우선합니다.
 - **바텀시트와 Tab**: 제목은 `은행/증권사 선택`, 닫기 버튼을 유지합니다. BottomSheet의 `hasScrollDim: true`, `hasStickyButton: true`를 유지하고 StickyButton은 `hasCTA: false`, `hasSubButton: false`, `hasScrollDim: true`로 하단 스크롤 딤만 표시합니다. Slot은 가로 Fill·세로 Hug / padding `0 0 20px` / gap 24px이며, 직계 자식은 `Tab` → `GridButton` 순서입니다. Tab은 `1depth / extendable: false`, 은행·증권사 두 항목과 기획의 선택 상태를 사용합니다.
@@ -407,6 +412,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 - **참조 예시의 기본 구조**: Flow `vertical`, 패딩 **20px (`spacing/2xl`)**, 내부 간격 **16px (`spacing/xl`)**, 라운드 **14px (`radius/lg`)**. 필요에 따라 원본 `Title / Section`, `TextList / Unordered`, `Divider / Horizontal` 등을 조합합니다. Data Block의 DataList 구조나 20px 라운드를 일괄 적용하지 않습니다.
 
 #### 4. 아웃라인 / 회색 배경 스타일의 선택
+- **2026-10-21 우선 적용**: 회색 Infobox / Card와 솔리드 Data Block이 같은 화면에서 연속되어 배경이 반복·중첩되면, 사용자 수정 기준 `2158:8074`처럼 Data Block을 아웃라인형으로 적용합니다. 아래 선택 재량보다 이 구체적 상황 규칙이 우선합니다.
 - **아웃라인형**: 독립된 정보 영역의 경계를 명확히 구분할 때 사용합니다. 직접 만드는 `Data Block` / `Text Box`의 참조 스타일은 Fill **`surface/neutral/quaternary-muted`**, Border **`stroke/md` + `border/neutral/secondary-muted`**입니다.
 - **회색 배경·무테형**: Fill **`surface/neutral/tertiary-muted`**, **외곽 border 제거(`strokes: []`)**로 적용합니다. 같은 화면에 아웃라인 박스가 이어지거나 박스 안에 박스가 놓여 경계선이 중첩되는 경우, 보조 설명·안내 영역을 부드럽게 구분할 때 우선 고려합니다. 내부 콘텐츠 구분용 Divider까지 일괄 제거한다는 뜻은 아닙니다.
 - **선택 재량**: 고정된 한 형태를 모든 화면에 적용하지 않습니다. 주변 박스의 테두리 반복, 주·보조 정보 위계, 콘텐츠 밀도와 구분 필요성을 보고 두 형태를 유연하게 선택합니다. 중첩을 줄이되 서로 다른 영역의 구분과 가독성은 유지합니다. 선택은 매번 사용자 승인 없이 진행할 수 있으며 적용 이유를 작업의 기존 검수 기록에 간단히 남깁니다.
@@ -518,6 +524,8 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 ---
 
 ## 5. 피드백 / Empty State 화면 전용 패턴 (Feedback Layout Rules)
+
+**데이터 없음 아이콘 필수 (2026-10-21)**: 데이터가 없는 Feedback은 항상 `status-nodata`를 사용합니다. 검색을 연상시키는 `status-noResult` 돋보기로 대체하지 않으며, 아래 패턴별 크기·컨테이너·간격은 그대로 적용합니다. 승인 기준은 `zNwpdAWcBMOM5ExkiBUoGn / 2150:14233`입니다.
 '조회할 계좌가 없습니다', '내역이 없습니다' 등 데이터 부재 및 상태 피드백 화면의 오토레이아웃 규칙입니다.
 
 ### A. 화면 유형별 배치 및 간격 규칙

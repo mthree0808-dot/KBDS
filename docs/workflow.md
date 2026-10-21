@@ -30,6 +30,8 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-21 Chip·Data Block·빈 상태 계획: 가로 스와이프 기획이면 `2158:8074`의 Chip / Basic처럼 한 줄 Horizontal·NO_WRAP, extended false / hasControl false, 우측 화살표 비노출로 계획합니다. 항목을 모두 보이게 하려고 확장형·줄바꿈·작은 폰트·문구 생략으로 바꾸지 않습니다. 상단 회색 Infobox / Card와 솔리드 Data Block 배경이 반복·중첩되면 같은 기준의 아웃라인 Data Block(fill quaternary-muted / border secondary-muted / stroke/md / padding·radius 20)을 사용합니다. 데이터 없음 Feedback의 아이콘은 `2150:14233`의 status-nodata(key `3404f84bcb3791ea34d4eef41ad5735df48dfe24`)를 지정하며 status-noResult 돋보기로 대신하지 않습니다. 기존 역할·문구·간격·스타일·변수 및 Empty State 크기를 보존합니다.
+
 2026-10-20 단일 컴포넌트 래퍼 명명 검수: Auto Layout을 만들었다는 이유만으로 Group을 붙이지 않습니다. 단일 InputField의 패딩·정렬·배치용 래퍼는 `2141:10091`처럼 `InputField > InputField`로 명명하고, 같은 컴포넌트가 복수로 반복될 때만 `InputField Group`을 사용합니다. Full-Width·일반 화면·바텀시트를 동일하게 검사합니다. 명칭만 수정할 때는 자식 ID·계층·레이아웃·크기·간격을 전후 비교하여 보존합니다.
 
 2026-10-20 은행·증권사 선택 최종 기준: 이 유형을 발견하면 `zNwpdAWcBMOM5ExkiBUoGn / 2101:12453`의 전체 패턴을 우선 재사용합니다. BottomSheet 제목·닫기·스크롤 딤과 CTA 없는 StickyButton, Slot의 1depth 은행/증권사 Tab → secondary/grid GridButton 순서 / gap 24 / 하단 padding 20, GridButton 좌우 padding 20을 대조합니다. 내부 Grid는 3열 균등 FLEX / 행·열 gap 8 / 행 높이 Hug, Item / Vertical은 secondary / padding 16 / gap 12 / hasIcon true / hasSubLabel false / Fill·Fill, IconContainer는 36px 및 기관별 원본 심볼을 유지합니다. 참조의 6행·18개는 현재 목록의 결과이므로 기획의 기관명·순서·중복·상태에 맞춰 행 수를 조정합니다. 실제 Grid는 참조에서 Container 1이라는 레이어명을 사용하므로 이름만으로 Grid를 찾지 않고 layoutMode GRID를 확인합니다. Tab↔Grid 24px, 아이템 Label·문구 Hug, 스크롤 딤, 기관별 심볼과 원본 스타일·변수를 최종 검수합니다. 일반 선택형 primary/grid 예시는 이 유형에 적용하지 않습니다.
@@ -95,6 +97,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 반환된 receipt를 저장합니다. 성공은 `BUILT_REQUIRES_REVIEW`이며 최종 PASS가 아닙니다. `PARTIAL_FAILURE`면 영향 ID를 먼저 읽고 부분 생성 상태를 확인합니다. 사용자가 기존 작업을 보존하도록 요청한 경우 그대로 지킵니다. 이번 run에서 만든 노드만 안전하게 복구하고 실패 이력을 남깁니다. 실패한 명령을 무조건 반복하거나 파일 전체를 초기화하지 않습니다.
 
 ## 6. 실제 결과 검증과 시각 검수
+
+2026-10-21 최종 피드백 검수: Chip은 속성값만 보지 말고 실제 한 줄·우측 ControlContainer/화살표 비노출·기획의 항목 순서/선택 상태를 화면과 구조에서 확인합니다. 프로토타입 스와이프를 완료 보고한다면 실제 가로 스크롤 설정과 동작도 확인하며, overflow NONE인 참조의 외형만으로 상호작용 PASS를 선언하지 않습니다. Infobox / Card와 연속되는 Data Block은 회색 솔리드 중첩 여부 및 적용한 아웃라인 fill·border·stroke 토큰을 확인합니다. 데이터 없음 Feedback은 실제 내부 status-nodata의 component key를 확인하고 돋보기·검색 아이콘이 아닌지 검수합니다. variant 편집 가능성 검수는 별도로 유지합니다.
 
 2026-10-21 작업자 편집 완료 조건: 최종 인스턴스에 실제 문구·항목·상태를 넣은 뒤 우측 프로퍼티 패널에 공개된 variant·size·선택/비활성·가시성·instance-swap 등 해당 컴포넌트 옵션의 유효한 조합을 양방향 전환하여 검수합니다. 속성 값뿐 아니라 실제 내부 타입·시각 상태·배치·문구·상태·스타일·변수가 원본 규칙대로 바뀌는지 확인하고 원본이 의도한 상태 변화와 제작 오류를 구분합니다. 원본 인스턴스와 내부 연결을 보존하고 검수 후 기획 상태로 복원합니다. Slot/도구 제약으로 전환이 실패하면 해당 옵션과 영향을 명시하며 정상 완료로 처리하지 않습니다. 원본 미지원 동작은 보장하지 않습니다. 이 완료 조건은 Chip 외 모든 전달 컴포넌트에도 적용합니다.
 

@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## Chip 스와이프·아웃라인 Data Block·status-nodata 승인 (2026-10-21)
+
+사용자가 구분한 이전 제작본은 `2150:13784`, 직접 수정한 기준은 [2158:8074](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-8074)입니다. 기준 Chip `2158:8561`은 single / extended false / hasControl false, 390×68px, clipsContent true입니다. Slot은 Horizontal / NO_WRAP이고 우측 ControlContainer는 노출되지 않습니다. 이전 제작본은 extended true의 WRAP·확장 화살표를 사용하여 가로 스와이프 기획을 바꾼 오류입니다. 이후 가로 스와이프 기획은 한 줄과 화살표 비노출을 유지합니다. 참조의 overflowDirection은 NONE으로 관측됐으므로 이 읽기만으로 실제 프로토타입 스와이프 동작을 검증했다고 기록하지 않습니다.
+
+기준 Data Block `2158:8723`, `2158:8825`는 Fill `surface/neutral/quaternary-muted` key `13df17658e86efada0d0c1ba4402b88616a0efe1`, Border `border/neutral/secondary-muted` key `6f13cf9a41a7a40246b281a5b4a8270690e2226e`, 네 변 stroke/md key `74a325f74c4c0478bb096db37a311858ac4c6b7e`에 연결된 아웃라인입니다. padding·radius 20px, 박스 gap 16px, 내부 DataList Group gap 12px입니다. 이 수정의 핵심은 상단 회색 Infobox / Card와 반복되는 솔리드 배경을 피하는 것이며, 기존 문구·건수·DataList 구조·스타일은 유지합니다.
+
+빈 상태 기준 [2150:14233](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2150-14233)의 Feedback `2150:14249`는 medium이며 내부 status-nodata 원본 component key는 `3404f84bcb3791ea34d4eef41ad5735df48dfe24`입니다. 현재 읽은 `2158:8919`의 Feedback `2158:9460`에도 같은 status-nodata가 연결되어 있습니다. 이전 제작의 status-noResult 돋보기 선택은 잘못된 근거이며, 향후 데이터가 없는 상태는 항상 status-nodata를 사용합니다. 문구·Feedback 크기·패턴별 간격은 별도로 유지합니다. 이번 요청은 MD 갱신이며 참조 화면은 읽기만 했습니다. Chip의 variant 전환 미해결 기록은 이 스타일 교정과 구분합니다.
+
 ## 작업자 프로퍼티 패널 편집 가능성 — 사용자 확정 (2026-10-21)
 
 사용자는 이후 작업자가 우측 프로퍼티 패널에서 variant 등 원본 옵션을 바꿔도 정상 반영되는 산출물을 요청했습니다. 이는 Chip만의 교정이 아닌 전체 컴포넌트 전달 조건입니다. 실제 인스턴스·공개 옵션·내부 연결을 유지하고, 실제 콘텐츠 적용 후 유효한 옵션 조합의 양방향 전환에서 실제 내부 타입과 시각 상태·배치·문구·선택 상태·서체·변수를 원본 규칙과 대조합니다. 아래 Chip 실패 기록은 여전히 미해결이며 이 규칙 추가가 화면 동작 복구의 근거는 아닙니다. 원본 미지원 동작이나 Slot/도구 제약은 구분하여 알리고 정상 동작으로 보고하지 않습니다.
