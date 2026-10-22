@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 키패드 화면 BODY padding-top 24px — 사용자 확정 (2026-10-22)
+
+사용자는 [키패드 화면 2071:3356](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2071-3356)의 `## BODY` 상단 패딩을 24px로 지정했습니다. 키패드 화면의 BODY paddingTop에 `spacing/3xl`(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)을 연결하고 템플릿에 다른 상단 값이 있으면 이 최신 지시를 우선합니다. Container에 상단 패딩을 중복 추가하지 않으며 Keypad 원형의 내부 패딩·variant·숫자 배치, HEADER·FOOTER, BODY의 다른 속성은 유지합니다. BottomSheet Slot 패딩 변경 지시와 구분합니다. 이는 사용자 지정 규칙의 문서화이며 이번 작업에서 Figma 값을 측정하거나 화면을 수정했다는 의미는 아닙니다.
+
 ## 기획 강조 보존 및 동일 크기 Medium — 사용자 명확화 (2026-10-21)
 
 사용자는 이전 지적이 기획에 없는 링크·Bold의 임의 추가에 관한 것이며, 기획에 있는 텍스트 강조는 그대로 반영해야 한다고 명확히 했습니다. 강조 구간과 링크 유무를 기획대로 보존하되 본문 강조 굵기는 동일 텍스트 크기·계열의 원본 Medium Text Style과 연결된 medium 변수로만 매핑합니다. 기획에 Bold로 표현된 강조도 14 Light → 14 Medium, 16 Light → 16 Medium처럼 처리하며 Bold·Semibold·크기 확대·고정 fontWeight로 바꾸지 않습니다. 굵기만 표시됐다면 색상·밑줄·링크를 추가하지 않고 각각 기획상 명시 여부를 따로 확인합니다.

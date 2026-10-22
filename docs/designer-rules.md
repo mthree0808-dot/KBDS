@@ -15,6 +15,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 ## 화면과 구조 — 원문 §2, §5
 
 ### 2026-10-19 승인 규칙 우선 적용
+- 2026-10-22 키패드 화면 상단 패딩: 사용자 기준 `zNwpdAWcBMOM5ExkiBUoGn / 2071:3356`처럼 키패드가 포함된 화면은 `## BODY` 자체에 padding-top `spacing/3xl`=24px를 적용합니다. 기존 키패드 템플릿의 다른 값보다 우선하며 Container에 같은 상단 패딩을 중복하지 않습니다. Keypad 내부·BottomSheet Slot·HEADER·FOOTER 및 BODY의 나머지 속성은 이 변경으로 수정하지 않습니다.
 - 2026-10-21 강조 보존·Medium 최종 명확화: 기획에 없는 강조·링크만 추가 금지이며, 기획에 표시된 강조 구간과 링크는 반드시 반영합니다. 본문 강조 굵기는 동일 텍스트 크기·계열의 원본 Medium Text Style 및 연결된 medium 변수로만 변경합니다(14 Light → 14 Medium, 16 Light → 16 Medium). Bold로 표현된 기획도 동일 크기 Medium으로 매핑하며 Bold·Semibold·크기 확대·고정 fontWeight로 대신하지 않습니다. 굵기만 강조된 경우 색상·밑줄·링크를 추가하지 않습니다. 링크 굵기도 Medium으로 교정하며 제목·CTA 등 DS 원형 전체의 Weight를 일괄 변경하지 않습니다.
 - 2026-10-21 간격 최종 교정: Infobox / Card 다음 콘텐츠와의 외부 간격은 종류와 무관하게 spacing/3xl=24px이며 종전 Card → TextList 12px와 BODY 기본 32px보다 우선합니다. 카드 내부 간격이나 카드 앞쪽 간격은 변경하지 않습니다. Radio Group과 Checkbox Group(CheckBox Group)의 반복 항목 gap은 spacing/2xl=20px이며 Grid 행·열도 모두 20px입니다. 개별 컴포넌트 내부, 단일 CheckBox 래퍼 gap 0, Title / Element ↔ 그룹 gap 16px는 유지합니다.
 - 2026-10-21 기획에 없는 강조·링크 금지: 메뉴명·대괄호·다른 화면 언급만으로 Bold/Medium·강조색·밑줄·hyperlink·이동 동작을 추가하지 않습니다. 강조·링크 스타일 규칙은 기획 또는 사용자 지시에서 명시된 구간에만 적용합니다. `KFlklMvGmg0MXGfAXvpprn / 1151:257`의 `[고객정보조회(개인정보열람)]`는 사용자 확인에 따라 일반 본문과 동일한 스타일로 취급합니다. 링크 여부를 판단한 뒤 스타일을 선택하고, 구간별 원본 Text Style·Weight·색상·밑줄·실제 연결을 검수합니다.

@@ -4,6 +4,10 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### 키패드 화면 BODY 상단 패딩 (2026-10-22 사용자 확정)
+- [키패드 화면 2071:3356](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2071-3356)을 기준으로, 키패드가 포함된 화면의 **`## BODY`는 `padding-top: 24px` (`spacing/3xl`)**로 적용합니다. 기존 키패드 템플릿의 다른 상단 패딩보다 이 최신 값을 우선합니다.
+- 24px는 `## BODY` 자체에 적용하며 하위 Container의 padding-top이나 빈 프레임으로 중복 추가하지 않습니다. Keypad 원형 내부 패딩·숫자 배치·variant와 HEADER·FOOTER, BODY의 다른 패딩·간격은 이 변경으로 수정하지 않습니다. BottomSheet의 Slot 패딩을 바꾸는 규칙은 아닙니다.
+
 ### Infobox 후속 간격·선택 그룹 간격·임의 강조 금지 (2026-10-21 사용자 최종 교정)
 - **Infobox / Card 다음 콘텐츠**: 콘텐츠 종류와 무관하게 바로 다음 콘텐츠와의 외부 간격은 **24px (`spacing/3xl`)**로 적용합니다. 각각을 감싼 Container 사이에도 같은 실제 간격을 적용하며 BODY 기본 32px 및 종전 Infobox / Card → TextList 12px보다 우선합니다. 카드 내부 Slot·TextList 간격이나 카드 앞쪽 Title·InputField와의 간격은 이 규칙으로 변경하지 않습니다. 빈 프레임·중복 padding으로 간격을 더하지 않습니다.
 - **선택 그룹 내부 간격**: `Radio Group`과 `Checkbox Group`(기존 표기 `CheckBox Group` 포함)의 반복 항목 사이 gap은 **20px (`spacing/2xl`)**입니다. Horizontal·Vertical 모두 적용하고 Grid는 행·열 gap 모두 20px로 설정합니다. 개별 Radio·CheckBox 원형 내부 간격, 단일 CheckBox 래퍼 gap 0, Title / Element와 그룹 사이 gap 16px는 별도 규칙을 유지합니다.
@@ -136,6 +140,7 @@
      - **링크 리스트 전용 화면 예외**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**로 적용합니다.
    - **상하 패딩 규칙**:
      - 기본: **`padding-top: 24px` (`3xl` 토큰)**, **`padding-bottom: 32px` (`5xl` 토큰)** 적용
+     - **키패드 화면 (2026-10-22 확정)**: `## BODY` 자체의 **`padding-top: 24px` (`spacing/3xl`)** 적용. 키패드 템플릿의 다른 값이나 하위 Container 패딩으로 대체·중복하지 않습니다.
      - **완료 화면 예외**: 상단 Feedback과 후속 데이터 그룹이 있는 완료 화면은 **`padding: 40px 20px 32px`** (상단 `spacing/6xl`, 좌우 `spacing/2xl`, 하단 `spacing/5xl`), Container 간 **`gap: 40px` (`spacing/6xl`)**을 적용합니다. 상세 구조는 섹션 7의 완료 화면 규칙을 따릅니다.
      - **최상단 요소에 따른 `padding-top: 0` 예외**: `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`, **헤더 직후 Tab 등과 맞닿는 피드백 화면의 `Tab`**이 `## BODY` 최상단에 올 경우 **`padding-top: 0px`**으로 설정합니다.
      - **단독 피드백 화면 `padding-top: 40px` 예외**: Feedback 위 상단에 헤더만 존재하는 단독 피드백 화면의 경우 `## BODY`의 **`padding-top: 40px` (`6xl` 토큰)**을 적용합니다.
@@ -653,6 +658,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 
 ### B. ## BODY 기본 간격 구조
 - **`## BODY` 기본 패딩**: `padding-top: 24px` (`3xl`), `padding-bottom: 32px` (`5xl`)
+- **키패드 화면 상단 패딩**: `2071:3356` 기준으로 **`## BODY`의 `padding-top: 24px` (`spacing/3xl`)**를 적용합니다. Keypad 컴포넌트 내부 패딩이나 BottomSheet Slot 패딩과 구분하며 Container에 중복 적용하지 않습니다.
 - **완료 화면 우선 규칙**: 상단 Feedback + 후속 데이터 그룹 패턴은 **`padding: 40px 20px 32px`**, **`gap: 40px` (`spacing/6xl`)**을 적용합니다. 그룹 내부의 `length: full` Divider는 BODY 좌우 패딩을 제거하는 Full-Width 요소로 취급하지 않습니다.
 - **`## BODY` padding-top 예외**:
   - `StepIndicator`, `Tab (variant: 1depth)`, `InputField (item/input: searchIcon)`, 헤더 직후 `Tab` 배치 시: **`0px`**

@@ -30,6 +30,8 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-22 키패드 화면 계획: 사용자 기준 `2071:3356`에 따라 `## BODY` 자체의 padding-top을 spacing/3xl=24px로 계획합니다. 키패드 템플릿에 다른 값이 있더라도 최신 24px 지시를 우선하고 Container padding-top·빈 프레임으로 대체하거나 중복하지 않습니다. Keypad 내부·BottomSheet Slot 및 HEADER·FOOTER, BODY의 나머지 속성은 해당 규칙을 유지합니다.
+
 2026-10-21 강조 보존·Medium 매핑: 기획에 있는 강조 구간과 링크는 누락하지 않고 반영합니다. 본문 강조 굵기는 동일 텍스트 크기·계열의 Medium 스타일과 연결된 medium 변수로만 매핑하며 Bold·Semibold·크기 확대·고정 fontWeight로 대신하지 않습니다. 링크 굵기도 종전 Bold 대신 Medium을 적용합니다. 굵기·색상·밑줄·링크 유무를 각각 대조하여, 굵기만 강조된 구간에 다른 표현을 추가하지 않습니다. 기획에 없는 표현의 추가 금지와 기획에 있는 표현의 보존을 함께 지킵니다.
 
 2026-10-21 간격·인라인 표현 계획: Infobox / Card 다음 콘텐츠의 외부 gap은 종류와 관계없이 spacing/3xl=24px로 계획합니다. 카드 내부 간격 및 카드 앞쪽 간격은 보존하며 종전 Card → TextList 12px를 재사용하지 않습니다. Radio Group과 Checkbox Group(CheckBox Group)의 반복 항목 gap은 spacing/2xl=20px이고 Grid 행·열도 모두 20px입니다. 개별 컴포넌트 내부·단일 CheckBox 래퍼 gap 0·Title / Element ↔ 그룹 gap 16px는 별도 유지합니다. 메뉴명·대괄호만으로 강조·링크를 추정하지 않고 기획 또는 사용자 지시의 명시 구간에만 적용합니다. 링크 판별과 링크 스타일 적용을 분리합니다.
@@ -109,6 +111,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 반환된 receipt를 저장합니다. 성공은 `BUILT_REQUIRES_REVIEW`이며 최종 PASS가 아닙니다. `PARTIAL_FAILURE`면 영향 ID를 먼저 읽고 부분 생성 상태를 확인합니다. 사용자가 기존 작업을 보존하도록 요청한 경우 그대로 지킵니다. 이번 run에서 만든 노드만 안전하게 복구하고 실패 이력을 남깁니다. 실패한 명령을 무조건 반복하거나 파일 전체를 초기화하지 않습니다.
 
 ## 6. 실제 결과 검증과 시각 검수
+
+2026-10-22 키패드 화면 검수: `## BODY.paddingTop`이 24px이고 spacing/3xl 변수에 연결돼 있는지 확인합니다. 하위 Container의 중복 상단 패딩이나 빈 프레임이 추가되지 않았는지 확인하고, Keypad 원형 내부와 BottomSheet Slot 패딩을 BODY 값으로 잘못 변경하지 않았는지 대조합니다.
 
 2026-10-21 강조 검수: 기획의 강조·링크 구간이 모두 반영됐는지와 임의 추가가 없는지를 함께 확인합니다. 강조 전후 텍스트 크기·계열이 동일하고 해당 구간의 Medium Text Style key·medium 변수 alias가 연결돼 있는지 검사합니다. 본문 강조가 Bold·Semibold·고정 fontWeight·크기 확대이면 FAIL입니다. 굵기만 있는 강조에는 색상·밑줄·링크를 추가하지 않으며, DS 제목·CTA의 원형 Weight는 별도로 보존합니다.
 
