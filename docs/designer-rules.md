@@ -15,6 +15,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 ## 화면과 구조 — 원문 §2, §5
 
 ### 2026-10-19 승인 규칙 우선 적용
+- 2026-10-22 Feedback 제목/본문 위계: 핵심 결과·제한은 `Feedback > Title+error_text > title`, 보조 설명·해결 방법·다음 행동은 같은 그룹의 `Text`에 매핑하고 hasSubText true로 노출합니다. `2130:4205`의 `1회용 신청번호가 없으면\n가까운 지점에 방문해서 신청해주세요.`는 Text에 넣습니다. title에 전부 합치거나 빈 줄로 대신하거나 csInfomation의 동명 Text에 넣지 않습니다. 원본 스타일·변수·색상·간격 및 공개 가시성 연결을 보존하고 실제 직계 자식과 문구를 검수합니다.
 - 2026-10-22 이미지 후속 간격 기본값: Image Area 또는 단독 ImageContainer 다음 콘텐츠는 종류와 무관하게 외부 gap spacing/3xl=24px를 적용하며 BODY 기본 32px보다 우선합니다. 사용자가 별도 명시한 간격이 있으면 그 지시를 따릅니다. 래퍼가 있으면 Image Area 바깥 경계부터, 단독이면 ImageContainer 경계부터 측정하고 이미지 내부와 외부에 24px를 중복 적용하지 않습니다. 기존 내부 패딩·이미지 크기·Title / Page → Image Area gap 0px와 승인된 더미 구성은 유지합니다.
 - 2026-10-22 키패드 화면 상단 패딩: 사용자 기준 `zNwpdAWcBMOM5ExkiBUoGn / 2071:3356`처럼 키패드가 포함된 화면은 `## BODY` 자체에 padding-top `spacing/3xl`=24px를 적용합니다. 기존 키패드 템플릿의 다른 값보다 우선하며 Container에 같은 상단 패딩을 중복하지 않습니다. Keypad 내부·BottomSheet Slot·HEADER·FOOTER 및 BODY의 나머지 속성은 이 변경으로 수정하지 않습니다.
 - 2026-10-21 강조 보존·Medium 최종 명확화: 기획에 없는 강조·링크만 추가 금지이며, 기획에 표시된 강조 구간과 링크는 반드시 반영합니다. 본문 강조 굵기는 동일 텍스트 크기·계열의 원본 Medium Text Style 및 연결된 medium 변수로만 변경합니다(14 Light → 14 Medium, 16 Light → 16 Medium). Bold로 표현된 기획도 동일 크기 Medium으로 매핑하며 Bold·Semibold·크기 확대·고정 fontWeight로 대신하지 않습니다. 굵기만 강조된 경우 색상·밑줄·링크를 추가하지 않습니다. 링크 굵기도 Medium으로 교정하며 제목·CTA 등 DS 원형 전체의 Weight를 일괄 변경하지 않습니다.

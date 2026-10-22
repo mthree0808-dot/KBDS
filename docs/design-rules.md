@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## Feedback의 보조 안내는 Title+error_text > Text — 사용자 교정 (2026-10-22)
+
+대상 [발급불가 안내 2130:4205](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2130-4205)의 Feedback은 `2130:4212`, 내부 제목 그룹은 `I2130:4212;434:31639`입니다. 수정 전에는 주 제목과 `1회용 신청번호가 없으면\n가까운 지점에 방문해서 신청해주세요.`를 모두 title에 합쳤고 hasSubText false로 보조 Text를 숨긴 상태였습니다.
+
+사용자 지시에 따라 title(`I2130:4212;434:31641`)에는 `만 14세 미만 고객은\n1회용 신청번호를 발급한 후\n신청할 수 있습니다`만 남기고, 보조 문구는 직계 Text(`I2130:4212;434:31642`)로 분리해 hasSubText true로 노출했습니다. title의 원본 22 Bold 스타일과 Text의 14 Light 스타일 key `b9f5d92dffa67d9779e50c32f2c9f732a727fe8a`, 변수·색상·Feedback large·버튼은 유지했습니다. 수정 후 title 높이 93px, 보조 Text 높이 40px로 확인하고 시각 검수했습니다. 이 원형 제목의 Bold는 문장 내 강조를 Medium으로 매핑하는 규칙과 구분합니다.
+
+향후 핵심 결과와 보조 설명·해결 방법을 제목/본문으로 구분하고, csInfomation 아래의 동명 Text와 혼동하지 않습니다. 문구가 한 기획 화면에 있다는 이유로 모두 title에 합치지 않으며 Title+error_text의 실제 직계 자식·가시성·공개 속성·원본 스타일을 대조합니다.
+
 ## Image Area·ImageContainer 후속 콘텐츠 기본 gap 24px — 사용자 확정 (2026-10-22)
 
 사용자는 Image Area(ImageContainer) 다음 콘텐츠와의 기본 gap을 24px로 재확정했습니다. 기존 Image Area 후속 규칙에 단독 ImageContainer 구성도 명시하며 `spacing/3xl`(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)을 사용합니다. 래퍼가 있으면 Image Area 바깥 경계부터, 단독 구성은 ImageContainer 경계부터 다음 콘텐츠까지 측정하고 내부·외부에 각각 24px를 더하지 않습니다. 별도 사용자 간격 지시를 우선하며 기존 내부 패딩·이미지 크기·더미 그래픽·편집 가능한 라벨·Title / Page → Image Area gap 0px는 유지합니다. 이번 변경은 사용자 규칙의 문서화이며 화면 수정이나 새 실측을 의미하지 않습니다.

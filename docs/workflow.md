@@ -30,6 +30,8 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-22 Feedback 문구 매핑: 기획의 핵심 결과·제한과 보조 설명·해결 방법·다음 행동을 구분합니다. 전자는 Feedback > Title+error_text > title, 후자는 같은 그룹의 Text에 매핑하고 hasSubText true로 노출합니다. `2130:4205`의 `1회용 신청번호가 없으면\n가까운 지점에 방문해서 신청해주세요.`는 Text입니다. 제목에 빈 줄을 넣어 합치거나 Feedback 밖 본문·csInfomation의 동명 Text로 대체하지 않습니다.
+
 2026-10-22 이미지 후속 간격 계획: Image Area 또는 단독 ImageContainer 다음 콘텐츠와의 기본 외부 gap을 spacing/3xl=24px로 계획합니다. 별도 사용자 지시는 우선하며, 래퍼가 있으면 Image Area 바깥 경계부터 측정합니다. 내부 이미지와 래퍼 바깥에 각각 gap을 추가하지 않고 내부 패딩·이미지 크기·Title / Page → Image Area gap 0px는 유지합니다.
 
 2026-10-22 키패드 화면 계획: 사용자 기준 `2071:3356`에 따라 `## BODY` 자체의 padding-top을 spacing/3xl=24px로 계획합니다. 키패드 템플릿에 다른 값이 있더라도 최신 24px 지시를 우선하고 Container padding-top·빈 프레임으로 대체하거나 중복하지 않습니다. Keypad 내부·BottomSheet Slot 및 HEADER·FOOTER, BODY의 나머지 속성은 해당 규칙을 유지합니다.
@@ -113,6 +115,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 반환된 receipt를 저장합니다. 성공은 `BUILT_REQUIRES_REVIEW`이며 최종 PASS가 아닙니다. `PARTIAL_FAILURE`면 영향 ID를 먼저 읽고 부분 생성 상태를 확인합니다. 사용자가 기존 작업을 보존하도록 요청한 경우 그대로 지킵니다. 이번 run에서 만든 노드만 안전하게 복구하고 실패 이력을 남깁니다. 실패한 명령을 무조건 반복하거나 파일 전체를 초기화하지 않습니다.
 
 ## 6. 실제 결과 검증과 시각 검수
+
+2026-10-22 Feedback 제목/본문 검수: Title+error_text의 직계 title/Text에 각 문구가 정확히 분리돼 있는지, 보조 안내가 제목에도 중복되지 않는지, hasSubText true와 실제 Text 노출이 연결되는지 확인합니다. 각 원본 Text Style·변수·색상·간격을 유지하고 핵심 제목의 굵기·크기를 보조 안내에 복제하지 않습니다. csInfomation의 동명 Text를 잘못 수정하지 않았는지 및 줄바꿈·클리핑을 시각 검수합니다.
 
 2026-10-22 키패드 화면 검수: `## BODY.paddingTop`이 24px이고 spacing/3xl 변수에 연결돼 있는지 확인합니다. 하위 Container의 중복 상단 패딩이나 빈 프레임이 추가되지 않았는지 확인하고, Keypad 원형 내부와 BottomSheet Slot 패딩을 BODY 값으로 잘못 변경하지 않았는지 대조합니다.
 
