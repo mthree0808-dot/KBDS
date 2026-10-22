@@ -557,13 +557,18 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 
 ## 5. 피드백 / Empty State 화면 전용 패턴 (Feedback Layout Rules)
 
+**추가 Feedback 래퍼·패딩의 적용 범위 (2026-10-22 사용자 교정, 우선 적용)**:
+- `Feedback`이라는 Auto Layout 프레임으로 실제 Feedback 인스턴스를 한 번 더 감싸 상하 24px 패딩을 주는 패턴은 **아래에서 정의한 데이터 없음(Empty State)의 해당 상황에만** 적용합니다. 컴포넌트 이름이 Feedback이라는 이유로 일반 안내·발급불가·오류·완료 화면에 일괄 적용하지 않습니다.
+- [발급불가 안내 2130:4205](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2130-4205)는 데이터 없음 케이스가 아니므로 **`## BODY > Container > Feedback`(실제 인스턴스)**로 구성합니다. `Container > Feedback` 프레임 > `Feedback` 인스턴스 구조와 추가 상하 24px 패딩을 제거합니다. Container 패딩은 0이며 기존 원형 Feedback의 내부 패딩·간격은 바꾸지 않습니다.
+- 이 화면의 좌우 여백 20px는 `## BODY`에 두고 Feedback 폭 350px를 유지합니다. BODY의 해당 화면용 상단 패딩(이 화면 40px)과 추가 Feedback 래퍼의 24px는 별개입니다. 래퍼 제거 시 기존 본문/제목·hasSubText·variant·아이콘·버튼·스타일·변수를 보존합니다. 사용자나 기획에 별도 명시된 래퍼가 있다면 해당 지시를 우선합니다.
+
 **Feedback 제목·보조 안내 분리 (2026-10-22 사용자 교정)**:
 - `Feedback > Title+error_text`에서 핵심 결과·제한 안내는 원본 `title`에, 뒤따르는 설명·해결 방법·다음 행동 안내는 해당 그룹의 원본 **`Text`**에 매핑합니다. 문구가 같은 기획 화면에 있다고 해서 모두 제목에 합치거나 빈 줄만 추가해 구분하지 않습니다. 기획과 사용자 지시의 제목/본문 위계를 유지합니다.
 - [발급불가 안내 2130:4205](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2130-4205)의 `1회용 신청번호가 없으면\n가까운 지점에 방문해서 신청해주세요.`는 **`Title+error_text > Text`**에 넣고 공개 속성 **`hasSubText: true`**로 노출합니다. `title`에는 `만 14세 미만 고객은\n1회용 신청번호를 발급한 후\n신청할 수 있습니다`만 유지하며 보조 안내를 중복하지 않습니다.
 - 동명의 `csInfomation > Text`나 Feedback 바깥 일반 Text로 잘못 매핑하지 않습니다. `Title+error_text`의 직계 자식 여부·실제 문구·가시성·공개 속성 연결을 검수하고 title/Text 각각의 원본 Text Style·변수·색상·원형 간격을 보존합니다. 주 제목의 굵기·크기를 보조 안내에 복제하지 않으며 문장 내 임의 강조·링크도 추가하지 않습니다.
 
 **데이터 없음 아이콘 필수 (2026-10-21)**: 데이터가 없는 Feedback은 항상 `status-nodata`를 사용합니다. 검색을 연상시키는 `status-noResult` 돋보기로 대체하지 않으며, 아래 패턴별 크기·컨테이너·간격은 그대로 적용합니다. 승인 기준은 `zNwpdAWcBMOM5ExkiBUoGn / 2150:14233`입니다.
-'조회할 계좌가 없습니다', '내역이 없습니다' 등 데이터 부재 및 상태 피드백 화면의 오토레이아웃 규칙입니다.
+'조회할 계좌가 없습니다', '내역이 없습니다' 등 데이터 부재(Empty State) 화면의 상황별 오토레이아웃 규칙입니다. 아래의 추가 래퍼·패딩을 데이터 없음이 아닌 일반 안내·오류·완료 화면에 확대 적용하지 않습니다.
 
 ### A. 화면 유형별 배치 및 간격 규칙
 1. **단독 피드백 화면 (헤더 직후 피드백만 노출되는 경우)**:
@@ -731,7 +736,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - `Outline Container` 내부 기본 간격: Auto Layout **`gap: 16px` (`xl`)** 적용
   - `Outline Container` 내부 소타이틀과 `Group` / 항목 간격: Auto Layout **`gap: 8px` (`md`)** 적용
   - 긴 텍스트 `Depth 4` 내부 항목 간격: Flow `vertical`, Auto Layout **`gap: 0px`**
-- **피드백 화면 흐름 패딩 및 간격**:
+- **데이터 없음(Empty State) 피드백 화면 흐름 패딩 및 간격** (일반 안내·발급불가·오류·완료 화면에는 아래 추가 래퍼 패딩을 일괄 적용하지 않음):
   - 단독 피드백 화면: `Container [순번]`에 **`padding: 24px 0` (`3xl`)** 적용
   - Tab 직후 피드백 화면: `Container [순번]`에 **`padding-top: 40px` (`6xl`)** 적용, 내부 `Feedback` 프레임에 **`padding: 24px 0` (`3xl`)** 적용
   - `Tab - Infobox FullWidth` Container와 `InputField` 간격: Auto Layout **`gap: 24px` (`3xl`)**
@@ -862,6 +867,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
    - **약관 UI**: `Depth 1` (`Consent solid`), `Depth 2` (`Consent basic large`), `Depth 3` (`Consent basic medium`), `Outline Container`(`gap: 16px`, 복수 조합 시 `Divider 1px tertiary` 구분) 및 `Depth 4` 분기(Grid 2*2 vs Vertical 0px)를 정확히 매핑합니다.
    - **피드백(Empty State) UI**:
+     - 먼저 실제 데이터 없음 케이스인지 판별합니다. 데이터 없음이 아닌 일반 안내·발급불가·오류·완료 화면은 추가 Feedback 프레임과 상하 24px 패딩 없이 Container에 실제 Feedback 인스턴스를 직접 배치합니다. 원형 내부와 BODY의 해당 화면 패딩은 보존합니다.
      - 단독형: `## BODY`의 `padding-top: 40px`, `Container [순번]` 패딩 `padding: 24px 0` 매핑
      - Tab 직후형: `## BODY`의 `padding-top: 0px`, `Container [순번]`에 `padding-top: 40px` 부여 후 내부 `Feedback` 오토레이아웃 프레임에 `padding: 24px 0` 매핑
      - 인풋/그룹 직후형: `Feedback` 오토레이아웃 프레임으로 한 번 더 감싸고 `padding: 24px 0`, 상단과의 간격 `gap: 32px` 매핑

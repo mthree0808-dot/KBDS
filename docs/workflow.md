@@ -30,6 +30,8 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-22 Feedback 래퍼 적용 판별: 화면이 실제 데이터 없음(Empty State)인지 먼저 확인합니다. 원문 §5의 해당 Empty State 패턴에만 추가 Feedback 프레임·상하 24px 패딩을 계획하며, 일반 안내·발급불가·오류·완료 화면에 일괄 적용하지 않습니다. `2130:4205`처럼 일반 안내는 Container > 실제 Feedback 인스턴스로 구성합니다. 제거하는 래퍼가 좌우 여백도 맡았다면 BODY의 해당 좌우 패딩으로 옮겨 콘텐츠 폭을 보존합니다. 원형 내부와 BODY 상단 패딩은 별도 유지하며 사용자/기획의 명시 예외는 우선합니다.
+
 2026-10-22 Feedback 문구 매핑: 기획의 핵심 결과·제한과 보조 설명·해결 방법·다음 행동을 구분합니다. 전자는 Feedback > Title+error_text > title, 후자는 같은 그룹의 Text에 매핑하고 hasSubText true로 노출합니다. `2130:4205`의 `1회용 신청번호가 없으면\n가까운 지점에 방문해서 신청해주세요.`는 Text입니다. 제목에 빈 줄을 넣어 합치거나 Feedback 밖 본문·csInfomation의 동명 Text로 대체하지 않습니다.
 
 2026-10-22 이미지 후속 간격 계획: Image Area 또는 단독 ImageContainer 다음 콘텐츠와의 기본 외부 gap을 spacing/3xl=24px로 계획합니다. 별도 사용자 지시는 우선하며, 래퍼가 있으면 Image Area 바깥 경계부터 측정합니다. 내부 이미지와 래퍼 바깥에 각각 gap을 추가하지 않고 내부 패딩·이미지 크기·Title / Page → Image Area gap 0px는 유지합니다.
@@ -115,6 +117,8 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 반환된 receipt를 저장합니다. 성공은 `BUILT_REQUIRES_REVIEW`이며 최종 PASS가 아닙니다. `PARTIAL_FAILURE`면 영향 ID를 먼저 읽고 부분 생성 상태를 확인합니다. 사용자가 기존 작업을 보존하도록 요청한 경우 그대로 지킵니다. 이번 run에서 만든 노드만 안전하게 복구하고 실패 이력을 남깁니다. 실패한 명령을 무조건 반복하거나 파일 전체를 초기화하지 않습니다.
 
 ## 6. 실제 결과 검증과 시각 검수
+
+2026-10-22 일반 Feedback 구조 검수: 데이터 없음이 아닌 안내·발급불가·오류·완료 화면에 추가 Feedback 프레임·상하 24px 패딩이 남지 않았는지 확인합니다. Container의 직접 자식이 실제 Feedback 인스턴스인지 대조하고 제거 전후 문구·Title+error_text·hasSubText·Component Properties·폭·원형 간격·스타일·변수를 보존합니다. 좌우 여백을 옮긴 경우 BODY 패딩과 실제 콘텐츠 폭을 검수하며 BODY의 별도 상단 패딩까지 제거하지 않습니다.
 
 2026-10-22 Feedback 제목/본문 검수: Title+error_text의 직계 title/Text에 각 문구가 정확히 분리돼 있는지, 보조 안내가 제목에도 중복되지 않는지, hasSubText true와 실제 Text 노출이 연결되는지 확인합니다. 각 원본 Text Style·변수·색상·간격을 유지하고 핵심 제목의 굵기·크기를 보조 안내에 복제하지 않습니다. csInfomation의 동명 Text를 잘못 수정하지 않았는지 및 줄바꿈·클리핑을 시각 검수합니다.
 

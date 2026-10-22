@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 일반 발급불가 안내의 추가 Feedback 래퍼 제거 (2026-10-22)
+
+사용자는 [발급불가 안내 2130:4205](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2130-4205)가 데이터 없음 화면이 아니므로 Feedback을 다시 Feedback 프레임으로 감싸 패딩을 주지 않도록 교정했습니다. 수정 전 `## BODY`(`2130:4209`, padding 40/0/32/0) > `Container`(`2130:4210`, padding 0) > `Feedback` 프레임(`2130:4211`, padding 24/20/24/20) > Feedback 인스턴스(`2130:4212`)였습니다.
+
+추가 프레임 `2130:4211`을 제거하고 기존 인스턴스 `2130:4212`를 Container의 직접 자식으로 옮겼습니다. 좌우 여백은 BODY로 옮겨 padding 40/20/32/20, Container padding 0과 Feedback 폭 350px를 유지했습니다. 전후 Component Properties 및 전체 텍스트·스타일·변수 동일성을 확인했습니다. 원형 Feedback 내부 간격과 앞서 분리한 Title+error_text의 title/Text는 유지했습니다. 이 변경은 Empty State 전용 추가 래퍼·패딩을 일반 안내에 잘못 확대 적용한 것을 교정한 것이며, BODY의 별도 상단 40px까지 없애는 지시는 아닙니다.
+
 ## Feedback의 보조 안내는 Title+error_text > Text — 사용자 교정 (2026-10-22)
 
 대상 [발급불가 안내 2130:4205](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2130-4205)의 Feedback은 `2130:4212`, 내부 제목 그룹은 `I2130:4212;434:31639`입니다. 수정 전에는 주 제목과 `1회용 신청번호가 없으면\n가까운 지점에 방문해서 신청해주세요.`를 모두 title에 합쳤고 hasSubText false로 보조 Text를 숨긴 상태였습니다.
