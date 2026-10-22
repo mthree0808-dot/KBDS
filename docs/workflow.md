@@ -30,6 +30,8 @@
 
 ## 3. 템플릿 선택과 측정
 
+2026-10-22 이미지 후속 간격 계획: Image Area 또는 단독 ImageContainer 다음 콘텐츠와의 기본 외부 gap을 spacing/3xl=24px로 계획합니다. 별도 사용자 지시는 우선하며, 래퍼가 있으면 Image Area 바깥 경계부터 측정합니다. 내부 이미지와 래퍼 바깥에 각각 gap을 추가하지 않고 내부 패딩·이미지 크기·Title / Page → Image Area gap 0px는 유지합니다.
+
 2026-10-22 키패드 화면 계획: 사용자 기준 `2071:3356`에 따라 `## BODY` 자체의 padding-top을 spacing/3xl=24px로 계획합니다. 키패드 템플릿에 다른 값이 있더라도 최신 24px 지시를 우선하고 Container padding-top·빈 프레임으로 대체하거나 중복하지 않습니다. Keypad 내부·BottomSheet Slot 및 HEADER·FOOTER, BODY의 나머지 속성은 해당 규칙을 유지합니다.
 
 2026-10-21 강조 보존·Medium 매핑: 기획에 있는 강조 구간과 링크는 누락하지 않고 반영합니다. 본문 강조 굵기는 동일 텍스트 크기·계열의 Medium 스타일과 연결된 medium 변수로만 매핑하며 Bold·Semibold·크기 확대·고정 fontWeight로 대신하지 않습니다. 링크 굵기도 종전 Bold 대신 Medium을 적용합니다. 굵기·색상·밑줄·링크 유무를 각각 대조하여, 굵기만 강조된 구간에 다른 표현을 추가하지 않습니다. 기획에 없는 표현의 추가 금지와 기획에 있는 표현의 보존을 함께 지킵니다.
@@ -136,7 +138,7 @@ PDF 약관 상세 검수는 원본 `72:9033`과 작업본을 속성별 비교합
 
 Image Area는 승인 원본 `10580:10543`에서 더미 그래픽과 “더미이미지” 라벨까지 가져와 적용합니다. 그래픽의 원본 이미지 hash·크롭 변환과 라벨의 위치·외형을 비교합니다. 빈 플레이스홀더만 있거나 라벨이 빠지면 실패입니다. 최신 승인 참조 `0P0j17OPstNhC3LWjBdBGy / 67:1947`의 Image Area `67:2127`를 재사용하고 라벨 type TEXT / Pretendard SemiBold / 원본 fontFamily alias를 확인합니다. 이미 올바른 원본은 다시 만들지 않습니다. 원본 프레임·텍스트를 복제하여 속성과 연결을 보존하고 같은 파일 내 이동에는 필요 시 검증된 group/ungroup 경로를 사용합니다. 폰트 로드 실패를 이유로 outline SVG·벡터·이미지나 다른 폰트로 바꾸지 않습니다. 편집 가능성을 보존할 수 없으면 완료로 보고하지 않고 제한을 알립니다.
 
-Title / Page 이후 Image Area는 동일 Container의 직계 자식인지와 실제 경계 간격 0px를 확인합니다. 승인 참조 `10580:10543`의 Vertical / Fill·Hug / padding 40px 0 / gap 0 및 ImageContainer ratio 2:1 / Fill·Fixed(350×175px), 전체 영역 350×255px를 대조합니다. 다음 콘텐츠가 ProgressStep인지 Infobox / Card인지와 무관하게 실제 간격 24px 및 `spacing/3xl` 연결을 검사합니다. 내부 패딩을 외부 gap으로 대체하거나 별도 빈 Container로 간격을 만들지 않습니다.
+Title / Page 이후 Image Area는 동일 Container의 직계 자식인지와 실제 경계 간격 0px를 확인합니다. 승인 참조 `10580:10543`의 Vertical / Fill·Hug / padding 40px 0 / gap 0 및 ImageContainer ratio 2:1 / Fill·Fixed(350×175px), 전체 영역 350×255px를 대조합니다. Image Area 또는 단독 ImageContainer 다음 콘텐츠는 종류와 무관하게 기본 외부 간격 24px 및 `spacing/3xl` 연결을 검사합니다. 래퍼가 있으면 Image Area 바깥 경계부터 측정하며 사용자가 별도 지정한 간격은 해당 지시를 따릅니다. 내부·외부에 gap을 중복 적용하거나 내부 패딩을 외부 gap으로 대체하거나 별도 빈 Container로 간격을 만들지 않습니다.
 
 최소 높이가 적용되는 짧은 콘텐츠 바텀시트에서는 Slot의 `layoutSizingVertical`이 FILL인지, 내부 Container·Text는 Hug인지, 버튼 아래에 불필요한 잔여 공간이 없는지 검수합니다. 완료 화면의 Feedback은 실제 공개 속성 `varient: large`와 Large component key를 확인합니다. 이전 Medium 인스턴스의 내부 size override가 남아 있으면 Large 원형과 대조해 복원하되, 상태 아이콘·문구·버튼 override는 유지합니다. 완료 화면이 아닌 Empty State에는 기존 상황별 규칙을 적용합니다.
 

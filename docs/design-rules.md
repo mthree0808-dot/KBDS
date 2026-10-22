@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## Image Area·ImageContainer 후속 콘텐츠 기본 gap 24px — 사용자 확정 (2026-10-22)
+
+사용자는 Image Area(ImageContainer) 다음 콘텐츠와의 기본 gap을 24px로 재확정했습니다. 기존 Image Area 후속 규칙에 단독 ImageContainer 구성도 명시하며 `spacing/3xl`(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)을 사용합니다. 래퍼가 있으면 Image Area 바깥 경계부터, 단독 구성은 ImageContainer 경계부터 다음 콘텐츠까지 측정하고 내부·외부에 각각 24px를 더하지 않습니다. 별도 사용자 간격 지시를 우선하며 기존 내부 패딩·이미지 크기·더미 그래픽·편집 가능한 라벨·Title / Page → Image Area gap 0px는 유지합니다. 이번 변경은 사용자 규칙의 문서화이며 화면 수정이나 새 실측을 의미하지 않습니다.
+
 ## 키패드 화면 BODY padding-top 24px — 사용자 확정 (2026-10-22)
 
 사용자는 [키패드 화면 2071:3356](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2071-3356)의 `## BODY` 상단 패딩을 24px로 지정했습니다. 키패드 화면의 BODY paddingTop에 `spacing/3xl`(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)을 연결하고 템플릿에 다른 상단 값이 있으면 이 최신 지시를 우선합니다. Container에 상단 패딩을 중복 추가하지 않으며 Keypad 원형의 내부 패딩·variant·숫자 배치, HEADER·FOOTER, BODY의 다른 속성은 유지합니다. BottomSheet Slot 패딩 변경 지시와 구분합니다. 이는 사용자 지정 규칙의 문서화이며 이번 작업에서 Figma 값을 측정하거나 화면을 수정했다는 의미는 아닙니다.
