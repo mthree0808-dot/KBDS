@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 섹션 제목 16px·반복 제목 목록 그룹 24px — 사용자 확정 (2026-10-22)
+
+사용자는 Title / Section 다음 콘텐츠 간격16px와 반복 Title / TextList Group 사이 기본24px를 구분해 확정했습니다. 전자칩 태그 2153:8503의 일반 텍스트를 제목 컴포넌트로 교체하면서 기존 gap8px를 남긴 것은 검수 누락이며, 상위 Title / Contents의16px도 반복 그룹 간격의 근거가 아닙니다. 수정 대상은 2153:8642·2153:8741의 itemSpacing16px(spacing/xl, key dd4b6787bca3ceba45b9b41a16963083cacea533), 2153:8641의 itemSpacing24px(spacing/3xl, key fb23d20e74566ea2a3280e9e3ca48e40122b6d95)입니다. 내부 TextList Group 항목 gap8px는 유지합니다.
+
 ## 일반 발급불가 안내의 추가 Feedback 래퍼 제거 (2026-10-22)
 
 사용자는 [발급불가 안내 2130:4205](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2130-4205)가 데이터 없음 화면이 아니므로 Feedback을 다시 Feedback 프레임으로 감싸 패딩을 주지 않도록 교정했습니다. 수정 전 `## BODY`(`2130:4209`, padding 40/0/32/0) > `Container`(`2130:4210`, padding 0) > `Feedback` 프레임(`2130:4211`, padding 24/20/24/20) > Feedback 인스턴스(`2130:4212`)였습니다.

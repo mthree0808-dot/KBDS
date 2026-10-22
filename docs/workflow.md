@@ -1,5 +1,9 @@
 # 작업 실행 절차
 
+## 섹션 제목·반복 제목 목록 간격 검수 (2026-10-22)
+
+Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Group 사이 기본gap24px, TextList Group 내부 항목gap8px를 서로 다른 계층으로 계획·검수합니다. 부모가 Title / Contents라는 이름이어도 반복되는 제목·목록 그룹이면 그룹 사이24px를 적용합니다. 기준2153:8503의2153:8642·2153:8741은 spacing/xl16px, 2153:8641은 spacing/3xl24px로 검수하고 높이를 다시 계산합니다. 기존 제작본의8px·16px를 근거 확인 없이 상속하지 않습니다.
+
 ## 0. 필수 기본 자료 읽기
 
 매 작업에서 `docs/sources/designer-ui-rules.md` 원문 전체 → `docs/designer-rules.md` → `docs/design-rules.md`를 읽습니다. 디자이너 문서의 일반/완료/바텀시트 구분, 이름, 구조, 상황별 간격·속성·텍스트 규칙을 계획의 기준으로 삼습니다. 자리표시자 URL은 사용하지 않으며, 원문에 명시된 실제 디자인 시스템 URL과 사용자 승인 Figma 예시는 조회 근거로 사용합니다. 실제 Figma 원본을 확인하는 절차는 그대로 유지합니다.

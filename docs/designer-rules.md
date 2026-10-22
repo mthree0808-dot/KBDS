@@ -1,5 +1,9 @@
 # 디자이너 규칙의 적용과 검수
 
+## 섹션 제목과 반복 제목 목록의 간격 — 2026-10-22
+
+Title / Section 다음 콘텐츠와의 외부 gap은 spacing/xl=16px입니다. 반복 Title / TextList Group 사이 기본 gap은 spacing/3xl=24px이며, 내부 TextList Group의 항목 gap 8px와 구분합니다. 기준 2153:8503에서 2153:8642·2153:8741은 각각16px, 상위 Title / Contents(2153:8641)는24px입니다. 이전 제작의 제목 뒤8px·반복 그룹 사이16px를 상속하지 않습니다.
+
 원본: [UI Design & Code Generation Rules](sources/designer-ui-rules.md). 사용자 제공 원문과 사용자가 승인한 후속 개정을 반영합니다. 이 문서는 실행을 위한 색인·해석이며 원문 전체 읽기를 대체하지 않습니다.
 
 ## 적용 우선순위와 출처

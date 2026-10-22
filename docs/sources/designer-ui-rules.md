@@ -4,6 +4,12 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### 섹션 제목·반복 제목 목록 그룹 간격 (2026-10-22 사용자 확정)
+- **`Title / Section` 다음 콘텐츠와의 외부 gap은 16px (`spacing/xl`)**입니다. Text·TextList Group 등 후속 콘텐츠의 종류와 관계없이 적용합니다. `TextList Group` 내부 항목 간격 8px와 혼동하지 않습니다.
+- **반복되는 `Title / TextList Group` 사이의 기본 gap은 24px (`spacing/3xl`)**입니다. 각 그룹 내부의 Title / Section → TextList Group은 16px, 그 안의 반복 TextList 항목 간격은 기존 8px를 유지합니다. 부모 래퍼 이름이 `Title / Contents`여도 반복 그룹 사이에는 24px를 적용합니다.
+- [전자칩 태그 기준 2153:8503](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2153-8503)의 두 Title / TextList Group 내부는 각각 16px, 두 그룹을 감싼 Title / Contents는 24px입니다. 종전 제작본의 내부 8px·그룹 사이 16px는 승인 기준이 아닙니다.
+
+
 ### 이미지 영역 다음 콘텐츠 기본 간격 (2026-10-22 사용자 확정)
 - **`Image Area` 또는 단독 `ImageContainer` 다음 콘텐츠와의 기본 외부 gap은 24px (`spacing/3xl`)**입니다. 후속 콘텐츠 종류와 무관하게 적용하고 일반 BODY gap 32px보다 우선합니다. 사용자가 별도로 명시한 간격이 있으면 해당 지시를 따릅니다.
 - Image Area로 감싼 구성은 **Image Area의 바깥 경계부터** 다음 콘텐츠까지 24px, ImageContainer 단독 구성은 **ImageContainer의 바깥 경계부터** 다음 콘텐츠까지 24px를 적용합니다. 이미지 내부와 래퍼 외부에 각각 24px를 중복 적용하거나 빈 프레임·추가 padding으로 간격을 늘리지 않습니다. 기존 Image Area 내부 패딩·이미지 크기·Title / Page → Image Area gap 0px는 유지하며, 승인된 Image Area 전체를 빈 ImageContainer로 대체하라는 뜻은 아닙니다.
