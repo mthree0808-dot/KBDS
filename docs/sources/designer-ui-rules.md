@@ -4,6 +4,12 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### Feedback 후속 콘텐츠 간격 (2026-10-23 사용자 확정)
+- **`Feedback` 다음에 별도의 본문·설명·목록 등 후속 콘텐츠 블록이 이어지는 경우 외부 간격은 40px (`spacing/6xl`)**로 적용합니다. 일반 BODY 기본 gap 32px보다 우선하며 완료 화면의 후속 데이터뿐 아니라 [재외국민 비대상 안내 2157:9320](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2157-9320)처럼 안내 뒤 콘텐츠가 이어지는 화면에도 적용합니다.
+- 참조 화면은 `## BODY` > `Container 1`(실제 Feedback) → `Container 2`(후속 안내) 구조이며 BODY의 itemSpacing을 **32px에서 40px로 교정**했습니다. Feedback 하단 경계부터 다음 콘텐츠 상단 경계까지 실제 간격 40px를 확인합니다. 래퍼 패딩과 gap을 중복 가산하거나 빈 프레임으로 여백을 만들지 않습니다.
+- 이 규칙은 **Feedback 뒤의 외부 간격**입니다. Feedback 내부 아이콘·제목·보조 문구 간격, BODY 상단 패딩, 후속 콘텐츠 내부 Title / Section → 콘텐츠 16px·반복 Title / TextList Group 사이24px는 각각 유지합니다. 앞쪽 `Chip / Basic` → Feedback의24px 규칙도 변경하지 않습니다.
+
+
 ### 항목에 포함된 스위치 크기 (2026-10-23 사용자 확정)
 - [빠른 로그인 기준 2347:15715](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2347-15715)처럼 항목에 스위치를 조합하는 경우, 실제 스위치 컴포넌트의 공개 속성을 **`size: medium`**으로 설정합니다. 빠른 로그인과 같은 설정 항목의 스위치에 동일하게 적용합니다.
 - 너비·높이를 임의로 조절해 medium 외형을 흉내 내지 않고 원본 인스턴스와 공개 size 속성을 사용합니다. 기획의 켜짐·꺼짐 및 비활성 상태, 레이블, 기존 항목 구조·간격·서체·변수 연결은 유지합니다.

@@ -1,5 +1,9 @@
 # 작업 실행 절차
 
+## Feedback 후속 블록 간격 검수 (2026-10-23)
+
+Feedback 다음에 별도 본문·설명·목록 등 콘텐츠 블록이 있으면 외부 간격을 spacing/6xl40px로 계획합니다. 기준2157:9320처럼 Container 1의 Feedback과 Container 2가 이어질 때 부모 BODY gap을40px로 설정하고 실제 Feedback 하단과 다음 콘텐츠 상단 사이40px를 검수합니다. 일반 BODY32px를 그대로 상속하지 않으며 래퍼 padding·빈 프레임으로 중복 여백을 만들지 않습니다. Feedback 내부 간격·BODY 상단·Chip → Feedback24px·후속 섹션 내부16px/반복 그룹24px는 별도로 보존합니다.
+
 ## 항목 스위치 크기 검수 (2026-10-23)
 
 빠른 로그인처럼 항목에 스위치를 조합하는 경우 size: medium으로 계획합니다. 최종 실제 인스턴스의 공개 size 속성값이 medium인지 확인하고, 단순 너비·높이 override로 대신하지 않았는지 검사합니다. 기획의 on/off·disabled 상태와 항목 레이블·간격·서체·변수를 유지합니다. 사용자 기준은2347:15715입니다.
