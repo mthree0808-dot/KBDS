@@ -329,11 +329,12 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - *(예: `Title / Page`와 `InputField` 결합 시 -> **`Title / InputField`**)*
 - **3개 이상 요소 결합형 (세 덩이 이상 형성 시)**: `[첫 번째 컴포넌트/그룹 앞단] / Contents`
   - *(예 1: `Title / Page` + `InputField` + `Accordion` 결합 시 -> **`Title / Contents`**)*
-  - *(예 2: `Title / Text` + `Title / Text` 열거 결합 시 -> **`Title / Contents`**)*
+  - *(동일 레이어 반복 예외: `Title / Text` + `Title / Text`처럼 같은 레이어를 열거하면 **`Title / Text Group`**으로 묶습니다. 서로 다른 콘텐츠를 결합하는 `Title / Contents` 공식과 구분합니다.)*
 
 #### 2. 단수 및 복수 컴포넌트 오토레이아웃 네이밍
-- **복수 컴포넌트 열거 시**: 동일 컴포넌트들이 반복 열거되어 오토레이아웃으로 묶일 때는 컴포넌트명 뒤에 **`Group`**을 붙입니다.
+- **동일 컴포넌트·레이어 반복 열거 시 (2026-10-23 재확정)**: 동일한 컴포넌트 또는 같은 역할·명칭의 레이어가 2개 이상 연속 반복되면 반복 항목들을 하나의 Auto Layout으로 묶고 **`[명칭] Group`**으로 명명합니다. InputField뿐 아니라 일반 레이어·조합 레이어에도 적용하며, 반복 자식은 원래 명칭과 원형 연결을 유지하고 순번을 붙이지 않습니다. 서로 다른 역할의 항목이나 별도 정의된 Container 1·2 등의 구조는 이 규칙만으로 합치거나 바꾸지 않습니다.
   - 예시: `InputField Group` (복수의 InputField), `Accordion Group` (복수의 Accordion), `Radio Group` (복수의 Radio), `TextList Group`, `Table Group`, `Account Group`, `Consent Group`, `Card Group`, `Data Block Group` 등
+- **실제 그룹핑 검수**: 이름만 확인하지 않고 반복 항목이 실제 Group의 자식인지 확인합니다. 연속 InputField는 `Container > InputField Group > InputField`로 구성하고 내부 gap24px를 적용합니다. Container의 페이지 패딩은 유지하고 Group에 중복 패딩을 추가하지 않습니다. 단일 InputField의 배치용 래퍼에는 기존 단수 규칙대로 Group을 붙이지 않습니다. 문의정보 입력2182:19277의 InputField5개는 문서에 있던 규칙을 제작에서 누락한 교정 대상입니다.
 - **Group 내부 반복 자식의 레이어명 (2026-10-19 사용자 승인)**: `[레이어명] Group` 안에 반복되는 자식은 모두 원래 레이어명을 사용하며 숫자 순번을 붙이지 않습니다. 예를 들어 `Data Block Group`의 자식은 모두 `Data Block`, `Text Box Group`의 자식은 모두 `Text Box`, `InputField Group`의 자식은 모두 `InputField`로 명명합니다. `Container 1`, `Container 2`처럼 별도로 정의된 페이지 Container 순번 규칙은 예외로 유지하며, 컴포넌트 원형 명칭도 유지합니다.
 - **단수 컴포넌트 래핑 시 (2026-10-20 사용자 재확정)**: 단일 컴포넌트를 패딩·정렬·배치 등 필요에 의해 오토레이아웃으로 감싸도 반복 그룹이 아니므로 `Group`을 붙이지 않고 해당 **`[컴포넌트명]` 단독**으로 명명합니다. Full-Width 화면의 좌우 패딩뿐 아니라 일반 화면·바텀시트의 단일 래퍼에도 동일하게 적용합니다. `Group`은 같은 컴포넌트가 복수로 반복될 때만 사용합니다.
   - 예시: 단일 InputField를 감쌀 경우 -> **`InputField`**, 단일 Accordion을 감쌀 경우 -> **`Accordion`**

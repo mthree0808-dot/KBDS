@@ -1,5 +1,7 @@
 # 디자이너 규칙의 적용과 검수
 
+2026-10-23 반복 그룹 재확정: 같은 컴포넌트 또는 같은 역할·명칭의 일반/조합 레이어가2개 이상 연속 반복되면 실제 Auto Layout으로 묶고 [명칭] Group으로 명명합니다. 반복 자식은 원래 명칭을 유지하고 순번을 붙이지 않습니다. 연속 InputField는 Container > InputField Group > InputField, 내부 gap24px이며 Container의 페이지 패딩과 단수 래퍼 예외는 유지합니다. 기존 명명 규칙이 있었으나2182:19277의5개 InputField 제작에 적용이 누락됐습니다.
+
 ## Infobox 버튼 원형 영역 — 2026-10-23
 
 Infobox / Card의 버튼은 hasButton true로 노출한 원형 Button Area에 배치합니다. Slot-Contents는 본문만 담고 버튼을 넣지 않습니다. 기준25386:80100처럼 Button Area와 Slot-Contents는 직계 형제이며, TextButton은 secondary/xsmall·prefix false·suffix true(line-chevron-right)·underline false·Hug를 사용합니다. Button Area의 우측 정렬·상단4px·gap12px와 Slot gap8px를 유지하고 기존 제목·prefix·suffix 노출 및 안내·버튼 문구는 보존합니다.

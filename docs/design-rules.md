@@ -1,5 +1,7 @@
 # 실측 디자인 규칙
 
+2026-10-23 반복 그룹 누락 교정: 기존 원문은 반복 컴포넌트의 Group 명명과 연속 InputField Group/gap24px를 이미 규정했습니다. 문의정보 입력2182:19277은 Container2182:19285의 직계 자식으로 InputField5개를 열거해 제작에서 누락했습니다. 페이지 Container와 좌우20px 패딩을 유지하면서 그 안에 InputField Group을 추가하는 구조로 교정합니다. 일반/조합 레이어의 동일 역할·명칭 반복에도 [명칭] Group을 명시하며 자식 순번 금지·단수 래퍼 예외·별도 Container 번호 규칙은 유지합니다.
+
 ## 인포박스 Slot 버튼 오배치 교정 (2026-10-23)
 
 작업2180:8644는 hasButton false 상태에서 Slot-Contents 안 TextList Group 다음에 TextButton 앱 알림 설정을 직접 넣었습니다. 승인 라이브러리25386:80100은 hasButton true로 원형 Button Area를 노출하며 Slot-Contents의 직계 형제입니다. 참조는 기본 BoxButton 자리에 실제 TextButton(원형 key b6a8096e03e888ef8969ad417c39bf9356c84bd1)을 적용한 구성입니다. 원형 Button Area에서 이 TextButton을 사용하고 Slot의 기존 버튼을 제거하며, 본문2항목과 버튼 문구·기획에 없는 제목/아이콘 비노출을 유지합니다. Button Area는 Horizontal/우측 MAX·CENTER/Fill·Hug/gap12/padding-top4이며 Slot gap8입니다.

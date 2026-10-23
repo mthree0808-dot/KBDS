@@ -1,5 +1,7 @@
 # 작업 실행 절차
 
+2026-10-23 반복 그룹 최종 검수: 같은 컴포넌트나 같은 역할·명칭의 레이어가2개 이상 연속 열거되는지 확인하고, 실제 [명칭] Group Auto Layout 아래 반복 항목이 모여 있는지 검사합니다. 이름만 Group으로 바꾸거나 Container에 직접 열거한 것은 통과시키지 않습니다. InputField는 gap24px, 기존 Container 페이지 패딩을 유지하며 단일 래퍼 Group 금지·반복 자식 원래 이름·별도 Container 번호 예외를 함께 대조합니다. 기준2182:19277은5개 InputField입니다.
+
 ## Infobox 버튼 구조 검수 (2026-10-23)
 
 인포박스에 버튼이 있으면 hasButton true와 원형 Button Area를 먼저 사용합니다. Slot-Contents 안 버튼 개수0, 원형 Button Area가 Slot의 형제인지, 실제 TextButton secondary/xsmall·우측 line-chevron-right·Hug·문구 WIDTH_AND_HEIGHT인지 검사합니다. 라이브러리25386:80100의 Button Area 우측 정렬·padding-top4/gap12와 Slot gap8을 대조하고 기존 본문·목록·버튼명 및 제목/아이콘 노출 상태를 보존합니다. Slot 안에 별도 버튼 영역을 만들어 흉내 내지 않습니다.
