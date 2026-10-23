@@ -4,6 +4,13 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### Infobox / Card 버튼은 원형 Button Area 사용 (2026-10-23 사용자 확정)
+- 인포박스 안에 버튼이 필요하면 [라이브러리 기준25386:80100](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=25386-80100)처럼 **`hasButton: true`로 원형 `Button Area`를 노출**합니다. **`Slot-Contents` 안에 버튼을 넣지 않습니다.**
+- 계층은 **`Infobox / Card > Slot-Contents`(본문)와 `Infobox / Card > Button Area > TextButton`(버튼)**입니다. 두 영역은 인포박스의 직계 형제이며 원형 인스턴스와 공개 속성을 유지합니다. 버튼을 담으려고 Slot 안에 별도의 Button Area를 만들거나 detach하지 않습니다.
+- 참조 TextButton은 **secondary / xsmall / hasPrefix false / hasSuffix true / underline false**, 우측 원형 `line-chevron-right`, Hug·Hug 및 문구 WIDTH_AND_HEIGHT를 사용합니다. 원형 Button Area는 Horizontal / Fill·Hug / 우측 정렬(MAX)·수직 center / gap12px / padding-top4px입니다. Slot-Contents gap8px와 원형 padding은 보존합니다.
+- 제목·prefix·suffix는 기획에 필요한 경우에만 해당 공개 속성으로 노출합니다. 버튼 구조 교정을 이유로 참조의 더미 제목·아이콘·본문을 추가하지 않고 기존 안내 문구·목록·버튼명을 유지합니다. 기준 작업 인포박스는 [2180:8644](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2180-8644)의 `앱 알림 설정`입니다.
+
+
 ### Feedback 후속 콘텐츠 간격 (2026-10-23 사용자 확정)
 - **`Feedback` 다음에 별도의 본문·설명·목록 등 후속 콘텐츠 블록이 이어지는 경우 외부 간격은 40px (`spacing/6xl`)**로 적용합니다. 일반 BODY 기본 gap 32px보다 우선하며 완료 화면의 후속 데이터뿐 아니라 [재외국민 비대상 안내 2157:9320](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2157-9320)처럼 안내 뒤 콘텐츠가 이어지는 화면에도 적용합니다.
 - 참조 화면은 `## BODY` > `Container 1`(실제 Feedback) → `Container 2`(후속 안내) 구조이며 BODY의 itemSpacing을 **32px에서 40px로 교정**했습니다. Feedback 하단 경계부터 다음 콘텐츠 상단 경계까지 실제 간격 40px를 확인합니다. 래퍼 패딩과 gap을 중복 가산하거나 빈 프레임으로 여백을 만들지 않습니다.

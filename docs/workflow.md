@@ -1,5 +1,9 @@
 # 작업 실행 절차
 
+## Infobox 버튼 구조 검수 (2026-10-23)
+
+인포박스에 버튼이 있으면 hasButton true와 원형 Button Area를 먼저 사용합니다. Slot-Contents 안 버튼 개수0, 원형 Button Area가 Slot의 형제인지, 실제 TextButton secondary/xsmall·우측 line-chevron-right·Hug·문구 WIDTH_AND_HEIGHT인지 검사합니다. 라이브러리25386:80100의 Button Area 우측 정렬·padding-top4/gap12와 Slot gap8을 대조하고 기존 본문·목록·버튼명 및 제목/아이콘 노출 상태를 보존합니다. Slot 안에 별도 버튼 영역을 만들어 흉내 내지 않습니다.
+
 ## Feedback 후속 블록 간격 검수 (2026-10-23)
 
 Feedback 다음에 별도 본문·설명·목록 등 콘텐츠 블록이 있으면 외부 간격을 spacing/6xl40px로 계획합니다. 기준2157:9320처럼 Container 1의 Feedback과 Container 2가 이어질 때 부모 BODY gap을40px로 설정하고 실제 Feedback 하단과 다음 콘텐츠 상단 사이40px를 검수합니다. 일반 BODY32px를 그대로 상속하지 않으며 래퍼 padding·빈 프레임으로 중복 여백을 만들지 않습니다. Feedback 내부 간격·BODY 상단·Chip → Feedback24px·후속 섹션 내부16px/반복 그룹24px는 별도로 보존합니다.

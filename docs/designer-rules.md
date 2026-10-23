@@ -1,5 +1,9 @@
 # 디자이너 규칙의 적용과 검수
 
+## Infobox 버튼 원형 영역 — 2026-10-23
+
+Infobox / Card의 버튼은 hasButton true로 노출한 원형 Button Area에 배치합니다. Slot-Contents는 본문만 담고 버튼을 넣지 않습니다. 기준25386:80100처럼 Button Area와 Slot-Contents는 직계 형제이며, TextButton은 secondary/xsmall·prefix false·suffix true(line-chevron-right)·underline false·Hug를 사용합니다. Button Area의 우측 정렬·상단4px·gap12px와 Slot gap8px를 유지하고 기존 제목·prefix·suffix 노출 및 안내·버튼 문구는 보존합니다.
+
 ## Feedback 후속 콘텐츠 외부 간격40px — 2026-10-23
 
 Feedback 뒤에 별도의 본문·설명·목록 등 콘텐츠 블록이 이어지면 외부 간격은 spacing/6xl=40px입니다. 완료 화면에만 한정하지 않고 재외국민 비대상 안내2157:9320에도 적용하며 일반 BODY gap32px보다 우선합니다. Feedback 내부 간격·BODY 상단 패딩·앞쪽 Chip → Feedback24px 및 후속 섹션 내부16px/반복 그룹24px와 구분합니다. 실제 경계 간격을 확인하고 래퍼 padding으로 중복하지 않습니다.

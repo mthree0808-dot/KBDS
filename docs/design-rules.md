@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 인포박스 Slot 버튼 오배치 교정 (2026-10-23)
+
+작업2180:8644는 hasButton false 상태에서 Slot-Contents 안 TextList Group 다음에 TextButton 앱 알림 설정을 직접 넣었습니다. 승인 라이브러리25386:80100은 hasButton true로 원형 Button Area를 노출하며 Slot-Contents의 직계 형제입니다. 참조는 기본 BoxButton 자리에 실제 TextButton(원형 key b6a8096e03e888ef8969ad417c39bf9356c84bd1)을 적용한 구성입니다. 원형 Button Area에서 이 TextButton을 사용하고 Slot의 기존 버튼을 제거하며, 본문2항목과 버튼 문구·기획에 없는 제목/아이콘 비노출을 유지합니다. Button Area는 Horizontal/우측 MAX·CENTER/Fill·Hug/gap12/padding-top4이며 Slot gap8입니다.
+
 ## Feedback과 하단 안내 사이40px 교정 (2026-10-23)
 
 사용자 기준은 재외국민 비대상 안내2157:9320입니다. 기존 BODY2157:9324의 itemSpacing32px를40px로 바꾸고 spacing/6xl(key 5bc593ee6f05df006566535e37f5fce0ed3a085b)에 연결했습니다. Container 1(2157:9544) 안 실제 Feedback2157:9662의 하단과 후속 Container 2(2157:9795)의 상단 사이 실제 간격40px를 확인했으며 화면390×844를 유지했습니다. 이 사용자 확정은 Feedback 다음의 독립 본문·설명·목록에도 적용하며, 완료 화면의 후속 데이터 전용40px와 별도로 일반 안내 화면에서도 준수합니다. 내부 Feedback 간격이나 앞쪽 Chip → Feedback24px는 그대로 유지합니다.
