@@ -1,5 +1,9 @@
 # 작업 실행 절차
 
+## 키패드·패턴 Popup 제작 및 제목 검수 (2026-10-23)
+
+키패드·패턴 입력 화면이면 사용자 확정 Popup 예외로 분류합니다. 실제 Popup 원형의 Slot에 Header / Body / Footer를 구성하고 StatusBar는 최상단 Absolute로 유지합니다. AppBar는 sub / hasTitle true, Label > 타이틀은 연결된 이전 화면 AppBar의 실제 문구를 읽어 적용합니다. 기준2380:12952의 KB국민인증서 발급은 해당 흐름의 값이며 고정 기본값이 아닙니다. KB 로고 비노출·닫기 버튼·키패드 Body 상단24px·원형 컴포넌트 연결·폰트·변수·입력 상태와 최종 화면을 검수합니다. 이전 제목을 확인하지 못했으면 임의 추정하지 않습니다.
+
 ## 섹션 제목·반복 제목 목록 간격 검수 (2026-10-22)
 
 Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Group 사이 기본gap24px, TextList Group 내부 항목gap8px를 서로 다른 계층으로 계획·검수합니다. 부모가 Title / Contents라는 이름이어도 반복되는 제목·목록 그룹이면 그룹 사이24px를 적용합니다. 기준2153:8503의2153:8642·2153:8741은 spacing/xl16px, 2153:8641은 spacing/3xl24px로 검수하고 높이를 다시 계산합니다. 기존 제작본의8px·16px를 근거 확인 없이 상속하지 않습니다.

@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 키패드·패턴 Popup 및 제목 승계 — 사용자 확정 (2026-10-23)
+
+사용자는 키패드나 패턴을 그리는 화면을 앞으로 Popup 틀로 만들도록 명시했습니다. 이는 종전 일반 인증·PIN 화면만으로 Popup을 추정하지 않는 규칙의 사용자 승인 예외입니다. 기준2380:12952는 실제 Popup과 AppBar(sub)의 hasTitle true를 사용하고 Label > 타이틀에 KB국민인증서 발급을 표시합니다. 제목 출처는 이전 화면 AppBar이며 본문 안내·아트보드명·페이지 ID가 아닙니다. 기준 문구를 모든 흐름에 고정하지 않고 기존 원형 서체·변수·공개 속성과 본문·키패드·패턴 컴포넌트를 유지합니다.
+
 ## 섹션 제목 16px·반복 제목 목록 그룹 24px — 사용자 확정 (2026-10-22)
 
 사용자는 Title / Section 다음 콘텐츠 간격16px와 반복 Title / TextList Group 사이 기본24px를 구분해 확정했습니다. 전자칩 태그 2153:8503의 일반 텍스트를 제목 컴포넌트로 교체하면서 기존 gap8px를 남긴 것은 검수 누락이며, 상위 Title / Contents의16px도 반복 그룹 간격의 근거가 아닙니다. 수정 대상은 2153:8642·2153:8741의 itemSpacing16px(spacing/xl, key dd4b6787bca3ceba45b9b41a16963083cacea533), 2153:8641의 itemSpacing24px(spacing/3xl, key fb23d20e74566ea2a3280e9e3ca48e40122b6d95)입니다. 내부 TextList Group 항목 gap8px는 유지합니다.

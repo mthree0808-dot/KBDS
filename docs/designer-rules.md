@@ -1,5 +1,9 @@
 # 디자이너 규칙의 적용과 검수
 
+## 키패드·패턴 입력 Popup과 AppBar 제목 — 2026-10-23
+
+키패드·패턴 입력 화면은 사용자 확정 예외로 실제 Popup > Slot > Header / Body / Footer 구조를 기본 적용합니다. StatusBar는 최상단 Absolute, 보안 키패드 AppBar는 sub / hasTitle true / KB 로고 없음이며 Label 안 타이틀에 이전 화면의 실제 AppBar 제목을 이어받습니다. 승인 기준2380:12952는 KB국민인증서 발급이지만 전역 고정 문구가 아닙니다. 일반 인증 화면까지 일괄 Popup으로 바꾸지 않으며 기존 컴포넌트·변수·입력 상태와 Body 상단24px를 보존합니다.
+
 ## 섹션 제목과 반복 제목 목록의 간격 — 2026-10-22
 
 Title / Section 다음 콘텐츠와의 외부 gap은 spacing/xl=16px입니다. 반복 Title / TextList Group 사이 기본 gap은 spacing/3xl=24px이며, 내부 TextList Group의 항목 gap 8px와 구분합니다. 기준 2153:8503에서 2153:8642·2153:8741은 각각16px, 상위 Title / Contents(2153:8641)는24px입니다. 이전 제작의 제목 뒤8px·반복 그룹 사이16px를 상속하지 않습니다.

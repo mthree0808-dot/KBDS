@@ -4,6 +4,13 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### 키패드·패턴 입력 화면의 Popup 및 AppBar 제목 (2026-10-23 사용자 확정)
+- 앞으로 **키패드 입력 화면과 패턴을 그리는 화면은 원본 `Popup` 컴포넌트 틀**로 제작합니다. 이 유형은 일반 화면의 최상위 3단 구조보다 본 최신 사용자 지시를 우선합니다. 기존 인증 화면 모두를 Popup으로 확대하는 규칙은 아닙니다.
+- 구조는 `StatusBar`(최상단 Absolute) + `Popup > Slot > Header / Body / Footer`이며, 기존 본문·입력 컴포넌트·키패드·패턴의 원형 연결과 속성·문구·배치를 유지합니다. 키패드 화면 Body의 padding-top 24px 규칙도 유지합니다.
+- **AppBar는 `variant: sub`, `hasTitle: true`**로 설정하고 KB 로고를 노출하지 않습니다. [승인 기준 2380:12952](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2380-12952)처럼 AppBar의 **`Label` Auto Layout 안 `타이틀`**에 이전 화면에서 쓰던 실제 AppBar 제목을 적용합니다. 기준의 제목은 `KB국민인증서 발급`이며 다른 흐름에 이 문구를 고정 복사하지 않습니다.
+- 이전 화면의 AppBar 제목을 그대로 이어받고, 아트보드명·페이지 ID·본문 입력 안내를 제목으로 대신하지 않습니다. 원형 Title Text Style·서체·변수·Label 구조를 유지하며, 기존 hasTitle false는 이 유형에서 최신 true 지시로 교정합니다. 닫기 버튼과 기획의 입력 상태도 보존합니다.
+
+
 ### 섹션 제목·반복 제목 목록 그룹 간격 (2026-10-22 사용자 확정)
 - **`Title / Section` 다음 콘텐츠와의 외부 gap은 16px (`spacing/xl`)**입니다. Text·TextList Group 등 후속 콘텐츠의 종류와 관계없이 적용합니다. `TextList Group` 내부 항목 간격 8px와 혼동하지 않습니다.
 - **반복되는 `Title / TextList Group` 사이의 기본 gap은 24px (`spacing/3xl`)**입니다. 각 그룹 내부의 Title / Section → TextList Group은 16px, 그 안의 반복 TextList 항목 간격은 기존 8px를 유지합니다. 부모 래퍼 이름이 `Title / Contents`여도 반복 그룹 사이에는 24px를 적용합니다.
@@ -232,7 +239,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   4. **`HomeIndicator`**: Property **`os: iOS`** 적용, 최하단 배치
 
 ### F. 풀팝업(Full Popup) 화면 규격 및 구조
-기획의 페이지 형태 또는 사용자의 명시 지시에서 **풀팝업으로 확인된 화면에만** 적용하는 레이어 및 오토레이아웃 계층 구조입니다. 일반 화면에는 §2-B·C의 최상위 3단 구조를 적용하며, 이 절을 기본 템플릿으로 확대 적용하지 않습니다.
+기획의 페이지 형태 또는 사용자의 명시 지시에서 **풀팝업으로 확인된 화면과 2026-10-23 사용자가 지정한 키패드·패턴 입력 화면에** 적용하는 레이어 및 오토레이아웃 계층 구조입니다. 일반 화면에는 §2-B·C의 최상위 3단 구조를 적용하며, 이 절을 기본 템플릿으로 확대 적용하지 않습니다.
 - **아트보드 Background**: **`background/neutral/white`**
 - **레이어 계층 구조**:
   - `StatusBar` (Position 설정(Absolute)하여 최상단에 띄움)
