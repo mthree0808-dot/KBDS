@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## 최신 라이브러리 직접 적용과 Title / Page 교정 근거 — 2026-10-23
+
+사용자 확정에 따라 모든 컴포넌트는 MO 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 현재 원형에서 import한 새 인스턴스를 사용합니다. 주변 화면과 과거 산출물은 컴포넌트 스타일·변수·override의 기준이 아닙니다. 아래 과거 산출물 복제·clone 기록은 당시의 관측 이력이며 앞으로의 컴포넌트 취득 절차로 사용하지 않습니다. 명시 승인된 배치·간격·그룹 패턴과 Data Block 등 직접 구성 예외는 유지하되, 하위 컴포넌트·토큰은 최신 원본에서 확인합니다.
+
+라이브러리 C04. Data Display(`41:15109`)의 Title / Page set key는 `d3d20cc2ce86dc116973192a882d92e65fbcca23`, left variant는 `b5120eca8d05e42c7630eda45e476bd175d2944c`입니다. 원본 Slot의 페이지 제목은 Item / Label(page), key `4342531bb89cdf2bc0824e692ffcd7f87511c8cd`이며, 원본 제목은 KBFG Text Medium / 22px / 행간31px / Text Style key `a4d970f16ce5404c28e6e948667b88b96aa5cbec`입니다. font-weight/medium key는 `40167791d3f8a1ec1a4c60518753b3bde64b15c8`입니다. 고정 수치를 재입력하는 대신 원형 스타일과 변수 연결을 유지합니다.
+
+작업본 `KFlklMvGmg0MXGfAXvpprn / 1367:7933`에는 기획안의 Bold 일반 Text와 굵기 변수가 남아 있었고, Title / Page가 같은 component key를 가리켜도 Slot 내용은 원본과 달랐습니다. 실제 Item / Label(page)를 import하여 교체했고 Medium 스타일·변수와 편집 가능한 문구를 확인했습니다. 이후 `1376:8065`, `1381:7773`도 원본 인스턴스에서 제작했습니다. 이 화면들은 새 작업의 원형 복제 대상이 아니라 교정 이력입니다. 모든 컴포넌트에서 mainComponent key 확인만으로 끝내지 않고 Slot·텍스트 스타일/변수·크기 모드·공개 속성 연결까지 대조합니다.
+
 2026-10-23 반복 그룹 누락 교정: 기존 원문은 반복 컴포넌트의 Group 명명과 연속 InputField Group/gap24px를 이미 규정했습니다. 문의정보 입력2182:19277은 Container2182:19285의 직계 자식으로 InputField5개를 열거해 제작에서 누락했습니다. 페이지 Container와 좌우20px 패딩을 유지하면서 그 안에 InputField Group을 추가하는 구조로 교정합니다. 일반/조합 레이어의 동일 역할·명칭 반복에도 [명칭] Group을 명시하며 자식 순번 금지·단수 래퍼 예외·별도 Container 번호 규칙은 유지합니다.
 
 ## 인포박스 Slot 버튼 오배치 교정 (2026-10-23)
