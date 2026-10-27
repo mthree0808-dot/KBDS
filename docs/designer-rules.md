@@ -1,5 +1,9 @@
 # 디자이너 규칙의 적용과 검수
 
+## 바텀시트 position 제한 — 2026-10-27
+
+화면 레벨 Absolute는 Dimmed와 StatusBar만 허용한다. BottomSheet·HomeIndicator는 Vertical Auto Layout의 AUTO 자식으로 하단 정렬하고 gap 0으로 이어 붙인다. BottomSheet는 가로 Fill·세로 Hug(최소/고정 높이 예외 유지), HomeIndicator는 가로 Fill·원형 높이·iOS를 유지한다. 문자 입력에서는 BottomSheet → Keypad(Item / Pad) → HomeIndicator도 AUTO이며 배경 Popup의 표시 영역은 남은 높이를 Fill로 사용한다. 필요한 경우 동명 Auto Layout 래퍼를 Fill·clip으로 두고 내부 Popup은 원래 높이·AUTO로 유지하여 배경 푸터·HomeIndicator가 위로 당겨지지 않게 한다. 원형 내부 position은 건드리지 않는다. 화면 레벨 Absolute 목록, 실제 AUTO 속성, 콘텐츠 높이 변경 시 재배치·안전영역을 검사하고 좌표 고정으로 대체하지 않는다.
+
 ## Dialog Title 마침표 규칙 — 2026-10-27
 
 Dialog Slot에 Item / Slot의 Title만 노출되면 기획의 마침표 유무와 관계없이 Title 문장 끝에 마침표(`.`)를 적용하고 중복 추가하지 않습니다. Title과 Description이 함께 노출되면 Title의 문장 종결용 마침표를 제거합니다. 숨겨진 기본 Description·내용 없는 더미는 함께 노출되는 경우로 세지 않습니다. 이 공통 교정은 기획 문구 그대로 유지보다 우선하며 Description의 문장부호·숫자의 소수점·버튼명·스타일·변수·Slot 계층·원본 연결은 보존합니다. Description 노출 변경 후에도 이 분기를 검수합니다.

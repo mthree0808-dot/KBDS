@@ -1,5 +1,11 @@
 # 작업 실행 절차
 
+## 바텀시트 배치 제작·검수 — 2026-10-27
+
+1. 바텀시트 화면 루트를 Vertical Auto Layout, 하단 정렬(MAX), gap·하단 padding 0으로 구성한다. Dimmed와 StatusBar만 화면 레벨 ABSOLUTE로 둔다.
+2. BottomSheet와 HomeIndicator는 layoutPositioning AUTO, 가로 Fill로 배치한다. BottomSheet Hug 및 유형별 최소/고정 높이, HomeIndicator 원형 높이·iOS 속성을 보존한다. 문자 키패드가 있으면 BottomSheet → Keypad(Item / Pad) → HomeIndicator 순서 모두 AUTO로 두고 배경 Popup의 표시 영역은 남은 영역 Fill로 배치한다. 필요한 경우 동명 Auto Layout 래퍼를 Fill·clip으로 두고 내부 Popup은 원래 높이·AUTO로 유지하여 배경 푸터·HomeIndicator가 위로 당겨지지 않게 한다. 원형 내부 position은 일괄 변경하지 않는다.
+3. 완료 전에 화면 레벨 ABSOLUTE 자식 목록이 Dimmed·StatusBar뿐인지 검사한다. BottomSheet·HomeIndicator·키패드가 AUTO인지, 두 컴포넌트 사이와 안전영역에 틈·겹침이 없는지 확인한다. 좌표만 같은 화면은 PASS가 아니며 실제 속성과 콘텐츠 높이 변경 시 흐름 배치를 검수한다.
+
 ## Dialog Title 마침표 적용·검수 — 2026-10-27
 
 Dialog의 실제 Slot에서 노출되는 Item / Slot 타입과 내용을 먼저 확인합니다. Title만 노출되면 기획의 마침표 유무와 관계없이 Title 문장 끝에 마침표(`.`)를 적용하며 중복하지 않습니다. Title과 Description이 함께 노출되면 Title의 문장 종결용 마침표를 제거합니다. 숨김·내용 없는 더미 Description으로 분기를 바꾸지 않습니다. Description 노출을 변경한 뒤에는 같은 조건으로 다시 검수하고, Description·버튼명·숫자의 소수점·스타일·변수·Slot 계층·공개 옵션과 인스턴스 연결은 보존합니다.

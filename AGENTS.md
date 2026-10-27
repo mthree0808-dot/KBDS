@@ -14,6 +14,8 @@
 
 ## 절대 조건
 
+- 2026-10-27 바텀시트 배치: 화면 레벨에서 Absolute(position)는 Dimmed와 StatusBar에만 사용한다. BottomSheet와 HomeIndicator는 Vertical Auto Layout의 Auto 자식으로 두고 하단 정렬·gap 0으로 연속 배치한다. 문자 키패드가 있으면 BottomSheet → Keypad → HomeIndicator도 Auto로 이어 붙인다. 좌표 고정으로 외형만 맞추지 않고 실제 layoutPositioning, 높이 변경 시 재배치와 하단 안전영역을 검수한다.
+
 - 2026-10-27 Dialog Title 마침표: Slot에서 Item / Slot의 Title만 노출되면 기획의 유무와 관계없이 Title 문장 끝에 마침표를 적용하고 중복하지 않는다. Title과 Description이 함께 노출되면 Title의 문장 종결용 마침표를 제거한다. 숨김·빈 더미 Description은 제외하며 실제 노출 구성으로 판단한다. Description·버튼명·숫자의 소수점·원형 스타일·변수·계층·연결은 보존하고 Description 노출 변경 후 재검수한다.
 - 2026-10-27 Popup 레이어명 최종 원복: Popup > Slot 내부 3단 영역은 Header, Body, Footer로 명명한다. 약관 상세(PDF)·키패드·패턴·일반 풀팝업 모두 적용하고 종전 ## HEADER/## BODY/## FOOTER로 변경하라는 지시는 철회한다. 일반·완료 화면 아트보드 직계의 ## HEADER/## BODY/## FOOTER는 유지하며 Popup 내부 명칭 외 구조·속성·배치는 변경하지 않는다.
 - 2026-10-27 문자·숫자 데이터 서체: 금액 입력 등 문자와 숫자가 명확히 분리되면 문자는 KBFG Text, 숫자는 Pretendard를 사용한다. 숫자 전용 텍스트·입력값도 Pretendard이며 숫자 구분자·소수점은 숫자와 같은 서체, 별도 단위·항목명은 KBFG Text다. 일반 문장 전체를 임의 전환하지 않는다. 이 범위는 원형 서체 상속의 사용자 승인 예외이며 최신 라이브러리의 역할·크기·굵기별 스타일·서체 변수를 적용하고 Pretendard Variable로 대신하지 않는다. 다른 타이포그래피 속성·크기 모드·인스턴스 연결·공개 옵션을 보존하고 구간별 서체·스타일·변수 및 입력/variant 전환 결과를 검수한다.

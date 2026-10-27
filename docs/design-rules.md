@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 바텀시트 배치 교정 — 2026-10-27
+
+사용자는 Dimmed·StatusBar만 position(Absolute)이고 BottomSheet·HomeIndicator는 Auto Layout 흐름이어야 한다고 확정했다. 직전 산출물 bDKgQrkt0oHMJ1EbPUQTp8 / 3113:17785·3113:18332·3113:18621에서 BottomSheet와 HomeIndicator가 모두 ABSOLUTE인 오류를 확인했다. 화면 레벨 좌표로 외형을 맞추면서 컴포넌트의 흐름 배치를 놓친 제작 오류이며 승인 패턴으로 재사용하지 않는다. Vertical Auto Layout 하단 정렬·gap 0과 AUTO 자식으로 교정하고, 문자 키패드도 AUTO로 이어 붙인다. 원형 내부 계층·서체·변수와 최소 높이 규칙은 유지한다.
+
 ## Dialog Title 마침표 공통 교정 승인 — 2026-10-27
 
 사용자는 Dialog Slot에 Item / Slot의 Title만 있으면 기획에 마침표가 있든 없든 Title 문장 끝에 마침표를 적용하고, Title과 Description이 함께 있으면 Title의 문장 종결용 마침표를 제거하도록 확정했습니다. 실제 노출 콘텐츠로 판단하며 숨겨진 기본 Description·내용 없는 더미는 제외합니다. 중복 마침표를 추가하지 않고 Description의 문구·문장부호, 숫자의 소수점, 버튼명 및 원형 스타일·변수·인스턴스 연결은 유지합니다. 이번 작업은 MD 규칙 갱신이며 기존 Figma 화면의 수정 완료 기록은 아닙니다.

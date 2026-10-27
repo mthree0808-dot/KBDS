@@ -4,6 +4,11 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### 바텀시트 화면의 position 사용 범위 (2026-10-27 사용자 교정)
+- **바텀시트 화면에서 position(Absolute)은 `Dimmed`와 `StatusBar`에만 적용합니다. `BottomSheet`와 `HomeIndicator`는 position으로 띄우지 않습니다.** 화면 루트는 Vertical Auto Layout으로 구성하고, 두 컴포넌트는 `layoutPositioning: AUTO`인 자식으로 하단에 연속 배치합니다. 루트 gap·하단 padding은 0이며 BottomSheet 가로 Fill·세로 Hug(해당 유형의 최소/고정 높이 예외 유지), HomeIndicator 가로 Fill·원형 높이 및 os: iOS를 유지합니다.
+- 문자 입력 바텀시트에 키패드가 있으면 `BottomSheet → Keypad(실제 Item / Pad) → HomeIndicator`를 Auto Layout 흐름으로 배치합니다. 배경 Popup은 남은 표시 영역을 Fill로 사용하며 화면 레벨의 추가 Absolute 대상으로 만들지 않습니다. 원래 화면 높이를 유지해야 하면 단일 Popup을 감싸는 동명 Auto Layout 래퍼를 Fill·clip으로 두고 내부 Popup은 원래 높이·AUTO로 유지하여 배경의 푸터·HomeIndicator가 위로 당겨지지 않게 합니다. 원형 컴포넌트 내부에서 정의한 position은 이 규칙으로 일괄 변경하지 않습니다.
+- 최종 검수는 화면 레벨 Absolute 목록이 Dimmed·StatusBar뿐인지, BottomSheet·HomeIndicator 및 키패드가 AUTO인지, 높이가 달라져도 하단 안전영역에 이어 붙는지 확인합니다. 기존 좌표를 유지한 채 이름·외형만 바꾼 것은 수정 완료가 아닙니다.
+
 ### Popup 내부 레이어명 원복 (2026-10-27 사용자 최종 교정)
 - **Popup > Slot 안의 3단 영역은 `Header`, `Body`, `Footer`로 명명합니다.** 약관 상세(PDF)·키패드·패턴·일반 풀팝업에 동일하게 적용하며 `## HEADER`, `## BODY`, `## FOOTER`로 바꾸라는 이전 지시는 철회합니다.
 - 이번 변경은 Popup 내부 영역의 레이어명에만 적용합니다. 일반·완료 화면의 아트보드 직계 `## HEADER`, `## BODY`, `## FOOTER` 명명은 유지합니다. Popup의 Slot 계층·컴포넌트 연결·속성·Fill/Hug/Absolute·패딩·간격과 하위 `Title Area`, `body` 명칭은 그대로 유지합니다.
@@ -877,7 +882,7 @@ Container 2 (gap 12px)
    - 링크된 화면과 주변 기획 영역의 페이지 ID를 함께 읽고 해당 화면과 연결합니다. 기획서 내 중괄호(`{ ... }`) 표기 명칭을 기반으로, ID가 있으면 **`실제페이지ID_화면명`**(예: `F730_화면명`), ID가 공란이면 **`화면ID_화면명`**으로 아트보드 레이어명을 확정합니다. 미확인 ID는 공란으로 처리하거나 추정하지 않습니다.
 2. **아트보드 및 루트 프레임 세팅**:
    - **일반 및 완료 화면**: 가로 `390px` 기준 프레임 생성 후 `## HEADER`, `## BODY`, `## FOOTER` 3단 구조 세팅 (콘텐츠 양에 따라 Fill / Hug 적용). `## FOOTER` 내 `HomeIndicator`는 **`os: iOS`** Property를 적용합니다.
-   - **바텀시트 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `BottomSheet` -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
+   - **바텀시트 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `BottomSheet`(Auto) -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator`(Auto, Property: **`os: iOS`**) 구조로 세팅. 루트 Vertical Auto Layout 하단 정렬·gap 0을 적용하고 화면 레벨 Absolute는 Dimmed·StatusBar에만 허용합니다.
    - **Dialog 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `Dialog`(화면 정중앙 배치) -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
    - **풀팝업 화면**: 배경 **`background/neutral/white`**, `StatusBar` (Absolute) -> `Popup` > `Slot` > `Header` (`AppBar`) + `Body` (`Container [순번]`) + `Footer` (`HomeIndicator: os iOS`) 구조로 세팅.
    - **약관 상세 화면 (PDF, v0.95)**: 아트보드 직계 StatusBar(Auto) + `Popup > Slot > Header / Body / Footer`와 직계 Pagination / Carousel(Absolute) 구조를 사용합니다. §2.G 및 승인 참조31888:30615를 따릅니다.
