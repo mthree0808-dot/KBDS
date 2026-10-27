@@ -267,6 +267,12 @@
 ### E. 다이얼로그(Dialog) 화면 규격 및 구조
 Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dialog 컴포넌트의 위치 속성만 중앙으로 설정합니다.
 
+- **Slot의 Title·Description 조합별 마침표 (2026-10-27 사용자 확정)**:
+  - **`Item / Slot (Title)`만 노출되는 경우**: 기획의 마침표 유무와 관계없이 **Title 문장의 끝에 마침표(`.`)를 적용**합니다. 이미 있는 마침표는 중복 추가하지 않습니다.
+  - **`Item / Slot (Title)`과 `Item / Slot (Description)`이 함께 노출되는 경우**: **Title의 문장 종결용 마침표를 제거**합니다. Description의 문구·문장부호는 기획을 유지합니다.
+  - 실제 Slot에서 화면에 노출되는 콘텐츠로 분기합니다. 숨겨진 기본 Description이나 내용 없는 더미 Description은 함께 노출되는 경우로 판정하지 않습니다. 공개 variant의 실제 값이 `title` / `description`인 경우 해당 Item / Slot 인스턴스에 동일하게 적용합니다.
+  - 이 규칙은 Dialog Title의 문장부호에 대한 공통 사용자 교정으로 기획 문구 그대로 유지 규칙보다 우선합니다. 숫자의 소수점 등 문장 종결용이 아닌 기호는 제거하지 않으며, 다른 문구·버튼명·원형 스타일·변수·Slot 계층·컴포넌트 연결은 유지합니다. Description 노출 구성이 바뀌면 Title의 마침표도 다시 대조합니다.
+
 - **아트보드 규격 및 Background**: 가로 `390px`, 세로 `844px`, Background는 **`background/neutral/white`** 적용
 - **레이어 계층 및 Position 구조**:
   1. **`Dimmed`**:

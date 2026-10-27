@@ -1,5 +1,9 @@
 # 디자이너 규칙의 적용과 검수
 
+## Dialog Title 마침표 규칙 — 2026-10-27
+
+Dialog Slot에 Item / Slot의 Title만 노출되면 기획의 마침표 유무와 관계없이 Title 문장 끝에 마침표(`.`)를 적용하고 중복 추가하지 않습니다. Title과 Description이 함께 노출되면 Title의 문장 종결용 마침표를 제거합니다. 숨겨진 기본 Description·내용 없는 더미는 함께 노출되는 경우로 세지 않습니다. 이 공통 교정은 기획 문구 그대로 유지보다 우선하며 Description의 문장부호·숫자의 소수점·버튼명·스타일·변수·Slot 계층·원본 연결은 보존합니다. Description 노출 변경 후에도 이 분기를 검수합니다.
+
 ## Popup 내부 레이어명 최종 규칙 — 2026-10-27
 
 Popup > Slot 내부 3단 영역은 `Header`, `Body`, `Footer`로 명명합니다. 약관 상세(PDF)·키패드·패턴·일반 풀팝업에 동일하게 적용합니다. 종전 `## HEADER`, `## BODY`, `## FOOTER`로 변경하라는 지시는 철회되었으며 해당 Popup 내부 영역은 원복합니다. 일반·완료 화면의 아트보드 직계 `## HEADER`, `## BODY`, `## FOOTER`는 유지합니다. 명칭 외 Slot 계층·컴포넌트 연결·공개 속성·Fill/Hug/Absolute·패딩·간격과 하위 `Title Area`, `body`는 보존합니다.
