@@ -4,11 +4,17 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### v0.95 약관 상세·약관 동의 레이아웃 갱신 (2026-10-27 사용자 확정)
+- 이번 사용자가 지정한 7개 참조는 `Templates(작성중)` 페이지에 있더라도 **약관 상세 및 동의 레이아웃의 승인 기준**입니다. 페이지 이름만으로 적용을 보류하지 않습니다. 최신 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`에서 원형을 직접 확인·import하고, 기획의 문구·개수·순서·선택 상태에 맞춥니다. 라이브러리 원본은 읽기 전용이며 산출물에서 적용합니다.
+- **약관 상세**는 §2.G의 `Popup > Slot > ## HEADER / ## BODY / ## FOOTER` 구조를 사용합니다. **약관 동의 입력·선택**은 §4의 `ConsentGroup` / `Item / Consent` / `ConsentFinal` 조합을 사용합니다. 약관 동의 화면 전체를 자동으로 Popup으로 바꾸지는 않습니다.
+- 이 갱신은 종전 약관 상세의 아트보드 직계 3단 구조·Container 1/2 유지 지시와, 종전 약관 동의의 `Depth 1~4` 일반 프레임·`Consent solid/basic`·수동 `Outline Container` 제작 규칙을 대체합니다. 해당 구형 구조를 새 약관 제작의 기본으로 사용하지 않습니다. 다른 유형의 일반 화면·키패드 Popup 규칙은 유지합니다.
+- v0.95 참조의 `Title / Page > Item / Label(page)` 제목은 현재 Default 기준 **24px Medium / 행간 34px**입니다. 과거 22px/31px 실측값을 고정해 덮어쓰지 않고, 현재 원형 Text Style·font-size/title/3xl·line-height/title/3xl·font-weight/medium 변수 및 실제 모드를 유지합니다.
+
 ### 모든 컴포넌트는 최신 라이브러리 원형에서 직접 적용 (2026-10-23 사용자 확정)
 - **모든 컴포넌트의 기준은 [MO 디자인 라이브러리](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=0-1)의 현재 원본**입니다. `Title / Page`에만 한정하지 않고 입력·약관·버튼·목록·인포박스·아이콘·헤더·푸터 등 전체에 적용합니다. 주변 화면이나 이전 제작본의 외형·스타일·변수·override를 기준으로 새 화면을 만들지 않습니다.
 - 기획안에서는 문구·순서·상태·필수/선택·행동·화면 유형을 읽습니다. 기획안의 기존 인스턴스나 주변 화면은 필요한 컴포넌트의 역할을 찾는 단서일 뿐이며, 그 인스턴스의 수정된 텍스트·크기·색상·변수를 그대로 복제하지 않습니다. 사용자가 명시한 승인 예시는 구성·위계·간격 규칙의 근거로 유지하되, 하위 컴포넌트와 토큰은 최신 라이브러리 원형을 확인하여 적용합니다.
 - 제작 전에 사용할 원본의 component key, 공개 속성, 실제 Slot 구성, Text Style key와 변수 연결을 직접 확인하고 **해당 라이브러리 컴포넌트를 import하여 새 인스턴스로 배치**합니다. 캐시·레지스트리·검증된 제작 스크립트는 탐색과 절차 재사용에만 사용하며 현재 원본 확인을 대신하지 않습니다. 현재 정의와 다른 오래된 로컬 원형이나 이전 화면의 clone을 최신 원형으로 간주하지 않습니다.
-- Slot 안의 텍스트도 라이브러리에서 정의한 실제 하위 컴포넌트를 사용합니다. 예를 들어 `Title / Page`의 페이지 제목은 **`Item / Label (variant: page)`**, 원본 22px Medium 스타일과 `font-weight/medium` 연결을 유지하고 문구만 매핑합니다. 기획의 Bold 일반 Text를 그대로 넣거나 모든 컴포넌트의 굵기를 일괄 Medium으로 바꾸지 않습니다. 다른 컴포넌트 역시 각각의 원본 Weight·색상·크기·행간·서체 변수를 따릅니다.
+- Slot 안의 텍스트도 라이브러리에서 정의한 실제 하위 컴포넌트를 사용합니다. 예를 들어 `Title / Page`의 페이지 제목은 **`Item / Label (variant: page)`**, 현재 원본 Medium 스타일(v0.95 Default 기준 24px)과 `font-weight/medium` 연결을 유지하고 문구만 매핑합니다. 기획의 Bold 일반 Text를 그대로 넣거나 모든 컴포넌트의 굵기를 일괄 Medium으로 바꾸지 않습니다. 다른 컴포넌트 역시 각각의 원본 Weight·색상·크기·행간·서체 변수를 따릅니다.
 - 원형 내부의 Hug/Fill/Fixed, 패딩·간격, 스타일·변수와 공개 속성 연결을 보존합니다. 일반 래퍼용 Auto Layout 처리를 모든 인스턴스에 일괄 적용하지 않습니다. 기획에 없는 더미 제목·설명·툴팁·아이콘은 원형 공개 속성으로 숨기고, 필요한 아이콘은 라이브러리 원본을 instance-swap으로 지정합니다. 문서에 명시된 높이·간격 등 사용자 교정은 해당 범위에만 적용합니다.
 - 완료 전 라이브러리 원본과 실제 인스턴스·텍스트 구간의 style/variable key, Slot 계층, 크기 모드, 문구·상태를 대조하고 화면의 잘림·겹침을 확인합니다. variant·size·선택·가시성·instance-swap 등 편집 옵션은 원본이 지원하는 연결과 전환을 유지합니다. 현재 원형을 확인하지 못했거나 전환 검수가 실패하면 주변 화면으로 추정 대체하거나 정상 완료로 보고하지 않습니다.
 
@@ -275,34 +281,29 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
       - `Body` (오토레이아웃) > 내부 필수: **`Container 1`**, **`Container 2`** 등 순차 열거
       - `Footer` (오토레이아웃) > 내부 필수: `HomeIndicator` (Property: **`os: iOS`**)
 
-### G. 약관 상세 화면 (PDF 뷰어 화면) 전용 규격 및 구조
-PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃 구조입니다.
+### G. 약관 상세 화면 (PDF 뷰어 화면) — v0.95 Popup 구조
 
-- **최종 승인 매핑 (2026-10-19, 우선 적용)**: [원본 72:9033](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=72-9033)의 속성을 [작업본 82:1994](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=82-1994)에 매핑합니다. 레이어명·계층은 유지하고 해당 레이어의 속성·변수 alias만 맞춥니다.
-  - `## BODY`는 세로 **Fill**입니다. `Container 1`은 원본 `Title Area`와 동일하게 Horizontal, 가로 Fill·세로 Hug, 정렬 right/center, gap 16px, padding **12px 20px 0**입니다. 내부 아이콘은 현재 원형 템플릿의 **size 24**를 사용합니다(원형에 size 14 variant 없음).
-  - `Container 2`는 원본 `body`와 동일하게 Vertical, 가로·세로 **Fill**, 양 축 center, gap 12px, padding 12px입니다. BODY 또는 Container 2를 Hug/Fixed로 남기지 않습니다.
-  - `Pagination / Carousel`는 **반드시 원본과 연결된 실제 컴포넌트 인스턴스**를 사용합니다. key `6955cc776fae1a9f38a3e93e8ecabfe286a4db6c`, variant black / size medium. 원본 서체·변수와 Absolute 위치를 보존하며 SVG·벡터·일반 Frame으로 대체하지 않습니다. Pretendard 로드 제한만으로 원본 인스턴스를 포기하지 않습니다.
-  - `## FOOTER`는 원본 속성에 맞춰 **Absolute / 가로 Fixed 390 / 세로 Hug**로 매핑합니다. 위치·constraints·패딩·간격·변수 연결도 보존하며 BODY의 Fill 영역 위에 겹쳐 배치됩니다. 일반 Auto Layout 흐름에 놓아 BODY 높이를 줄이지 않습니다.
-  - 390×844 기준 검수값: HEADER 100px, BODY Fill **744px**, Container 1 **36px**, Container 2 Fill **708px**, FOOTER Hug **126px**. Footer 내부 StickyButton은 hasScrollDim true, HomeIndicator는 iOS입니다. 변경 직후 값에만 의존하지 않고 저장 후 재계산된 Fill 높이를 검수합니다.
-- **아트보드 Background**: **`background/neutral/white`**
-- **1. `## HEADER`**: `StatusBar`, `AppBar` 순차 배치
-- **2. `## BODY`**:
-  - **`Container 1`**:
-    - Styling: `background-color: background/neutral/light-gray`, `padding: 12px 20px 0`
-    - 내부 구조: **`Title / IconContainer Group`** (Auto Layout, `gap: 16px`, Alignment: **`align right`**)
-      - 하위 좌측: **`Title`** (오토레이아웃 아님, 텍스트 스타일: **`xs･14･medium`**)
-      - 하위 우측: **`IconContainer Group`** (Auto Layout, `gap: 16px`) > **`IconContainer`** (`size: 24` (현재 원형), 왼쪽부터 차례로 `icon: line-magnify`, `line-arrowDown`, `line-menu` 3개 배치)
-  - **`Container 2`**:
-    - Styling: `background-color: background/neutral/light-gray`, `padding: 12px`
-    - 내부 구조:
-      - **`Rectangle`**: `background-color: background/neutral/white`, `border-width: stroke/md`, `border-color: border/neutral/tertiary-muted`
-      - **'pdf 약관 내용' 텍스트**: 텍스트 스타일: **`md･16･bold`**, Color: **`text/neutral/placeholder`**, 속성: **Position(Absolute Position) 설정 후 상하좌우 정중앙(Center Alignment)** 배치
-- **3. `Pagination / Carousel` (Floating Position)**:
-  - 위치: `## BODY` 바로 다음에 위치시키되, 우측 패널에서 **Position(Absolute Position)**으로 설정
-  - 좌표: 화면상에서 `## FOOTER` 바로 위(**`Y: 686px`**)에 플로팅 배치
-- **4. `## FOOTER`**:
-  - **`StickyButton`**: Property `variant: white`, `hasCTA: True`, `hasScrollDim: True`, 하위 ButtonGroup 속성 `count: 1`
-  - **`HomeIndicator`**: Property **`os: iOS`**
+최신 승인 기준은 [약관 상세 31888:30615](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31888-30615)입니다. 종전 `72:9033 → 82:1994`의 직계 HEADER/BODY/FOOTER 구조 대신 실제 `Popup`을 사용합니다.
+
+```text
+화면 아트보드
+├─ StatusBar
+├─ Popup
+│  └─ Slot
+│     ├─ ## HEADER > AppBar
+│     ├─ ## BODY > Title Area, body
+│     └─ ## FOOTER > StickyButton, HomeIndicator
+└─ Pagination / Carousel (Absolute)
+```
+
+- **레이어명**: 산출물의 Popup Slot 안 `Header`, `Body`, `Footer`는 각각 **`## HEADER`, `## BODY`, `## FOOTER`**로 통일합니다. `Popup`, `Slot`, `AppBar` 등 실제 컴포넌트 명칭과 하위 `Title Area`, `body`는 원형을 유지합니다. 이전 Container 1/2 명명·계층 유지 규칙으로 최신 구조를 되돌리지 않습니다.
+- **아트보드·StatusBar·Popup**: 기준은 390×844, Vertical / gap·padding 0 / `background/neutral/white`입니다. StatusBar는 아트보드 직계 첫 자식이며 iOS/light, 가로 Fill·세로 Fixed 44px, **Auto Layout 일반 흐름**입니다. Popup은 그 아래 가로·세로 Fill(기준 390×800), Slot은 Fill·Fill / gap·padding 0입니다. 이 PDF 유형에 키패드 Popup의 StatusBar Absolute 규칙을 일괄 적용하지 않습니다.
+- **`## HEADER`**: Fill·Hug, 기준 56px. AppBar는 `variant: sub`, `hasTitle: true`, `hasPrev: false`, `hasTextButton: false`, `hasIconButton1/2: false`, `hasIconButton3: true`이며 원형 닫기 버튼과 실제 약관 제목을 사용합니다.
+- **`## BODY`**: Fill·Fill / Vertical / gap·padding 0, 기준 390×744px. `Title Area`는 Horizontal / Fill·Hug / padding 12px 20px 0 / gap 16px, 기준 높이 36px입니다. 내부 `title + button > Suffix`의 아이콘 그룹은 gap 16px, 실제 IconContainer size 24이며 검색·다운로드·목차 아이콘의 원본 연결을 유지합니다. `body`는 Vertical / Fill·Fill / 양 축 center / padding·gap 12px, 기준 높이 708px입니다.
+- **PDF 영역**: `body` 안 흰색 Rectangle은 원형 배경·테두리 변수와 Fill 크기를 유지하고, `pdf 약관 내용` 표시 텍스트는 실제 원형 스타일·서체·색상 변수와 Absolute 중앙 배치를 유지합니다. 콘텐츠를 이미지로 평탄화하지 않습니다.
+- **`## FOOTER`**: Popup Slot의 자식이지만 **Absolute**, 기준 x0/y674(Popup Slot 좌표), 가로 Fixed 390·세로 Hug 126px입니다. BODY의 Fill 높이를 줄이는 일반 흐름으로 바꾸지 않습니다. StickyButton은 white / hasCTA true / hasSubButton false / hasScrollDim true, HomeIndicator는 os iOS입니다. CTA 문구는 기획에 맞추되 Label과 버튼명은 원형 Hug를 유지합니다.
+- **`Pagination / Carousel`**: 아트보드의 직계 실제 인스턴스 / Absolute / black·medium, 기준 103×32px, x143.5/y686 / horizontal CENTER·vertical MAX constraints입니다. Popup Slot 내부로 옮기거나 일반 흐름에 넣지 않습니다. 최신 원형을 import하고 서체·변수·원본 연결을 유지하며 SVG·벡터·일반 Frame이나 이전 화면 clone으로 대체하지 않습니다.
+- **최종 검수**: Popup 연결, Slot 내부 3개 `##` 레이어명, StatusBar Auto, BODY·body Fill, Footer Absolute, Pagination의 부모·좌표·constraints 및 실제 인스턴스를 대조합니다. 390×844 실측 높이는 StatusBar 44 / Popup 800 / HEADER 56 / BODY 744 / Title Area 36 / body 708 / FOOTER 126입니다. 다른 화면 크기나 모드에서는 원형 sizing·constraints를 따르고 과거 실측 숫자로 강제 고정하지 않습니다.
 
 ---
 
@@ -556,42 +557,62 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
 
 ---
 
-## 4. 약관 화면 전용 패턴 (Consent Layout Rules)
+## 4. 약관 화면 전용 패턴 — v0.95 ConsentGroup
 
-### A. 계층별 오토레이아웃 및 컴포넌트 규칙
-- **Depth 1 (약관 타이틀 항목)**:
-  - `Title / Page` 다음에 위치하는 최상위 약관 타이틀
-  - 컴포넌트 Spec: `Consent` (`size: large`, `variant: solid`, 기획서에 따라 `hasArrow: true/false`, `Item / Arrow: down, up, right` 선택 적용, 컴포넌트 원형 이름 변경 금지)
-  - 오토레이아웃 프레임명: **`Depth 1`**
-  - **복수 열거 시**: `Depth 1` 항목들이 여러 개 열거될 때는 `Container`로 묶고 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
-- **Depth 2 (하위 약관 항목)**:
-  - `Depth 1`의 직속 하위 항목들
-  - 컴포넌트 Spec: `Consent` (`size: large`, `variant: basic`, 컴포넌트 원형 이름 변경 금지)
-  - 오토레이아웃 프레임명: **`Depth 2`**, Auto Layout **`gap: 0px`**
-  - **상위-하위 간격**: `Depth 1`과 `Depth 2` 사이 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
-- **Depth 3 (세부 하위 뎁스)**:
-  - `Depth 2` 내부의 `Consent (size: large, variant: basic)` 아래에 위치하는 항목
-  - 컴포넌트 Spec: `Consent` (`size: medium`, `variant: basic`, 컴포넌트 원형 이름 변경 금지)
-  - 오토레이아웃 프레임명: **`Depth 3`**
-  - 패딩 및 간격: **`padding: 4px 20px 12px`**, Auto Layout **`gap: 0px`**
-- **Depth 3 내 소타이틀 + Depth 4 결합 패턴 (`Outline Container`)**:
-  - `Depth 3` 내에서 작은 타이틀과 세부 선택 요소들이 결합될 때:
-    1. 전체를 **`Consent Area`** 오토레이아웃으로 감싸고 **`padding-left: 20px` (`2xl` 토큰)** 적용
-    2. `Consent Area` 내부에 **`Outline Container`** 오토레이아웃 프레임 생성:
-       - Styling: `background: background/neutral/elevated`, `border: border/neutral/secondary-muted`, `border-radius: radius/xl`, `padding: 16px` (`xl` 토큰)
-       - Layout: `width: fill`, `height: hug`, Flow: `vertical`
-       - **Auto Layout Gap**: **기본 `gap: 16px` (`xl` 토큰)** 적용
-    3. `Outline Container` 내부에 **`Item / TextArea`**를 소타이틀로 배치하고, 하위에 **`Depth 4`** 오토레이아웃 배치
-    4. **소타이틀 + Depth 4 조합이 복수 열거될 때**: 각 조합 사이에 **`Divider / Horizontal (thickness: 1px, variant: tertiary, length: full)`**을 삽입하여 구분
-  - **Depth 4 내부 체크 항목 형태에 따른 분기**:
-    - **짧은 체크 항목 (문자, 이메일, 전화, 우편 등)**:
-      - 오토레이아웃 프레임명: **`Group`**
-      - Flow 속성: **`grid`**, Grid 구조: **`2*2`**
-      - 소타이틀과 `Group` 사이 간격: Auto Layout **`gap: 8px` (`md` 토큰)**
-    - **긴 텍스트 체크 항목 (고유식별정보 수집 이용 동의 등)**:
-      - `Group` 프레임을 생성하지 않음
-      - Flow 속성: **`vertical`**, Auto Layout **`gap: 0px`**
-      - 소타이틀과 항목 간격: Auto Layout **`gap: 8px` (`md` 토큰)**
+### A. 승인된 6가지 경우와 화면 외곽 구조
+
+| 경우 | 최신 라이브러리 참조 | 적용 기준 |
+| --- | --- | --- |
+| Depth 1+2 | [31061:78151](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78151) | 단일 상위 항목과 하위 항목이 있는 ConsentGroup을 기획에 맞게 조합 |
+| Depth 1+2+3 | [31061:78179](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78179) | 3d-group·3d, 직접 설명(description), 보조 레이블(hasSubLabel) 분기 |
+| Depth 1+2+3+4 초기 레이블 | [31061:78292](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292) | 뎁스별 기본 이름과 Slot·반복 구조를 확인하는 원형 |
+| Depth 1+2+3+4 실제 문구 예시 | [31061:78209](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209) | 긴 문구 줄바꿈, 체크·라디오 상태, 4d Grid와 설명 목록의 조합 |
+| 약관 BottomSheet | [31061:78333](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333) | BottomSheet Slot의 안내문과 ConsentGroup 조합 |
+| TextList(16) + 확인 동의 | [31061:78354](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78354) | Title / Section + TextList Group + 별도 ConsentFinal |
+
+- 6개 참조는 경우별 **구조**입니다. 더미 문구·항목 수·순서·선택 상태·높이를 제품 화면에 고정 복사하지 않습니다. 실제 기획에 따라 해당 경우를 선택하고 현재 라이브러리에서 컴포넌트를 import합니다.
+- 일반 약관 동의 화면은 아트보드 직계 `## HEADER / ## BODY / ## FOOTER`를 유지합니다. BODY는 Vertical / padding 24px 20px 32px / gap 24px입니다. Container 1에는 Title / Page, Container 2에는 반복 ConsentGroup을 gap 12px로 배치하고 Container 패딩은 0입니다. 짧은 콘텐츠는 844px 아트보드와 BODY Fill, 긴 콘텐츠는 아트보드·BODY Hug로 확장합니다. 참조의 881/1863/2185px를 고정 높이로 재사용하지 않습니다.
+- 일반 약관 참조의 AppBar는 sub / 뒤로가기 true / 취소 TextButton true / hasTitle false입니다. TextList 확인형은 실제 AppBar 제목이 있는 참조처럼 구성합니다. 모든 유형에 제목·취소·아이콘을 일괄 고정하지 않고 기획과 대응 참조를 따릅니다.
+
+### B. 실제 컴포넌트와 Slot 계층
+
+```text
+Container 2 (gap 12px)
+└─ ConsentGroup (실제 인스턴스, 필요한 수만큼 반복)
+   └─ Container (원형 좌우 padding 20px, gap 0)
+      ├─ Item / Consent (variant: 1d)
+      └─ Slot (gap 0, padding-bottom 8px)
+         ├─ Divider > Divider / Horizontal (필요한 경우)
+         ├─ Item / Consent (variant: 2d)
+         ├─ Item / Consent (variant: 3d-group)
+         │  └─ Slot-Depth-3 > GridContainer > Item / Consent (3d)
+         ├─ Item / Consent (variant: 4d-group)
+         │  └─ Slot-Depth-4 > GridContainer > Item / Consent (4d)
+         └─ Item / Consent (description / textList, 기획에 있을 때)
+```
+
+- **`ConsentGroup`**, **`Item / Consent`**, **`ConsentFinal`**은 이름 그대로 실제 라이브러리 인스턴스를 사용합니다. 외형만 비슷한 일반 프레임, 구형 Consent solid/basic 및 `Depth 1~4` 프레임·수동 Outline Container 조합으로 대신하지 않습니다. ConsentGroup을 `Consent Group`으로 이름만 바꾸거나 detach하지 않습니다. 원형 내부 Container의 라운드(현재 14px)·border/neutral/secondary-muted·stroke/md 및 변수 연결을 상속합니다.
+- ConsentGroup의 최상위 1d 항목은 원형 Container에 있으며 하위 항목은 해당 **Slot**에 넣습니다. 하위 항목이 없는 그룹에 Divider·빈 항목·여백을 임의 추가하지 않습니다. 하위가 있으면 참조의 `Divider` 래퍼(하단 padding 12px)와 실제 1px secondary Divider를 유지하고, 종전 tertiary Divider·추가 외부 gap을 강제하지 않습니다.
+- 뎁스는 Item / Consent의 공개 **`variant`**로 지정합니다. `hasSubLabel`, `hasSuffix`, Prefix·Suffix의 공개 속성과 내부 실제 컴포넌트 연결을 유지하며 기획에 없는 보조 설명·이동 화살표는 숨깁니다. 문구만 해당 Label에 매핑하고 원형 텍스트 스타일·크기·Weight·색상·변수를 보존합니다.
+
+| Item / Consent variant | 역할 및 원형 레이아웃 |
+| --- | --- |
+| `1d` | 상위 약관. 상하 padding 16px, gap 8px, Prefix check-large. 보조 문구는 hasSubLabel true로 원형 SubLabel 사용 |
+| `2d` | 하위 약관. 상하 padding 12px, gap 8px, Prefix check-small. 상세 이동이 있으면 Suffix pageIndicator |
+| `3d-group` | 동의항목 소제목 + 하위 체크. padding 0 0 12px 32px, Top 상하 12px, Slot-Depth-3 안 GridContainer에 3d 항목 배치. 참조 펼침 Suffix는 up |
+| `3d` | 하위 체크 항목. 상하 padding 4px, gap 8px, Prefix check-small. 참조의 hasSuffix false 보존 |
+| `4d-group` | 추가 선택 소제목 + 선택 항목. padding 0 0 12px 32px, Top 상하 6px, Slot-Depth-4 안 GridContainer에 4d 항목 배치 |
+| `4d` | 4단계 선택. 상하 padding 4px, gap 8px. Prefix는 기획에 따라 radio 또는 check-small로 실제 원형을 선택 |
+| `description` | 그룹에 직접 노출되는 설명. 원형 14px Light, padding-bottom 12px를 유지하고 별도 Text·Infobox로 임의 치환하지 않음 |
+| `textList` | 약관 그룹 하단 부가 안내. 원형 Divider 래퍼 상하 8px, Container 상하 12px, Slot-TextList gap 8px 및 실제 TextList / Unordered size 14 유지 |
+
+- **Grid 분기**: Slot-Depth-3의 체크 목록은 참조처럼 GridContainer Vertical / gap 0입니다. Slot-Depth-4는 짧은 항목에 GridContainer GRID / 2열 균등 FLEX / 행 Hug / 행·열 gap 0을 사용하며, 4항목은 2×2, 2항목은 1×2입니다. 행 수는 기획 항목 수에 맞추고 긴 항목은 대응 참조의 줄바꿈·배치를 유지합니다. 이름이 GridContainer라도 실제 flow를 확인합니다. 일반 Radio Group·Checkbox Group의 gap 20px를 이 원형 Slot 목록에 덮어쓰지 않습니다.
+- 원형 내부 padding으로 들여쓰기를 구현하므로 예전 `Depth 3 padding 4px 20px 12px`·Consent Area padding-left 20px·수동 Outline Container를 추가하여 중복 들여쓰기하지 않습니다. 그룹 내부 gap 0, 그룹 간 gap 12px, BODY gap 24px를 구분합니다.
+
+### C. 약관 BottomSheet와 TextList 확인형
+- **BottomSheet**: 제목 `약관동의` 및 닫기 표시, handle 비노출 / hasStickyButton true / hasScrollDim false를 대응 참조에서 유지합니다. Slot은 Fill·Hug / padding 0 20px 20px / gap 20px이며, Container 1 안내문(16px Light) → Container 2 ConsentGroup(gap 12px) 순서입니다. StickyButton은 elevated / hasCTA true / hasSubButton false / hasScrollDim false, iOS HomeIndicator는 아트보드 하단 형제로 둡니다. 최소 콘텐츠 Slot Fill 등 별도 명시 조건은 해당 경우에만 적용합니다.
+- **TextList 확인형**: Container 1 Title / Page(기획에 있는 Description), Container 2 `Title / Section → TextList Group` gap 16px, 목록 내부 gap 8px / TextList / Unordered size 16·bullet·depth 1, Container 3 **`ConsentFinal (variant: outline)`** 순서입니다. 원형 내부 Item / Consent(1d)는 hasSuffix false이며 확인 문구·체크 상태를 기획에 맞춥니다. 일반 약관 묶음인 ConsentGroup이나 구형 Consent로 대체하지 않습니다. ConsentFinal의 다른 variant(muted)는 기획·대응 원형에 맞을 때만 사용합니다.
+- **검수**: 실제 최신 component key·Slot 부모·뎁스 variant, checkbox/radio와 선택 상태, hasSubLabel/hasSuffix·펼침 상태, 문구 줄바꿈·서체·변수, 그룹/항목 간격 및 Grid flow를 원형과 대조합니다. 공개 속성 전환을 유지하고 검수 뒤 기획 상태로 복원합니다. 참조의 더미 문구·디스크립션·상태를 임의 노출하지 않습니다.
 
 ---
 
@@ -768,14 +789,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
   - `Image Area` 또는 단독 `ImageContainer` → 후속 콘텐츠(`ProgressStep`, `Infobox / Card` 등): **기본 외부 gap 24px (`spacing/3xl`)**. 래퍼가 있으면 Image Area 바깥 경계부터 측정하며 내부와 외부에 중복 적용하지 않음
   - `ProgressStep`과 `Infobox / Card` 간격: Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **Infobox / FullWidth 최상단 배치 시 하단 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용
-- **약관 UI 간격**:
-  - `Depth 1` 열거 시 Container 내부 간격: Auto Layout **`gap: 12px` (`lg`)** 적용
-  - `Depth 1`과 `Depth 2` 간격: Auto Layout **`gap: 12px` (`lg`)** 적용
-  - `Depth 2` 내부 항목 간격: Auto Layout **`gap: 0px`** 적용
-  - `Depth 3` 내부 패딩 및 간격: **`padding: 4px 20px 12px`**, Auto Layout **`gap: 0px`**
-  - `Outline Container` 내부 기본 간격: Auto Layout **`gap: 16px` (`xl`)** 적용
-  - `Outline Container` 내부 소타이틀과 `Group` / 항목 간격: Auto Layout **`gap: 8px` (`md`)** 적용
-  - 긴 텍스트 `Depth 4` 내부 항목 간격: Flow `vertical`, Auto Layout **`gap: 0px`**
+- **약관 UI 간격 (v0.95 우선)**: BODY gap 24px, 반복 ConsentGroup 사이 12px, ConsentGroup 내부 Container·Slot gap 0px 및 Slot padding-bottom 8px를 유지합니다. Item / Consent의 1d/2d/3d/4d·group variant별 원형 padding과 Slot 구조는 §4를 따릅니다. 종전 Depth 프레임·수동 Outline Container 간격 규칙은 새 약관 구조에 적용하지 않습니다.
 - **데이터 없음(Empty State) 피드백 화면 흐름 패딩 및 간격** (일반 안내·발급불가·오류·완료 화면에는 아래 추가 래퍼 패딩을 일괄 적용하지 않음):
   - 단독 피드백 화면: `Container [순번]`에 **`padding: 24px 0` (`3xl`)** 적용
   - Tab 직후 피드백 화면: `Container [순번]`에 **`padding-top: 40px` (`6xl`)** 적용, 내부 `Feedback` 프레임에 **`padding: 24px 0` (`3xl`)** 적용
@@ -850,7 +864,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - **바텀시트 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `BottomSheet` -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
    - **Dialog 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `Dialog`(화면 정중앙 배치) -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
    - **풀팝업 화면**: 배경 **`background/neutral/white`**, `StatusBar` (Absolute) -> `Popup` > `Slot` > `Header` (`AppBar`) + `Body` (`Container [순번]`) + `Footer` (`HomeIndicator: os iOS`) 구조로 세팅.
-   - **약관 상세 화면 (PDF)**: `## HEADER` (`StatusBar`, `AppBar`) -> `## BODY` (`Container 1`, `Container 2`) -> `Pagination / Carousel` (Absolute Position, `Y: 686px`) -> `## FOOTER` (`StickyButton`, `HomeIndicator: os iOS`) 구조로 세팅.
+   - **약관 상세 화면 (PDF, v0.95)**: 아트보드 직계 StatusBar(Auto) + `Popup > Slot > ## HEADER / ## BODY / ## FOOTER`와 직계 Pagination / Carousel(Absolute) 구조를 사용합니다. §2.G 및 승인 참조31888:30615를 따릅니다.
    - **공통 Body Auto Layout 세팅**:
      - 상하 패딩: 기본 **`padding-top: 24px` (`3xl`)**, **`padding-bottom: 32px` (`5xl`)**
      - 상단 Feedback + 후속 데이터 그룹이 있는 완료 화면은 **`padding: 40px 20px 32px`**, Container 간 **`gap: 40px` (`spacing/6xl`)**을 우선 적용합니다. 내부 Title의 full-width Divider 때문에 BODY 좌우 패딩을 제거하지 않습니다.
@@ -905,7 +919,7 @@ PDF 형태의 약관 내용을 출력하는 상세 화면의 표준 레이아웃
    - **링크 리스트 패턴**: 래퍼 이름은 `Title / List Group`이며 실제 `List` 컴포넌트 이름과 구분합니다. 단일 원형은 padding 20px 20px 16px / 목록 gap 4px, 누적형 첫 번째는 padding 0px 20px 16px / 목록 gap 4px입니다. Container 2 이상은 10px Divider 아래 래퍼 padding-top 24px, 내부 List Group gap 0px를 적용합니다(중간 padding 24px 20px 16px / 마지막 24px 20px 0px). Title↔목록 gap 16px는 유지합니다.
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
-   - **약관 UI**: `Depth 1` (`Consent solid`), `Depth 2` (`Consent basic large`), `Depth 3` (`Consent basic medium`), `Outline Container`(`gap: 16px`, 복수 조합 시 `Divider 1px tertiary` 구분) 및 `Depth 4` 분기(Grid 2*2 vs Vertical 0px)를 정확히 매핑합니다.
+   - **약관 UI (v0.95)**: §4의 ConsentGroup과 Item / Consent(1d·2d·3d-group·3d·4d-group·4d·description·textList), 각 Slot·GridContainer 및 TextList 확인형의 ConsentFinal을 실제 원형으로 적용합니다. 구형 Consent/Depth 프레임·수동 Outline Container로 재구성하지 않습니다.
    - **피드백(Empty State) UI**:
      - 먼저 실제 데이터 없음 케이스인지 판별합니다. 데이터 없음이 아닌 일반 안내·발급불가·오류·완료 화면은 추가 Feedback 프레임과 상하 24px 패딩 없이 Container에 실제 Feedback 인스턴스를 직접 배치합니다. 원형 내부와 BODY의 해당 화면 패딩은 보존합니다.
      - 단독형: `## BODY`의 `padding-top: 40px`, `Container [순번]` 패딩 `padding: 24px 0` 매핑

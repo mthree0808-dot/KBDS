@@ -1,5 +1,14 @@
 # 작업 실행 절차
 
+## v0.95 약관 제작·검수 절차 — 2026-10-27
+
+1. 약관 상세(PDF)인지 일반 약관 동의·BottomSheet·TextList 확인형인지 먼저 나눕니다. 원문§2.G와§4의 사용자 승인7개 참조를 현재 라이브러리에서 직접 조회합니다. Templates(작성중) 페이지에 있어도 이번에 지정된 참조는 적용합니다. 과거 제작본을 원형으로 복제하지 않습니다.
+2. PDF 상세는31888:30615의 Popup을 import하고 Slot 안 Header/Body/Footer를 산출물에서 ## HEADER/## BODY/## FOOTER로 통일합니다. StatusBar는 아트보드 직계Auto44px, Popup은Fill, Pagination은 아트보드 직계Absolute입니다. BODY·body Fill 및Footer Absolute를 유지하고 일반 화면3단 구조나 키패드의StatusBar Absolute 규칙을 덮어쓰지 않습니다. 라이브러리 원본은 수정하지 않습니다.
+3. 약관 동의는31061:78151/78179/78292/78209 중 기획에 맞는 경우를 선택하고 ConsentGroup과 Item / Consent를 현재 원형에서 import합니다. 뎁스는1d·2d·3d-group·3d·4d-group·4d, 직접 설명은description, 부가 목록은textList로 매핑합니다. 구형 Consent solid/basic·Depth 프레임·수동 Outline Container는 새 구성에서 사용하지 않습니다. 실제 Slot/Slot-Depth-3/Slot-Depth-4/Slot-TextList 안에 항목을 배치하고 native Prefix/Suffix의 체크·라디오·화살표·가시성 연결을 유지합니다.
+4. 일반 동의 BODY는padding24/20/32/20·gap24, 반복 ConsentGroup은gap12, 원형 내부 Slot은gap0·하단padding8을 대조합니다. 3d-group/4d-group의 들여쓰기32px와하단12px를 추가 래퍼로 중복하지 않습니다. GridContainer는3d의Vertical 또는4d의2열FLEX/행Hug/행·열gap0 분기를 기획에 맞게 사용합니다. 일반 Radio/Checkbox Group gap20은 이 원형 목록에 일괄 적용하지 않습니다.
+5. BottomSheet는31061:78333을 기준으로Slot padding0/20/20/20·gap20, 안내문→ConsentGroup 목록(gap12), elevated StickyButton·외부HomeIndicator를 검수합니다. TextList 확인형은31061:78354를 기준으로Title/Section→TextListGroup gap16, size16목록 gap8, 별도ConsentFinal(outline)을 사용합니다. 그룹 하단textList variant의목록은size14입니다.
+6. 문구·개수·순서·선택/미선택·펼침·hasSubLabel/hasSuffix를 적용하고 현재 라이브러리의실제 key·Slot 계층·변수·서체·크기 모드·공개 속성 전환을 대조합니다. 제목의과거22px 대신v0.95 Default24px Medium/행간34px 원형을 유지합니다. 긴 문구의줄바꿈과가독성을 검수하고 참조의고정 항목 수·높이를 강제하지 않습니다.
+
 ## 최신 라이브러리에서 직접 가져오는 제작 절차 — 2026-10-23
 
 모든 컴포넌트에 적용합니다. 주변 화면·과거 제작본·기획안 인스턴스를 복제하여 원형으로 삼지 않습니다. 기획에서 문구·순서·상태·필수/선택·행동·유형을 추출한 뒤 지정 MO 라이브러리의 현재 component key·공개 속성·Slot 내용·Text Style key·variable key를 직접 확인하고, import한 원형의 새 인스턴스로 제작합니다. 캐시와 스크립트는 탐색·절차만 재사용합니다. 승인 예시의 구성·위계·간격과 직접 구성 박스 예외는 유지하되 컴포넌트의 취득 출처로 대신하지 않습니다.
@@ -172,7 +181,7 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 
 링크 리스트 화면은 제목·목록 래퍼 이름이 `Title / List Group`인지 확인합니다. 실제 List 인스턴스는 이름을 바꾸지 않습니다. Container 2 이상에서 래퍼 padding-top 24px 및 spacing/3xl alias, 내부 List Group gap 0px와 이전 gap 변수 해제를 각각 검수합니다. Title↔목록 gap 16px 및 Container 1의 기존 값은 유지합니다. 목록 gap 24px를 최종 규칙으로 오인하지 않습니다. 내용 높이를 다시 계산해 844px 내에서는 화면 Fixed 844 / BODY Fill, 초과하면 Hug를 적용하고 화면을 확인합니다.
 
-PDF 약관 상세 검수는 원본 `72:9033`과 작업본을 속성별 비교합니다. BODY 세로 Fill, Container 1↔Title Area 및 Container 2↔body의 레이아웃·정렬·패딩·gap·Resizing·변수 alias 일치, FOOTER의 Absolute·위치·constraints·Hug를 확인합니다. 레이어명과 부모/자식 순서는 유지합니다. Pagination의 type이 INSTANCE이고 실제 mainComponent key가 연결되어 있는지 확인하며 SVG/Frame 대체는 실패입니다. 원본 숫자 서체를 유지한 인스턴스 복제를 사용합니다. 저장 후 Fill 높이가 재계산되는 것을 재조회하여 390×844 기준 BODY 744 / Container 2 708 / FOOTER 126을 대조한 뒤 화면을 검수합니다.
+PDF 약관 상세 검수는 최신 승인 원본09eGMNTNnkE0CTxPdr7lnk / 31888:30615와 원문§2.G를 기준으로 합니다. Popup과Slot 내부 ## HEADER/## BODY/## FOOTER 명칭·부모를 확인하고, 아트보드 직계 StatusBar Auto44px·Pagination Absolute, Popup Fill800px, HEADER56px, BODY Fill744px, Title Area36px, body Fill708px, FOOTER Absolute/Hug126px를390×844 기준으로 대조합니다. 원형constraints·변수·모드를 유지하고Pagination은최신 라이브러리의 실제 인스턴스를import합니다. 종전72:9033의직계3단·Container1/2 명명 유지 및이전 화면 인스턴스 복제 경로는 새 제작에 사용하지 않습니다.
 
 Image Area는 승인 원본 `10580:10543`에서 더미 그래픽과 “더미이미지” 라벨까지 가져와 적용합니다. 그래픽의 원본 이미지 hash·크롭 변환과 라벨의 위치·외형을 비교합니다. 빈 플레이스홀더만 있거나 라벨이 빠지면 실패입니다. 최신 승인 참조 `0P0j17OPstNhC3LWjBdBGy / 67:1947`의 Image Area `67:2127`를 재사용하고 라벨 type TEXT / Pretendard SemiBold / 원본 fontFamily alias를 확인합니다. 이미 올바른 원본은 다시 만들지 않습니다. 원본 프레임·텍스트를 복제하여 속성과 연결을 보존하고 같은 파일 내 이동에는 필요 시 검증된 group/ungroup 경로를 사용합니다. 폰트 로드 실패를 이유로 outline SVG·벡터·이미지나 다른 폰트로 바꾸지 않습니다. 편집 가능성을 보존할 수 없으면 완료로 보고하지 않고 제한을 알립니다.
 

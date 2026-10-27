@@ -1,10 +1,42 @@
 # 실측 디자인 규칙
 
-## 최신 라이브러리 직접 적용과 Title / Page 교정 근거 — 2026-10-23
+## v0.95 약관 상세·동의 레이아웃 관측 — 2026-10-27
+
+사용자 지정 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 Templates(작성중) 페이지 `10552:10031`에서 아래 7개 노드의 실제 계층·속성·크기·화면을 읽기 전용으로 확인했습니다. 이 7개는 사용자가 직접 승인한 최신 약관 기준이며, 과거 상세/Consent 기록을 새 제작의 기본으로 사용하지 않습니다. 세부 실행 규칙은 원문 §2.G·§4를 따릅니다.
+
+| 참조 | 관측 |
+| --- | --- |
+| [31888:30615](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31888-30615) | 390×844, StatusBar Auto44, Popup Fill390×800, Slot내 ## HEADER56/## BODY Fill744/## FOOTER Absolute126, 아트보드직계Pagination Absolute x143.5/y686 |
+| [31061:78151](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78151) | Depth1+2, BODY Fill/padding24/20/32/20/gap24, Container2 ConsentGroup 반복gap12 |
+| [31061:78179](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78179) | Depth1+2+3, 3d-group Slot-Depth-3의Vertical GridContainer/3d, description와hasSubLabel true 분기 |
+| [31061:78292](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292) | Depth1~4 초기레이블. 원형Slot/항목variant/그룹내순서를확인하는기준 |
+| [31061:78209](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209) | 긴문구/체크/라디오/4d-group. 4d GridContainer2열FLEX, 행Hug, 행·열gap0, 4개2×2/2개1×2, 그룹하단textList size14 |
+| [31061:78333](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333) | 약관동의BS, Slot gap20/padding0/20/20/20, ConsentGroup gap12, elevated StickyButton/외부iOS HomeIndicator |
+| [31061:78354](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78354) | Title/Section→TextListGroup16px, size16/bullet/depth1목록gap8, 별도ConsentFinal outline/hasSuffix false |
+
+현재 실제 원형 key:
+
+| 컴포넌트 | key |
+| --- | --- |
+| Popup | `1a3d4fb4905fcd7965a48b908bff097c7db5dc76` |
+| Pagination / Carousel black·medium | `6955cc776fae1a9f38a3e93e8ecabfe286a4db6c` |
+| ConsentGroup (단일컴포넌트, Slot공개) | `3e734ffbcf9495c4b93f0cf5ecaf1c2b368c2063` |
+| Item / Consent set | `e18b01671966d25d4d96d6b3d2484f990a2dc7fe` |
+| Item / Consent 1d / 2d | `6496a1d3f06ba209cd782b2c11083e895e14c609` / `a74ee42ace75cc01015fc5a1fbf2ae23fdb24287` |
+| Item / Consent 3d-group / 3d | `d6538a2ef603acb50d5dbecfcf4638bafa990b20` / `6b4292485405d45ac581450fde1049e17f086f54` |
+| Item / Consent 4d-group / 4d | `abee473e01d486c0b794a8a17357381a84751e0d` / `d97b6bd74b0eb3f3a6e8b18800cc28a8152bbd47` |
+| Item / Consent description / textList | `12d5f235b1c5b9768340adb114a319959d406565` / `c5125fd24a5180ae3ed2cdaef685b7895208fb48` |
+| ConsentFinal set / outline | `5cc4f1a21b5f1d232d64c7bd33876f141b352044` / `068b1bc091f43d5b08e2ed250834cede68f204cd` |
+
+ConsentGroup 자체는 fill/stroke가 없고 내부 Container가 좌우20px·radius14px·border/neutral/secondary-muted·stroke/md를 가집니다. 바깥에 구형 Outline Container를 추가하지 않습니다. Item / Consent variant는1d/2d/3d/4d/description/textList/3d-group/4d-group, 공개 boolean은hasSubLabel/hasSuffix, 공개 Slot은Slot-Depth-3/Slot-Depth-4/Slot-TextList입니다. variant마다 노출되는 Slot이 같다고 가정하지 않고 해당 variant의 실제 Slot을 사용합니다.
+
+페이지 제목은 v0.95 참조에서 KBFG Text Medium 24px / 행간 34px, Text Style key `e305f8192953c305c51725efea442cd9183bcc57`, font-size/title/3xl key `d8bbf61377b02c0f276485f4dd71849defff2fa6`, line-height/title/3xl key `22879a5990b1c5f93501cb922e6ff269717d22aa`였습니다. font-weight/medium 연결을 보존하고 과거 22px/31px 관측값으로 덮어쓰지 않습니다. 새 제작 때 현재 라이브러리와 모드를 재확인합니다.
+
+## 최신 라이브러리 직접 적용과 Title / Page 교정 이력 — 2026-10-23
 
 사용자 확정에 따라 모든 컴포넌트는 MO 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 현재 원형에서 import한 새 인스턴스를 사용합니다. 주변 화면과 과거 산출물은 컴포넌트 스타일·변수·override의 기준이 아닙니다. 아래 과거 산출물 복제·clone 기록은 당시의 관측 이력이며 앞으로의 컴포넌트 취득 절차로 사용하지 않습니다. 명시 승인된 배치·간격·그룹 패턴과 Data Block 등 직접 구성 예외는 유지하되, 하위 컴포넌트·토큰은 최신 원본에서 확인합니다.
 
-라이브러리 C04. Data Display(`41:15109`)의 Title / Page set key는 `d3d20cc2ce86dc116973192a882d92e65fbcca23`, left variant는 `b5120eca8d05e42c7630eda45e476bd175d2944c`입니다. 원본 Slot의 페이지 제목은 Item / Label(page), key `4342531bb89cdf2bc0824e692ffcd7f87511c8cd`이며, 원본 제목은 KBFG Text Medium / 22px / 행간31px / Text Style key `a4d970f16ce5404c28e6e948667b88b96aa5cbec`입니다. font-weight/medium key는 `40167791d3f8a1ec1a4c60518753b3bde64b15c8`입니다. 고정 수치를 재입력하는 대신 원형 스타일과 변수 연결을 유지합니다.
+라이브러리 C04. Data Display(`41:15109`)의 Title / Page set key는 `d3d20cc2ce86dc116973192a882d92e65fbcca23`, left variant는 `b5120eca8d05e42c7630eda45e476bd175d2944c`입니다. 원본 Slot의 페이지 제목은 Item / Label(page), key `4342531bb89cdf2bc0824e692ffcd7f87511c8cd`이며, 당시 관측한 제목은 KBFG Text Medium / 22px / 행간31px / Text Style key `a4d970f16ce5404c28e6e948667b88b96aa5cbec`입니다. font-weight/medium key는 `40167791d3f8a1ec1a4c60518753b3bde64b15c8`입니다. 고정 수치를 재입력하는 대신 원형 스타일과 변수 연결을 유지합니다.
 
 작업본 `KFlklMvGmg0MXGfAXvpprn / 1367:7933`에는 기획안의 Bold 일반 Text와 굵기 변수가 남아 있었고, Title / Page가 같은 component key를 가리켜도 Slot 내용은 원본과 달랐습니다. 실제 Item / Label(page)를 import하여 교체했고 Medium 스타일·변수와 편집 가능한 문구를 확인했습니다. 이후 `1376:8065`, `1381:7773`도 원본 인스턴스에서 제작했습니다. 이 화면들은 새 작업의 원형 복제 대상이 아니라 교정 이력입니다. 모든 컴포넌트에서 mainComponent key 확인만으로 끝내지 않고 Slot·텍스트 스타일/변수·크기 모드·공개 속성 연결까지 대조합니다.
 
@@ -179,11 +211,11 @@ InputField 뒤에 해결방법 등의 보조 버튼이 오는 패턴은 [2025:68
 
 Container 2의 래퍼 `2006:1765`, `2006:2280`, `2006:2664`는 padding-top 24px이며 `spacing/3xl` key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`를 연결했습니다. 내부 List Group `2006:1792`, `2006:2307`, `2006:2691`의 itemSpacing은 0px로 설정하고 이전 gap 변수 연결은 해제했습니다. Container 3 이상에도 같은 규칙을 적용합니다. 래퍼의 Title↔목록 gap 16px와 Container 1의 기존 패딩·목록 gap은 유지합니다. 내부 목록 gap 24px는 철회된 중간 지시이며 최종값이 아닙니다. 변경 후 세 화면은 390×844 / BODY Fill로 검수했습니다.
 
-## PDF 약관 상세 최종 교정 (2026-10-19)
+## PDF 약관 상세 과거 교정 이력 (2026-10-19, 새 제작은2026-10-27 v0.95 기준 우선)
 
 원본 `0P0j17OPstNhC3LWjBdBGy / 72:9033` → 작업본 `82:1994`. Container 1 `82:2355`는 Title Area `72:9038`의 속성·변수와 일치하며 Horizontal / padding 12,20,0,20 / gap 16 / Fill·Hug / 높이 36입니다. Container 2 `82:2373`는 body `72:9045`의 속성·변수와 일치하며 Vertical / 양 축 center / padding·gap 12 / Fill·Fill입니다. BODY `82:1998`의 세로 Fill과 FOOTER `82:2012`의 원본 Absolute / Fixed 390·Hug를 함께 적용한 뒤 실제 높이는 BODY 744, Container 2 708, FOOTER 126으로 확인했습니다. 레이어명·계층을 보존했습니다.
 
-Pagination `86:2136`은 key `6955cc776fae1a9f38a3e93e8ecabfe286a4db6c`의 실제 인스턴스입니다. 기존 SVG Frame `82:2376`은 제거했습니다. 원본 인스턴스를 clone한 뒤 `group`/`ungroup`으로 같은 파일 내 대상 부모에 옮겨 Pretendard SemiBold를 포함한 원본 서체·변수를 보존했습니다. 텍스트 수정이나 폰트 대체 없이 이동했으며, 임시 Group은 제거했습니다. 향후 이 경로 또는 검증된 인스턴스 복제를 우선하고 Pagination을 벡터로 대체하지 않습니다. 원본에 없는 size 14 아이콘을 추정하지 않고 실제 템플릿의 size 24를 사용합니다.
+Pagination `86:2136`은 key `6955cc776fae1a9f38a3e93e8ecabfe286a4db6c`의 실제 인스턴스입니다. 기존 SVG Frame `82:2376`은 제거했습니다. 원본 인스턴스를 clone한 뒤 `group`/`ungroup`으로 같은 파일 내 대상 부모에 옮겨 Pretendard SemiBold를 포함한 원본 서체·변수를 보존했습니다. 텍스트 수정이나 폰트 대체 없이 이동했으며, 임시 Group은 제거했습니다. 당시에는 해당 복제 경로를 사용했습니다. 새 제작은 최신 라이브러리에서 import한 실제 인스턴스를 사용하며, 과거 복제 경로를 기본으로 재사용하지 않습니다. Pagination을 벡터로 대체하지 않습니다. 원본에 없는 size 14 아이콘을 추정하지 않고 실제 템플릿의 size 24를 사용합니다.
 
 ## Title / Page 이후 Image Area 교정 (2026-10-19)
 
