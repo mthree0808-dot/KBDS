@@ -1,5 +1,10 @@
 # 작업 실행 절차
 
+## Popup 내부 레이어명 적용·검수 — 2026-10-27
+
+Popup > Slot 내부 3단 영역은 `Header`, `Body`, `Footer`로 명명합니다. 약관 상세(PDF)·키패드·패턴·일반 풀팝업에 동일하게 적용합니다. 종전 `## HEADER`, `## BODY`, `## FOOTER`로 변경하라는 지시는 철회되었으며 해당 Popup 내부 영역은 원복합니다. 일반·완료 화면의 아트보드 직계 `## HEADER`, `## BODY`, `## FOOTER`는 유지합니다. 명칭 외 Slot 계층·컴포넌트 연결·공개 속성·Fill/Hug/Absolute·패딩·간격과 하위 `Title Area`, `body`는 보존합니다. 제작·수정 시 Popup 내부 영역에만 이름 매핑을 적용하고 최종 실제 3개 영역의 명칭·부모와 보존 속성을 대조합니다. MD 갱신과 기존 화면 수정 완료는 별도로 구분합니다.
+
+
 ## 문자·숫자 데이터 서체 적용·검수 — 2026-10-27
 
 1. 기획 데이터가 금액 입력처럼 문자와 숫자로 명확히 분리되는지, 값 전체가 숫자인지 구분합니다. 분리되는 문자는 KBFG Text, 숫자는 Pretendard이며 숫자 전용 텍스트·입력값도 Pretendard로 계획합니다. 숫자 데이터의 구분자·소수점은 숫자와 같은 서체, 별도 단위·항목명은 KBFG Text입니다. 일반 문장 전체를 임의 전환하지 않습니다.
@@ -10,7 +15,7 @@
 ## v0.95 약관 제작·검수 절차 — 2026-10-27
 
 1. 약관 상세(PDF)인지 일반 약관 동의·BottomSheet·TextList 확인형인지 먼저 나눕니다. 원문§2.G와§4의 사용자 승인7개 참조를 현재 라이브러리에서 직접 조회합니다. Templates(작성중) 페이지에 있어도 이번에 지정된 참조는 적용합니다. 과거 제작본을 원형으로 복제하지 않습니다.
-2. PDF 상세는31888:30615의 Popup을 import하고 Slot 안 Header/Body/Footer를 산출물에서 ## HEADER/## BODY/## FOOTER로 통일합니다. StatusBar는 아트보드 직계Auto44px, Popup은Fill, Pagination은 아트보드 직계Absolute입니다. BODY·body Fill 및Footer Absolute를 유지하고 일반 화면3단 구조나 키패드의StatusBar Absolute 규칙을 덮어쓰지 않습니다. 라이브러리 원본은 수정하지 않습니다.
+2. PDF 상세는31888:30615의 Popup을 import하고 Slot 안 3단 레이어명은 Header/Body/Footer로 유지하고, 이전에 ## HEADER/## BODY/## FOOTER로 변경한 경우 Header/Body/Footer로 원복합니다. StatusBar는 아트보드 직계Auto44px, Popup은Fill, Pagination은 아트보드 직계Absolute입니다. BODY·body Fill 및Footer Absolute를 유지하고 일반 화면3단 구조나 키패드의StatusBar Absolute 규칙을 덮어쓰지 않습니다. 라이브러리 원본은 수정하지 않습니다.
 3. 약관 동의는31061:78151/78179/78292/78209 중 기획에 맞는 경우를 선택하고 ConsentGroup과 Item / Consent를 현재 원형에서 import합니다. 뎁스는1d·2d·3d-group·3d·4d-group·4d, 직접 설명은description, 부가 목록은textList로 매핑합니다. 구형 Consent solid/basic·Depth 프레임·수동 Outline Container는 새 구성에서 사용하지 않습니다. 실제 Slot/Slot-Depth-3/Slot-Depth-4/Slot-TextList 안에 항목을 배치하고 native Prefix/Suffix의 체크·라디오·화살표·가시성 연결을 유지합니다.
 4. 일반 동의 BODY는padding24/20/32/20·gap24, 반복 ConsentGroup은gap12, 원형 내부 Slot은gap0·하단padding8을 대조합니다. 3d-group/4d-group의 들여쓰기32px와하단12px를 추가 래퍼로 중복하지 않습니다. GridContainer는3d의Vertical 또는4d의2열FLEX/행Hug/행·열gap0 분기를 기획에 맞게 사용합니다. 일반 Radio/Checkbox Group gap20은 이 원형 목록에 일괄 적용하지 않습니다.
 5. BottomSheet는31061:78333을 기준으로Slot padding0/20/20/20·gap20, 안내문→ConsentGroup 목록(gap12), elevated StickyButton·외부HomeIndicator를 검수합니다. TextList 확인형은31061:78354를 기준으로Title/Section→TextListGroup gap16, size16목록 gap8, 별도ConsentFinal(outline)을 사용합니다. 그룹 하단textList variant의목록은size14입니다.
@@ -188,7 +193,7 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 
 링크 리스트 화면은 제목·목록 래퍼 이름이 `Title / List Group`인지 확인합니다. 실제 List 인스턴스는 이름을 바꾸지 않습니다. Container 2 이상에서 래퍼 padding-top 24px 및 spacing/3xl alias, 내부 List Group gap 0px와 이전 gap 변수 해제를 각각 검수합니다. Title↔목록 gap 16px 및 Container 1의 기존 값은 유지합니다. 목록 gap 24px를 최종 규칙으로 오인하지 않습니다. 내용 높이를 다시 계산해 844px 내에서는 화면 Fixed 844 / BODY Fill, 초과하면 Hug를 적용하고 화면을 확인합니다.
 
-PDF 약관 상세 검수는 최신 승인 원본09eGMNTNnkE0CTxPdr7lnk / 31888:30615와 원문§2.G를 기준으로 합니다. Popup과Slot 내부 ## HEADER/## BODY/## FOOTER 명칭·부모를 확인하고, 아트보드 직계 StatusBar Auto44px·Pagination Absolute, Popup Fill800px, HEADER56px, BODY Fill744px, Title Area36px, body Fill708px, FOOTER Absolute/Hug126px를390×844 기준으로 대조합니다. 원형constraints·변수·모드를 유지하고Pagination은최신 라이브러리의 실제 인스턴스를import합니다. 종전72:9033의직계3단·Container1/2 명명 유지 및이전 화면 인스턴스 복제 경로는 새 제작에 사용하지 않습니다.
+PDF 약관 상세 검수는 최신 승인 원본09eGMNTNnkE0CTxPdr7lnk / 31888:30615와 원문§2.G를 기준으로 합니다. Popup과Slot 내부 Header/Body/Footer 명칭·부모를 확인하고, 아트보드 직계 StatusBar Auto44px·Pagination Absolute, Popup Fill800px, HEADER56px, BODY Fill744px, Title Area36px, body Fill708px, FOOTER Absolute/Hug126px를390×844 기준으로 대조합니다. 원형constraints·변수·모드를 유지하고Pagination은최신 라이브러리의 실제 인스턴스를import합니다. 종전72:9033의직계3단·Container1/2 명명 유지 및이전 화면 인스턴스 복제 경로는 새 제작에 사용하지 않습니다.
 
 Image Area는 승인 원본 `10580:10543`에서 더미 그래픽과 “더미이미지” 라벨까지 가져와 적용합니다. 그래픽의 원본 이미지 hash·크롭 변환과 라벨의 위치·외형을 비교합니다. 빈 플레이스홀더만 있거나 라벨이 빠지면 실패입니다. 최신 승인 참조 `0P0j17OPstNhC3LWjBdBGy / 67:1947`의 Image Area `67:2127`를 재사용하고 라벨 type TEXT / Pretendard SemiBold / 원본 fontFamily alias를 확인합니다. 이미 올바른 원본은 다시 만들지 않습니다. 원본 프레임·텍스트를 복제하여 속성과 연결을 보존하고 같은 파일 내 이동에는 필요 시 검증된 group/ungroup 경로를 사용합니다. 폰트 로드 실패를 이유로 outline SVG·벡터·이미지나 다른 폰트로 바꾸지 않습니다. 편집 가능성을 보존할 수 없으면 완료로 보고하지 않고 제한을 알립니다.
 

@@ -1,5 +1,10 @@
 # 디자이너 규칙의 적용과 검수
 
+## Popup 내부 레이어명 최종 규칙 — 2026-10-27
+
+Popup > Slot 내부 3단 영역은 `Header`, `Body`, `Footer`로 명명합니다. 약관 상세(PDF)·키패드·패턴·일반 풀팝업에 동일하게 적용합니다. 종전 `## HEADER`, `## BODY`, `## FOOTER`로 변경하라는 지시는 철회되었으며 해당 Popup 내부 영역은 원복합니다. 일반·완료 화면의 아트보드 직계 `## HEADER`, `## BODY`, `## FOOTER`는 유지합니다. 명칭 외 Slot 계층·컴포넌트 연결·공개 속성·Fill/Hug/Absolute·패딩·간격과 하위 `Title Area`, `body`는 보존합니다.
+
+
 ## 문자·숫자 데이터 서체 분리 — 2026-10-27
 
 금액 입력처럼 문자와 숫자 데이터가 명확히 분리되면 문자는 KBFG Text, 숫자는 Pretendard를 적용합니다. 숫자만 있는 텍스트·입력값도 Pretendard입니다. 예: `123,000`은 Pretendard, 단위 `원`과 항목명은 KBFG Text이며 숫자 안의 구분자·소수점은 숫자와 같은 서체입니다. 일반 문장 전체를 숫자 포함 여부만으로 전환하지 않습니다. 동일 Text 내 분리된 데이터는 구간별로 적용합니다.
@@ -11,7 +16,7 @@
 
 원문 §2.G·§4의 이번 사용자 지정 7개 라이브러리 참조를 승인 기준으로 사용합니다. Templates(작성중)이라는 페이지명만으로 이 7개를 미확정 처리하지 않습니다. 다른 템플릿의 미확정 여부까지 일괄 변경하는 것은 아닙니다.
 
-- 약관 상세31888:30615는 아트보드 직계 StatusBar(Auto,44px) + Popup(Fill) + Pagination/Carousel(Absolute)입니다. Popup > Slot 안의 3단 레이어명은 반드시 `## HEADER / ## BODY / ## FOOTER`입니다. 종전 아트보드 직계3단·Container1/2 유지 규칙은 이 PDF 유형에서 대체됩니다. BODY·body Fill, Footer Absolute, Pagination 실제 인스턴스와 부모·좌표·constraints를 원형과 대조합니다. PDF 상세 외의 일반 동의 화면까지 Popup으로 바꾸지 않습니다.
+- 약관 상세31888:30615는 아트보드 직계 StatusBar(Auto,44px) + Popup(Fill) + Pagination/Carousel(Absolute)입니다. Popup > Slot 안의 3단 레이어명은 반드시 `Header / Body / Footer`입니다. 종전 아트보드 직계3단·Container1/2 유지 규칙은 이 PDF 유형에서 대체됩니다. BODY·body Fill, Footer Absolute, Pagination 실제 인스턴스와 부모·좌표·constraints를 원형과 대조합니다. PDF 상세 외의 일반 동의 화면까지 Popup으로 바꾸지 않습니다.
 - 약관 동의는 ConsentGroup과 Item / Consent(1d,2d,3d-group,3d,4d-group,4d,description,textList)의 실제 인스턴스와 Slot을 사용합니다. 종전 Consent solid/basic·Depth 프레임·수동 Outline Container로 재구성하지 않습니다. BODY padding24/20/32/20·gap24, Container2의 반복 ConsentGroup gap12, 내부 Slot gap0·하단8과 variant별 원형 padding을 구분합니다. 3d/4d Slot의 GridContainer flow와0px 간격을 보존하며 일반 선택 그룹 gap20을 덮어쓰지 않습니다.
 - 6가지 경우는31061:78151(1+2),78179(1+2+3),78292(초기 레이블1~4),78209(긴 문구·선택상태1~4),78333(BottomSheet),78354(TextList16+ConsentFinal)입니다. 그룹 하단 안내는 Item / Consent(textList) 안 size14, 별도 본문 확인형은 size16과 ConsentFinal(outline)을 사용합니다. BS Slot gap20·padding0/20/20/20, 반복 ConsentGroup gap12를 대조합니다.
 - v0.95 페이지 제목은 현재 Default에서24px Medium/행간34px입니다. Item / Label(page)의 실제 스타일·변수를 상속하고 과거22px/31px 수치로 덮어쓰지 않습니다. 기획의 필수/선택·문구·상태를 보존하고 공개 속성·Slot·Grid·서체·변수·잘림을 검수합니다. 이 갱신은 아래 과거 PDF/약관 기록보다 우선합니다.
@@ -82,7 +87,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 - InputField 뒤 보조 이동 버튼은 [2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)의 `InputField / Button Area > InputField, Button Area` 구조로 묶고 gap 12px를 적용합니다. 상위 Title과의 간격은 24px입니다. Button Area는 Fill·Hug / gap 0 / 우측 정렬이며 TextButton은 실제 `secondary / xsmall`, prefix false / suffix true(우측 화살표) / underline false / Hug·Hug입니다. 내부 입력 버튼이나 독립 CTA까지 일반화하지 않습니다.
 - 도움말·이용 방법 선택 바텀시트는 [185:14891](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=185-14891)의 테두리 없는 List 패턴을 우선합니다. `Slot > Container > List Group > List`, 목록 gap 0, Slot padding 0/0/20/0, Container padding 0/20/0/20, List padding 12/0/12/0입니다. 본문 안내는 Text로 유지하고 목록과 gap 16px로 묶습니다. List의 Prefix는 기본 `Item / Prefix (bgIcon)`(아이콘 48×48, 래퍼 폭 52), Middle은 16 Bold + 필요 시 14 Light, Suffix는 pageIndicator입니다. 아이콘의 최종 선택·교체는 작업자 몫이므로 기본 인스턴스만 둡니다. D07의 일반 선택 목록 gap 8px나 Card 패턴보다 이 구체적 규칙이 우선합니다.
 - 링크 목록의 제목·목록 래퍼는 `Title / List Group`으로 명명하고, 실제 `List` 인스턴스 이름은 유지합니다. Container 2 이상에서 래퍼 padding-top은 `spacing/3xl`=24px, 내부 `List Group` gap은 0px입니다. 래퍼 자체의 Title↔목록 gap 16px와 Container 1 기존 값은 유지합니다. 이전에 전달된 내부 목록 gap 24px는 철회되었습니다.
-- PDF 약관 상세는2026-10-27 확정한v0.95 기준31888:30615와 원문§2.G를 적용합니다. StatusBar는 아트보드 직계Auto, 3단 영역은 Popup > Slot 안 ## HEADER / ## BODY / ## FOOTER입니다. BODY·body Fill, Footer Absolute, 아트보드 직계 Pagination 실제 인스턴스·Absolute를 유지합니다. 종전72:9033의 직계3단·Container1/2 유지 규칙을 새 구조에 적용하지 않습니다.
+- PDF 약관 상세는2026-10-27 확정한v0.95 기준31888:30615와 원문§2.G를 적용합니다. StatusBar는 아트보드 직계Auto, 3단 영역은 Popup > Slot 안 Header / Body / Footer입니다. BODY·body Fill, Footer Absolute, 아트보드 직계 Pagination 실제 인스턴스·Absolute를 유지합니다. 종전72:9033의 직계3단·Container1/2 유지 규칙을 새 구조에 적용하지 않습니다.
 - Image Area는 승인 원본 `10580:10543`의 **더미 그래픽과 “더미이미지” 라벨까지 포함한 전체 구성**을 기본 재사용합니다. 빈 ImageContainer로 바꾸거나 라벨을 생략하지 않습니다. 원본 이미지·크롭·레이어·외형을 보존하며 임의 새 이미지 생성은 하지 않습니다. 최신 승인 참조 `0P0j17OPstNhC3LWjBdBGy / 67:1947`의 Image Area `67:2127`처럼 라벨은 편집 가능한 TEXT / Pretendard SemiBold와 원본 fontFamily 변수 alias를 유지합니다. 폰트 outline·SVG·벡터·이미지 변환과 대체 폰트는 금지합니다. 기존 SVG 대체 예외는 폐기합니다.
 - `Title / Page` → `Image Area`는 같은 Container의 직계 자식으로 gap 0px입니다. Image Area 다음 콘텐츠는 종류와 무관하게 `spacing/3xl`=24px입니다. [참조 10580:10543](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10580-10543)의 Vertical / Fill·Hug / padding 40px 0 / gap 0을 적용합니다. ImageContainer는 ratio 2:1, Fill·Fixed(폭 350px 기준 350×175px), 전체 영역 350×255px입니다. 이미지 앞뒤 간격에 BODY 기본값을 일괄 적용하지 않습니다.
 - 일반 콘텐츠의 Tab 직후 간격은 `spacing/3xl`=24px입니다. BODY 기본 32px보다 우선합니다. Tab + Infobox / Card는 `## BODY > Container 1 > Tab, Infobox / Card`로 구성하고 두 컴포넌트를 Container 1의 직계 자식으로 둡니다. `Tab / Infobox > Container 1, Container 2`와 각 컴포넌트의 별도 Container 래핑은 금지합니다. Container 1 내부 gap 24px로 제어하며 다음 독립 본문 블록은 형제 Container 2부터 이어갑니다. 일반 복합 그룹 네이밍보다 이 계층 규칙을 우선합니다. 특수 Feedback 패턴은 전용 규칙을 유지합니다.

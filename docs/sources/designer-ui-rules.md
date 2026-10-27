@@ -4,6 +4,10 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### Popup 내부 레이어명 원복 (2026-10-27 사용자 최종 교정)
+- **Popup > Slot 안의 3단 영역은 `Header`, `Body`, `Footer`로 명명합니다.** 약관 상세(PDF)·키패드·패턴·일반 풀팝업에 동일하게 적용하며 `## HEADER`, `## BODY`, `## FOOTER`로 바꾸라는 이전 지시는 철회합니다.
+- 이번 변경은 Popup 내부 영역의 레이어명에만 적용합니다. 일반·완료 화면의 아트보드 직계 `## HEADER`, `## BODY`, `## FOOTER` 명명은 유지합니다. Popup의 Slot 계층·컴포넌트 연결·속성·Fill/Hug/Absolute·패딩·간격과 하위 `Title Area`, `body` 명칭은 그대로 유지합니다.
+
 ### 문자·숫자 데이터 서체 분리 (2026-10-27 사용자 확정)
 - **금액 입력 등 문자와 숫자 데이터가 명확히 분리되는 경우, 문자는 `KBFG Text`, 숫자는 `Pretendard`를 적용합니다. 숫자만으로 구성된 텍스트·입력값은 `Pretendard`를 사용합니다.** 예: 금액의 숫자 `123,000`은 Pretendard, 별도 단위 `원`과 항목명·안내 문구는 KBFG Text입니다. 숫자 데이터에 포함된 자릿수 구분자·소수점은 해당 숫자와 같은 서체를 적용합니다.
 - 이 규칙은 데이터 서체에 대한 사용자 승인 변경으로, 해당 범위에서는 기존 컴포넌트의 서체 상속 규칙보다 우선합니다. 일반 문장에 숫자가 섞였다는 이유만으로 문장 전체를 Pretendard로 바꾸지 않습니다. 동일 Text 안에서도 문자·숫자가 명확히 분리된 데이터라면 해당 구간별로 매핑합니다.
@@ -12,7 +16,7 @@
 
 ### v0.95 약관 상세·약관 동의 레이아웃 갱신 (2026-10-27 사용자 확정)
 - 이번 사용자가 지정한 7개 참조는 `Templates(작성중)` 페이지에 있더라도 **약관 상세 및 동의 레이아웃의 승인 기준**입니다. 페이지 이름만으로 적용을 보류하지 않습니다. 최신 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`에서 원형을 직접 확인·import하고, 기획의 문구·개수·순서·선택 상태에 맞춥니다. 라이브러리 원본은 읽기 전용이며 산출물에서 적용합니다.
-- **약관 상세**는 §2.G의 `Popup > Slot > ## HEADER / ## BODY / ## FOOTER` 구조를 사용합니다. **약관 동의 입력·선택**은 §4의 `ConsentGroup` / `Item / Consent` / `ConsentFinal` 조합을 사용합니다. 약관 동의 화면 전체를 자동으로 Popup으로 바꾸지는 않습니다.
+- **약관 상세**는 §2.G의 `Popup > Slot > Header / Body / Footer` 구조를 사용합니다. **약관 동의 입력·선택**은 §4의 `ConsentGroup` / `Item / Consent` / `ConsentFinal` 조합을 사용합니다. 약관 동의 화면 전체를 자동으로 Popup으로 바꾸지는 않습니다.
 - 이 갱신은 종전 약관 상세의 아트보드 직계 3단 구조·Container 1/2 유지 지시와, 종전 약관 동의의 `Depth 1~4` 일반 프레임·`Consent solid/basic`·수동 `Outline Container` 제작 규칙을 대체합니다. 해당 구형 구조를 새 약관 제작의 기본으로 사용하지 않습니다. 다른 유형의 일반 화면·키패드 Popup 규칙은 유지합니다.
 - v0.95 참조의 `Title / Page > Item / Label(page)` 제목은 현재 Default 기준 **24px Medium / 행간 34px**입니다. 과거 22px/31px 실측값을 고정해 덮어쓰지 않고, 현재 원형 Text Style·font-size/title/3xl·line-height/title/3xl·font-weight/medium 변수 및 실제 모드를 유지합니다.
 
@@ -296,20 +300,20 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 ├─ StatusBar
 ├─ Popup
 │  └─ Slot
-│     ├─ ## HEADER > AppBar
-│     ├─ ## BODY > Title Area, body
-│     └─ ## FOOTER > StickyButton, HomeIndicator
+│     ├─ Header > AppBar
+│     ├─ Body > Title Area, body
+│     └─ Footer > StickyButton, HomeIndicator
 └─ Pagination / Carousel (Absolute)
 ```
 
-- **레이어명**: 산출물의 Popup Slot 안 `Header`, `Body`, `Footer`는 각각 **`## HEADER`, `## BODY`, `## FOOTER`**로 통일합니다. `Popup`, `Slot`, `AppBar` 등 실제 컴포넌트 명칭과 하위 `Title Area`, `body`는 원형을 유지합니다. 이전 Container 1/2 명명·계층 유지 규칙으로 최신 구조를 되돌리지 않습니다.
+- **레이어명**: 산출물의 Popup Slot 안 3단 레이어명은 **`Header`, `Body`, `Footer`**로 유지합니다. 종전 `## HEADER`, `## BODY`, `## FOOTER`로 변경하라는 지시는 철회하며 해당 명칭은 원복합니다. `Popup`, `Slot`, `AppBar` 등 실제 컴포넌트 명칭과 하위 `Title Area`, `body`는 원형을 유지합니다. 이전 Container 1/2 명명·계층 유지 규칙으로 최신 구조를 되돌리지 않습니다.
 - **아트보드·StatusBar·Popup**: 기준은 390×844, Vertical / gap·padding 0 / `background/neutral/white`입니다. StatusBar는 아트보드 직계 첫 자식이며 iOS/light, 가로 Fill·세로 Fixed 44px, **Auto Layout 일반 흐름**입니다. Popup은 그 아래 가로·세로 Fill(기준 390×800), Slot은 Fill·Fill / gap·padding 0입니다. 이 PDF 유형에 키패드 Popup의 StatusBar Absolute 규칙을 일괄 적용하지 않습니다.
-- **`## HEADER`**: Fill·Hug, 기준 56px. AppBar는 `variant: sub`, `hasTitle: true`, `hasPrev: false`, `hasTextButton: false`, `hasIconButton1/2: false`, `hasIconButton3: true`이며 원형 닫기 버튼과 실제 약관 제목을 사용합니다.
-- **`## BODY`**: Fill·Fill / Vertical / gap·padding 0, 기준 390×744px. `Title Area`는 Horizontal / Fill·Hug / padding 12px 20px 0 / gap 16px, 기준 높이 36px입니다. 내부 `title + button > Suffix`의 아이콘 그룹은 gap 16px, 실제 IconContainer size 24이며 검색·다운로드·목차 아이콘의 원본 연결을 유지합니다. `body`는 Vertical / Fill·Fill / 양 축 center / padding·gap 12px, 기준 높이 708px입니다.
+- **`Header`**: Fill·Hug, 기준 56px. AppBar는 `variant: sub`, `hasTitle: true`, `hasPrev: false`, `hasTextButton: false`, `hasIconButton1/2: false`, `hasIconButton3: true`이며 원형 닫기 버튼과 실제 약관 제목을 사용합니다.
+- **`Body`**: Fill·Fill / Vertical / gap·padding 0, 기준 390×744px. `Title Area`는 Horizontal / Fill·Hug / padding 12px 20px 0 / gap 16px, 기준 높이 36px입니다. 내부 `title + button > Suffix`의 아이콘 그룹은 gap 16px, 실제 IconContainer size 24이며 검색·다운로드·목차 아이콘의 원본 연결을 유지합니다. `body`는 Vertical / Fill·Fill / 양 축 center / padding·gap 12px, 기준 높이 708px입니다.
 - **PDF 영역**: `body` 안 흰색 Rectangle은 원형 배경·테두리 변수와 Fill 크기를 유지하고, `pdf 약관 내용` 표시 텍스트는 실제 원형 스타일·서체·색상 변수와 Absolute 중앙 배치를 유지합니다. 콘텐츠를 이미지로 평탄화하지 않습니다.
-- **`## FOOTER`**: Popup Slot의 자식이지만 **Absolute**, 기준 x0/y674(Popup Slot 좌표), 가로 Fixed 390·세로 Hug 126px입니다. BODY의 Fill 높이를 줄이는 일반 흐름으로 바꾸지 않습니다. StickyButton은 white / hasCTA true / hasSubButton false / hasScrollDim true, HomeIndicator는 os iOS입니다. CTA 문구는 기획에 맞추되 Label과 버튼명은 원형 Hug를 유지합니다.
+- **`Footer`**: Popup Slot의 자식이지만 **Absolute**, 기준 x0/y674(Popup Slot 좌표), 가로 Fixed 390·세로 Hug 126px입니다. BODY의 Fill 높이를 줄이는 일반 흐름으로 바꾸지 않습니다. StickyButton은 white / hasCTA true / hasSubButton false / hasScrollDim true, HomeIndicator는 os iOS입니다. CTA 문구는 기획에 맞추되 Label과 버튼명은 원형 Hug를 유지합니다.
 - **`Pagination / Carousel`**: 아트보드의 직계 실제 인스턴스 / Absolute / black·medium, 기준 103×32px, x143.5/y686 / horizontal CENTER·vertical MAX constraints입니다. Popup Slot 내부로 옮기거나 일반 흐름에 넣지 않습니다. 최신 원형을 import하고 서체·변수·원본 연결을 유지하며 SVG·벡터·일반 Frame이나 이전 화면 clone으로 대체하지 않습니다.
-- **최종 검수**: Popup 연결, Slot 내부 3개 `##` 레이어명, StatusBar Auto, BODY·body Fill, Footer Absolute, Pagination의 부모·좌표·constraints 및 실제 인스턴스를 대조합니다. 390×844 실측 높이는 StatusBar 44 / Popup 800 / HEADER 56 / BODY 744 / Title Area 36 / body 708 / FOOTER 126입니다. 다른 화면 크기나 모드에서는 원형 sizing·constraints를 따르고 과거 실측 숫자로 강제 고정하지 않습니다.
+- **최종 검수**: Popup 연결, Slot 내부 `Header`, `Body`, `Footer` 레이어명, StatusBar Auto, BODY·body Fill, Footer Absolute, Pagination의 부모·좌표·constraints 및 실제 인스턴스를 대조합니다. 390×844 실측 높이는 StatusBar 44 / Popup 800 / HEADER 56 / BODY 744 / Title Area 36 / body 708 / FOOTER 126입니다. 다른 화면 크기나 모드에서는 원형 sizing·constraints를 따르고 과거 실측 숫자로 강제 고정하지 않습니다.
 
 ---
 
@@ -870,7 +874,7 @@ Container 2 (gap 12px)
    - **바텀시트 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `BottomSheet` -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
    - **Dialog 화면**: 가로 `390px * 844px` 프레임에 배경 **`background/neutral/white`** 지정 후 `Dimmed` 배경(Absolute) -> `Dialog`(화면 정중앙 배치) -> `StatusBar`(Absolute, iOS/light) -> `HomeIndicator` (Property: **`os: iOS`**) 구조로 세팅.
    - **풀팝업 화면**: 배경 **`background/neutral/white`**, `StatusBar` (Absolute) -> `Popup` > `Slot` > `Header` (`AppBar`) + `Body` (`Container [순번]`) + `Footer` (`HomeIndicator: os iOS`) 구조로 세팅.
-   - **약관 상세 화면 (PDF, v0.95)**: 아트보드 직계 StatusBar(Auto) + `Popup > Slot > ## HEADER / ## BODY / ## FOOTER`와 직계 Pagination / Carousel(Absolute) 구조를 사용합니다. §2.G 및 승인 참조31888:30615를 따릅니다.
+   - **약관 상세 화면 (PDF, v0.95)**: 아트보드 직계 StatusBar(Auto) + `Popup > Slot > Header / Body / Footer`와 직계 Pagination / Carousel(Absolute) 구조를 사용합니다. §2.G 및 승인 참조31888:30615를 따릅니다.
    - **공통 Body Auto Layout 세팅**:
      - 상하 패딩: 기본 **`padding-top: 24px` (`3xl`)**, **`padding-bottom: 32px` (`5xl`)**
      - 상단 Feedback + 후속 데이터 그룹이 있는 완료 화면은 **`padding: 40px 20px 32px`**, Container 간 **`gap: 40px` (`spacing/6xl`)**을 우선 적용합니다. 내부 Title의 full-width Divider 때문에 BODY 좌우 패딩을 제거하지 않습니다.
