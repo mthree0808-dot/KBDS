@@ -4,6 +4,11 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### HomeIndicator 배경 Fill은 항상 노출 (2026-10-28 사용자 교정)
+- **HomeIndicator의 `background/neutral/elevated` 배경 Fill은 눈을 끄지 않고 항상 노출합니다.** 정상 적용 기준은 [HomeIndicator 49:21704](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=49-21704)입니다. 레이어 자체가 보이더라도 Fill의 눈이 꺼져 있으면 잘못 적용된 상태입니다.
+- 원형의 해당 Paint가 숨김(`visible: false`)이어도 산출물 인스턴스에서는 **해당 Fill만 `visible: true`**로 교정합니다. 이는 사용자 승인 가시성 예외이며 라이브러리 원본은 수정하지 않습니다. 변수 연결·모드·색상·opacity, 컴포넌트 연결·공개 `os: iOS`, 내부 막대·원형 높이·Auto 배치는 유지합니다. 고정 흰색·추가 배경 사각형으로 대체하지 않습니다.
+- 최종 검수는 레이어 노출과 별도로 **Fill의 실제 visible 값, background/neutral/elevated 변수명·key 연결, 화면 하단 배경**을 확인합니다. 바텀시트·키패드에서도 뒤쪽 Dimmed가 HomeIndicator 배경으로 비쳐 보이지 않게 합니다.
+
 ### 바텀시트 화면의 position 사용 범위 (2026-10-27 사용자 교정)
 - **바텀시트 화면에서 position(Absolute)은 `Dimmed`와 `StatusBar`에만 적용합니다. `BottomSheet`와 `HomeIndicator`는 position으로 띄우지 않습니다.** 화면 루트는 Vertical Auto Layout으로 구성하고, 두 컴포넌트는 `layoutPositioning: AUTO`인 자식으로 하단에 연속 배치합니다. 루트 gap·하단 padding은 0이며 BottomSheet 가로 Fill·세로 Hug(해당 유형의 최소/고정 높이 예외 유지), HomeIndicator 가로 Fill·원형 높이 및 os: iOS를 유지합니다.
 - 문자 입력 바텀시트에 키패드가 있으면 `BottomSheet → Keypad(실제 Item / Pad) → HomeIndicator`를 Auto Layout 흐름으로 배치합니다. 배경 Popup은 남은 표시 영역을 Fill로 사용하며 화면 레벨의 추가 Absolute 대상으로 만들지 않습니다. 원래 화면 높이를 유지해야 하면 단일 Popup을 감싸는 동명 Auto Layout 래퍼를 Fill·clip으로 두고 내부 Popup은 원래 높이·AUTO로 유지하여 배경의 푸터·HomeIndicator가 위로 당겨지지 않게 합니다. 원형 컴포넌트 내부에서 정의한 position은 이 규칙으로 일괄 변경하지 않습니다.

@@ -14,6 +14,8 @@
 
 ## 절대 조건
 
+- 2026-10-28 HomeIndicator 배경 Fill: background/neutral/elevated Fill의 눈(visible)은 항상 켠다. 원형이 숨김이어도 사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704처럼 산출물 Paint만 visible true로 교정한다. 변수·모드·색상·opacity·인스턴스 연결·os iOS·내부 막대·원형 높이·AUTO를 유지한다. 레이어 visible만으로 판정하지 않고 Fill 자체의 가시성과 하단 배경을 검수한다.
+
 - 2026-10-27 바텀시트 배치: 화면 레벨에서 Absolute(position)는 Dimmed와 StatusBar에만 사용한다. BottomSheet와 HomeIndicator는 Vertical Auto Layout의 Auto 자식으로 두고 하단 정렬·gap 0으로 연속 배치한다. 문자 키패드가 있으면 BottomSheet → Keypad → HomeIndicator도 Auto로 이어 붙인다. 좌표 고정으로 외형만 맞추지 않고 실제 layoutPositioning, 높이 변경 시 재배치와 하단 안전영역을 검수한다.
 
 - 2026-10-27 Dialog Title 마침표: Slot에서 Item / Slot의 Title만 노출되면 기획의 유무와 관계없이 Title 문장 끝에 마침표를 적용하고 중복하지 않는다. Title과 Description이 함께 노출되면 Title의 문장 종결용 마침표를 제거한다. 숨김·빈 더미 Description은 제외하며 실제 노출 구성으로 판단한다. Description·버튼명·숫자의 소수점·원형 스타일·변수·계층·연결은 보존하고 Description 노출 변경 후 재검수한다.

@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## HomeIndicator elevated Fill 노출 교정 — 2026-10-28
+
+사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704의 HomeIndicator는 background/neutral/elevated Fill visible true였다. 변수 key는 7c14df9dfaf712b02335c5846362892232fa14c4이며 현재 iOS 원형 key 7d9c0061e2c21c860f10b00b001d863e2ba92647의 해당 Paint는 visible false로 관측됐다. 원형 가시성 상속에 대한 사용자 승인 예외로 산출물 Paint만 노출한다.
+
+요청 화면 3113:17785·3113:18332·3113:18621의 HomeIndicator 3113:18330·3113:18619·3113:19714 및 세 번째 화면 배경 Popup 내부 HomeIndicator를 같은 토큰의 Fill visible true로 교정했다. 변수·내부 막대·os iOS·AUTO·크기는 유지했고 세 화면 하단 배경을 스크린샷으로 확인했다. 향후 원형 숨김을 그대로 상속하거나 레이어 가시성만 검사하지 않는다.
+
 ## 바텀시트 배치 교정 — 2026-10-27
 
 사용자는 Dimmed·StatusBar만 position(Absolute)이고 BottomSheet·HomeIndicator는 Auto Layout 흐름이어야 한다고 확정했다. 직전 산출물 bDKgQrkt0oHMJ1EbPUQTp8 / 3113:17785·3113:18332·3113:18621에서 BottomSheet와 HomeIndicator가 모두 ABSOLUTE인 오류를 확인했다. 화면 레벨 좌표로 외형을 맞추면서 컴포넌트의 흐름 배치를 놓친 제작 오류이며 승인 패턴으로 재사용하지 않는다. Vertical Auto Layout 하단 정렬·gap 0과 AUTO 자식으로 교정하고, 문자 키패드도 AUTO로 이어 붙인다. 원형 내부 계층·서체·변수와 최소 높이 규칙은 유지한다.

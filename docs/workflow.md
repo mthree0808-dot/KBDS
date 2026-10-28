@@ -1,5 +1,11 @@
 # 작업 실행 절차
 
+## HomeIndicator Fill 제작·검수 — 2026-10-28
+
+1. HomeIndicator의 background/neutral/elevated Paint와 변수 연결을 확인한다. 사용자 승인 참조는 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704다.
+2. 해당 Fill의 눈이 꺼져 있으면 산출물 Paint visible true로 교정한다. 원형이 숨김이어도 사용자 승인 규칙을 우선하고 라이브러리 원본은 수정하지 않는다. 변수·모드·색상·opacity·컴포넌트 연결·os iOS·내부 막대·원형 높이·AUTO는 보존한다.
+3. 레이어 visible와 Fill visible를 구분하여 확인하고 토큰명·key 및 최종 하단 배경을 시각 검수한다. Dimmed가 비쳐 보이거나 고정 흰색·추가 사각형으로 대신한 것은 통과시키지 않는다.
+
 ## 바텀시트 배치 제작·검수 — 2026-10-27
 
 1. 바텀시트 화면 루트를 Vertical Auto Layout, 하단 정렬(MAX), gap·하단 padding 0으로 구성한다. Dimmed와 StatusBar만 화면 레벨 ABSOLUTE로 둔다.

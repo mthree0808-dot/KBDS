@@ -1,5 +1,9 @@
 # 디자이너 규칙의 적용과 검수
 
+## HomeIndicator 배경 Fill 가시성 — 2026-10-28
+
+HomeIndicator의 background/neutral/elevated Fill은 항상 visible true로 노출한다. 원형이 해당 Paint를 숨겨도 사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704에 따라 산출물 인스턴스의 Paint 가시성만 교정한다. 라이브러리 원본은 수정하지 않는다. 변수·모드·색상·opacity, 내부 막대·컴포넌트 연결·os iOS·원형 높이·AUTO를 유지하며 실제 Fill visible·토큰 연결·하단 배경을 검수한다. 레이어 visible만으로 통과시키거나 고정 흰색·추가 사각형으로 대체하지 않는다.
+
 ## 바텀시트 position 제한 — 2026-10-27
 
 화면 레벨 Absolute는 Dimmed와 StatusBar만 허용한다. BottomSheet·HomeIndicator는 Vertical Auto Layout의 AUTO 자식으로 하단 정렬하고 gap 0으로 이어 붙인다. BottomSheet는 가로 Fill·세로 Hug(최소/고정 높이 예외 유지), HomeIndicator는 가로 Fill·원형 높이·iOS를 유지한다. 문자 입력에서는 BottomSheet → Keypad(Item / Pad) → HomeIndicator도 AUTO이며 배경 Popup의 표시 영역은 남은 높이를 Fill로 사용한다. 필요한 경우 동명 Auto Layout 래퍼를 Fill·clip으로 두고 내부 Popup은 원래 높이·AUTO로 유지하여 배경 푸터·HomeIndicator가 위로 당겨지지 않게 한다. 원형 내부 position은 건드리지 않는다. 화면 레벨 Absolute 목록, 실제 AUTO 속성, 콘텐츠 높이 변경 시 재배치·안전영역을 검사하고 좌표 고정으로 대체하지 않는다.
