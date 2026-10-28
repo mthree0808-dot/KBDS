@@ -870,6 +870,25 @@ Container 2 (gap 12px)
   - 위 컴포넌트 내부를 제외한 일반 본문에 위치하는 `TextList`는 Property **`size: 16`**을 적용합니다.
   - 연속 열거 시 오토레이아웃 그룹핑 후 **`gap: 12px` (`lg` 토큰)**을 적용합니다.
 
+### 암호화 증명서 완료 화면의 열람비밀번호 안내 (2026-10-28 사용자 확정)
+
+- 승인 참조: [3105:17567](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3105-17567), 적용 화면 [3176:21254](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3176-21254).
+- 암호화된 증명서 발급 완료에서 열람비밀번호 안내가 있으면 **Large Feedback의 안내문과 비밀번호 데이터를 분리**한다. `Title+error_text > Text`에는 “발급받은 증명서를 확인할 수 있어요. / 확인 시 아래 열람비밀번호를 확인해주세요.” 안내만 둔다. 개인·사업자의 비밀번호 규칙을 이 Text에 이어 붙이지 않는다.
+- Feedback 내부의 원형 `Card / Surface(type: lightGray, variant: basic)`를 노출하고 `Slot > DataList Group > DataList` 두 줄로 `개인 / 생년월일 6자리`, `사업자 / 사업자번호 10자리`를 표시한다. 실제 항목·값은 기획을 우선한다. 원형 카드 padding20px·radius16px·회색 무테를 유지한다. 이 지정 Feedback 내부 Card는 일반 Data Block의 아웃라인 규칙으로 임의 변환하지 않는다.
+- DataList는 `layout: split, size: 14, hasDivider: false`, 목록 gap12px(`spacing/lg`), Label Hug·Data Fill/우측 정렬이다. 불필요한 suffix·tooltip은 숨기고 원형 KBFG Text 스타일·변수를 보존한다. “생년월일 6자리”처럼 문자와 숫자가 하나의 Text에 섞이면 전체 KBFG Text를 쓴다.
+- `증명서 보기`는 **Card Slot 안에 넣지 않고**, Feedback의 형제 `Slot-buttonGroup`에 `BoxButton(variant: tertiary, size: medium)`으로 둔다. Label/버튼명은 원형 Hug를 유지한다. 순서는 **아이콘 → 제목·안내문 → 비밀번호 카드 → 증명서 보기**이며 Feedback Large의 원형 간격을 따른다.
+- 실제 공개 속성 `hasErrorCode`가 이 Card의 가시성을 제어하므로 이 패턴에서는 `true`로 설정한다. 속성 이름만 보고 오류 코드 문자열을 넣거나 카드를 숨기지 않는다. `hasSubText`, `hasButton`도 true다. 후속 증명서 데이터는 기존 D19의 상단 primary Divider·16px/12px 간격을 유지한다.
+- **실패 조건**: 비밀번호 규칙을 안내 Text에 합침, 카드 누락, 버튼을 Card Slot 안으로 이동, 임의 Infobox로 대체, 기본 오류 코드·더미 문구 노출, 후속 데이터 Divider 누락. 실제 구조와 최종 화면에서 검수한다.
+
+### 공유 방법 선택 바텀시트 공통 패턴 (2026-10-28 사용자 확정)
+
+- 모든 공유 방법 선택 바텀시트는 [승인 화면 3138:31620](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-31620)을 따른다. 적용 화면은 [3176:20994](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3176-20994)다. 승인 예시는 구조·배치 기준이며 컴포넌트와 아이콘은 현재 MO 라이브러리에서 직접 확인해 새 인스턴스로 가져온다.
+- `BottomSheet(hasStickyButton: false, hasScrollDim: false) > Slot > GridButton(variant: secondary, type: grid) > Slot > Grid > Item / Vertical` 구조를 사용한다. primary의 테두리형 GridButton이나 기본 ICON 더미로 대체하지 않는다. 시트 제목 “공유 방법 선택”·닫기 버튼은 노출하고 Handle·하단 StickyButton은 숨긴다.
+- Grid는 **1행 × 3열**, 열 균등 Fill, 행·열 gap8px(`spacing/md`), 콘텐츠 폭350px다. 항목은 **카카오톡 → 문자메시지 → 더보기** 순서이며 승인 예시처럼 높이121px를 적용한다. 각 `Item / Vertical`은 `variant: secondary, hasIcon: true, hasSubLabel: false, selected: false, disabled: false`이며 원형 서체·토큰·연결을 보존한다.
+- 각 항목의 `IconContainer(size: 36)` 공개 instance-swap에 최신 원본 **solid-kakaotalk / solid-message / line-ellipsis-horizontal**을 각각 연결한다. 임의 그림·기본 ICON·잘못된 기관 심볼을 사용하지 않는다. 아이콘 안의 제작 주석·더미 텍스트는 화면 콘텐츠로 노출하지 않는다.
+- 승인 규격390×844에서 BottomSheet 높이211px, Slot 높이 Fill, 내부 좌우·하단 padding20px를 유지한다. BottomSheet와 HomeIndicator는 Auto Layout의 AUTO 흐름으로 하단 연속 배치(gap0)하고, HomeIndicator elevated 배경 Fill은 노출한다. Absolute는 화면 레벨 Dimmed·StatusBar에만 적용한다. Dimmed 밑에 이전 화면·Popup을 깔지 않는다.
+- **필수 검수**: secondary 원형, 3개 문구·순서, 실제 공유 아이콘과36px 크기, 단일 행·균등 열·gap8px·높이121px, subLabel/StickyButton 비노출, Slot Fill, AUTO·HomeIndicator Fill 및 기본 ICON·주석 노출0개를 최종 화면과 대조한다. 공유 주의 다이얼로그는 공유 방법 시트와 별도 화면으로 분리한다.
+
 #### 완료 화면(Completion Screen) 전용 레이아웃 규칙
 - **Feedback 크기 필수 규칙 (2026-10-19 사용자 교정)**: **완료 화면에서 Feedback은 항상 Large**를 사용합니다. 디자인 시스템의 실제 공개 속성명은 `varient`, 값은 `large`이므로 API에서는 `varient: large`로 설정합니다. 완료 화면에는 Medium·Small을 적용하지 않으며, 일반 피드백·Empty State의 크기 규칙보다 이 완료 화면 규칙을 우선합니다. [외국인 이용불가 안내](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=47-972)도 사용자가 지정한 이 규칙의 적용 화면입니다. 상태 아이콘·문구·버튼은 해당 기획을 유지하고, 내부 아이콘 크기·서체·간격은 Large 원형을 따릅니다. 완료 화면이 아닌 Empty State에는 기존 상황별 크기 규칙을 유지합니다.
 - **승인 기준**: [업데이트된 완료 화면](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2668-26353) (`2668:26353`, 2026-10-15 확인). 아래 규칙은 상단 Feedback + 후속 데이터 그룹을 가진 완료 화면에 적용하며, 일반 화면이나 Empty State의 간격을 일괄 변경하지 않습니다.

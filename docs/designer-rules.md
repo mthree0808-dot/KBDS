@@ -1,5 +1,26 @@
 # 디자이너 규칙의 적용과 검수
 
+### 암호화 증명서 완료 화면의 열람비밀번호 안내 (2026-10-28 사용자 확정)
+
+- 승인 참조: [3105:17567](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3105-17567), 적용 화면 [3176:21254](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3176-21254).
+- 암호화된 증명서 발급 완료에서 열람비밀번호 안내가 있으면 **Large Feedback의 안내문과 비밀번호 데이터를 분리**한다. `Title+error_text > Text`에는 “발급받은 증명서를 확인할 수 있어요. / 확인 시 아래 열람비밀번호를 확인해주세요.” 안내만 둔다. 개인·사업자의 비밀번호 규칙을 이 Text에 이어 붙이지 않는다.
+- Feedback 내부의 원형 `Card / Surface(type: lightGray, variant: basic)`를 노출하고 `Slot > DataList Group > DataList` 두 줄로 `개인 / 생년월일 6자리`, `사업자 / 사업자번호 10자리`를 표시한다. 실제 항목·값은 기획을 우선한다. 원형 카드 padding20px·radius16px·회색 무테를 유지한다. 이 지정 Feedback 내부 Card는 일반 Data Block의 아웃라인 규칙으로 임의 변환하지 않는다.
+- DataList는 `layout: split, size: 14, hasDivider: false`, 목록 gap12px(`spacing/lg`), Label Hug·Data Fill/우측 정렬이다. 불필요한 suffix·tooltip은 숨기고 원형 KBFG Text 스타일·변수를 보존한다. “생년월일 6자리”처럼 문자와 숫자가 하나의 Text에 섞이면 전체 KBFG Text를 쓴다.
+- `증명서 보기`는 **Card Slot 안에 넣지 않고**, Feedback의 형제 `Slot-buttonGroup`에 `BoxButton(variant: tertiary, size: medium)`으로 둔다. Label/버튼명은 원형 Hug를 유지한다. 순서는 **아이콘 → 제목·안내문 → 비밀번호 카드 → 증명서 보기**이며 Feedback Large의 원형 간격을 따른다.
+- 실제 공개 속성 `hasErrorCode`가 이 Card의 가시성을 제어하므로 이 패턴에서는 `true`로 설정한다. 속성 이름만 보고 오류 코드 문자열을 넣거나 카드를 숨기지 않는다. `hasSubText`, `hasButton`도 true다. 후속 증명서 데이터는 기존 D19의 상단 primary Divider·16px/12px 간격을 유지한다.
+- **실패 조건**: 비밀번호 규칙을 안내 Text에 합침, 카드 누락, 버튼을 Card Slot 안으로 이동, 임의 Infobox로 대체, 기본 오류 코드·더미 문구 노출, 후속 데이터 Divider 누락. 실제 구조와 최종 화면에서 검수한다.
+
+### 공유 방법 선택 바텀시트 공통 패턴 (2026-10-28 사용자 확정)
+
+- 모든 공유 방법 선택 바텀시트는 [승인 화면 3138:31620](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-31620)을 따른다. 적용 화면은 [3176:20994](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3176-20994)다. 승인 예시는 구조·배치 기준이며 컴포넌트와 아이콘은 현재 MO 라이브러리에서 직접 확인해 새 인스턴스로 가져온다.
+- `BottomSheet(hasStickyButton: false, hasScrollDim: false) > Slot > GridButton(variant: secondary, type: grid) > Slot > Grid > Item / Vertical` 구조를 사용한다. primary의 테두리형 GridButton이나 기본 ICON 더미로 대체하지 않는다. 시트 제목 “공유 방법 선택”·닫기 버튼은 노출하고 Handle·하단 StickyButton은 숨긴다.
+- Grid는 **1행 × 3열**, 열 균등 Fill, 행·열 gap8px(`spacing/md`), 콘텐츠 폭350px다. 항목은 **카카오톡 → 문자메시지 → 더보기** 순서이며 승인 예시처럼 높이121px를 적용한다. 각 `Item / Vertical`은 `variant: secondary, hasIcon: true, hasSubLabel: false, selected: false, disabled: false`이며 원형 서체·토큰·연결을 보존한다.
+- 각 항목의 `IconContainer(size: 36)` 공개 instance-swap에 최신 원본 **solid-kakaotalk / solid-message / line-ellipsis-horizontal**을 각각 연결한다. 임의 그림·기본 ICON·잘못된 기관 심볼을 사용하지 않는다. 아이콘 안의 제작 주석·더미 텍스트는 화면 콘텐츠로 노출하지 않는다.
+- 승인 규격390×844에서 BottomSheet 높이211px, Slot 높이 Fill, 내부 좌우·하단 padding20px를 유지한다. BottomSheet와 HomeIndicator는 Auto Layout의 AUTO 흐름으로 하단 연속 배치(gap0)하고, HomeIndicator elevated 배경 Fill은 노출한다. Absolute는 화면 레벨 Dimmed·StatusBar에만 적용한다. Dimmed 밑에 이전 화면·Popup을 깔지 않는다.
+- **필수 검수**: secondary 원형, 3개 문구·순서, 실제 공유 아이콘과36px 크기, 단일 행·균등 열·gap8px·높이121px, subLabel/StickyButton 비노출, Slot Fill, AUTO·HomeIndicator Fill 및 기본 ICON·주석 노출0개를 최종 화면과 대조한다. 공유 주의 다이얼로그는 공유 방법 시트와 별도 화면으로 분리한다.
+
+
+
 ## 라디오 선택형 Card Affix — 2026-10-28
 
 사용자 승인552:13664처럼 설명을 담은 Card를 라디오로 선택하면 Card / Surface > Slot > Body > Groups + Card / Header / Affix > Item / Radio를 사용한다. Affix는 variant radio·visible true·layoutPositioning AUTO로 Body에 두고 Absolute로 띄우지 않는다. Body Horizontal·Fill/Hug·gap12(spacing/lg)·MIN/MIN, Groups Fill/Hug, Affix24×24 Fixed와 원형 명칭을 유지한다.

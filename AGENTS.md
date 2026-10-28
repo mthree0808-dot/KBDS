@@ -14,6 +14,9 @@
 
 ## 절대 조건
 
+- 2026-10-28 암호화 증명서 완료: 승인3105:17567처럼 Large Feedback의 안내 Text와 열람비밀번호 카드를 분리한다. Card / Surface(lightGray/basic) > Slot > DataList Group에 개인/생년월일6자리·사업자/사업자번호10자리를 split14/gap12로 배치하고 증명서 보기(tertiary/medium)는 카드 밖 Slot-buttonGroup에 둔다. hasErrorCode는 카드 가시성 제어이므로 true이며 오류 문자열을 넣지 않는다. 안내 Text에 비밀번호 규칙을 합치거나 카드를 일반 Data Block 아웃라인으로 바꾸지 않는다. 후속 데이터 D19 구분선을 유지하고 카드·버튼의 실제 부모를 검수한다.
+- 2026-10-28 공유 방법 선택 공통: 승인3138:31620처럼 BottomSheet > Slot > GridButton(secondary/grid) > Slot > Grid(1행3열·균등 열·gap8·항목높이121)를 사용한다. 카카오톡/문자메시지/더보기 순서와 최신 solid-kakaotalk/solid-message/line-ellipsis-horizontal 아이콘(IconContainer36)을 적용한다. Item / Vertical secondary·hasSubLabel false·미선택·활성, StickyButton 비노출, Slot Fill·BottomSheet211px·AUTO/HomeIndicator Fill 노출을 지킨다. primary 테두리형·기본 ICON·제작 주석 노출을 금지하고 최종 화면에서 검사한다.
+
 - 2026-10-28 완료 데이터의 제목 비노출: 제목이 없는 완료 데이터에서는 `Title / Element`만 숨기고 `Title` Auto Layout 래퍼와 `Divider / Horizontal(thickness:1px,variant:primary,length:full)`은 반드시 노출한다. Title 전체 숨김·생략은 금지한다. Title은 Divider 높이만 Hug하며 빈 제목 공간이나 잔여 12px 간격을 남기지 않는다. Divider↔DataList Group 16px(`spacing/xl`), 목록 내부 12px(`spacing/lg`)를 유지한다. 상단 Divider의 실제 노출을 검수한다. 승인 참조 `3138:30128`, 교정 산출물 `3168:18258`.
 
 - 2026-10-28 라디오 선택형 Card: 승인552:13664처럼 Card / Surface > Slot > Body > Groups + Card / Header / Affix > Item / Radio 구조를 사용한다. 노출 Affix는 variant radio·AUTO·visible true, Body Horizontal·gap12·MIN/MIN, Groups Fill/Hug, Affix24×24 Fixed다. 원형 기본 숨김 Affix는 노출하지 않아 카드당 실제 Affix1개를 유지한다. Card select/disabled와 Radio 상태를 기획과 대조하며 이 지정 패턴을 GridButton·일반 Radio·SelectButton으로 임의 대체하지 않는다.
