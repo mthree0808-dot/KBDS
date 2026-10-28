@@ -14,6 +14,8 @@
 
 ## 절대 조건
 
+- 2026-10-28 속도 개선: 단순 Dialog 1분 안팎·일반 단일 화면3분 이내를 목표로 한다. 검증된 제작 스크립트와 키 매핑을 재사용하고 독립 기획/위치/원본 조회는 병렬로 묶는다. 필요한 최신 원형 확인은 유지하되 같은 작업의 불필요한 재조회를 하지 않는다. 단순 수정은 대상 범위만 처리한다. 제작 중 구조·서체·속성 검수와 마지막 스크린샷 검수를 결합하고 통과 후 변경이 없으면 반복하지 않는다. 오류·수정 부분은 재검수하며 미검증 PASS는 금지한다. 3분 초과 시 원인·남은 작업을 짧게 알리고 별도 요청 없으면 추가 보고서는 생략한다.
+
 - 2026-10-28 암호화 증명서 완료: 승인3105:17567처럼 Large Feedback의 안내 Text와 열람비밀번호 카드를 분리한다. Card / Surface(lightGray/basic) > Slot > DataList Group에 개인/생년월일6자리·사업자/사업자번호10자리를 split14/gap12로 배치하고 증명서 보기(tertiary/medium)는 카드 밖 Slot-buttonGroup에 둔다. hasErrorCode는 카드 가시성 제어이므로 true이며 오류 문자열을 넣지 않는다. 안내 Text에 비밀번호 규칙을 합치거나 카드를 일반 Data Block 아웃라인으로 바꾸지 않는다. 후속 데이터 D19 구분선을 유지하고 카드·버튼의 실제 부모를 검수한다.
 - 2026-10-28 공유 방법 선택 공통: 승인3138:31620처럼 BottomSheet > Slot > GridButton(secondary/grid) > Slot > Grid(1행3열·균등 열·gap8·항목높이121)를 사용한다. 카카오톡/문자메시지/더보기 순서와 최신 solid-kakaotalk/solid-message/line-ellipsis-horizontal 아이콘(IconContainer36)을 적용한다. Item / Vertical secondary·hasSubLabel false·미선택·활성, StickyButton 비노출, Slot Fill·BottomSheet211px·AUTO/HomeIndicator Fill 노출을 지킨다. primary 테두리형·기본 ICON·제작 주석 노출을 금지하고 최종 화면에서 검사한다.
 
