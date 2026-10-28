@@ -1,5 +1,9 @@
 # 작업 실행 절차
 
+## Dialog 예외·지정 컴포넌트 확인 — 2026-10-28
+
+HomeIndicator Fill 검수 전에 화면 유형을 판별한다. Dialog는 elevated Paint visible false, Dialog 외 화면은 true를 확인하고 레이어·내부 막대·변수 연결·원형 크기·배치는 보존한다. 발급정보 3142:17373·3142:17946의 언어·주민등록번호 표기 선택은 SelectButton word/single을 사용한다. 사용자 지정 컴포넌트를 기획 용어나 Slot 문제를 이유로 Radio로 임의 대체하지 않으며 문구·초기 선택·CTA 상태를 함께 검수한다.
+
 ## 오버레이 배경 제작·검수 — 2026-10-28
 
 1. 기획에 보이는 뒤 화면과 실제 전경 BottomSheet/Dialog/입력 키패드를 구분한다. 배경은 루트 background/neutral/white + Dimmed만 구성하고 Popup·일반 화면·스크린샷을 복제하지 않는다.
@@ -9,8 +13,8 @@
 ## HomeIndicator Fill 제작·검수 — 2026-10-28
 
 1. HomeIndicator의 background/neutral/elevated Paint와 변수 연결을 확인한다. 사용자 승인 참조는 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704다.
-2. 해당 Fill의 눈이 꺼져 있으면 산출물 Paint visible true로 교정한다. 원형이 숨김이어도 사용자 승인 규칙을 우선하고 라이브러리 원본은 수정하지 않는다. 변수·모드·색상·opacity·컴포넌트 연결·os iOS·내부 막대·원형 높이·AUTO는 보존한다.
-3. 레이어 visible와 Fill visible를 구분하여 확인하고 토큰명·key 및 최종 하단 배경을 시각 검수한다. Dimmed가 비쳐 보이거나 고정 흰색·추가 사각형으로 대신한 것은 통과시키지 않는다.
+2. 먼저 Dialog 여부를 판별한다. Dialog는 해당 배경 Paint visible false, Dialog 외 화면은 visible true로 교정한다. 레이어와 내부 막대는 계속 노출한다. 원형이 숨김이어도 사용자 승인 규칙을 우선하고 라이브러리 원본은 수정하지 않는다. 변수·모드·색상·opacity·컴포넌트 연결·os iOS·내부 막대·원형 높이·AUTO는 보존한다.
+3. 레이어 visible와 Fill visible를 구분하여 확인하고 토큰명·key 및 최종 하단 배경을 시각 검수한다. Dialog에서는 해당 Fill이 숨김인지 검사하며, Dialog 외 화면에서 Dimmed가 비쳐 보이거나 고정 흰색·추가 사각형으로 대신한 것은 통과시키지 않는다.
 
 ## 바텀시트 배치 제작·검수 — 2026-10-27
 

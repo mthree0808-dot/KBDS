@@ -14,9 +14,11 @@
 
 ## 절대 조건
 
+- 2026-10-28 사용자 지정 컴포넌트 교정: 발급정보 3142:17373·3142:17946의 발급 언어·주민등록번호 뒷자리 표기 선택은 SelectButton(word/single)이다. 기획 설명에 라디오라고 적혀 있거나 Slot 옵션 문제가 있어도 지정 컴포넌트를 임의로 Radio로 바꾸지 않는다.
+
 - 2026-10-28 오버레이 배경: 바텀시트·다이얼로그·입력용 키패드 시트에서는 기획에 뒤 화면이 보여도 Dimmed 아래에 Popup·일반 화면·복제 프레임·스크린샷을 깔지 않는다. 배경은 루트 background/neutral/white와 Dimmed만 사용하며 이전 배경 Popup Fill·clip 래퍼 지시는 철회한다. 실제 전경으로 요청된 풀팝업/키패드·패턴 Popup은 이 규칙의 배경 화면과 구분한다.
 
-- 2026-10-28 HomeIndicator 배경 Fill: background/neutral/elevated Fill의 눈(visible)은 항상 켠다. 원형이 숨김이어도 사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704처럼 산출물 Paint만 visible true로 교정한다. 변수·모드·색상·opacity·인스턴스 연결·os iOS·내부 막대·원형 높이·AUTO를 유지한다. 레이어 visible만으로 판정하지 않고 Fill 자체의 가시성과 하단 배경을 검수한다.
+- 2026-10-28 HomeIndicator 배경 Fill: Dialog에서는 background/neutral/elevated Fill의 눈(visible)을 반드시 끄고, Dialog 외 화면에서는 켠다. 원형이 숨김이어도 사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704처럼 산출물 Paint만 visible true로 교정한다. 변수·모드·색상·opacity·인스턴스 연결·os iOS·내부 막대·원형 높이·AUTO를 유지한다. 레이어 visible만으로 판정하지 않고 Fill 자체의 가시성과 하단 배경을 검수한다.
 
 - 2026-10-27 바텀시트 배치: 화면 레벨에서 Absolute(position)는 Dimmed와 StatusBar에만 사용한다. BottomSheet와 HomeIndicator는 Vertical Auto Layout의 Auto 자식으로 두고 하단 정렬·gap 0으로 연속 배치한다. 문자 키패드가 있으면 BottomSheet → Keypad → HomeIndicator도 Auto로 이어 붙인다. 좌표 고정으로 외형만 맞추지 않고 실제 layoutPositioning, 높이 변경 시 재배치와 하단 안전영역을 검수한다.
 

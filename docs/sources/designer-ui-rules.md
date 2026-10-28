@@ -4,15 +4,19 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### Dialog HomeIndicator 예외·발급정보 SelectButton 교정 (2026-10-28 사용자 확정)
+- [Dialog 3141:17347](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3141-17347)처럼 **다이얼로그의 HomeIndicator 배경 Fill은 반드시 눈을 끕니다.** 레이어·내부 막대·elevated 변수 연결은 유지하며 배경 Paint만 `visible: false`로 설정합니다. 종전 모든 화면에서 Fill을 켜라는 지시의 Dialog 예외입니다.
+- 발급정보 화면 [한글 3142:17373](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3142-17373)·[영어 3142:17946](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3142-17946)의 **발급 언어와 주민등록번호 뒷자리 표기 여부는 실제 SelectButton(type: word / variant: single)으로 구성**합니다. 기획 설명의 라디오 명칭이나 Slot 편집 문제를 이유로 사용자 지정 컴포넌트를 Radio로 대체하지 않습니다. 각 항목의 초기 선택 상태와 CTA 상태는 기획을 유지합니다.
+
 ### 오버레이는 Dimmed만 배경으로 사용 (2026-10-28 사용자 교정)
 - **바텀시트·다이얼로그·입력용 키패드 시트의 Dimmed 아래에 배경 화면을 재현하지 않습니다.** 기획서에서 뒤 화면이 비쳐 보여도 Popup·일반 화면·복제 프레임·스크린샷·숨김 배경을 추가하지 않고 루트 `background/neutral/white`와 `Dimmed`만 배경으로 둡니다.
 - 전경 BottomSheet/Dialog와 필요한 입력 키패드·StatusBar·HomeIndicator의 내용·컴포넌트 연결은 보존합니다. 바텀시트에서는 Dimmed·StatusBar만 Absolute, BottomSheet·HomeIndicator는 AUTO이며 HomeIndicator의 elevated Fill을 노출합니다.
 - 종전 바텀시트 뒤에 배경 Popup을 Fill로 넣거나 동명 Fill·clip 래퍼로 보존하라는 지시는 철회합니다. 불필요한 배경은 숨기기만 하지 않고 제거하며 전경 컴포넌트와 배치를 유지합니다. 실제 전경으로 명시된 풀팝업·키패드/패턴 Popup까지 삭제하는 규칙은 아닙니다.
 - 최종 검수에서 Dimmed 아래의 재현 화면·Popup·이미지·배경 보존 래퍼가 0개인지, Dimmed 뒤로 이전 화면이 비치지 않는지 확인합니다. 교정 기준은 [3089:16173](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3089-16173)입니다.
 
-### HomeIndicator 배경 Fill은 항상 노출 (2026-10-28 사용자 교정)
-- **HomeIndicator의 `background/neutral/elevated` 배경 Fill은 눈을 끄지 않고 항상 노출합니다.** 정상 적용 기준은 [HomeIndicator 49:21704](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=49-21704)입니다. 레이어 자체가 보이더라도 Fill의 눈이 꺼져 있으면 잘못 적용된 상태입니다.
-- 원형의 해당 Paint가 숨김(`visible: false`)이어도 산출물 인스턴스에서는 **해당 Fill만 `visible: true`**로 교정합니다. 이는 사용자 승인 가시성 예외이며 라이브러리 원본은 수정하지 않습니다. 변수 연결·모드·색상·opacity, 컴포넌트 연결·공개 `os: iOS`, 내부 막대·원형 높이·Auto 배치는 유지합니다. 고정 흰색·추가 배경 사각형으로 대체하지 않습니다.
+### HomeIndicator 배경 Fill은 화면 유형별 적용 (2026-10-28 사용자 최종 교정)
+- **Dialog에서는 HomeIndicator의 `background/neutral/elevated` 배경 Fill 눈을 반드시 끕니다(`visible: false`). Dialog 외 화면에서는 해당 Fill을 노출합니다(`visible: true`).** 정상 적용 기준은 [HomeIndicator 49:21704](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=49-21704)입니다. Dialog 외 화면은 레이어 자체가 보이더라도 Fill의 눈이 꺼져 있으면 잘못 적용된 상태입니다. Dialog는 배경 Fill만 숨기며 HomeIndicator 레이어와 내부 막대는 계속 노출합니다.
+- Dialog 외 화면은 원형의 해당 Paint가 숨김(`visible: false`)이어도 산출물 인스턴스에서는 **해당 Fill만 `visible: true`**로 교정합니다. Dialog는 반대로 해당 Fill의 `visible: false`를 적용합니다. 이는 사용자 승인 가시성 예외이며 라이브러리 원본은 수정하지 않습니다. 변수 연결·모드·색상·opacity, 컴포넌트 연결·공개 `os: iOS`, 내부 막대·원형 높이·Auto 배치는 유지합니다. 고정 흰색·추가 배경 사각형으로 대체하지 않습니다.
 - 최종 검수는 레이어 노출과 별도로 **Fill의 실제 visible 값, background/neutral/elevated 변수명·key 연결, 화면 하단 배경**을 확인합니다. 바텀시트·키패드에서도 뒤쪽 Dimmed가 HomeIndicator 배경으로 비쳐 보이지 않게 합니다.
 
 ### 바텀시트 화면의 position 사용 범위 (2026-10-27 사용자 교정)

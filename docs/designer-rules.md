@@ -1,12 +1,16 @@
 # 디자이너 규칙의 적용과 검수
 
+## Dialog 예외와 지정 SelectButton — 2026-10-28
+
+Dialog HomeIndicator의 elevated 배경 Fill은 false이며 레이어·내부 막대·토큰·배치는 유지한다. 일반·바텀시트의 Fill true와 구분한다. 발급정보 3142:17373·3142:17946의 언어·주민등록번호 표기 선택은 실제 SelectButton word/single을 사용하고 Radio로 대체하지 않는다. 초기 선택·CTA 상태는 기획과 대조한다.
+
 ## 오버레이 배경 화면 재현 금지 — 2026-10-28
 
 바텀시트·다이얼로그·입력용 키패드 시트의 배경은 루트 background/neutral/white + Dimmed만 사용한다. 기획에 뒤 화면이 보여도 Popup·일반 화면·복제 프레임·스크린샷·숨김 배경을 깔지 않는다. 이전 배경 Popup Fill·clip 래퍼 지시는 철회한다. 불필요한 배경은 제거하고 전경 시트/Dialog·입력 키패드·StatusBar·HomeIndicator는 보존한다. 실제 전경으로 지정된 풀팝업·키패드/패턴 Popup은 구분한다. 바텀시트 AUTO 흐름과 HomeIndicator elevated Fill 노출 규칙도 유지하며 최종 배경 화면 개수 0 및 화면에서 비침 없음을 검사한다.
 
 ## HomeIndicator 배경 Fill 가시성 — 2026-10-28
 
-HomeIndicator의 background/neutral/elevated Fill은 항상 visible true로 노출한다. 원형이 해당 Paint를 숨겨도 사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704에 따라 산출물 인스턴스의 Paint 가시성만 교정한다. 라이브러리 원본은 수정하지 않는다. 변수·모드·색상·opacity, 내부 막대·컴포넌트 연결·os iOS·원형 높이·AUTO를 유지하며 실제 Fill visible·토큰 연결·하단 배경을 검수한다. 레이어 visible만으로 통과시키거나 고정 흰색·추가 사각형으로 대체하지 않는다.
+Dialog의 HomeIndicator는 background/neutral/elevated Fill을 반드시 visible false로 숨기고 레이어·내부 막대는 노출한다. Dialog 외 화면에서는 해당 Fill을 visible true로 노출한다. Dialog 외 화면은 원형이 해당 Paint를 숨겨도 사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704에 따라 산출물 인스턴스의 Paint 가시성만 교정한다. 라이브러리 원본은 수정하지 않는다. 변수·모드·색상·opacity, 내부 막대·컴포넌트 연결·os iOS·원형 높이·AUTO를 유지하며 실제 Fill visible·토큰 연결·하단 배경을 검수한다. 레이어 visible만으로 통과시키거나 고정 흰색·추가 사각형으로 대체하지 않는다.
 
 ## 바텀시트 position 제한 — 2026-10-27
 

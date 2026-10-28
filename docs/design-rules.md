@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## Dialog HomeIndicator 및 발급정보 교정 — 2026-10-28
+
+사용자 최종 지시에 따라 bDKgQrkt0oHMJ1EbPUQTp8 / 3141:17347의 HomeIndicator 3141:17383은 elevated 배경 Paint visible false로 교정했다. 레이어와 내부 막대는 노출하고 변수·AUTO·크기는 보존했다. 앞선 일괄 Fill 노출 규칙의 Dialog 예외이며 일반·바텀시트는 true를 유지한다.
+
+같은 파일 3142:17373·3142:17946의 네 Radio 조합은 최신 원형 key 826009ba1e4d4596eea115a3d7b410a2a55513e0의 SelectButton word/single 인스턴스 3147:17723·17796·17885·17940으로 교체했다. 한글은 한글 선택/표기여부 미선택, 영어는 영어·표기 안 함 선택이며 CTA 상태와 원래 문구를 유지했다. 이전 Radio 대체 제작은 승인 기준이 아니다.
+
 ## Dimmed 아래 배경 Popup 제거 — 2026-10-28
 
 사용자는 bDKgQrkt0oHMJ1EbPUQTp8 / 3089:16173처럼 기획의 뒤 화면을 재현한 Popup을 제거하고 Dimmed만 배경으로 사용하도록 확정했다. 해당 화면의 배경 Popup 3089:16174를 제거했다. Dimmed·StatusBar는 ABSOLUTE, BottomSheet 3089:16619와 HomeIndicator 3089:16844는 AUTO로 교정했으며 기존 시트 y367/높이443·하단 안전영역과 전경 내용은 유지했다. HomeIndicator elevated Fill도 노출하고 최종 화면에 배경 Popup이 0개인 것을 확인했다.
