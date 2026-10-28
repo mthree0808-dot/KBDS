@@ -31,12 +31,12 @@ Dialog의 실제 Slot에서 노출되는 Item / Slot 타입과 내용을 먼저 
 Popup > Slot 내부 3단 영역은 `Header`, `Body`, `Footer`로 명명합니다. 약관 상세(PDF)·키패드·패턴·일반 풀팝업에 동일하게 적용합니다. 종전 `## HEADER`, `## BODY`, `## FOOTER`로 변경하라는 지시는 철회되었으며 해당 Popup 내부 영역은 원복합니다. 일반·완료 화면의 아트보드 직계 `## HEADER`, `## BODY`, `## FOOTER`는 유지합니다. 명칭 외 Slot 계층·컴포넌트 연결·공개 속성·Fill/Hug/Absolute·패딩·간격과 하위 `Title Area`, `body`는 보존합니다. 제작·수정 시 Popup 내부 영역에만 이름 매핑을 적용하고 최종 실제 3개 영역의 명칭·부모와 보존 속성을 대조합니다. MD 갱신과 기존 화면 수정 완료는 별도로 구분합니다.
 
 
-## 문자·숫자 데이터 서체 적용·검수 — 2026-10-27
+## 문자·숫자 데이터 서체 적용·검수 — 2026-10-28
 
-1. 기획 데이터가 금액 입력처럼 문자와 숫자로 명확히 분리되는지, 값 전체가 숫자인지 구분합니다. 분리되는 문자는 KBFG Text, 숫자는 Pretendard이며 숫자 전용 텍스트·입력값도 Pretendard로 계획합니다. 숫자 데이터의 구분자·소수점은 숫자와 같은 서체, 별도 단위·항목명은 KBFG Text입니다. 일반 문장 전체를 임의 전환하지 않습니다.
-2. 최신 라이브러리에서 해당 역할·크기·굵기의 원본 Text Style과 fontFamily 변수를 확인해 적용합니다. 동일 Text 안 분리된 데이터에는 구간별 스타일/변수를 적용하고 현재 서체를 로드한 뒤 수정합니다. Pretendard Variable로 대신하지 않으며 크기·굵기·행간·자간·색상·Hug/Fill, 인스턴스 연결과 공개 옵션은 유지합니다.
-3. 문자 구간 KBFG Text·숫자 구간 및 숫자 전용 값 Pretendard의 실제 family와 style/variable key를 대조하고 입력값 변경·variant 전환 후에도 규칙과 원본 동작이 유지되는지 확인합니다. 기존 화면 일괄 수정 여부는 MD 갱신과 별도로 기록합니다.
-
+1. 의미상 데이터가 아니라 실제 Text 레이어 경계를 읽는다. 문자·숫자가 같은 Text에 섞이면 전체 KBFG Text, 실제 별도 Text로 분리되면 숫자 Text는 Pretendard·문자 Text는 KBFG Text로 계획한다. 혼용 Text의 숫자 구간만 서체를 바꾸거나 서체 적용을 위해 레이어를 임의 분할하지 않는다.
+2. Table의 숫자 전용 셀은 Pretendard다. DataList는 데이터(값) Text가 숫자만이면 Pretendard, 문자·숫자 혼용이면 KBFG Text다. 항목명 Text와 별도 값 Text를 합쳐 혼용으로 판정하지 않는다. 숫자 서식의 구분자·소수점은 숫자와 같은 서체다.
+3. 최신 라이브러리의 역할·크기·굵기에 맞는 Text Style·fontFamily 변수를 적용한다. 서체 로드 후 수정하고 크기·굵기·행간·자간·색상·Hug/Fill·인스턴스 연결·공개 옵션과 별도 승인 서체 예외는 유지한다. Pretendard Variable로 대체하지 않는다.
+4. 최종 검수는 `123,000원`처럼 하나의 혼용 Text가 KBFG Text인지, 별도 `123,000`과 `원` Text가 Pretendard/KBFG Text인지 확인한다. Table 숫자 셀과 DataList 숫자 값·혼용 값의 실제 family·style/variable 연결도 대조하고 입력·variant 전환 후 내용을 다시 분류한다. MD 갱신만으로 기존 화면 수정을 완료했다고 보고하지 않는다.
 
 ## v0.95 약관 제작·검수 절차 — 2026-10-27
 

@@ -25,12 +25,13 @@ Dialog Slot에 Item / Slot의 Title만 노출되면 기획의 마침표 유무�
 Popup > Slot 내부 3단 영역은 `Header`, `Body`, `Footer`로 명명합니다. 약관 상세(PDF)·키패드·패턴·일반 풀팝업에 동일하게 적용합니다. 종전 `## HEADER`, `## BODY`, `## FOOTER`로 변경하라는 지시는 철회되었으며 해당 Popup 내부 영역은 원복합니다. 일반·완료 화면의 아트보드 직계 `## HEADER`, `## BODY`, `## FOOTER`는 유지합니다. 명칭 외 Slot 계층·컴포넌트 연결·공개 속성·Fill/Hug/Absolute·패딩·간격과 하위 `Title Area`, `body`는 보존합니다.
 
 
-## 문자·숫자 데이터 서체 분리 — 2026-10-27
+## 문자·숫자 서체 판정 — 2026-10-28
 
-금액 입력처럼 문자와 숫자 데이터가 명확히 분리되면 문자는 KBFG Text, 숫자는 Pretendard를 적용합니다. 숫자만 있는 텍스트·입력값도 Pretendard입니다. 예: `123,000`은 Pretendard, 단위 `원`과 항목명은 KBFG Text이며 숫자 안의 구분자·소수점은 숫자와 같은 서체입니다. 일반 문장 전체를 숫자 포함 여부만으로 전환하지 않습니다. 동일 Text 내 분리된 데이터는 구간별로 적용합니다.
+판정 단위는 실제 Text 레이어다. 하나의 Text에 문자와 숫자가 섞이면 전체 KBFG Text이며 숫자 구간만 Pretendard로 바꾸지 않는다. 실제 별도 Text로 분리된 숫자는 Pretendard, 문자는 KBFG Text다. 숫자 전용 텍스트·입력값과 Table의 숫자 전용 셀도 Pretendard다. 숫자 값의 자릿수 구분자·소수점 등 서식 기호는 해당 숫자와 같은 서체를 쓴다.
 
-이는 해당 데이터 범위의 원형 서체 상속에 대한 사용자 승인 예외입니다. 최신 라이브러리의 역할·크기·굵기가 맞는 스타일·서체 변수를 사용하고 Pretendard Variable로 대체하지 않습니다. 원형 크기·굵기·행간·자간·색상·크기 모드와 컴포넌트 연결·공개 옵션은 유지합니다. 문자/숫자별 실제 font family·style/variable key와 입력·variant 전환 결과를 검수합니다. MD 갱신은 기존 화면 일괄 수정 완료를 의미하지 않습니다.
+DataList는 데이터(값) Text를 기준으로 숫자만이면 Pretendard, 문자·숫자가 섞이면 KBFG Text를 적용한다. 항목명 Text는 KBFG Text이며 별도 Text인 항목명과 값을 하나의 혼용 Text로 세지 않는다. `123,000원`이 한 Text이면 KBFG Text, `123,000`과 `원`이 별도 Text이면 각각 Pretendard/KBFG Text다. 종전 동일 Text 내 구간별 숫자 서체 분리 지시는 철회하며 서체 적용을 위한 임의 레이어 분할을 하지 않는다.
 
+최신 라이브러리의 해당 역할·크기·굵기별 스타일·변수와 다른 타이포그래피 속성·Hug/Fill·인스턴스 연결·공개 옵션을 유지한다. Pretendard Variable로 대체하지 않으며 OS 상태바·승인 더미이미지 등 별도 예외는 보존한다. 실제 Text 경계·내용·family·style/variable 연결과 Table/DataList 분기를 검수한다. MD 갱신과 기존 화면 수정은 별도다.
 
 ## v0.95 약관 상세·동의 레이아웃 우선 적용 — 2026-10-27
 
