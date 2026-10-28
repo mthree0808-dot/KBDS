@@ -14,6 +14,8 @@
 
 ## 절대 조건
 
+- 2026-10-28 선택 UI 역할 매핑: 기획 segmented_control 명칭을 복제하지 않는다. 승인3205:38245처럼 조회기간 프리셋은 SegmentedControl을 유지하고 정렬순서(최신순/과거순)는 SelectButton(word/single)이다. 승인3205:38078의 이름/계좌번호 표시(보임/일부가림)도 같은 SelectButton을 사용한다. 이 두 항목 패턴은 root·slot Fill/Hug, slot Horizontal·원형 Wrap·gap8, 두 Item / Word / Single 모두 가로Fill/세로Hug로 균등하게 채운다. 부모만 Fill·Item Hug 또는 고정171px는 실패다. 원형44px/Hug·Label/문구Hug·스타일·변수·공개옵션을 보존하고 선택값은 기획을 따른다. 역할별 컴포넌트·실제 Item resizing·균등 폭·선택 상태를 검수한다.
+
 - 2026-10-28 속도 개선: 단순 Dialog 1분 안팎·일반 단일 화면3분 이내를 목표로 한다. 검증된 제작 스크립트와 키 매핑을 재사용하고 독립 기획/위치/원본 조회는 병렬로 묶는다. 필요한 최신 원형 확인은 유지하되 같은 작업의 불필요한 재조회를 하지 않는다. 단순 수정은 대상 범위만 처리한다. 제작 중 구조·서체·속성 검수와 마지막 스크린샷 검수를 결합하고 통과 후 변경이 없으면 반복하지 않는다. 오류·수정 부분은 재검수하며 미검증 PASS는 금지한다. 3분 초과 시 원인·남은 작업을 짧게 알리고 별도 요청 없으면 추가 보고서는 생략한다.
 
 - 2026-10-28 암호화 증명서 완료: 승인3105:17567처럼 Large Feedback의 안내 Text와 열람비밀번호 카드를 분리한다. Card / Surface(lightGray/basic) > Slot > DataList Group에 개인/생년월일6자리·사업자/사업자번호10자리를 split14/gap12로 배치하고 증명서 보기(tertiary/medium)는 카드 밖 Slot-buttonGroup에 둔다. hasErrorCode는 카드 가시성 제어이므로 true이며 오류 문자열을 넣지 않는다. 안내 Text에 비밀번호 규칙을 합치거나 카드를 일반 Data Block 아웃라인으로 바꾸지 않는다. 후속 데이터 D19 구분선을 유지하고 카드·버튼의 실제 부모를 검수한다.

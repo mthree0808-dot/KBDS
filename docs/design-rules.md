@@ -1,5 +1,24 @@
 # 실측 디자인 규칙
 
+## 선택 UI 역할·균등 Fill 승인 실측 — 2026-10-28
+
+사용자는 기존3211:19156의 정렬순서 SegmentedControl과3211:20711의 작은 Hug 항목을 잘못된 UI로 지적하고, 승인3205:38245·3205:38078을 제시했다. 정렬순서는 기획에서 segmented_control로 표기했지만 실제 DS 매핑은 SelectButton이어야 한다. 이번 요청은 MD 갱신이며 승인 화면과 기존 산출물을 변경한 기록이 아니다.
+
+3205:38245의 SelectButton3205:38489는 word/single·hasTitle true·350×72px, slot Horizontal·Fill/Hug·Wrap WRAP·gap8px다. 최신순/과거순 Item은 각각171×44px·Fill/Hug이며 최신순만 selected true다. 같은 화면의 조회기간 프리셋은 SegmentedControl3205:38266을 유지하고 있다.
+
+3205:38078의 SelectButton3205:38509(이름 표시)·3205:38532(계좌번호 표시)도 word/single·350×72px이며 각 slot/Item의 크기 모드는 위와 같다. 두 Item의171px는 균등 Fill의 계산 결과이며 고정 폭이 아니다. 관측 선택값은 이름=일부가림, 계좌번호=보임이지만 다른 기획의 초기값으로 일반화하지 않는다. 최신 라이브러리 인스턴스를 가져온 뒤 이 승인 범위의 resizing만 적용하고 내부 Label/문구 Hug와 연결을 유지한다.
+
+## 정렬순서·정보 표시방법의 SelectButton 매핑과 균등 Fill (2026-10-28 사용자 교정)
+
+- **기획의 컴포넌트 명칭을 그대로 복제하지 않는다.** 기획은 항목·순서·문구·선택 상태·동작의 근거이고, 실제 UI 컴포넌트는 사용자 승인 패턴과 최신 MO 라이브러리의 역할을 기준으로 매핑한다. 기획에서 `segmented_control`로 그렸다는 이유만으로 정렬순서를 SegmentedControl로 제작하지 않는다.
+- **정렬순서**: [승인 화면 3205:38245](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3205-38245)처럼 **SelectButton(type: word, variant: single, hasTitle: true)**을 사용한다. 제목은 “정렬순서”, 항목은 “최신순 / 과거순”이다. 기본값은 기획의 최신순 선택을 따르며 별도 지정된 초기 상태가 있으면 이를 우선한다.
+- **조회기간과 구분**: 같은 화면의 “1개월 / 3개월 / 6개월 / 직접 입력” 조회기간 프리셋은 **SegmentedControl을 유지**한다. 이 교정을 모든 SegmentedControl의 일괄 교체로 해석하지 않는다. 조회기간·정렬순서가 같은 시각 형태로 그려졌더라도 역할별로 분리 매핑한다.
+- **이름·계좌번호 표시**: [승인 화면 3205:38078](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3205-38078)처럼 “이름 표시”, “계좌번호 표시”의 “보임 / 일부가림”을 각각 SelectButton(word/single)으로 구성한다. 이와 같은 두 항목 단일 선택 UI는 아래 균등 Fill 패턴을 적용한다. 선택 상태는 기획을 따르고 승인 예시의 선택값을 다른 화면의 고정 기본값으로 복사하지 않는다.
+- **실제 Auto Layout 필수값**: SelectButton 가로 Fill·세로 Hug → 내부 `slot` Horizontal, 가로 Fill·세로 Hug, 원형 Wrap 유지, gap8px(`spacing/md`) → 두 `Item / Word / Single` 모두 **가로 Fill·세로 Hug**. 좌우가 한 행에서 같은 폭으로 콘텐츠 영역을 채워야 한다. 부모만 Fill이고 개별 Item이 Hug인 작은 칩 형태는 실패다.
+- 승인 예시의 콘텐츠350px에서 두 Item은 각각171px, 사이 gap8px, 원형 높이44px/Hug, SelectButton 전체 높이72px다. **171px·44px를 고정값으로 입력하는 지시가 아니다.** 폭은 `(부모 폭 - gap) / 2`로 계산되도록 Item Fill을 사용하며 원형 높이·내부 Label/문구 Hug·서체/변수·선택 스타일을 유지한다. 이번 Fill 조정은 사용자 승인 범위의 레이아웃 커스텀이고 detach나 시각 재현을 위한 프레임 교체를 허용하지 않는다.
+- 복수 SelectButton은 `SelectButton Group`으로 묶고 기존 그룹 gap24px(`spacing/3xl`)를 유지한다. 제목은 원형 `Title / Element`를 사용하며 기획에 없는 optional·tooltip·suffix를 노출하지 않는다.
+- **제작 전 분기와 완료 검수**: 조회기간 프리셋=SegmentedControl, 정렬순서·이름 표시·계좌번호 표시=SelectButton인지 먼저 확인한다. 실제 root type/variant, Item의 Fill/Hug, 항목 수·순서·선택 상태, 실측 균등 폭·gap8px, 한 행 배치와 문구 Hug를 최종 화면과 대조한다. 정렬순서의 SegmentedControl 잔존, Item Hug, 고정171px, 선택값 임의 변경은 실패다. 원형 공개 옵션 전환 검수도 별도로 유지하고 Slot 편집에 따른 자동 타입 전환 제한은 숨기거나 해결됐다고 보고하지 않는다.
+
 ## 작업 시간 목표와 효율화 합의 — 2026-10-28
 
 사용자가 단순 다이얼로그 및 최근 화면 제작의 대기 시간을 지적했다. 기획·배치·원본 조회를 여러 차례 나누고 확인한 구조를 반복 조회하던 절차를 줄이기로 했다. 단순 Dialog 1분 안팎·일반 단일 화면3분 이내는 작업 목표이며 측정 성능이나 시간 보장이 아니다. 검증된 제작 스크립트 재사용, 독립 조회 병렬 처리, 필요한 범위만 수정, 제작 중 필수 검수와 최종 시각 검수 결합을 적용한다. 최신 라이브러리 직접 확인·원형 보존·구조/서체/속성 검수는 유지한다. 통과 뒤 변경이 없으면 재검수하지 않고 실제 오류·수정·미확인 사항에만 추가 검수를 수행한다. 상세 실행 기준은 원문과 workflow의 “Figma 작업 속도와 필수 검수” 절을 따른다.

@@ -1,5 +1,16 @@
 # 디자이너 규칙의 적용과 검수
 
+## 정렬순서·정보 표시방법의 SelectButton 매핑과 균등 Fill (2026-10-28 사용자 교정)
+
+- **기획의 컴포넌트 명칭을 그대로 복제하지 않는다.** 기획은 항목·순서·문구·선택 상태·동작의 근거이고, 실제 UI 컴포넌트는 사용자 승인 패턴과 최신 MO 라이브러리의 역할을 기준으로 매핑한다. 기획에서 `segmented_control`로 그렸다는 이유만으로 정렬순서를 SegmentedControl로 제작하지 않는다.
+- **정렬순서**: [승인 화면 3205:38245](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3205-38245)처럼 **SelectButton(type: word, variant: single, hasTitle: true)**을 사용한다. 제목은 “정렬순서”, 항목은 “최신순 / 과거순”이다. 기본값은 기획의 최신순 선택을 따르며 별도 지정된 초기 상태가 있으면 이를 우선한다.
+- **조회기간과 구분**: 같은 화면의 “1개월 / 3개월 / 6개월 / 직접 입력” 조회기간 프리셋은 **SegmentedControl을 유지**한다. 이 교정을 모든 SegmentedControl의 일괄 교체로 해석하지 않는다. 조회기간·정렬순서가 같은 시각 형태로 그려졌더라도 역할별로 분리 매핑한다.
+- **이름·계좌번호 표시**: [승인 화면 3205:38078](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3205-38078)처럼 “이름 표시”, “계좌번호 표시”의 “보임 / 일부가림”을 각각 SelectButton(word/single)으로 구성한다. 이와 같은 두 항목 단일 선택 UI는 아래 균등 Fill 패턴을 적용한다. 선택 상태는 기획을 따르고 승인 예시의 선택값을 다른 화면의 고정 기본값으로 복사하지 않는다.
+- **실제 Auto Layout 필수값**: SelectButton 가로 Fill·세로 Hug → 내부 `slot` Horizontal, 가로 Fill·세로 Hug, 원형 Wrap 유지, gap8px(`spacing/md`) → 두 `Item / Word / Single` 모두 **가로 Fill·세로 Hug**. 좌우가 한 행에서 같은 폭으로 콘텐츠 영역을 채워야 한다. 부모만 Fill이고 개별 Item이 Hug인 작은 칩 형태는 실패다.
+- 승인 예시의 콘텐츠350px에서 두 Item은 각각171px, 사이 gap8px, 원형 높이44px/Hug, SelectButton 전체 높이72px다. **171px·44px를 고정값으로 입력하는 지시가 아니다.** 폭은 `(부모 폭 - gap) / 2`로 계산되도록 Item Fill을 사용하며 원형 높이·내부 Label/문구 Hug·서체/변수·선택 스타일을 유지한다. 이번 Fill 조정은 사용자 승인 범위의 레이아웃 커스텀이고 detach나 시각 재현을 위한 프레임 교체를 허용하지 않는다.
+- 복수 SelectButton은 `SelectButton Group`으로 묶고 기존 그룹 gap24px(`spacing/3xl`)를 유지한다. 제목은 원형 `Title / Element`를 사용하며 기획에 없는 optional·tooltip·suffix를 노출하지 않는다.
+- **제작 전 분기와 완료 검수**: 조회기간 프리셋=SegmentedControl, 정렬순서·이름 표시·계좌번호 표시=SelectButton인지 먼저 확인한다. 실제 root type/variant, Item의 Fill/Hug, 항목 수·순서·선택 상태, 실측 균등 폭·gap8px, 한 행 배치와 문구 Hug를 최종 화면과 대조한다. 정렬순서의 SegmentedControl 잔존, Item Hug, 고정171px, 선택값 임의 변경은 실패다. 원형 공개 옵션 전환 검수도 별도로 유지하고 Slot 편집에 따른 자동 타입 전환 제한은 숨기거나 해결됐다고 보고하지 않는다.
+
 ## Figma 작업 속도와 필수 검수 (2026-10-28 사용자 합의)
 
 - **시간 목표**: 단순 다이얼로그는 1분 안팎, 일반 단일 화면은 3분 이내 완료를 목표로 한다. 보장 시간이 아니며, 도구 응답 대기·원본 변경·실제 오류로 3분을 넘기면 지연 원인과 남은 작업을 짧게 알린다.
