@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 전폭 StepIndicator·Tab 및 아웃라인 Data Block 승인 — 2026-10-28
+
+사용자가 bDKgQrkt0oHMJ1EbPUQTp8 / 3138:27761을 승인 기준으로 지정했다. 실제 ## BODY 3138:27765는 padding0/0/32/0·gap24·폭390, Container 1 3138:27766은 padding0·폭390으로 StepIndicator 3138:27769를 감싼다. Container 2 3138:27770은 좌우20px·폭390, Data Block 3138:27771은 폭350·padding/radius20px다.
+
+아웃라인 토큰은 fill surface/neutral/quaternary-muted(key13df17658e86efada0d0c1ba4402b88616a0efe1), border border/neutral/secondary-muted(key6f13cf9a41a7a40246b281a5b4a8270690e2226e), 네 변 stroke/md(key74a325f74c4c0478bb096db37a311858ac4c6b7e)다. 최신 제작본 3157:18116도 BODY 좌우0·전폭 Step390·후속 Container 좌우20·Data Block350 아웃라인으로 교정하고 화면을 확인했다. 이전 Data Block 회색 무테 관측은 이력이며 향후 기본 제작 지침으로 사용하지 않는다. Text Box·Card의 별도 스타일 범위는 유지한다.
+
 ## Dialog HomeIndicator 및 발급정보 교정 — 2026-10-28
 
 사용자 최종 지시에 따라 bDKgQrkt0oHMJ1EbPUQTp8 / 3141:17347의 HomeIndicator 3141:17383은 elevated 배경 Paint visible false로 교정했다. 레이어와 내부 막대는 노출하고 변수·AUTO·크기는 보존했다. 앞선 일괄 Fill 노출 규칙의 Dialog 예외이며 일반·바텀시트는 true를 유지한다.

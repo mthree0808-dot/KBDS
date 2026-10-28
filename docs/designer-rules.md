@@ -1,5 +1,11 @@
 # 디자이너 규칙의 적용과 검수
 
+## 헤더 직후 전폭 컴포넌트·Data Block — 2026-10-28
+
+승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 3138:27761을 따른다. 헤더 밑 StepIndicator·Tab 등 전폭 컴포넌트가 있으면 BODY padding은 0/0/32/0, Container 1은 padding0·Fill이며 그 안의 컴포넌트도 화면 폭390px를 채운다. 후속 독립 콘텐츠는 형제 Container 2 이상에서 좌우20px를 적용해 콘텐츠350px를 유지한다. 직후 gap24px와 컴포넌트 자체 내부 패딩은 보존하고 외부 여백을 중복하지 않는다. 별도 확정된 Tab+Infobox 동일 Container 복합 패턴의 계층은 유지하면서 전폭과 콘텐츠 폭을 보장한다.
+
+Data Block은 단일·복수 항목 모두 아웃라인으로 제작한다. Fill surface/neutral/quaternary-muted, Border border/neutral/secondary-muted + stroke/md, padding·radius20px를 적용한다. 종전 Data Block 회색 무테 재량은 대체하며 Text Box·Card의 별도 스타일 규칙은 유지한다. DataList Group gap12, 단일 DataList 직접 구조, 문구·숫자 서체·컴포넌트 연결은 보존한다. 최종 부모별 패딩·실제 폭·간격·네 변 stroke 토큰을 검수한다.
+
 ## Dialog 예외와 지정 SelectButton — 2026-10-28
 
 Dialog HomeIndicator의 elevated 배경 Fill은 false이며 레이어·내부 막대·토큰·배치는 유지한다. 일반·바텀시트의 Fill true와 구분한다. 발급정보 3142:17373·3142:17946의 언어·주민등록번호 표기 선택은 실제 SelectButton word/single을 사용하고 Radio로 대체하지 않는다. 초기 선택·CTA 상태는 기획과 대조한다.
@@ -120,7 +126,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 |D02|일반/완료 화면|폭 390, Vertical. 내용이 844 이내이면 화면 높이 Fixed 844 + BODY Fill. 초과하면 화면 높이 Hug + BODY Hug|
 |D03|일반/완료 루트 및 Popup 적용 판별|직계 자식 `## HEADER`, `## BODY`, `## FOOTER`, 모두 Vertical Auto Layout. 일반 화면 전체를 Popup으로 감싸면 FAIL. Popup은 기획 페이지 형태 또는 사용자 명시 지시에서 풀팝업이 확인된 경우만 허용하며 iOS·인증/PIN·X 버튼·기존 템플릿만으로 추정하지 않음. StatusBar는 일반 화면 HEADER 안에 배치|
 |D04|HEADER / FOOTER|HEADER: StatusBar → AppBar. FOOTER: CTA 있으면 StickyButton → HomeIndicator, 없으면 HomeIndicator만|
-|D05|BODY|padding-bottom `spacing/5xl`=32. StepIndicator는 BODY 최상단 직접 자식, Container 없음. HEADER 직후 Infobox / FullWidth도 BODY 직접 자식|
+|D05|BODY|padding-bottom `spacing/5xl`=32. 헤더 직후 StepIndicator·Tab은 padding0·Fill의 Container 1로 감싸 전폭390, BODY 좌우0, 후속 Container 좌우20을 적용한다. HEADER 직후 Infobox / FullWidth도 BODY 직접 자식|
 |D06|바텀시트|390×844 Auto Layout. Dimmed(전체 크기, Absolute, `background/overlay/dimmed`) → BottomSheet → StatusBar(Absolute, iOS/light, 최상단) → HomeIndicator(최하단)|
 |D07|선택 바텀시트|BottomSheet > Item / BottomSheet > Slot > Container 1 > List. gap `md`=8, 기획 항목 1:1 순서 보존. 기획에 명시된 초기 선택 항목·선택 순서를 우선하며, 미지정이면 화면에서 위에서 두 번째 List를 기본 선택(안내 List도 순서에 포함, 재정렬 금지). 선택 항목 hasSuffix=true, Slot-Suffix > Item / Suffix의 variant=checkMark를 공개 속성으로 설정. 일반 단일 선택의 나머지는 hasSuffix=false. 승인 기준 2230:10109 / 2230:10111. 체크마크 노출·비노출 모두 List 높이 48px / 세로 Fixed이며 비노출 시 46px Hug로 축소하지 않음(2026-10-20 확정). 도움말·이용 방법 선택 List의 별도 높이에는 일괄 적용하지 않음|
 
@@ -175,9 +181,9 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 |규칙 ID|상황|필수 확인|
 |---|---|---|
 |D28|동작·선택 박스|버튼형 선택지는 GridButton 우선(2074:1554 및 Slot 내부 Grid 가변 적용). 그 밖의 복합 카드에는 `Card / Surface` 인스턴스. 이체·상세 이동·체크/라디오·상품/계좌/항목 선택 및 박스 전체 클릭 동작 포함. Footer 버튼이 없어도 해당. 상태 Label만으로 Card 판정 금지. 외부 형제 `Button Area`의 버튼은 박스 내부 동작으로 세지 않음|
-|D29|사실 데이터 표시|`Data Block` Auto Layout 프레임 직접 구성. 이름·전화번호·거래내역·계좌정보·금액 등이 대상. 복수 항목의 대표 구조는 `Title` + `DataList Group` > `DataList(split,14,hasDivider:false)`. 단일 라벨·값 쌍은 승인 참조 `KFlklMvGmg0MXGfAXvpprn / 1147:62`의 `1148:3021`처럼 **`Data Block > DataList` 직접 배치**, 내부 Group·Title·Divider 없음. 패딩·라운드 20 / Fill·Hug / 회색 무테, Label 14 Light 좌측·Data 14 Medium 우측. 섹션 Title은 박스 밖 형제, gap 16. 완료 화면 전용 그룹에는 일괄 적용하지 않음. Card를 detach하여 만들지 않음|
+|D29|사실 데이터 표시|`Data Block` Auto Layout 프레임 직접 구성. 이름·전화번호·거래내역·계좌정보·금액 등이 대상. 복수 항목의 대표 구조는 `Title` + `DataList Group` > `DataList(split,14,hasDivider:false)`. 단일 라벨·값 쌍은 승인 참조 `KFlklMvGmg0MXGfAXvpprn / 1147:62`의 `1148:3021`처럼 **`Data Block > DataList` 직접 배치**, 내부 Group·Title·Divider 없음. 패딩·라운드 20 / Fill·Hug / 아웃라인(2026-10-28), Label 14 Light 좌측·Data 14 Medium 우측. 섹션 Title은 박스 밖 형제, gap 16. 완료 화면 전용 그룹에는 일괄 적용하지 않음. Card를 detach하여 만들지 않음|
 |D30|설명·안내·주의·상태 박스|기존 Infobox 용도는 해당 컴포넌트 유지. 그 밖은 `Text Box` Auto Layout으로 직접 구성. 상담센터 전화번호·이메일이 포함돼도 주목적이 안내이면 Text Box. 참조 패딩 `spacing/2xl`=20, gap `spacing/xl`=16, 라운드 `radius/lg`=14|
-|D31|아웃라인 / 회색 배경 선택|직접 구성한 박스의 아웃라인은 `surface/neutral/quaternary-muted` + `stroke/md` + `border/neutral/secondary-muted`. 회색 배경은 `surface/neutral/tertiary-muted`, 외곽 `strokes: []`. 회색 Infobox / Card와 솔리드 Data Block 배경이 반복·중첩되는 경우는 사용자 수정본 `2158:8074`처럼 Data Block 아웃라인을 우선 적용. 그 밖에는 테두리 반복·중첩, 주·보조 위계, 밀도와 가독성으로 선택. 내부 Divider는 별도 판단. Card는 공개 속성이 지원하는 범위만 사용|
+|D31|Data Block 아웃라인 / Text Box 스타일 선택|Data Block은 단일·복수 모두 아웃라인형으로 제작하며 회색 무테 재량을 적용하지 않음(2026-10-28). 아래 선택 재량은 Text Box에 한정. 직접 구성한 박스의 아웃라인은 `surface/neutral/quaternary-muted` + `stroke/md` + `border/neutral/secondary-muted`. 회색 배경은 `surface/neutral/tertiary-muted`, 외곽 `strokes: []`. 회색 Infobox / Card와 솔리드 Data Block 배경이 반복·중첩되는 경우는 사용자 수정본 `2158:8074`처럼 Data Block 아웃라인을 우선 적용. 그 밖에는 테두리 반복·중첩, 주·보조 위계, 밀도와 가독성으로 선택. 내부 Divider는 별도 판단. Card는 공개 속성이 지원하는 범위만 사용|
 |D32|이름·간격·근거|박스 역할과 이름을 스타일 변경 후에도 유지. 반복 목록은 각 `… Group`으로 묶고 내부 자식은 모두 `Data Block` / `Text Box`처럼 원래 레이어명을 사용하며 순번을 붙이지 않음. 이 규칙은 모든 Group 내부 반복 자식에 적용하며 `Container 1`, `Container 2` 등 명시된 페이지 Container 순번은 예외로 유지. 박스 내부 패딩 보존. Data Block 기본 gap 16과 승인된 부모님 기본정보 예시 gap 20을 구분하고 실제 참조·토큰 key·선택 이유를 확인|
 
 선택한 스타일의 이유는 기존 작업 기록에 한 줄로 남기며, 사용자에게 매번 선택 승인을 요청하지 않습니다. 새 토큰·서체·라이브러리 컴포넌트를 만드는 재량은 아닙니다. 네 가지 승인 예시와 실측값·키는 [실측 디자인 규칙](design-rules.md)의 2026-10-15 박스 UI 절을 참조합니다.
@@ -186,7 +192,7 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 
 |차이|현재 적용|
 |---|---|
-|실측 정보 안내에서 StepIndicator에 Container가 있었음|D05의 독립 배치 적용, 실측 JSON은 수정하지 않음|
+|실측 정보 안내에서 StepIndicator에 Container가 있었음|2026-10-28 최신 승인에 따라 padding0·전폭 Container 구조를 사용하며 종전 Container 제거 지시는 폐기. 시점별 실측 JSON은 보존|
 |기존 생성기 root 이름은 MO/runId|D01이 산출물 화면 이름 기준. runId는 receipt로 추적. 현재 생성기를 그대로 실행하면 이름 규칙을 만족하지 않음|
 |기존 검증기는 참조 값과의 일치를 요구|문서에 따른 변경을 원본 snapshot에 덮어쓰지 않음. 변경 의도·규칙 ID·노드 ID를 기록하고 전용 구현/검증 필요|
 |기존 생성기/검증기의 Absolute 제한|D06은 허용된 디자인 패턴. 현재 일반 컴파일러가 지원하지 않으므로 전용 제작·검증 필요|

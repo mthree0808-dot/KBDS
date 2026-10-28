@@ -4,6 +4,14 @@
 
 ## 1. Reference Sources (디자인 시스템)
 
+### 헤더 직후 전폭 컴포넌트와 아웃라인 Data Block (2026-10-28 사용자 교정)
+- 승인 기준은 [신청내용 확인 3138:27761](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-27761)입니다. **헤더 바로 아래에 StepIndicator·Tab처럼 좌우 여백 없이 화면 폭을 채우는 컴포넌트가 오면 BODY 자체에 좌우 20px를 주지 않습니다.**
+- 구조는 `## BODY > Container 1 > StepIndicator 또는 Tab`, 그다음 독립 본문은 형제 `Container 2 > 콘텐츠`입니다. BODY는 `padding: 0 0 32px`, 전폭 Container 1은 padding 0·가로 Fill, 컴포넌트도 Fill로 화면 폭 390px를 채웁니다. 후속 일반 Container 2 이상에만 좌우 padding 20px를 적용하고 상하 padding은 0으로 둡니다. 실제 참조는 StepIndicator390px / Container 2(390px, 좌우20px) / Data Block350px입니다.
+- StepIndicator·Tab 직후 일반 콘텐츠와의 gap은 기존 24px를 유지합니다. 컴포넌트 원형 내부의 좌우 패딩은 제거하지 않으며 외부에 20px를 더해 이중 여백을 만들지 않습니다. 기존 Tab + Infobox / Card처럼 같은 Container를 쓰도록 별도 확정한 복합 패턴도 계층은 유지하되 외부 padding 0과 Tab 전폭·본문 콘텐츠 폭을 준수합니다.
+- **Data Block은 아웃라인형으로 제작합니다.** Fill `surface/neutral/quaternary-muted`, Border `border/neutral/secondary-muted` + `stroke/md`, padding·radius20px를 연결합니다. 종전 Data Block의 회색 배경·무테 선택 재량은 이 최신 지시로 대체하며 단일 항목에도 적용합니다. Text Box의 회색 무테 선택과 Card / Surface의 공개 variant는 별도입니다.
+- DataList Group gap12px·각 DataList split/14/hasDivider false, 단일 항목의 Data Block > DataList 직접 구조, 문구·숫자 서체·기존 공개 속성은 유지합니다. 기획에 없는 Title·툴팁·아이콘은 추가하지 않습니다.
+- 최종 검수에서 BODY/Container 패딩과 실제 전폭 컴포넌트390px·후속 박스350px, gap24px, 아웃라인 Fill·Border·네 변 stroke 토큰을 각각 확인합니다.
+
 ### Dialog HomeIndicator 예외·발급정보 SelectButton 교정 (2026-10-28 사용자 확정)
 - [Dialog 3141:17347](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3141-17347)처럼 **다이얼로그의 HomeIndicator 배경 Fill은 반드시 눈을 끕니다.** 레이어·내부 막대·elevated 변수 연결은 유지하며 배경 Paint만 `visible: false`로 설정합니다. 종전 모든 화면에서 Fill을 켜라는 지시의 Dialog 예외입니다.
 - 발급정보 화면 [한글 3142:17373](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3142-17373)·[영어 3142:17946](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3142-17946)의 **발급 언어와 주민등록번호 뒷자리 표기 여부는 실제 SelectButton(type: word / variant: single)으로 구성**합니다. 기획 설명의 라디오 명칭이나 Slot 편집 문제를 이유로 사용자 지정 컴포넌트를 Radio로 대체하지 않습니다. 각 항목의 초기 선택 상태와 CTA 상태는 기획을 유지합니다.
@@ -123,7 +131,7 @@
 - **Tab 후속 일반 콘텐츠 간격과 계층**: 1depth·2depth·3depth Tab 다음에 Infobox / Card, 입력, 목록, Data Block 등 일반 콘텐츠가 이어지면 **gap 24px (`spacing/3xl`)**을 적용합니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 같은 콘텐츠 블록은 하나의 `Container [순번]` 안에 구성하며, 간격을 맞추기 위해 각 요소를 별도 Container로 감싼 뒤 외부 복합 래퍼에 넣지 않습니다. 패딩이나 빈 프레임으로 간격을 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
 - **Tab + Infobox / Card 필수 구조 (2026-10-19 사용자 교정)**: `## BODY > Container 1 > Tab, Infobox / Card`로 구성합니다. `Tab`과 `Infobox / Card`는 **Container 1의 직계 자식**이며 Container 1의 Vertical Auto Layout gap에 `spacing/3xl`=24px를 연결합니다. `Tab / Infobox > Container 1, Container 2` 구조와, Tab·Infobox를 각각 Container로 감싸는 구조는 금지합니다. 이 규칙은 아래 일반 복합 그룹 네이밍 공식보다 우선합니다. Tab은 화면 폭을 채우고, Infobox / Card는 좌우 20px 여백이 남는 콘텐츠 폭으로 가운데 정렬합니다. 다음 독립 본문 블록은 형제 `Container 2`부터 순차 명명합니다.
 - **건별 조회 내역의 Data Block 매핑**: 고객명·이용기관·이용서비스·인증완료처럼 한 건을 구성하는 사실 데이터는 와이어프레임의 평면 DataList Group·상하 Divider 형태를 그대로 복제하지 않고 **건별 Data Block**으로 치환합니다. 문구·값·순서·건수는 보존합니다. 일반 수평 DataList의 Divider 규칙보다 이 매핑을 우선하며, 완료 화면의 별도 Feedback·데이터 구조는 유지합니다.
-- **승인 참조**: [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979), [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994). 두 링크는 스타일 대안이며, 반복 건마다 서로 다른 스타일을 강제하지 않습니다.
+- **승인 참조**: [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979), [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994). 두 링크는 기존 구조 참조이며 2026-10-28 최신 지시에 따라 Data Block 외형은 아웃라인으로 적용합니다. 회색 무테 참조를 기본 스타일 대안으로 재사용하지 않습니다.
 - **구조와 토큰**: Vertical Auto Layout, padding 20px (`spacing/2xl`), radius 20px (`radius/2xl`), Title↔DataList Group gap 16px (`spacing/xl`), 목록 내부 gap 12px (`spacing/lg`). 각 DataList는 `layout: split`, `size: 14`, `hasDivider: false`를 적용합니다. 아웃라인은 `surface/neutral/quaternary-muted` + `border/neutral/secondary-muted` + `stroke/md`, 회색 무테는 `surface/neutral/tertiary-muted` + `strokes: []`를 사용합니다.
 - **기획에 없는 요소**: 제목이 없으면 참조의 Title을 숨기고 빈 공간이나 임의 제목을 추가하지 않습니다. 기획에 없는 툴팁·아이콘도 숨깁니다. 복수 건은 `Data Block Group` 안에 모두 `Data Block`이라는 동일한 레이어명으로 열거하고 gap 12px (`spacing/lg`)를 적용합니다.
 
@@ -230,7 +238,7 @@
      - **Infobox / FullWidth 최상단 배치 예외**: `Infobox / FullWidth`가 `## BODY` 최상단에 올 경우 `## BODY`의 패딩을 **`padding: 0 0 32px`**로 설정하고, 직후 간격은 Auto Layout **`gap: 24px` (`3xl`)**을 적용하며, 하단에 배치되는 콘텐츠들은 `Container [순번]`에서 **`padding: 0 20px`**을 적용합니다.
      - **링크 리스트 열거 화면 예외**: 링크 리스트 패턴이 적용되는 화면의 경우 **`padding-top: 16px` (`xl` 토큰)** 적용
    - **좌우 패딩 규칙 (Full-Width 요소 존재 여부에 따른 분기)**:
-     - **Full-Width 요소(`Accordion`, `알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등)가 `## BODY`에 포함되는 경우**:
+     - **Full-Width 요소(`StepIndicator`, `Tab`, `Accordion`, `알려드립니다`, `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등)가 `## BODY`에 포함되는 경우**:
        - `## BODY`의 **`padding-left: 0px`, `padding-right: 0px`** 설정
        - Full-Width 요소를 제외하고 크게 그룹핑되는 **`Container [순번]`들에 `padding-left: 20px` (`2xl`), `padding-right: 20px` (`2xl`)**을 적용 (단, 링크 리스트의 각 Container는 자체 지정 패딩을 따름)
      - **Full-Width 요소가 없는 일반 화면인 경우**:
@@ -499,7 +507,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **최상위 프레임 Spec 및 레이어 네이밍**:
   - 레이어 명칭: 단일·복수 모두 **`Data Block`**. 복수는 **`Data Block Group`**으로 묶고, 내부 자식은 모두 **`Data Block`**으로 명명하며 순번을 붙이지 않습니다.
   - Layout: Auto Layout, Flow: **`vertical`**, **`gap: 16px` (`xl` 토큰)**
-  - 기본 아웃라인 Styling: **`border: stroke/md`**, Border Color: **`border/neutral/secondary-muted`**, Fill: **`surface/neutral/quaternary-muted`**, **`border-radius: 20px` (`radius/2xl`)**, **`padding: 20px` (`spacing/2xl`)**. 아래 스타일 선택 기준에 따라 회색 배경·무테 형태도 허용합니다.
+  - 기본 아웃라인 Styling: **`border: stroke/md`**, Border Color: **`border/neutral/secondary-muted`**, Fill: **`surface/neutral/quaternary-muted`**, **`border-radius: 20px` (`radius/2xl`)**, **`padding: 20px` (`spacing/2xl`)**. 2026-10-28 사용자 교정에 따라 Data Block은 아웃라인형을 사용하며 회색 무테로 임의 변경하지 않습니다.
   - **승인 예시의 간격 차이**: 아래 부모님 기본정보 예시(`2659:18577`)는 타이틀과 `DataList Group` 사이가 **`20px` (`spacing/2xl`)**입니다. 이 패턴을 재사용할 때는 20px를 적용하며, 기존 기본 16px 규칙을 모든 Data Block에서 일괄 변경하지 않습니다.
 - **내부 계층 구조**:
   1. **타이틀 영역**:
@@ -513,7 +521,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **단일 항목 Data Block 전용 구조 (2026-10-20 사용자 승인)**:
   - 적용 조건은 **박스 안의 라벨·값 쌍이 하나인 경우**입니다. Data Block 자체의 개수가 하나라는 뜻과 구분합니다. [고객정보 제공 안내 1147:62](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=1147-62)의 `고객정보 제공내역` 아래 **`제공회사 / KB국민은행`** 박스(`1148:3021`)를 기준으로 합니다.
   - **`Data Block > DataList`**로 직접 배치하며, 단일 DataList를 `DataList Group`으로 감싸지 않습니다. DataList는 실제 인스턴스 **`layout: split`, `size: 14`, `hasDivider: false`**를 사용하고 원형 `Slot > Label, Data` 계층을 유지합니다.
-  - Data Block은 Vertical Auto Layout / 가로 Fill·세로 Hug / padding 20px (`spacing/2xl`) / radius 20px (`radius/2xl`) / gap 16px (`spacing/xl`)입니다. 기본 외형은 참조의 **`surface/neutral/tertiary-muted` + `strokes: []`**로 적용합니다. 단일 자식의 gap을 여백이나 빈 프레임으로 구현하지 않습니다.
+  - Data Block은 Vertical Auto Layout / 가로 Fill·세로 Hug / padding 20px (`spacing/2xl`) / radius 20px (`radius/2xl`) / gap 16px (`spacing/xl`)입니다. 단일 항목의 내부 구조는 참조를 유지하되 외형은 2026-10-28 최신 지시에 따라 **`surface/neutral/quaternary-muted` + `border/neutral/secondary-muted` + `stroke/md` 아웃라인**으로 적용합니다. 단일 자식의 gap을 여백이나 빈 프레임으로 구현하지 않습니다.
   - DataList는 가로 Fill·세로 Hug, Slot은 Horizontal / gap 12px (`spacing/lg`)입니다. Label은 좌측 정렬·가로 Hug·14px Light·`text/neutral/tertiary`, Data는 남는 폭 Fill·우측 정렬·14px Medium·`text/neutral/primary`입니다. 원본 Text Style과 서체·색상 변수 연결을 유지합니다.
   - 섹션 제목이 있으면 참조처럼 **Data Block 바깥의 형제 `Title / Section`**으로 두고 제목↔박스 gap 16px를 적용합니다. 박스 안에 임의의 Title이나 Divider를 추가하지 않습니다. 참조 폭 350px에서 박스 높이는 60px이나 **높이 Fixed 60px로 고정하지 않고 Hug**를 유지합니다.
   - 이 단일 항목 구조는 일반 Data Block의 복수 DataList 그룹 규칙보다 우선합니다. 복수 항목은 기존 `DataList Group`을 유지하고, 별도로 정의된 완료 화면의 `Title / DataList Group` 구조에는 일괄 적용하지 않습니다.
@@ -523,7 +531,8 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **구성**: `Card / Surface`를 사용하거나 분리(detach)하지 않고 Auto Layout 프레임으로 직접 만듭니다. 레이어명은 단일·복수 모두 `Text Box`이며, 반복 목록은 `Text Box Group`으로 묶고 내부 자식에 순번을 붙이지 않습니다.
 - **참조 예시의 기본 구조**: Flow `vertical`, 패딩 **20px (`spacing/2xl`)**, 내부 간격 **16px (`spacing/xl`)**, 라운드 **14px (`radius/lg`)**. 필요에 따라 원본 `Title / Section`, `TextList / Unordered`, `Divider / Horizontal` 등을 조합합니다. Data Block의 DataList 구조나 20px 라운드를 일괄 적용하지 않습니다.
 
-#### 4. 아웃라인 / 회색 배경 스타일의 선택
+#### 4. Data Block 아웃라인 및 Text Box 스타일 선택
+- **2026-10-28 우선 적용**: Data Block은 항상 아웃라인형입니다. 아래 회색 무테와 선택 재량은 Text Box에만 적용하며 Data Block에는 적용하지 않습니다.
 - **2026-10-21 우선 적용**: 회색 Infobox / Card와 솔리드 Data Block이 같은 화면에서 연속되어 배경이 반복·중첩되면, 사용자 수정 기준 `2158:8074`처럼 Data Block을 아웃라인형으로 적용합니다. 아래 선택 재량보다 이 구체적 상황 규칙이 우선합니다.
 - **아웃라인형**: 독립된 정보 영역의 경계를 명확히 구분할 때 사용합니다. 직접 만드는 `Data Block` / `Text Box`의 참조 스타일은 Fill **`surface/neutral/quaternary-muted`**, Border **`stroke/md` + `border/neutral/secondary-muted`**입니다.
 - **회색 배경·무테형**: Fill **`surface/neutral/tertiary-muted`**, **외곽 border 제거(`strokes: []`)**로 적용합니다. 같은 화면에 아웃라인 박스가 이어지거나 박스 안에 박스가 놓여 경계선이 중첩되는 경우, 보조 설명·안내 영역을 부드럽게 구분할 때 우선 고려합니다. 내부 콘텐츠 구분용 Divider까지 일괄 제거한다는 뜻은 아닙니다.
@@ -913,7 +922,7 @@ Container 2 (gap 12px)
      - `Infobox / FullWidth` 최상단 배치 시: **`padding: 0 0 32px`**
      - 링크 리스트 화면의 경우 **`padding-top: 16px` (`xl`)** 적용
      - 수직 간격: 기본 **`gap: 32px` (`5xl`)** (링크 리스트만 열거 시 **`gap: 0px`** 적용). 단, `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl`)**을 우선 적용하며, 해당 컴포넌트를 감싼 `Container` / `Container [순번]` 사이에도 동일하게 적용합니다.
-     - **좌우 패딩 제어**: 화면 내에 `Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
+     - **좌우 패딩 제어**: 화면 내에 `StepIndicator`, `Tab`, `Accordion`, `알려드립니다`, Full-Width `Divider / Horizontal`, `Tab` 직후 피드백, `Infobox / FullWidth`, 링크 리스트 등 가로를 꽉 채워야 하는 요소가 포함되는 경우 `## BODY`의 좌우 패딩을 **`0px`**로 설정하고, 그 외의 일반 콘텐츠 `Container [순번]`들에 **`padding-left: 20px`, `padding-right: 20px`**을 부여합니다. Full-Width 요소가 전혀 없는 화면은 `## BODY`의 좌우 패딩을 **`20px`**로 설정합니다.
      - **'알려드립니다' 분할**: '알려드립니다'는 항상 독립된 `Container [순번]`으로 분할하여 배치합니다.
 3. **컴포넌트 매핑 및 Property 적용**:
    - 와이어프레임의 요소를 디자인 시스템 컴포넌트로 치환하고, 문서에 정의된 Property(`size`, `variant`, `layout`, `hasDivider`, `os` 등)를 Figma 우측 속성 패널 기준으로 일치시킵니다.

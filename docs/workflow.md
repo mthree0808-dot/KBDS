@@ -1,5 +1,11 @@
 # 작업 실행 절차
 
+## 헤더 직후 전폭 컴포넌트·Data Block — 2026-10-28
+
+승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 3138:27761을 따른다. 헤더 밑 StepIndicator·Tab 등 전폭 컴포넌트가 있으면 BODY padding은 0/0/32/0, Container 1은 padding0·Fill이며 그 안의 컴포넌트도 화면 폭390px를 채운다. 후속 독립 콘텐츠는 형제 Container 2 이상에서 좌우20px를 적용해 콘텐츠350px를 유지한다. 직후 gap24px와 컴포넌트 자체 내부 패딩은 보존하고 외부 여백을 중복하지 않는다. 별도 확정된 Tab+Infobox 동일 Container 복합 패턴의 계층은 유지하면서 전폭과 콘텐츠 폭을 보장한다.
+
+Data Block은 단일·복수 항목 모두 아웃라인으로 제작한다. Fill surface/neutral/quaternary-muted, Border border/neutral/secondary-muted + stroke/md, padding·radius20px를 적용한다. 종전 Data Block 회색 무테 재량은 대체하며 Text Box·Card의 별도 스타일 규칙은 유지한다. DataList Group gap12, 단일 DataList 직접 구조, 문구·숫자 서체·컴포넌트 연결은 보존한다. 최종 부모별 패딩·실제 폭·간격·네 변 stroke 토큰을 검수한다.
+
 ## Dialog 예외·지정 컴포넌트 확인 — 2026-10-28
 
 HomeIndicator Fill 검수 전에 화면 유형을 판별한다. Dialog는 elevated Paint visible false, Dialog 외 화면은 true를 확인하고 레이어·내부 막대·변수 연결·원형 크기·배치는 보존한다. 발급정보 3142:17373·3142:17946의 언어·주민등록번호 표기 선택은 SelectButton word/single을 사용한다. 사용자 지정 컴포넌트를 기획 용어나 Slot 문제를 이유로 Radio로 임의 대체하지 않으며 문구·초기 선택·CTA 상태를 함께 검수한다.
@@ -99,9 +105,9 @@ Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Gro
 
 상단 Feedback + 후속 데이터가 있는 완료 화면은 원문 완료 화면 절과 D18·D19를 별도로 적용합니다. BODY padding `40px 20px 32px` / gap 40px → Container 2의 반복 `Title / DataList Group` 사이 32px → 각 그룹의 `Title`↔`DataList Group` 사이 16px → Title 내부 및 DataList 목록 내부 각각 12px로 계획합니다. Title은 Vertical Auto Layout 안에 `Title / Element`와 `Divider / Horizontal(thickness:1px,variant:primary,length:full)`을 배치합니다. Container·하위 그룹 패딩 0, BODY 좌우 20px를 유지하며, 이 내부 Divider를 페이지 Full-Width 요소로 잘못 판정하지 않습니다. 승인 기준은 `2668:26353`이며 일반 화면·Empty State와 구분합니다.
 
-2026-10-20 단일 항목 Data Block: 박스 안 라벨·값 쌍이 하나면 `KFlklMvGmg0MXGfAXvpprn / 1147:62`의 제공회사/KB국민은행 박스 `1148:3021`처럼 `Data Block > DataList(split,14,hasDivider:false)`로 직접 구성합니다. 단일 DataList에 Group을 추가하지 않고, 패딩·라운드 20 / 회색 무테 / Label 좌측·Data 우측 정렬 / Fill·Hug를 검수합니다. 섹션 Title은 박스 밖 형제, gap 16px입니다. 복수 항목과 완료 화면의 별도 그룹 구조는 유지합니다.
+2026-10-20 단일 항목 Data Block: 박스 안 라벨·값 쌍이 하나면 `KFlklMvGmg0MXGfAXvpprn / 1147:62`의 제공회사/KB국민은행 박스 `1148:3021`처럼 `Data Block > DataList(split,14,hasDivider:false)`로 직접 구성합니다. 단일 DataList에 Group을 추가하지 않고, 패딩·라운드 20 / 아웃라인(2026-10-28 최신 지시) / Label 좌측·Data 우측 정렬 / Fill·Hug를 검수합니다. 섹션 Title은 박스 밖 형제, gap 16px입니다. 복수 항목과 완료 화면의 별도 그룹 구조는 유지합니다.
 
-박스마다 D28~D32를 적용합니다. 기존 Infobox에 해당하는지 먼저 확인하고, 그 밖에는 버튼형 선택지를 `GridButton`으로 먼저 구분하고, 나머지 내부/전체 동작이 있으면 `Card / Surface`, 사실 데이터 표시이면 `Data Block`, 설명·안내·주의·상태 전달이면 `Text Box`로 구분합니다. 박스 밖의 형제 `Button Area`는 내부 동작으로 세지 않습니다. 역할을 정한 다음 아웃라인 또는 회색 배경·무테 형태를 고릅니다. 아웃라인의 반복·중첩, 정보 위계·밀도·가독성을 보고 선택하며, 매번 사용자 승인을 요청하지 않습니다.
+박스마다 D28~D32를 적용합니다. 기존 Infobox에 해당하는지 먼저 확인하고, 그 밖에는 버튼형 선택지를 `GridButton`으로 먼저 구분하고, 나머지 내부/전체 동작이 있으면 `Card / Surface`, 사실 데이터 표시이면 `Data Block`, 설명·안내·주의·상태 전달이면 `Text Box`로 구분합니다. 박스 밖의 형제 `Button Area`는 내부 동작으로 세지 않습니다. Data Block은 아웃라인을 적용하며 Text Box만 아웃라인 또는 회색 배경·무테 형태를 고릅니다. 아웃라인의 반복·중첩, 정보 위계·밀도·가독성을 보고 선택하며, 매번 사용자 승인을 요청하지 않습니다.
 
 화면 제작에는 설치된 figma-use와 figma-generate-design 스킬을 적용합니다. 현재 프로젝트의 Code Connect가 없으면 없음으로 기록하고 지정 원본 라이브러리의 현재 정의를 직접 조회하거나 해당 라이브러리로 제한한 검색으로 키를 찾습니다. 기존 화면/기획서 인스턴스는 역할을 식별하는 단서일 뿐이며 컴포넌트 취득과 스타일·변수의 기준으로 삼지 않습니다.
 
@@ -174,7 +180,7 @@ node src/cli.mjs hash runs/task-001/reference.json
 
 reason에는 적용한 디자이너 규칙 ID도 기록합니다. 템플릿과 다른 명시 규칙은 `designer-review.md`에 차이를 남깁니다. 기존 CLI는 디자이너 규칙 전체를 구현하지 않았으며, root 이름·상황별 sizing·바텀시트 Absolute·인라인 링크 등에 지원 차이가 있습니다. `docs/designer-rules.md`의 지원 표를 확인한 후 사용할 제작 경로를 정합니다. 지원하지 않는 규칙을 생략하여 일반 컴파일러에 맞추지 않습니다.
 
-박스 계획의 reason에는 역할, 내부/외부 동작의 경계, 참조 노드, 스타일 선택 이유와 토큰 key를 연결합니다. `Data Block` / `Text Box`는 기존 Auto Layout·DS 토큰·하위 컴포넌트로 구성하고, Card의 detach나 신규 라이브러리 컴포넌트 생성으로 대신하지 않습니다. 원문의 기본 Data Block gap 16px와 부모님 기본정보 승인 예시의 20px를 혼동하지 않습니다. 직접 구성한 박스의 스타일은 아웃라인의 fill/border 토큰 또는 `surface/neutral/tertiary-muted` + 외곽 border 제거를 명시합니다.
+박스 계획의 reason에는 역할, 내부/외부 동작의 경계, 참조 노드, 스타일 선택 이유와 토큰 key를 연결합니다. `Data Block` / `Text Box`는 기존 Auto Layout·DS 토큰·하위 컴포넌트로 구성하고, Card의 detach나 신규 라이브러리 컴포넌트 생성으로 대신하지 않습니다. 원문의 기본 Data Block gap 16px와 부모님 기본정보 승인 예시의 20px를 혼동하지 않습니다. Data Block은 아웃라인 fill/border/stroke 토큰을 명시합니다. Text Box만 아웃라인 또는 `surface/neutral/tertiary-muted` + 외곽 border 제거를 선택합니다.
 
 ```powershell
 node src/cli.mjs plan runs/task-001/plan.json runs/task-001/reference.json
@@ -239,7 +245,7 @@ receipt의 rootId와 pageId로 실제 산출물을 전체 재수집합니다. �
 - 완료 화면 D18·D19: BODY 패딩의 상/우/하/좌와 계층별 gap 40/32/16/12, `Title`의 실제 Vertical Auto Layout 및 `Title / Element`→primary Divider 순서, DataList의 `hasDivider:false`, 하위 프레임 패딩 0과 토큰 연결. 이전 quaternary Divider나 그룹별 padding-top 24px가 남아 있지 않은지 확인
 - 일반 이미지는 영역만 표시하되, 승인 Image Area의 더미 그래픽·라벨 전체 포함 여부와 DS 아이콘 출처
 - 긴 한국어 문구의 줄바꿈, 잘림, 겹침, 비정상 크기, 스크롤/하단 버튼
-- D28~D32: Card/Data Block/Text Box의 역할과 실제 동작 경계, 박스 명칭, 실제 fill/border·패딩·라운드·gap 토큰, 테두리 중첩 완화와 영역 구분·가독성. 회색 무테 선택 시 외곽 border가 실제로 제거됐는지 확인하고 내부 Divider와 구분
+- D28~D32: Card/Data Block/Text Box의 역할과 실제 동작 경계, 박스 명칭, 실제 fill/border·패딩·라운드·gap 토큰, 테두리 중첩 완화와 영역 구분·가독성. Data Block은 아웃라인 및 네 변 stroke를 필수 검사하며, Text Box에서 회색 무테를 선택한 경우 외곽 border 제거와 내부 Divider를 구분
 
 템플릿과 산출물 PNG를 저장하고 **직접 열어 비교**합니다. `visual.json` 각 항목의 PASS/FAIL과 관찰 근거, 검수자, 두 PNG 경로, 현재 actual/reference 해시를 기록합니다. 숫자 검사만으로 visual PASS를 작성하면 안 됩니다. 시각 수정 뒤에는 다시 actual과 PNG를 수집하고 해시를 갱신합니다. 변하지 않은 결과를 반복 캡처할 필요는 없습니다.
 

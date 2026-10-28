@@ -14,6 +14,8 @@
 
 ## 절대 조건
 
+- 2026-10-28 전폭 헤더 후속 UI: 3138:27761처럼 헤더 직후 StepIndicator·Tab이 오면 BODY 좌우·상단0, 하단32 / Container 1 padding0·Fill / 컴포넌트 전폭390을 유지한다. 후속 독립 콘텐츠 Container 2 이상에만 좌우20을 적용하고 직후 gap24를 유지한다. Data Block은 단일·복수 모두 아웃라인(fill quaternary-muted / border secondary-muted / stroke/md / padding·radius20)이며 회색 무테 재량은 Text Box에만 유지한다. 원형 내부 패딩·별도 확정 복합 패턴·문구·숫자 서체·연결은 보존한다.
+
 - 2026-10-28 사용자 지정 컴포넌트 교정: 발급정보 3142:17373·3142:17946의 발급 언어·주민등록번호 뒷자리 표기 선택은 SelectButton(word/single)이다. 기획 설명에 라디오라고 적혀 있거나 Slot 옵션 문제가 있어도 지정 컴포넌트를 임의로 Radio로 바꾸지 않는다.
 
 - 2026-10-28 오버레이 배경: 바텀시트·다이얼로그·입력용 키패드 시트에서는 기획에 뒤 화면이 보여도 Dimmed 아래에 Popup·일반 화면·복제 프레임·스크린샷을 깔지 않는다. 배경은 루트 background/neutral/white와 Dimmed만 사용하며 이전 배경 Popup Fill·clip 래퍼 지시는 철회한다. 실제 전경으로 요청된 풀팝업/키패드·패턴 Popup은 이 규칙의 배경 화면과 구분한다.
@@ -32,7 +34,7 @@
 - 컴포넌트 인스턴스와 원본의 토큰·스타일만 사용한다. 컴포넌트 조합은 허용한다. 신규 컴포넌트/토큰, detach, 임의 폰트·색상·간격, 외부 아이콘은 금지한다.
 - 박스는 역할로 구분한다. 이체·상세 이동·체크/라디오·상품/계좌/항목 선택처럼 박스 내부 또는 박스 전체에 동작이 있으면 `Card / Surface`, 사실 데이터 표시만 하면 `Data Block`, 기존 Infobox에 해당하지 않는 설명·안내·주의·상태 전달은 `Text Box`를 쓴다. 박스 바깥 형제 `Button Area`의 버튼만으로 Data Block을 Card로 바꾸지 않는다.
 - `Data Block`과 `Text Box`는 승인된 예시와 DS 토큰·스타일·하위 컴포넌트를 사용한 Auto Layout 프레임으로 직접 구성할 수 있다. 이는 신규 라이브러리 컴포넌트 생성이나 detach 허용이 아니다. 콘텐츠 박스 이름과 내부 패딩은 페이지 `Container [순번]` 규칙과 구분한다.
-- 아웃라인형과 `surface/neutral/tertiary-muted` 회색 배경·무테형은 주변 위계·밀도와 테두리 중첩을 보고 유연하게 선택한다. 역할명은 유지하며, `Card / Surface`의 스타일 선택은 원본 공개 속성 범위에 한정한다. 상세 기준과 승인 예시는 원문 Box UI Rules 및 `docs/designer-rules.md` D28~D32를 따른다.
+- Data Block은 최신 사용자 지시에 따라 아웃라인형으로 제작한다. Text Box의 아웃라인형과 `surface/neutral/tertiary-muted` 회색 배경·무테형은 주변 위계·밀도와 테두리 중첩을 보고 선택한다. 역할명은 유지하며, `Card / Surface`의 스타일 선택은 원본 공개 속성 범위에 한정한다. 상세 기준과 승인 예시는 원문 Box UI Rules 및 `docs/designer-rules.md` D28~D32를 따른다.
 - 디자이너의 명시 규칙을 기본으로 적용하고 템플릿에서 구조·역할별 근거를 확인한다. 두 자료가 다르면 `docs/designer-rules.md`의 우선순위와 차이 기록 절차를 따른다. 전체 화면에 단일 gap을 적용하지 않는다. 문구 길이에 맞추려고 폰트를 줄이거나 문구를 생략하지 않는다.
 - 상단 Feedback + 후속 데이터가 있는 완료 화면은 승인 예시 `2668:26353`과 D18·D19를 따른다. BODY padding `40px 20px 32px` / gap 40px, Container 2의 반복 `Title / DataList Group` 사이 32px, 각 그룹 내부 `Title`↔`DataList Group` 16px, Title 내부와 DataList 목록 내부 각각 12px를 구분한다. Title은 Vertical Auto Layout으로 `Title / Element`와 `Divider / Horizontal (thickness: 1px, variant: primary, length: full)`을 감싼다. Container·하위 그룹 패딩은 0이며 Title 내부 Divider 때문에 BODY 좌우 20px를 제거하지 않는다.
 - 토큰 미연결 원본 수치는 자동으로 토큰으로 승격하지 않는다. 원본 컴포넌트 내부는 상속하되 새 컨테이너에 재사용하려면 검증 가능한 템플릿 근거와 미연결 사실을 기록한다. 엄격한 토큰 전용 조건을 충족하지 못하면 해당 부분을 차단한다.
