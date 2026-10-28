@@ -377,6 +377,14 @@ Data Block의 기존 기본 gap 16px와 위 부모님 기본정보 패턴의 20p
 |`radius/2xl`|`775b8dad73eda0c378c4bd9850b4c459c9187b9c`|20px Data Block / Card 라운드|
 |`radius/lg`|`b9d31e7e721799056c4f83449ff084a697ebe489`|14px Text Box 라운드|
 
+## 제목 없는 완료 데이터 구분선 교정 (2026-10-28)
+
+승인 근거: [3138:30128](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-30128). 이 화면의 `Title`(`3138:30149`)은 제목 텍스트 없이 primary Divider(`3138:30150`)만 노출하는 높이 1px의 Vertical Auto Layout이며, 다음 DataList Group과 gap 16px, 목록 내부 gap 12px다. 제목 비노출을 Title 전체 생략으로 해석하여 상단 구분선이 빠진 제작 오류를 교정했다.
+
+제목이 없는 완료 데이터에서는 `Title / Element`만 숨기고 `Title` Auto Layout 래퍼와 `Divider / Horizontal(thickness:1px,variant:primary,length:full)`은 반드시 노출한다. Title 전체 숨김·생략은 금지한다. Title은 Divider 높이만 Hug하며 빈 제목 공간이나 잔여 12px 간격을 남기지 않는다. Divider↔DataList Group 16px(`spacing/xl`), 목록 내부 12px(`spacing/lg`)를 유지한다. 일반 Data Block의 제목 비노출과 구분하며 D19에 우선 적용한다.
+
+교정 산출물 [3168:18258](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3168-18258)에 `Title`(`3172:17274`)과 최신 라이브러리 Divider 인스턴스(`3172:17275`, key `f5e601b7152ef36e3e90e841d5d896cce328dc8d`)를 복원했다. 구조·16px 간격·10개 데이터 보존 및 최종 스크린샷을 확인했다.
+
 ## 완료 화면 갱신 실측 (2026-10-15)
 
 근거: [완료 화면 `2668:26353`](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2668-26353), `0:1` 페이지. 프레임 이름은 `화면ID_[증명서 진위 확인_서비스 안내]`이며 표시 문구는 발급신청 취소 완료입니다. 화면명만으로 추정하지 않고 실제 BODY와 반복 그룹을 조회하고 스크린샷을 확인했습니다. 아래 값은 상단 Feedback + 후속 데이터가 있는 완료 화면의 승인 패턴으로 D18·D19에 반영하며, 일반 화면·Empty State·Data Block 수치를 일괄 대체하지 않습니다.

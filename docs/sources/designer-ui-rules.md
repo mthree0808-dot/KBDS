@@ -887,9 +887,10 @@ Container 2 (gap 12px)
 - **각 `Title / DataList Group` 내부 구조**:
   - Flow **`vertical`**, padding **0px**, 가로 **Fill**, 세로 **Hug**.
   - 자식은 **`Title` → `DataList Group`** 순서이며, 둘 사이 Auto Layout **`gap: 16px` (`spacing/xl`)**을 적용합니다.
-  - **`Title`**: 별도의 **Vertical Auto Layout** 프레임, padding **0px**, 가로 **Fill**, 세로 **Hug**. 내부에 **`Title / Element` → `Divider / Horizontal`**을 순서대로 배치하고 **`gap: 12px` (`spacing/lg`)**를 적용합니다. Title / Element의 원형 서체(승인 예시 `KBFG Text Medium`)를 유지합니다. 기획상 타이틀이 없으면 가시성만 대응하며 임의의 빈 공간을 추가하지 않습니다.
+  - **`Title`**: 별도의 **Vertical Auto Layout** 프레임, padding **0px**, 가로 **Fill**, 세로 **Hug**. 내부에 **`Title / Element` → `Divider / Horizontal`**을 순서대로 배치하고 **`gap: 12px` (`spacing/lg`)**를 적용합니다. Title / Element의 원형 서체(승인 예시 `KBFG Text Medium`)를 유지합니다. 기획상 타이틀이 없으면 **`Title / Element`만 숨깁니다. `Title` 래퍼와 내부 Divider는 반드시 노출 상태로 유지하며, Title 전체를 숨기거나 생략하지 않습니다.** Title은 Divider 높이만 Hug하고 빈 제목 공간이나 잔여 12px 간격을 남기지 않습니다. Divider 아래 `DataList Group`과의 **16px** 및 목록 내부 **12px** 간격은 유지합니다.
   - **Title 내부 Divider의 실제 Component Properties**: **`thickness: 1px`, `variant: primary`, `length: full`**. 이전 완료 화면의 `tone: quaternary` 규칙을 이 패턴에 적용하지 않습니다. 여기서 full은 콘텐츠 폭 350px이며 BODY 좌우 20px 패딩을 유지합니다.
   - **`DataList Group`**: Vertical Auto Layout, padding **0px**, 가로 **Fill**, 세로 **Hug**. **`DataList (layout: split, size: 14, hasDivider: false)`**를 열거하고 내부 **`gap: 12px` (`spacing/lg`)**를 적용합니다. 단일 항목도 같은 그룹 구조를 유지합니다.
+- **제목 없는 완료 데이터 필수 검수 (2026-10-28 사용자 교정)**: [승인 화면 `3138:30128`](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-30128)처럼 `Title / DataList Group > Title > Divider / Horizontal`과 형제 `DataList Group`이 실제 노출되어야 합니다. 상단 Divider 누락, Title 전체 숨김·생략, Divider↔첫 데이터 16px 누락은 실패입니다. 완료 화면 D19의 규칙이며 일반 Data Block의 제목 숨김 규칙과 혼동하지 않습니다.
 - **간격 계층 검수**: BODY **40px** → 복수 `Title / DataList Group` 사이 **32px** → `Title`과 `DataList Group` 사이 **16px** → Title 내부 및 DataList 목록 내부 각각 **12px**를 서로 구분합니다. 데이터 영역 전체를 하나의 12px gap으로 평탄화하지 않습니다.
 
 #### 특수 공지 및 상태별 컴포넌트 규칙

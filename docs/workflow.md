@@ -249,6 +249,7 @@ receipt의 rootId와 pageId로 실제 산출물을 전체 재수집합니다. �
 - 계층, component/variant key, 토큰 연결, style key, 실제 폰트·행간·자간, 모드
 - 기획의 모든 문구/상태/화면과 디자인의 대응
 - 템플릿 대비 역할별 여백, 본문 밀도, HEADER/BODY/FOOTER 배치
+- 제목 없는 완료 데이터(D19): 제목이 없는 완료 데이터에서는 `Title / Element`만 숨기고 `Title` Auto Layout 래퍼와 `Divider / Horizontal(thickness:1px,variant:primary,length:full)`은 반드시 노출한다. Title 전체 숨김·생략은 금지한다. Title은 Divider 높이만 Hug하며 빈 제목 공간이나 잔여 12px 간격을 남기지 않는다. Divider↔DataList Group 16px(`spacing/xl`), 목록 내부 12px(`spacing/lg`)를 유지한다. 승인 참조 `3138:30128`과 최종 스크린샷을 비교해 상단 Divider가 실제 보이는지 확인한다. Title 전체 숨김·누락 또는 Divider↔첫 데이터 16px 누락 시 완료 처리하지 않는다. 일반 Data Block의 제목 숨김 규칙을 이 분기에 적용하지 않는다.
 - 완료 화면 D18·D19: BODY 패딩의 상/우/하/좌와 계층별 gap 40/32/16/12, `Title`의 실제 Vertical Auto Layout 및 `Title / Element`→primary Divider 순서, DataList의 `hasDivider:false`, 하위 프레임 패딩 0과 토큰 연결. 이전 quaternary Divider나 그룹별 padding-top 24px가 남아 있지 않은지 확인
 - 일반 이미지는 영역만 표시하되, 승인 Image Area의 더미 그래픽·라벨 전체 포함 여부와 DS 아이콘 출처
 - 긴 한국어 문구의 줄바꿈, 잘림, 겹침, 비정상 크기, 스크롤/하단 버튼
