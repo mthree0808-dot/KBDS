@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## Dimmed 아래 배경 Popup 제거 — 2026-10-28
+
+사용자는 bDKgQrkt0oHMJ1EbPUQTp8 / 3089:16173처럼 기획의 뒤 화면을 재현한 Popup을 제거하고 Dimmed만 배경으로 사용하도록 확정했다. 해당 화면의 배경 Popup 3089:16174를 제거했다. Dimmed·StatusBar는 ABSOLUTE, BottomSheet 3089:16619와 HomeIndicator 3089:16844는 AUTO로 교정했으며 기존 시트 y367/높이443·하단 안전영역과 전경 내용은 유지했다. HomeIndicator elevated Fill도 노출하고 최종 화면에 배경 Popup이 0개인 것을 확인했다.
+
+이전 배경 Popup 또는 Fill·clip 래퍼 보존 기록은 당시 이력이며 이후 제작 기준이 아니다. 앞으로 바텀시트·다이얼로그·입력용 키패드 시트에서는 기획의 배경 화면을 재현하지 않는다. 실제 전경으로 명시된 풀팝업은 이 배경 제거 대상과 구분한다.
+
 ## HomeIndicator elevated Fill 노출 교정 — 2026-10-28
 
 사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704의 HomeIndicator는 background/neutral/elevated Fill visible true였다. 변수 key는 7c14df9dfaf712b02335c5846362892232fa14c4이며 현재 iOS 원형 key 7d9c0061e2c21c860f10b00b001d863e2ba92647의 해당 Paint는 visible false로 관측됐다. 원형 가시성 상속에 대한 사용자 승인 예외로 산출물 Paint만 노출한다.

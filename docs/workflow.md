@@ -1,5 +1,11 @@
 # 작업 실행 절차
 
+## 오버레이 배경 제작·검수 — 2026-10-28
+
+1. 기획에 보이는 뒤 화면과 실제 전경 BottomSheet/Dialog/입력 키패드를 구분한다. 배경은 루트 background/neutral/white + Dimmed만 구성하고 Popup·일반 화면·스크린샷을 복제하지 않는다.
+2. 기존 작업본에 재현 배경 Popup·프레임·이미지·Fill/clip 래퍼가 있으면 배경 역할임을 확인한 뒤 제거한다. 숨김으로 남기지 않는다. 실제 전경 풀팝업·키패드/패턴 Popup까지 삭제하지 않는다. 전경 문구·컴포넌트·입력 상태는 보존한다.
+3. 바텀시트의 Dimmed·StatusBar만 ABSOLUTE, BottomSheet·HomeIndicator·필요한 키패드는 AUTO로 유지하고 HomeIndicator elevated Fill을 노출한다. 최종 배경 재현 레이어 0개, Dimmed 뒤 이전 화면 비침 없음, 전경 잘림·겹침 없음을 검수한다.
+
 ## HomeIndicator Fill 제작·검수 — 2026-10-28
 
 1. HomeIndicator의 background/neutral/elevated Paint와 변수 연결을 확인한다. 사용자 승인 참조는 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704다.
@@ -9,7 +15,7 @@
 ## 바텀시트 배치 제작·검수 — 2026-10-27
 
 1. 바텀시트 화면 루트를 Vertical Auto Layout, 하단 정렬(MAX), gap·하단 padding 0으로 구성한다. Dimmed와 StatusBar만 화면 레벨 ABSOLUTE로 둔다.
-2. BottomSheet와 HomeIndicator는 layoutPositioning AUTO, 가로 Fill로 배치한다. BottomSheet Hug 및 유형별 최소/고정 높이, HomeIndicator 원형 높이·iOS 속성을 보존한다. 문자 키패드가 있으면 BottomSheet → Keypad(Item / Pad) → HomeIndicator 순서 모두 AUTO로 두고 배경 Popup의 표시 영역은 남은 영역 Fill로 배치한다. 필요한 경우 동명 Auto Layout 래퍼를 Fill·clip으로 두고 내부 Popup은 원래 높이·AUTO로 유지하여 배경 푸터·HomeIndicator가 위로 당겨지지 않게 한다. 원형 내부 position은 일괄 변경하지 않는다.
+2. BottomSheet와 HomeIndicator는 layoutPositioning AUTO, 가로 Fill로 배치한다. BottomSheet Hug 및 유형별 최소/고정 높이, HomeIndicator 원형 높이·iOS 속성을 보존한다. 문자 키패드가 있으면 BottomSheet → Keypad(Item / Pad) → HomeIndicator 순서 모두 AUTO로 두고 배경 Popup·Fill/clip 래퍼는 추가하지 않고 루트 배경과 Dimmed만 배치한다. 원형 내부 position은 일괄 변경하지 않는다.
 3. 완료 전에 화면 레벨 ABSOLUTE 자식 목록이 Dimmed·StatusBar뿐인지 검사한다. BottomSheet·HomeIndicator·키패드가 AUTO인지, 두 컴포넌트 사이와 안전영역에 틈·겹침이 없는지 확인한다. 좌표만 같은 화면은 PASS가 아니며 실제 속성과 콘텐츠 높이 변경 시 흐름 배치를 검수한다.
 
 ## Dialog Title 마침표 적용·검수 — 2026-10-27
