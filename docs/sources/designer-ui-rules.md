@@ -486,6 +486,13 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **조합 네이밍**: 하단 별도 Button Area와 묶는 경우 상위 래퍼는 **`GridButton / Button Area`**로 명명합니다. 내부 GridButton과 Slot·Grid·아이템의 원형 이름은 유지합니다.
 
 #### 1. 액션 포함형 카드: `Card / Surface`
+
+- **라디오 선택형 Card의 Affix Body 배치 (2026-10-28 사용자 확정)**:
+  - 승인 참조는 [추가 본인 인증 방법 선택 552:13664](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=552-13664)입니다. 설명을 포함한 Card 자체를 라디오로 선택하는 유형에는 실제 `Card / Surface`와 원형 `Card / Header / Affix (variant: radio)`를 사용합니다. 사용자가 지정한 이 패턴을 GridButton이나 별도 일반 Radio로 임의 대체하지 않습니다. 입력 폼의 SelectButton 규칙과 다른 유형입니다.
+  - 노출 구조는 **`Card / Surface > Slot > Body > Groups + Card / Header / Affix > Item / Radio`**입니다. 숨겨진 Absolute Affix를 카드 위에 띄워 쓰지 않고 **Body 안의 일반 Auto Layout 흐름으로 배치하고 노출합니다(`layoutPositioning: AUTO`, `visible: true`)**. 컴포넌트 원형 명칭은 Body 안에서도 변경하지 않습니다.
+  - Body는 Horizontal / 가로 Fill·세로 Hug / gap12px(`spacing/lg`) / 좌측·상단 정렬(MIN/MIN)입니다. `Groups`는 Fill·Hug, 오른쪽 Affix는 원형 24×24px Fixed를 유지합니다. 여백을 만들기 위해 Absolute 좌표나 빈 프레임을 사용하지 않습니다.
+  - 참조에서는 Card 원형 직계의 기본 Affix는 숨김 상태로 남고, Slot의 Body 안에 같은 원형의 Affix가 노출됩니다. 새 제작에서도 최신 라이브러리 원형을 가져와 Body에서 사용하고 **카드당 실제 노출되는 Affix는 1개만** 둡니다. 기본 숨김 Affix까지 켜서 두 개를 노출하지 않습니다. 원형을 detach하거나 라디오 도형을 직접 그리지 않습니다.
+  - Card의 `select/disabled`와 Body Affix 안 `Item / Radio`의 `checked/disabled/invalid`를 기획 상태에 맞춰 대응시킵니다. 선택·미선택 모두 같은 Body 계층과 Auto 배치를 사용하며 기존 문구·스타일·변수·공개 속성·컴포넌트 연결을 보존합니다. 최종 실제 부모·Position 해제·가시성·노출 수·상태 일치를 검수합니다.
 - **적용 조건**: 위 GridButton 버튼형 선택지에 해당하지 않는 박스에서 **이체·상세 이동 버튼, 체크박스·라디오 등 복합 선택 요소가 있거나 박스 전체가 이동·선택의 동작 대상**인 경우 사용합니다. 푸터 버튼 유무만으로 판단하지 않습니다. 상품 선택, 계좌 선택, 항목 선택 등이 이에 해당합니다.
 - **동작의 경계**: `Data Block` 바깥의 형제 `Button Area`에 수정 버튼 등이 있어도 박스 자체가 동작하지 않으면 `Data Block`을 유지합니다. 데이터 표시만 하는 박스에 임의의 이동·선택 동작을 추가하여 Card로 바꾸지 않습니다.
 - **푸터 버튼형 계층 구조 예시** (선택·상세 이동형은 해당 원본 variant/공개 속성 및 Slot 구조를 따르며 불필요한 Footer를 추가하지 않음):

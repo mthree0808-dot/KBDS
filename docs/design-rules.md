@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 라디오 선택형 Card의 Body Affix 승인 — 2026-10-28
+
+사용자 지정 bDKgQrkt0oHMJ1EbPUQTp8 / 552:13664를 읽기 전용으로 확인했다. 선택 Card2367:21103과 미선택 Card3138:28701 모두 Slot > Body의 직계 자식이 Groups와 Card / Header / Affix다. Body Horizontal·gap12·MIN/MIN·Fill/Hug, Groups Fill/Hug, Affix24×24 Fixed·AUTO·visible true다. Affix variant radio의 원형 key는 a4b2f2201f7cfd3ef54a0d9dd3154c3f19554790이며 내부 Item / Radio checked는 각각 true/false였다.
+
+Card 직계의 기본 Affix는 ABSOLUTE·visible false로 유지되어 있다. 실제 노출 대상은 Body 안 Affix이며, 원형 기본 숨김 노드까지 일괄 노출하지 않는다. 향후 해당 Card 라디오 선택 패턴은 Body의 일반 흐름·노출 Affix1개·기획 상태 대응을 적용한다. 이 기록은 참조 확인과 규칙 갱신이며 승인 화면을 수정한 기록이 아니다.
+
 ## 전폭 StepIndicator·Tab 및 아웃라인 Data Block 승인 — 2026-10-28
 
 사용자가 bDKgQrkt0oHMJ1EbPUQTp8 / 3138:27761을 승인 기준으로 지정했다. 실제 ## BODY 3138:27765는 padding0/0/32/0·gap24·폭390, Container 1 3138:27766은 padding0·폭390으로 StepIndicator 3138:27769를 감싼다. Container 2 3138:27770은 좌우20px·폭390, Data Block 3138:27771은 폭350·padding/radius20px다.

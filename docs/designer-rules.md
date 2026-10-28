@@ -1,5 +1,11 @@
 # 디자이너 규칙의 적용과 검수
 
+## 라디오 선택형 Card Affix — 2026-10-28
+
+사용자 승인552:13664처럼 설명을 담은 Card를 라디오로 선택하면 Card / Surface > Slot > Body > Groups + Card / Header / Affix > Item / Radio를 사용한다. Affix는 variant radio·visible true·layoutPositioning AUTO로 Body에 두고 Absolute로 띄우지 않는다. Body Horizontal·Fill/Hug·gap12(spacing/lg)·MIN/MIN, Groups Fill/Hug, Affix24×24 Fixed와 원형 명칭을 유지한다.
+
+원형 직계의 기본 숨김 Affix는 참조처럼 숨겨 두고 Body의 노출 Affix는 카드당1개만 둔다. 최신 라이브러리의 원형 인스턴스를 사용하며 detach·일반 Radio로 대체·라디오 직접 그리기는 금지한다. Card select/disabled와 내부 Radio checked/disabled/invalid는 기획 상태와 대조한다. 지정 Card 패턴을 GridButton으로 바꾸지 않으며 입력 폼 SelectButton 규칙과 구분한다. 선택·미선택의 실제 계층·AUTO·가시성·노출 수·상태·연결을 검수한다.
+
 ## 헤더 직후 전폭 컴포넌트·Data Block — 2026-10-28
 
 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 3138:27761을 따른다. 헤더 밑 StepIndicator·Tab 등 전폭 컴포넌트가 있으면 BODY padding은 0/0/32/0, Container 1은 padding0·Fill이며 그 안의 컴포넌트도 화면 폭390px를 채운다. 후속 독립 콘텐츠는 형제 Container 2 이상에서 좌우20px를 적용해 콘텐츠350px를 유지한다. 직후 gap24px와 컴포넌트 자체 내부 패딩은 보존하고 외부 여백을 중복하지 않는다. 별도 확정된 Tab+Infobox 동일 Container 복합 패턴의 계층은 유지하면서 전폭과 콘텐츠 폭을 보장한다.

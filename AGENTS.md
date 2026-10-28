@@ -14,6 +14,8 @@
 
 ## 절대 조건
 
+- 2026-10-28 라디오 선택형 Card: 승인552:13664처럼 Card / Surface > Slot > Body > Groups + Card / Header / Affix > Item / Radio 구조를 사용한다. 노출 Affix는 variant radio·AUTO·visible true, Body Horizontal·gap12·MIN/MIN, Groups Fill/Hug, Affix24×24 Fixed다. 원형 기본 숨김 Affix는 노출하지 않아 카드당 실제 Affix1개를 유지한다. Card select/disabled와 Radio 상태를 기획과 대조하며 이 지정 패턴을 GridButton·일반 Radio·SelectButton으로 임의 대체하지 않는다.
+
 - 2026-10-28 전폭 헤더 후속 UI: 3138:27761처럼 헤더 직후 StepIndicator·Tab이 오면 BODY 좌우·상단0, 하단32 / Container 1 padding0·Fill / 컴포넌트 전폭390을 유지한다. 후속 독립 콘텐츠 Container 2 이상에만 좌우20을 적용하고 직후 gap24를 유지한다. Data Block은 단일·복수 모두 아웃라인(fill quaternary-muted / border secondary-muted / stroke/md / padding·radius20)이며 회색 무테 재량은 Text Box에만 유지한다. 원형 내부 패딩·별도 확정 복합 패턴·문구·숫자 서체·연결은 보존한다.
 
 - 2026-10-28 사용자 지정 컴포넌트 교정: 발급정보 3142:17373·3142:17946의 발급 언어·주민등록번호 뒷자리 표기 선택은 SelectButton(word/single)이다. 기획 설명에 라디오라고 적혀 있거나 Slot 옵션 문제가 있어도 지정 컴포넌트를 임의로 Radio로 바꾸지 않는다.
