@@ -5,7 +5,7 @@
 - **대표전화·전화번호가 숫자와 번호 구분 기호만으로 이루어진 독립 Text이면 반드시 `Pretendard`를 적용합니다.** 예: `1588-9999`, `1588-9999, 1599-9999, 1644-9999`. 하이픈(`-`)·쉼표(`,`)·공백·전화번호 표기용 괄호·국가번호의 `+`는 숫자 서식의 일부이며 문자·숫자 혼용으로 판정하는 근거가 아닙니다.
 - 종전 **‘Dialog 대표전화는 KBFG Text를 우선한다’는 예외는 삭제**합니다. 참고 화면의 KBFG 서체를 복제하거나 대표전화라는 역할을 근거로 이 숫자 규칙을 우회하지 않습니다. 대표전화 제목은 별도 문자 Text이므로 KBFG Text를 유지하며, 숫자만 있는 번호 Text는 Pretendard로 각각 판정합니다.
 - `대표전화 1588-9999`처럼 문자와 숫자가 실제 하나의 Text에 섞인 경우는 기존 원칙대로 전체 KBFG Text입니다. Pretendard 적용을 위해 혼용 Text를 임의로 분할하지 않습니다. 이미 제목·번호가 분리된 구조를 하나의 혼용 Text로 합쳐 숫자 서체 적용을 피하지 않습니다.
-- 최신 라이브러리에서 해당 숫자 역할·크기·굵기에 대응하는 Text Style·fontFamily 변수를 사용합니다. 번호의 크기·행간·자간·색상·밑줄·원문·자연 줄바꿈·Hug/Fill과 `Title / Text` 구조, 8px/16px/4px/20px 간격 및 컴포넌트 연결은 보존합니다. Pretendard Variable이나 다른 서체로 임의 대체하지 않습니다.
+- 최신 라이브러리에서 해당 숫자 역할·크기·굵기에 대응하는 Text Style·fontFamily 변수를 사용합니다. **대표전화 번호 Text의 색상은 `text/neutral/primary` 변수를 연결합니다.** 종전 secondary 지시는 이 최신 기준으로 변경합니다. 번호의 크기·행간·자간·밑줄·원문·자연 줄바꿈·Hug/Fill과 `Title / Text` 구조, 8px/16px/4px/20px 간격 및 컴포넌트 연결은 보존합니다. Pretendard Variable이나 다른 서체로 임의 대체하지 않습니다.
 - 완료 검수에서 실제 번호 Text의 **font family가 `Pretendard`인지**, 숫자용 스타일·변수 연결과 하이픈·쉼표가 있는 번호 전체에 동일하게 적용됐는지 확인합니다. KBFG로 남아 있으면 실패입니다. 이 MD 갱신만으로 기존 Figma 화면을 수정했다고 보고하지 않습니다.
 
 ## 더보기 간격·Dialog 문장부호 최종 기준 (2026-10-29 사용자 변경)
@@ -42,9 +42,9 @@
 - **위쪽 간격**: 상단 설명의 끝 → 대표전화 블록의 시작은 **16px(`spacing/xl`)**입니다. 실제 Slot의 두 블록 사이 itemSpacing으로 연결하며 padding·빈 프레임을 중복 가산하지 않습니다. **대표전화 제목 → 번호 Text는 4px(`spacing/xs`)**로 연결합니다. 일반 제목 뒤16px·반복 그룹24px 규칙을 이 승인된 전화 블록 내부에 적용하지 않습니다.
 - **상단 제목·설명 그룹핑 필수**: 대표전화가 노출되는 이 Dialog에서는 **대표전화 위의 `Title`과 설명 `Text`도 실제 하나의 Vertical Auto Layout `Title / Text`로 묶습니다.** 이 상단 그룹 내부 gap은 **8px(`spacing/md`)**입니다. 따라서 `Dialog > Slot`의 직계 자식은 **상단 `Title / Text`(Title + Text)**와 **하단 `Title / Text`(대표전화 Title / Element + 번호 Text)**인 두 형제 블록이며, 두 그룹 사이 gap은16px입니다. Title·Text·대표전화를 Slot에 평탄하게 세 항목으로 나열하거나, 대표전화 블록만 그룹핑한 상태는 실패입니다. 각 원형 컴포넌트·텍스트 스타일과 변수 연결은 보존하고 완료 검수에서 상단의 실제 그룹핑·부모 명칭·8px/16px/4px 계층을 함께 확인합니다.
 - **대표전화 제목**: 최신 `Title / Element`의 **KBFG Text / 14px / Medium / line-height20px**, 색상 **`text/neutral/primary`**를 유지합니다. optional·tooltip·suffix는 false입니다. 대응 Text Style은 `Dynamic/Body/sm∙14∙Medium`(key `87439f01ad7a7fbf6b1556036328a19d5f0ef75c`)이며 medium 변수 연결을 유지합니다.
-- **전화번호 (2026-10-29 교정)**: 숫자와 번호 구분 기호만 있는 번호 Text는 **Pretendard / 16px / line-height22px**, 색상 **`text/neutral/secondary`**, 밑줄 없음으로 적용합니다. 굵기와 서체 연결은 해당 역할에 대응하는 최신 라이브러리 숫자용 Text Style·변수를 사용하며, KBFG Text 스타일(`Dynamic/Body/md∙16∙Bold`)을 번호의 기준으로 재사용하지 않습니다. 하이픈·쉼표·공백은 숫자 서식이므로 Pretendard 판정을 바꾸지 않습니다. 대표전화에 KBFG를 우선하던 예외는 삭제하며, 번호를 이유로 링크·전화 연결 동작을 임의 추가하지 않습니다.
+- **전화번호 (2026-10-29 교정)**: 숫자와 번호 구분 기호만 있는 번호 Text는 **Pretendard / 16px / line-height22px**, 색상 **`text/neutral/primary`**, 밑줄 없음으로 적용합니다. 굵기와 서체 연결은 해당 역할에 대응하는 최신 라이브러리 숫자용 Text Style·변수를 사용하며, KBFG Text 스타일(`Dynamic/Body/md∙16∙Bold`)을 번호의 기준으로 재사용하지 않습니다. 하이픈·쉼표·공백은 숫자 서식이므로 Pretendard 판정을 바꾸지 않습니다. 대표전화에 KBFG를 우선하던 예외는 삭제하며, 번호를 이유로 링크·전화 연결 동작을 임의 추가하지 않습니다.
 - **크기 모드·주변 영역**: 두 블록과 Text 래퍼는 가로 Fill·세로 Hug, 번호 Text는 가로 Fill·내용에 따른 높이 및 자연스러운 줄바꿈을 사용합니다. 참조의 280px 본문 폭에서 번호가 두 줄인 것을 고정 높이44px나 강제 개행으로 복제하지 않습니다. Dialog Slot → 별도 자세히보기 Accordion → ButtonGroup의 원형 관계와 간격은 유지합니다. 이 참조의 대표전화 블록 아래 Accordion과의 간격은 **20px(`spacing/2xl`)**이며 Dialog 제목·설명의 문장부호는 기획 원문을 따르고 HomeIndicator Fill 숨김 예외는 유지합니다. 참조의 다른 레이어 누락이나 문구를 규칙으로 상속하지 않습니다.
-- **완료 검수**: 설명→대표전화16px, 제목→번호4px, 번호→후속 Accordion20px의 실질 간격과 토큰, Title / Element 인스턴스·옵션, 제목14 KBFG Medium/primary·번호16 Pretendard/secondary의 숫자용 Text Style·변수, Fill/Hug·줄바꿈·실제 번호·부모 명칭을 확인합니다. 대표전화 문구를 설명에 이어 붙이거나 상단 설명 스타일을 번호에 그대로 사용하는 것은 실패입니다. 이번 요청은 MD 규칙 갱신이며 기존 Figma 화면의 일괄 수정 완료를 의미하지 않습니다.
+- **완료 검수**: 설명→대표전화16px, 제목→번호4px, 번호→후속 Accordion20px의 실질 간격과 토큰, Title / Element 인스턴스·옵션, 제목14 KBFG Medium/primary·번호16 Pretendard/primary의 숫자용 Text Style·변수, Fill/Hug·줄바꿈·실제 번호·부모 명칭을 확인합니다. 대표전화 문구를 설명에 이어 붙이거나 상단 설명 스타일을 번호에 그대로 사용하는 것은 실패입니다. 이번 요청은 MD 규칙 갱신이며 기존 Figma 화면의 일괄 수정 완료를 의미하지 않습니다.
 
 ## 긴 문장 선택의 sentence SelectButton·링크 primary/medium (2026-10-28 사용자 확정)
 
