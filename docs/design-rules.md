@@ -1,5 +1,12 @@
 # 실측 디자인 규칙
 
+## 본문 서비스 바로가기 TextButton의 우측 배치 (2026-10-29 사용자 교정)
+
+- **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
+- `Button Area`는 가로 Fill·세로 Hug·gap0으로 만들고 실제 오른쪽 끝에 버튼을 배치합니다. Vertical Auto Layout이면 `counterAxisAlignItems: MAX`, Horizontal이면 `primaryAxisAlignItems: MAX`로 가로 우측 정렬하며 교차 축은 가운데 정렬합니다. 버튼은 가로·세로 Hug, Label 안 버튼명은 WIDTH_AND_HEIGHT·가로 Hug를 유지하고 좌표·고정 폭·빈 프레임으로 우측 정렬을 대신하지 않습니다.
+- 최신 라이브러리의 실제 TextButton 인스턴스와 공개 variant/size를 사용합니다. 문구·이동 목적과 기획에 있는 우측 화살표는 보존하고, Prefix·Suffix·밑줄·아이콘은 해당 기획과 원형 용도에 맞춥니다. 이 유형의 이전 xsmall 지정은 small로 변경하며 버튼 크기 변경만을 이유로 기존 외부 간격을 바꾸지 않습니다. Infobox / Card 등 다른 컴포넌트에 내장된 전용 버튼 영역과 독립 CTA·AppBar·인라인 링크에는 이 본문 독립 버튼 규칙을 일괄 적용하지 않습니다.
+- 완료 검수에서 실제 variant가 secondary·size가 small인지, Button Area 오른쪽 경계와 버튼 오른쪽 경계가 일치하는지, 부모 명칭·문구·화살표·Hug·자연 너비 및 원본 연결을 확인합니다.
+
 ## Infobox 후속 Tab은 2depth (2026-10-29 사용자 교정)
 
 - **Infobox 다음에 Tab이 배치되는 화면은 `Tab`의 `variant: 2depth`를 사용합니다.** `Infobox / FullWidth` 다음에 항목 탐색 탭이 이어지는 금융거래종합보고서 화면도 이 기준에 해당합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
@@ -403,7 +410,7 @@ DataList 원형 key는 `689423c84906f367c21aa49c4bc1f8315ed8afa1`, 속성은 spl
 
 ## InputField 보조 버튼·도움말 선택 목록 승인 (2026-10-19)
 
-InputField 뒤에 해결방법 등의 보조 버튼이 오는 패턴은 [2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)의 조합 `2025:7406`을 기준으로 합니다. `InputField / Button Area`는 Vertical / Fill·Hug / gap 12px이며 자식은 InputField → Button Area입니다. Button Area는 gap 0 / 우측 정렬 / Fill·Hug, TextButton은 `secondary / xsmall` / prefix false / suffix true / underline false / Hug·Hug입니다. 2026-10-20 최종 교정 참조는 [2025:7407](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-7407)의 TextButton `2025:7417`이며, 실제 secondary/xsmall 원형 key는 `b6a8096e03e888ef8969ad417c39bf9356c84bd1`, 버튼 높이는 17px입니다. Title과 조합 간격은 24px입니다. 이 조합 구조의 적용 화면은 인증번호 입력 `2050:1586`입니다. 2026-10-20 확정 규칙은 인풋 조합 및 박스 아래 별도 TextButton의 variant를 모두 secondary로 지정합니다. 종전 primary 지정은 철회하고 기존 크기·간격·정렬은 유지합니다. 박스 아래 버튼에도 InputField 조합의 12px 간격이나 xsmall 크기를 일괄 복제하지 않으며, InputField 내부 버튼·독립 CTA는 이 교정 대상과 구분합니다.
+InputField 뒤에 해결방법 등의 보조 버튼이 오는 조합 구조는 [2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)를 따릅니다. `InputField / Button Area`는 Vertical / Fill·Hug / gap12px, 자식은 InputField → Button Area입니다. Button Area는 gap0 / 우측 정렬 / Fill·Hug이며 독립 보조 TextButton은 2026-10-29 최신 기준에 따라 `secondary / small` / prefix false / suffix true / underline false / Hug·Hug로 적용합니다. 종전 xsmall·높이17px 관측을 새 제작 크기로 고정하지 않습니다. 상위 Title과 조합 간격24px 등 기존 외부 간격과 최신 컴포넌트 연결은 유지합니다. InputField 내부 버튼·독립 CTA·타 컴포넌트에 내장된 전용 버튼은 해당 원형 및 별도 사용자 규칙을 따릅니다.
 
 도움말 기획 `CdyCQv4aFslTl7MGoQxmU9 / 4469:44517`은 [고객정보 관리 185:14891](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=185-14891)의 테두리 없는 List 구성으로 매핑합니다. Slot padding 0/0/20/0, Container padding 0/20/0/20, List Group gap 0, List padding 12/0/12/0입니다. List key는 `4e49c191a8a8b7aa357c533168784411107b1e9d`, Prefix는 기본 `Item / Prefix (bgIcon)` key `79287fcb98e330378785cba4e19e9e83a7475478`(아이콘 48×48, 래퍼 폭 52), Suffix는 pageIndicator key `e53ffc35cc7fc4c362102ceb06618845712183ce`입니다. 주 문구 16 Bold style key `c0b7c927f31310c8297f679419d5a38377fc74db`, 부연 문구 14 Light key `b9f5d92dffa67d9779e50c32f2c9f732a727fe8a`를 사용합니다. 최종 아이콘은 작업자가 지정하므로 기본 인스턴스를 유지합니다. 적용 화면 `2050:2207`은 기획의 본문 안내를 Text로 보존하고 목록과 gap 16px로 묶었습니다.
 

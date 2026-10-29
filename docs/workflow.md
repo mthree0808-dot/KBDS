@@ -1,5 +1,12 @@
 # 작업 실행 절차
 
+## 본문 서비스 바로가기 TextButton의 우측 배치 (2026-10-29 사용자 교정)
+
+- **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
+- `Button Area`는 가로 Fill·세로 Hug·gap0으로 만들고 실제 오른쪽 끝에 버튼을 배치합니다. Vertical Auto Layout이면 `counterAxisAlignItems: MAX`, Horizontal이면 `primaryAxisAlignItems: MAX`로 가로 우측 정렬하며 교차 축은 가운데 정렬합니다. 버튼은 가로·세로 Hug, Label 안 버튼명은 WIDTH_AND_HEIGHT·가로 Hug를 유지하고 좌표·고정 폭·빈 프레임으로 우측 정렬을 대신하지 않습니다.
+- 최신 라이브러리의 실제 TextButton 인스턴스와 공개 variant/size를 사용합니다. 문구·이동 목적과 기획에 있는 우측 화살표는 보존하고, Prefix·Suffix·밑줄·아이콘은 해당 기획과 원형 용도에 맞춥니다. 이 유형의 이전 xsmall 지정은 small로 변경하며 버튼 크기 변경만을 이유로 기존 외부 간격을 바꾸지 않습니다. Infobox / Card 등 다른 컴포넌트에 내장된 전용 버튼 영역과 독립 CTA·AppBar·인라인 링크에는 이 본문 독립 버튼 규칙을 일괄 적용하지 않습니다.
+- 완료 검수에서 실제 variant가 secondary·size가 small인지, Button Area 오른쪽 경계와 버튼 오른쪽 경계가 일치하는지, 부모 명칭·문구·화살표·Hug·자연 너비 및 원본 연결을 확인합니다.
+
 ## Infobox 후속 Tab은 2depth (2026-10-29 사용자 교정)
 
 - **Infobox 다음에 Tab이 배치되는 화면은 `Tab`의 `variant: 2depth`를 사용합니다.** `Infobox / FullWidth` 다음에 항목 탐색 탭이 이어지는 금융거래종합보고서 화면도 이 기준에 해당합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
@@ -298,7 +305,7 @@ Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Gro
 
 2026-10-20 승인 규칙: 체크마크로 선택 상태를 표시하는 셀렉트 바텀시트의 List는 체크마크 노출 여부와 관계없이 높이 48px / 세로 Fixed로 계획·제작·검수합니다. 비노출 상태의 원형 Hug 높이 46px를 그대로 사용하지 않으며, 선택 전후의 List 높이와 항목 위치가 동일한지 확인합니다. 도움말·이용 방법 선택 List의 별도 높이에는 일괄 적용하지 않습니다.
 
-2026-10-19 승인 패턴: InputField 뒤 보조 이동 버튼은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:6834`의 `InputField / Button Area`(gap 12px)와 우측 정렬 Button Area / TextButton secondary·xsmall·suffix true·underline false를 매핑합니다. 도움말·이용 방법 선택 바텀시트는 `KFlklMvGmg0MXGfAXvpprn / 185:14891`의 테두리 없는 List 패턴을 적용하고, 목록 gap 0·List padding 12/0·기본 Item / Prefix(bgIcon)·Suffix pageIndicator를 확인합니다. 기획 본문이 있으면 Text로 보존하고 목록과 gap 16px로 배치합니다. 아이콘은 작업자가 직접 지정하므로 기본 인스턴스만 두며, 전체 Card 패턴이나 일반 선택 바텀시트의 gap 8px를 이 경우에 적용하지 않습니다. 상세 수치와 키는 원문 및 실측 디자인 규칙을 따릅니다.
+2026-10-19 승인 패턴: InputField 뒤 보조 이동 버튼은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:6834`의 `InputField / Button Area`(gap 12px)와 우측 정렬 Button Area / TextButton secondary·small·suffix true·underline false를 매핑합니다. 도움말·이용 방법 선택 바텀시트는 `KFlklMvGmg0MXGfAXvpprn / 185:14891`의 테두리 없는 List 패턴을 적용하고, 목록 gap 0·List padding 12/0·기본 Item / Prefix(bgIcon)·Suffix pageIndicator를 확인합니다. 기획 본문이 있으면 Text로 보존하고 목록과 gap 16px로 배치합니다. 아이콘은 작업자가 직접 지정하므로 기본 인스턴스만 두며, 전체 Card 패턴이나 일반 선택 바텀시트의 gap 8px를 이 경우에 적용하지 않습니다. 상세 수치와 키는 원문 및 실측 디자인 규칙을 따릅니다.
 
 2026-10-19 승인 규칙: 일반 콘텐츠의 Tab 직후는 실제 간격 24px(`spacing/3xl`)로 계획·검수합니다. Tab + Infobox / Card는 `## BODY > Container 1 > Tab, Infobox / Card`로 구성하고 두 컴포넌트를 Container 1의 직계 자식으로 둡니다. `Tab / Infobox` 아래에 별도 Container들을 넣는 구조는 금지합니다. 해당 Container 내부 gap 24px와 BODY의 다른 구간 기본 gap 32px를 구분하며, 다음 독립 본문 블록은 형제 Container 2부터 이어갑니다. 고객명~인증완료 등 건별 조회 내역은 와이어프레임의 평면 DataList Group·상하 Divider 대신 승인 참조 `0P0j17OPstNhC3LWjBdBGy / 4:979, 4:994`의 Data Block으로 치환합니다. 문구·값·순서·건수는 유지하고 기획에 없는 Title·툴팁·아이콘은 숨깁니다. 박스 padding·radius 20px, 내부 목록 및 반복 박스 gap 12px의 DS 토큰 연결을 검수합니다. 완료 화면 D18·D19와 특수 Feedback 규칙은 유지합니다.
 

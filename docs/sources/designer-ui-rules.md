@@ -1,5 +1,12 @@
 # UI Design & Code Generation Rules
 
+## 본문 서비스 바로가기 TextButton의 우측 배치 (2026-10-29 사용자 교정)
+
+- **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
+- `Button Area`는 가로 Fill·세로 Hug·gap0으로 만들고 실제 오른쪽 끝에 버튼을 배치합니다. Vertical Auto Layout이면 `counterAxisAlignItems: MAX`, Horizontal이면 `primaryAxisAlignItems: MAX`로 가로 우측 정렬하며 교차 축은 가운데 정렬합니다. 버튼은 가로·세로 Hug, Label 안 버튼명은 WIDTH_AND_HEIGHT·가로 Hug를 유지하고 좌표·고정 폭·빈 프레임으로 우측 정렬을 대신하지 않습니다.
+- 최신 라이브러리의 실제 TextButton 인스턴스와 공개 variant/size를 사용합니다. 문구·이동 목적과 기획에 있는 우측 화살표는 보존하고, Prefix·Suffix·밑줄·아이콘은 해당 기획과 원형 용도에 맞춥니다. 이 유형의 이전 xsmall 지정은 small로 변경하며 버튼 크기 변경만을 이유로 기존 외부 간격을 바꾸지 않습니다. Infobox / Card 등 다른 컴포넌트에 내장된 전용 버튼 영역과 독립 CTA·AppBar·인라인 링크에는 이 본문 독립 버튼 규칙을 일괄 적용하지 않습니다.
+- 완료 검수에서 실제 variant가 secondary·size가 small인지, Button Area 오른쪽 경계와 버튼 오른쪽 경계가 일치하는지, 부모 명칭·문구·화살표·Hug·자연 너비 및 원본 연결을 확인합니다.
+
 ## Infobox 후속 Tab은 2depth (2026-10-29 사용자 교정)
 
 - **Infobox 다음에 Tab이 배치되는 화면은 `Tab`의 `variant: 2depth`를 사용합니다.** `Infobox / FullWidth` 다음에 항목 탐색 탭이 이어지는 금융거래종합보고서 화면도 이 기준에 해당합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
@@ -310,8 +317,8 @@
     - 하위 계층인 **`Item / Footer / hint`**에 해당 안내 텍스트를 적용
 - **InputField 및 박스 아래 보조 TextButton (2026-10-20 최종 교정)**:
   - [휴대폰 인증 기준 2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)처럼 입력 필드 다음에 해결방법·도움말 등의 보조 버튼이 오는 경우, **`InputField / Button Area`** Vertical Auto Layout 안에 **`InputField` → `Button Area`** 순서로 배치합니다. 조합은 가로 Fill·세로 Hug, **gap 12px (`spacing/lg`)**입니다.
-  - `Button Area`는 가로 Fill·세로 Hug, gap 0, 가로 우측 정렬(`counterAxisAlignItems: MAX`), 세로 가운데 정렬입니다. 내부는 실제 **`TextButton` (`variant: secondary`, `size: xsmall`, `hasPrefix: false`, `hasSuffix: true`, `underline: false`)** 인스턴스와 우측 이동 화살표를 사용하며 버튼 자체는 Hug·Hug입니다.
-  - **최종 variant 기준**: [휴대폰 인증 2025:7407](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-7407)의 하단 TextButton `2025:7417`처럼 **인풋 조합 및 박스 아래에 별도 배치하는 TextButton은 `variant: secondary`**를 사용합니다. 앞서 이 패턴에 기록한 `primary`는 `secondary`로 교정합니다. 박스의 기존 간격·정렬·버튼 크기는 유지하며, 박스 아래에도 InputField 조합의 간격·크기를 일괄 복제하지 않습니다. InputField 내부의 버튼과 독립 CTA에는 이 규칙을 일괄 적용하지 않습니다.
+  - `Button Area`는 가로 Fill·세로 Hug, gap 0, 가로 우측 정렬(`counterAxisAlignItems: MAX`), 세로 가운데 정렬입니다. 내부는 실제 **`TextButton` (`variant: secondary`, `size: small`, `hasPrefix: false`, `hasSuffix: true`, `underline: false`)** 인스턴스와 우측 이동 화살표를 사용하며 버튼 자체는 Hug·Hug입니다.
+  - **최종 variant 기준**: [휴대폰 인증 2025:7407](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-7407)의 하단 TextButton `2025:7417`처럼 **인풋 조합 및 박스 아래에 별도 배치하는 TextButton은 `variant: secondary`**를 사용합니다. 앞서 이 패턴에 기록한 `primary`는 `secondary`로 교정합니다. 박스의 기존 간격·정렬은 유지하며 버튼 크기는 최신 small 기준을 적용하고, 박스 아래에도 InputField 조합의 간격·크기를 일괄 복제하지 않습니다. InputField 내부의 버튼과 독립 CTA에는 이 규칙을 일괄 적용하지 않습니다.
   - 상위 Container에서 `Title / Page`와 이 조합 사이 간격은 24px (`spacing/3xl`)입니다. InputField 내부 타이머·다시받기 등의 기존 속성과 기획 문구는 유지합니다. 입력 필드 뒤의 보조 이동 버튼 패턴이며, 독립 CTA나 InputField 내부 버튼까지 일괄 변경하지 않습니다.
 
 ---

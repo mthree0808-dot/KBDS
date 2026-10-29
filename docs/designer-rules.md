@@ -1,5 +1,12 @@
 # 디자이너 규칙의 적용과 검수
 
+## 본문 서비스 바로가기 TextButton의 우측 배치 (2026-10-29 사용자 교정)
+
+- **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
+- `Button Area`는 가로 Fill·세로 Hug·gap0으로 만들고 실제 오른쪽 끝에 버튼을 배치합니다. Vertical Auto Layout이면 `counterAxisAlignItems: MAX`, Horizontal이면 `primaryAxisAlignItems: MAX`로 가로 우측 정렬하며 교차 축은 가운데 정렬합니다. 버튼은 가로·세로 Hug, Label 안 버튼명은 WIDTH_AND_HEIGHT·가로 Hug를 유지하고 좌표·고정 폭·빈 프레임으로 우측 정렬을 대신하지 않습니다.
+- 최신 라이브러리의 실제 TextButton 인스턴스와 공개 variant/size를 사용합니다. 문구·이동 목적과 기획에 있는 우측 화살표는 보존하고, Prefix·Suffix·밑줄·아이콘은 해당 기획과 원형 용도에 맞춥니다. 이 유형의 이전 xsmall 지정은 small로 변경하며 버튼 크기 변경만을 이유로 기존 외부 간격을 바꾸지 않습니다. Infobox / Card 등 다른 컴포넌트에 내장된 전용 버튼 영역과 독립 CTA·AppBar·인라인 링크에는 이 본문 독립 버튼 규칙을 일괄 적용하지 않습니다.
+- 완료 검수에서 실제 variant가 secondary·size가 small인지, Button Area 오른쪽 경계와 버튼 오른쪽 경계가 일치하는지, 부모 명칭·문구·화살표·Hug·자연 너비 및 원본 연결을 확인합니다.
+
 ## Infobox 후속 Tab은 2depth (2026-10-29 사용자 교정)
 
 - **Infobox 다음에 Tab이 배치되는 화면은 `Tab`의 `variant: 2depth`를 사용합니다.** `Infobox / FullWidth` 다음에 항목 탐색 탭이 이어지는 금융거래종합보고서 화면도 이 기준에 해당합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
@@ -257,7 +264,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 - 2026-10-20 선택형 버튼 UI: `2074:1554`처럼 선택지를 버튼으로 열거하는 화면은 Card / Surface 대신 실제 **GridButton**을 우선합니다. `GridButton > Slot > Grid > Item / Vertical` 원형을 유지하고 **Slot 안 Grid의 행·열·아이템 수·순서**를 기획에 맞춰 조정합니다. 현재 primary/grid, 1행 2열·균등 Fill·gap 8px는 예시이며 전역 고정하지 않습니다. 하단 Button Area 조합 래퍼는 `GridButton / Button Area`입니다. List 셀렉트 바텀시트 등 기존 전용 패턴은 유지합니다.
 - 2026-10-20 필수/선택 최종 교정: 필수 InputField는 Title / Element의 `optional: false`로 optional 래퍼를 숨깁니다. 필수가 아닌 항목은 `optional: true`와 기본 `(선택)` 문구·색상·서체·스타일·변수를 그대로 유지합니다. 기존 `(필수)`·강조색 재정의는 원형으로 복원하며 표기 대신 래퍼 가시성만 제어합니다.
 - 2026-10-20 최종 교정: [2025:7407](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-7407)의 하단 TextButton처럼 **인풋 조합 및 박스 아래에 별도 배치하는 TextButton의 variant는 secondary**입니다. 종전 인풋 조합의 primary 지정은 철회하며 기존 크기·간격·정렬은 유지합니다. InputField 내부 버튼과 독립 CTA까지 일괄 변경하지 않습니다.
-- InputField 뒤 보조 이동 버튼은 [2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)의 `InputField / Button Area > InputField, Button Area` 구조로 묶고 gap 12px를 적용합니다. 상위 Title과의 간격은 24px입니다. Button Area는 Fill·Hug / gap 0 / 우측 정렬이며 TextButton은 실제 `secondary / xsmall`, prefix false / suffix true(우측 화살표) / underline false / Hug·Hug입니다. 내부 입력 버튼이나 독립 CTA까지 일반화하지 않습니다.
+- InputField 뒤 보조 이동 버튼은 [2025:6834](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2025-6834)의 `InputField / Button Area > InputField, Button Area` 구조로 묶고 gap 12px를 적용합니다. 상위 Title과의 간격은 24px입니다. Button Area는 Fill·Hug / gap 0 / 우측 정렬이며 TextButton은 실제 `secondary / small`, prefix false / suffix true(우측 화살표) / underline false / Hug·Hug입니다. 내부 입력 버튼이나 독립 CTA까지 일반화하지 않습니다.
 - 도움말·이용 방법 선택 바텀시트는 [185:14891](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=185-14891)의 테두리 없는 List 패턴을 우선합니다. `Slot > Container > List Group > List`, 목록 gap 0, Slot padding 0/0/20/0, Container padding 0/20/0/20, List padding 12/0/12/0입니다. 본문 안내는 Text로 유지하고 목록과 gap 16px로 묶습니다. List의 Prefix는 기본 `Item / Prefix (bgIcon)`(아이콘 48×48, 래퍼 폭 52), Middle은 16 Bold + 필요 시 14 Light, Suffix는 pageIndicator입니다. 아이콘의 최종 선택·교체는 작업자 몫이므로 기본 인스턴스만 둡니다. D07의 일반 선택 목록 gap 8px나 Card 패턴보다 이 구체적 규칙이 우선합니다.
 - 링크 목록의 제목·목록 래퍼는 `Title / List Group`으로 명명하고, 실제 `List` 인스턴스 이름은 유지합니다. Container 2 이상에서 래퍼 padding-top은 `spacing/3xl`=24px, 내부 `List Group` gap은 0px입니다. 래퍼 자체의 Title↔목록 gap 16px와 Container 1 기존 값은 유지합니다. 이전에 전달된 내부 목록 gap 24px는 철회되었습니다.
 - PDF 약관 상세는2026-10-27 확정한v0.95 기준31888:30615와 원문§2.G를 적용합니다. StatusBar는 아트보드 직계Auto, 3단 영역은 Popup > Slot 안 Header / Body / Footer입니다. BODY·body Fill, Footer Absolute, 아트보드 직계 Pagination 실제 인스턴스·Absolute를 유지합니다. 종전72:9033의 직계3단·Container1/2 유지 규칙을 새 구조에 적용하지 않습니다.
