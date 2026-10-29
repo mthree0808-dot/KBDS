@@ -1,5 +1,16 @@
 # UI Design & Code Generation Rules
 
+## 약관 참조 재확인·Slot 구분선 보존 (2026-10-29 사용자 교정)
+
+- **현재 참조를 역할로 구분**: 약관 템플릿 탐색 시작점은 [Templates 페이지 10552:10031](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10552-10031)이며 페이지 자체를 개별 화면으로 복제하지 않습니다. 상위·하위 동의 목록의 기본 참조는 [Depth 1+2 31061:78124](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78124)입니다. [78292 초기 레이블](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292)·[78209 실제 문구](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209)는 1~4뎁스·긴 문구·체크/라디오·Grid의 기준, [78333 BottomSheet](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333)는 시트의 기준입니다. 필요한 사례의 실제 자식·속성·간격을 확인하고 최신 라이브러리 원형을 import합니다.
+- **종전 참조 오분류 교정**: 2026-10-29 재확인 시 `31061:78151`은 프레임 이름이 “Depth 1+2”여도 실제로는 `Item / Consent(1d)`의 “상품설명서”만 있는 단일 항목 사례입니다. 이를 하위 동의가 있는 화면의 기준으로 사용하지 않습니다. 하위가 없는 경우에는 Divider·빈 목록을 추가하지 않습니다. 종전 `78179`(1+2+3)·`78354`(TextList16+ConsentFinal) 등 별도 유형은 해당 역할에만 유지하며 일반 동의 목록과 혼용하지 않습니다.
+- **하위 항목이 있는 ConsentGroup의 필수 구조**: `ConsentGroup > Container > Item / Consent(1d)` 다음 `Slot`의 첫 자식은 `Divider` Vertical Auto Layout이며 그 안에 실제 `Divider / Horizontal(variant: secondary, thickness: 1px)`를 둡니다. `Divider` 래퍼는 가로 Fill·세로 Hug·gap0·padding 0 0 12px 0(`spacing/lg`), 선은 내부 폭 Fill·높이1px입니다. 그 뒤에 기획에 맞는 `Item / Consent(2d / 3d-group / 4d-group / description / textList)`를 배치합니다. 이 구분선은 상위 선택과 하위 목록 사이의 구조 요소이며 기획에 상세 이동 화살표가 없다는 이유로 제거하지 않습니다.
+- **Slot 교체 시 구조 보존**: 문구·항목을 교체할 때 더미 콘텐츠만 선별하여 제거하고 필수 `Divider` 래퍼·선과 원형 계층은 보존합니다. 콘텐츠용 Slot을 재구성해야 한다면 위 필수 구조를 먼저 복원한 뒤 항목을 넣습니다. Slot을 비우고 체크 항목만 추가한 상태, Divider 누락·중복, 빈 프레임이나 외부 gap으로 12px를 대신한 상태는 실패입니다. 일반 콘텐츠용 Slot 편집은 허용하되 variant 자동 타입 전환의 원형 연결을 끊지 않습니다.
+- **위계·서체·간격**: 1d는 원형 16px Bold·상하16px·check-large, 2d는 16px Medium·상하12px·check-small, 내부 Slot gap0·하단8px와 Container 좌우20px를 유지합니다. 3d/4d는 대응 원형의 32px 들여쓰기·하단12px·Grid 분기·각 Text Style/변수를 그대로 따릅니다. 반복 ConsentGroup은 실제 `[명칭] Group` Auto Layout으로 묶고 그룹 사이12px를 적용합니다. 원형 padding에 추가 들여쓰기를 중복하지 않습니다.
+- **상태와 역할은 실제 기획 우선**: `78124`의 전체 선택 상태를 모든 화면의 초기값으로 복사하지 않습니다. 기획이 미선택이면 1d·각 하위 Item / Box를 checked false로 두고, 비활성·indeterminate와 구분합니다. 상세 이동이 없으면 hasSuffix false, 설명이 없으면 hasSubLabel false입니다. 개별 선택 문장은 해당 동의 뎁스로, 직접 설명은 description으로, 별도 본문+확인형은 TextList16+ConsentFinal로 매핑합니다. 긴 문장이라는 이유만으로 타입이나 Weight를 임의 변경하지 않습니다.
+- **화면 외곽과 원형은 구분**: 일반 약관은 승인 참조의 BODY padding24/20/32/20·gap24 및 Title / Page를 적용합니다. 기획에 명시된 전폭 StepIndicator가 있는 작성 단계는 별도 전폭 규칙(BODY 상단·좌우0, 하단32 / Container 1 전폭 / 후속 본문 Container 좌우20)을 유지하고, 일반 참조에 없다는 이유로 단계를 제거하거나 제목을 중복 추가하지 않습니다. BottomSheet·TextList 확인형·PDF 상세 역시 각 대응 구조를 따릅니다.
+- **완료 판정**: 현재 component key뿐 아니라 각 Slot 첫 Divider의 존재·secondary/1px·Fill·하단12px 토큰, 항목 개수·문구·실제 뎁스·Prefix/Suffix·선택 상태·그룹12px·서체/변수·긴 문구 줄바꿈을 함께 확인합니다. native 인스턴스를 사용했다는 사실만으로 통과시키지 않습니다. 구조를 고친 뒤 부모 명칭·실제 높이를 다시 확인하고 최종 화면을 직접 검수합니다. 이번 교정 대상 `bDKgQrkt0oHMJ1EbPUQTp8 / 3346:1492`는 두 그룹의 구분선 누락을 복원한 사례이며 기획의 6개 하위 문구·미선택·CTA는 유지합니다.
+
 ## StepIndicator → Infobox / Solid → Feedback 간격 (2026-10-28 사용자 확정)
 
 - 승인 참조는 [원천징수영수증 계좌 없음 3272:24337](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3272-24337)입니다. **StepIndicator 아래에 Infobox / Solid, 그 아래에 Feedback이 이어지는 흐름에서는 두 구간의 외부 Auto Layout gap을 모두24px(`spacing/3xl`)로 적용합니다.** StepIndicator → Infobox / Solid와 Infobox / Solid → Feedback 각각에 적용하며 일반 BODY/인포박스 후속 간격32px를 상속하지 않습니다.
@@ -690,20 +701,22 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 ---
 
-## 4. 약관 화면 전용 패턴 — v0.95 ConsentGroup
+## 4. 약관 화면 전용 패턴 — v0.95.4 ConsentGroup
 
-### A. 승인된 6가지 경우와 화면 외곽 구조
+### A. 현재 승인 사례와 화면 외곽 구조
 
 | 경우 | 최신 라이브러리 참조 | 적용 기준 |
 | --- | --- | --- |
-| Depth 1+2 | [31061:78151](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78151) | 단일 상위 항목과 하위 항목이 있는 ConsentGroup을 기획에 맞게 조합 |
+| 템플릿 탐색 시작점 | [10552:10031](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10552-10031) | Templates 페이지의 실제 약관 사례를 찾아 해당 노드의 현재 구조 확인 |
+| Depth 1+2 | [31061:78124](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78124) | 상위 1d + Slot 첫 Divider + 하위 동의 목록의 기본 참조 |
+| 단일 1d 상품설명서 | [31061:78151](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78151) | 프레임 이름과 달리 현재는 1d 한 항목만 있음. 하위 목록·Divider 없는 유형에만 적용 |
 | Depth 1+2+3 | [31061:78179](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78179) | 3d-group·3d, 직접 설명(description), 보조 레이블(hasSubLabel) 분기 |
 | Depth 1+2+3+4 초기 레이블 | [31061:78292](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292) | 뎁스별 기본 이름과 Slot·반복 구조를 확인하는 원형 |
 | Depth 1+2+3+4 실제 문구 예시 | [31061:78209](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209) | 긴 문구 줄바꿈, 체크·라디오 상태, 4d Grid와 설명 목록의 조합 |
 | 약관 BottomSheet | [31061:78333](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333) | BottomSheet Slot의 안내문과 ConsentGroup 조합 |
 | TextList(16) + 확인 동의 | [31061:78354](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78354) | Title / Section + TextList Group + 별도 ConsentFinal |
 
-- 6개 참조는 경우별 **구조**입니다. 더미 문구·항목 수·순서·선택 상태·높이를 제품 화면에 고정 복사하지 않습니다. 실제 기획에 따라 해당 경우를 선택하고 현재 라이브러리에서 컴포넌트를 import합니다.
+- 위 참조는 경우별 **구조**입니다. 페이지 링크와 개별 화면 링크를 구분하고 실제 자식이 프레임 이름과 일치하는지 확인합니다. 더미 문구·항목 수·순서·선택 상태·높이를 제품 화면에 고정 복사하지 않습니다. 실제 기획에 따라 해당 경우를 선택하고 현재 라이브러리에서 컴포넌트를 import합니다.
 - 일반 약관 동의 화면은 아트보드 직계 `## HEADER / ## BODY / ## FOOTER`를 유지합니다. BODY는 Vertical / padding 24px 20px 32px / gap 24px입니다. Container 1에는 Title / Page, Container 2에는 반복 ConsentGroup을 gap 12px로 배치하고 Container 패딩은 0입니다. 짧은 콘텐츠는 844px 아트보드와 BODY Fill, 긴 콘텐츠는 아트보드·BODY Hug로 확장합니다. 참조의 881/1863/2185px를 고정 높이로 재사용하지 않습니다.
 - 일반 약관 참조의 AppBar는 sub / 뒤로가기 true / 취소 TextButton true / hasTitle false입니다. TextList 확인형은 실제 AppBar 제목이 있는 참조처럼 구성합니다. 모든 유형에 제목·취소·아이콘을 일괄 고정하지 않고 기획과 대응 참조를 따릅니다.
 
@@ -725,7 +738,7 @@ Container 2 (gap 12px)
 ```
 
 - **`ConsentGroup`**, **`Item / Consent`**, **`ConsentFinal`**은 이름 그대로 실제 라이브러리 인스턴스를 사용합니다. 외형만 비슷한 일반 프레임, 구형 Consent solid/basic 및 `Depth 1~4` 프레임·수동 Outline Container 조합으로 대신하지 않습니다. ConsentGroup을 `Consent Group`으로 이름만 바꾸거나 detach하지 않습니다. 원형 내부 Container의 라운드(현재 14px)·border/neutral/secondary-muted·stroke/md 및 변수 연결을 상속합니다.
-- ConsentGroup의 최상위 1d 항목은 원형 Container에 있으며 하위 항목은 해당 **Slot**에 넣습니다. 하위 항목이 없는 그룹에 Divider·빈 항목·여백을 임의 추가하지 않습니다. 하위가 있으면 참조의 `Divider` 래퍼(하단 padding 12px)와 실제 1px secondary Divider를 유지하고, 종전 tertiary Divider·추가 외부 gap을 강제하지 않습니다.
+- ConsentGroup의 최상위 1d 항목은 원형 Container에 있으며 하위 항목은 해당 **Slot**에 넣습니다. 하위 항목이 없는 그룹에 Divider·빈 항목·여백을 임의 추가하지 않습니다. 하위가 있으면 Slot의 **첫 자식**에 참조의 `Divider` 래퍼(하단 padding 12px)와 실제 1px secondary Divider를 반드시 유지·복원하고, 종전 tertiary Divider·추가 외부 gap을 강제하지 않습니다.
 - 뎁스는 Item / Consent의 공개 **`variant`**로 지정합니다. `hasSubLabel`, `hasSuffix`, Prefix·Suffix의 공개 속성과 내부 실제 컴포넌트 연결을 유지하며 기획에 없는 보조 설명·이동 화살표는 숨깁니다. 문구만 해당 Label에 매핑하고 원형 텍스트 스타일·크기·Weight·색상·변수를 보존합니다.
 
 | Item / Consent variant | 역할 및 원형 레이아웃 |

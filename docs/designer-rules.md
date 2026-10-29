@@ -1,5 +1,16 @@
 # 디자이너 규칙의 적용과 검수
 
+## 약관 참조 재확인·Slot 구분선 보존 (2026-10-29 사용자 교정)
+
+- **현재 참조를 역할로 구분**: 약관 템플릿 탐색 시작점은 [Templates 페이지 10552:10031](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10552-10031)이며 페이지 자체를 개별 화면으로 복제하지 않습니다. 상위·하위 동의 목록의 기본 참조는 [Depth 1+2 31061:78124](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78124)입니다. [78292 초기 레이블](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292)·[78209 실제 문구](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209)는 1~4뎁스·긴 문구·체크/라디오·Grid의 기준, [78333 BottomSheet](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333)는 시트의 기준입니다. 필요한 사례의 실제 자식·속성·간격을 확인하고 최신 라이브러리 원형을 import합니다.
+- **종전 참조 오분류 교정**: 2026-10-29 재확인 시 `31061:78151`은 프레임 이름이 “Depth 1+2”여도 실제로는 `Item / Consent(1d)`의 “상품설명서”만 있는 단일 항목 사례입니다. 이를 하위 동의가 있는 화면의 기준으로 사용하지 않습니다. 하위가 없는 경우에는 Divider·빈 목록을 추가하지 않습니다. 종전 `78179`(1+2+3)·`78354`(TextList16+ConsentFinal) 등 별도 유형은 해당 역할에만 유지하며 일반 동의 목록과 혼용하지 않습니다.
+- **하위 항목이 있는 ConsentGroup의 필수 구조**: `ConsentGroup > Container > Item / Consent(1d)` 다음 `Slot`의 첫 자식은 `Divider` Vertical Auto Layout이며 그 안에 실제 `Divider / Horizontal(variant: secondary, thickness: 1px)`를 둡니다. `Divider` 래퍼는 가로 Fill·세로 Hug·gap0·padding 0 0 12px 0(`spacing/lg`), 선은 내부 폭 Fill·높이1px입니다. 그 뒤에 기획에 맞는 `Item / Consent(2d / 3d-group / 4d-group / description / textList)`를 배치합니다. 이 구분선은 상위 선택과 하위 목록 사이의 구조 요소이며 기획에 상세 이동 화살표가 없다는 이유로 제거하지 않습니다.
+- **Slot 교체 시 구조 보존**: 문구·항목을 교체할 때 더미 콘텐츠만 선별하여 제거하고 필수 `Divider` 래퍼·선과 원형 계층은 보존합니다. 콘텐츠용 Slot을 재구성해야 한다면 위 필수 구조를 먼저 복원한 뒤 항목을 넣습니다. Slot을 비우고 체크 항목만 추가한 상태, Divider 누락·중복, 빈 프레임이나 외부 gap으로 12px를 대신한 상태는 실패입니다. 일반 콘텐츠용 Slot 편집은 허용하되 variant 자동 타입 전환의 원형 연결을 끊지 않습니다.
+- **위계·서체·간격**: 1d는 원형 16px Bold·상하16px·check-large, 2d는 16px Medium·상하12px·check-small, 내부 Slot gap0·하단8px와 Container 좌우20px를 유지합니다. 3d/4d는 대응 원형의 32px 들여쓰기·하단12px·Grid 분기·각 Text Style/변수를 그대로 따릅니다. 반복 ConsentGroup은 실제 `[명칭] Group` Auto Layout으로 묶고 그룹 사이12px를 적용합니다. 원형 padding에 추가 들여쓰기를 중복하지 않습니다.
+- **상태와 역할은 실제 기획 우선**: `78124`의 전체 선택 상태를 모든 화면의 초기값으로 복사하지 않습니다. 기획이 미선택이면 1d·각 하위 Item / Box를 checked false로 두고, 비활성·indeterminate와 구분합니다. 상세 이동이 없으면 hasSuffix false, 설명이 없으면 hasSubLabel false입니다. 개별 선택 문장은 해당 동의 뎁스로, 직접 설명은 description으로, 별도 본문+확인형은 TextList16+ConsentFinal로 매핑합니다. 긴 문장이라는 이유만으로 타입이나 Weight를 임의 변경하지 않습니다.
+- **화면 외곽과 원형은 구분**: 일반 약관은 승인 참조의 BODY padding24/20/32/20·gap24 및 Title / Page를 적용합니다. 기획에 명시된 전폭 StepIndicator가 있는 작성 단계는 별도 전폭 규칙(BODY 상단·좌우0, 하단32 / Container 1 전폭 / 후속 본문 Container 좌우20)을 유지하고, 일반 참조에 없다는 이유로 단계를 제거하거나 제목을 중복 추가하지 않습니다. BottomSheet·TextList 확인형·PDF 상세 역시 각 대응 구조를 따릅니다.
+- **완료 판정**: 현재 component key뿐 아니라 각 Slot 첫 Divider의 존재·secondary/1px·Fill·하단12px 토큰, 항목 개수·문구·실제 뎁스·Prefix/Suffix·선택 상태·그룹12px·서체/변수·긴 문구 줄바꿈을 함께 확인합니다. native 인스턴스를 사용했다는 사실만으로 통과시키지 않습니다. 구조를 고친 뒤 부모 명칭·실제 높이를 다시 확인하고 최종 화면을 직접 검수합니다. 이번 교정 대상 `bDKgQrkt0oHMJ1EbPUQTp8 / 3346:1492`는 두 그룹의 구분선 누락을 복원한 사례이며 기획의 6개 하위 문구·미선택·CTA는 유지합니다.
+
 ## StepIndicator → Infobox / Solid → Feedback 간격 (2026-10-28 사용자 확정)
 
 - 승인 참조는 [원천징수영수증 계좌 없음 3272:24337](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3272-24337)입니다. **StepIndicator 아래에 Infobox / Solid, 그 아래에 Feedback이 이어지는 흐름에서는 두 구간의 외부 Auto Layout gap을 모두24px(`spacing/3xl`)로 적용합니다.** StepIndicator → Infobox / Solid와 Infobox / Solid → Feedback 각각에 적용하며 일반 BODY/인포박스 후속 간격32px를 상속하지 않습니다.
@@ -149,7 +160,7 @@ DataList는 데이터(값) Text를 기준으로 숫자만이면 Pretendard, 문�
 
 - 약관 상세31888:30615는 아트보드 직계 StatusBar(Auto,44px) + Popup(Fill) + Pagination/Carousel(Absolute)입니다. Popup > Slot 안의 3단 레이어명은 반드시 `Header / Body / Footer`입니다. 종전 아트보드 직계3단·Container1/2 유지 규칙은 이 PDF 유형에서 대체됩니다. BODY·body Fill, Footer Absolute, Pagination 실제 인스턴스와 부모·좌표·constraints를 원형과 대조합니다. PDF 상세 외의 일반 동의 화면까지 Popup으로 바꾸지 않습니다.
 - 약관 동의는 ConsentGroup과 Item / Consent(1d,2d,3d-group,3d,4d-group,4d,description,textList)의 실제 인스턴스와 Slot을 사용합니다. 종전 Consent solid/basic·Depth 프레임·수동 Outline Container로 재구성하지 않습니다. BODY padding24/20/32/20·gap24, Container2의 반복 ConsentGroup gap12, 내부 Slot gap0·하단8과 variant별 원형 padding을 구분합니다. 3d/4d Slot의 GridContainer flow와0px 간격을 보존하며 일반 선택 그룹 gap20을 덮어쓰지 않습니다.
-- 6가지 경우는31061:78151(1+2),78179(1+2+3),78292(초기 레이블1~4),78209(긴 문구·선택상태1~4),78333(BottomSheet),78354(TextList16+ConsentFinal)입니다. 그룹 하단 안내는 Item / Consent(textList) 안 size14, 별도 본문 확인형은 size16과 ConsentFinal(outline)을 사용합니다. BS Slot gap20·padding0/20/20/20, 반복 ConsentGroup gap12를 대조합니다.
+- 기본 상위·하위 동의 참조는31061:78124(1+2)이며,78151은 현재 상품설명서1d 단일 항목으로 구분합니다. Templates10552:10031에서78179(1+2+3),78292(초기 레이블1~4),78209(긴 문구·선택상태1~4),78333(BottomSheet),78354(TextList16+ConsentFinal)를 실제 역할과 대조합니다. 그룹 하단 안내는 Item / Consent(textList) 안 size14, 별도 본문 확인형은 size16과 ConsentFinal(outline)을 사용합니다. BS Slot gap20·padding0/20/20/20, 반복 ConsentGroup gap12를 대조합니다.
 - v0.95 페이지 제목은 현재 Default에서24px Medium/행간34px입니다. Item / Label(page)의 실제 스타일·변수를 상속하고 과거22px/31px 수치로 덮어쓰지 않습니다. 기획의 필수/선택·문구·상태를 보존하고 공개 속성·Slot·Grid·서체·변수·잘림을 검수합니다. 이 갱신은 아래 과거 PDF/약관 기록보다 우선합니다.
 
 ## 모든 컴포넌트의 최신 라이브러리 직접 적용 — 2026-10-23
