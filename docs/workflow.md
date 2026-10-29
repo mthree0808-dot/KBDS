@@ -28,13 +28,31 @@
 - **Dialog Title의 마침표는 기획 원문 그대로 유지합니다.** Title 단독인지 Title·Description 조합인지에 따라 마침표를 자동 추가하거나 제거하던 종전 공통 규정은 삭제합니다. 기획에 마침표가 있으면 유지하고 없으면 추가하지 않으며, Description 노출을 바꾸어도 제목의 문장부호를 별도로 정규화하지 않습니다. 문구·숫자의 소수점·기타 문장부호도 원문과 대조합니다.
 - 완료 검수에서는 목록 하단 → 더보기 영역 상단의 실제 20px 및 토큰 연결, 실제 자식 구성에 맞는 부모 명칭, Dialog 원문과 마침표 일치를 확인합니다. 원형 컴포넌트·서체 변수·공개 옵션·HomeIndicator의 Dialog Fill 숨김 규칙은 유지합니다.
 
-## 기획에 명시된 배지 보존 (2026-10-29 사용자 확정)
+## 뱃지·라벨 용도별 선택 기준 (2026-10-29 사용자 재정의)
 
-- **기획에 배지로 표시된 상태·짧은 강조 정보는 최신 라이브러리의 실제 `Badge` 인스턴스로 유지합니다.** 일반 Text, 임의 색상 문구, 수제 둥근 프레임이나 `Label`로 임의 대체하지 않습니다. 이번 제출현황의 ‘처리중’·‘처리완료’도 배지로 표시합니다. 배지에 없던 상태·문구·동작을 추측해 추가하지 않습니다.
-- 기준은 [배지 Usage 6261:123851](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-123851)입니다. 이 영역에는 `Badge / Default`와 `Label / Default`가 함께 있으므로 예시의 실제 컴포넌트와 정보 역할을 구분합니다. Badge의 NEW·추천·투자상품 등 짧은 강조, Label의 위험도·가입조건·상품 카테고리·유형·테마·유효기간 등 분류·보조 정보 예시를 구분하고, 모두 Badge 또는 모두 Label로 일괄 변환하지 않습니다. 사용자가 배지로 지정한 이번 상태 표시는 그 지시를 우선합니다.
-- `Badge / Default`의 공개 `variant`·`tone`을 사용해 기획의 문구와 강조 위계에 맞춥니다. 이번 상태 배지는 `variant: character`, 처리중 `tone: blueTint`, 처리완료 `tone: brandAltMuted`로 적용했습니다. 이 두 색을 모든 업무 상태의 고정 색으로 일반화하지 않습니다. Dot·Number·Account 등 다른 Badge 유형은 해당 의미가 기획에 있을 때 선택합니다.
-- 원형의 서체·크기·내부 패딩·라운드·색상 변수와 가로·세로 Hug를 유지합니다. detach·도형 재제작이나 내부 스타일 override로 variant 동작을 막지 않습니다. 짧은 배지 문구에 고정 폭을 주지 않고 공개 옵션을 바꿔도 원본 동작이 유지되어야 합니다.
-- 검수에서 기획의 배지 개수·문구·상태별 노출과 실제 Badge 인스턴스, variant/tone, Hug·줄바꿈·주변 간격·부모 명칭을 확인합니다. 배지를 넣었다는 이유로 액션 없는 데이터를 Card로 변경하지 않으며, Card/Data Block 판단과 반복 그룹 규칙은 그대로 적용합니다.
+**기획의 정보 역할을 먼저 판정한 뒤 최신 라이브러리의 실제 `Badge / Default` 또는 `Label / Default`를 선택합니다.** 짧은 문구를 둘러싼 외형이나 ‘뱃지’라는 통칭만 보고 두 컴포넌트를 혼용하지 않습니다. 아래 6개 Usage와 [승인 적용 화면 3386:36770](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3386-36770)을 이후 화면 제작의 기준으로 사용합니다. 종전 포괄 참조 `6261:123851`보다 이번 개별 용도 정의와 사용자 지정 사례를 우선합니다.
+
+| 정보 역할·참조 | 실제 컴포넌트·variant | tone·문구 적용 기준 |
+|---|---|---|
+| [위험도 6261:129012](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-129012) | `Label / Default`, `solid` | 고위험 red·중위험 celery·저위험 cyan. 세분화 예시는 매우높은위험 red·높은위험 orange·다소높은위험 yellow·보통위험 celery·낮은위험 cyan·매우낮은위험/초저위험 blue. 단계 체계·문구는 해당 기획을 따르며 없는 단계를 만들지 않습니다. |
+| [가입조건 6261:128988](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-128988) | `Label / Default`, `tint` | 안정추구형 이상 가입 cyan·안정형 이상 가입 blue·위험중립형 이상 가입 green·적극투자형 이상 가입 orange·공격투자형만 가입 red. 청약철회기간 미적용·청약철회제외 신청시에만 가능은 darkGray입니다. |
+| [펀드 내 구분 6261:130820](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-130820) | `Badge / Default`, `character` | NEW red 또는 redTint, 추천 blue 또는 blueTint, 투자상품·외화펀드·역외펀드 brandAltMuted. 두 tone 예시가 있는 경우 해당 기획·승인 사용 맥락에 맞추고 단어만으로 임의의 다른 색을 만들지 않습니다. |
+| [상품 카테고리 6261:130167](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-130167) | `Label / Default`, `line` | 입출금 blue·예금/적금 green·청약 orange·대출 red·펀드/신탁/ISA indigo·퇴직연금 seaform·보험 cyan·외화예금 olive·골드/실버 yellow. `seaform`은 라이브러리의 실제 공개 tone 이름을 사용합니다. |
+| [상품유형·그 외 6261:129317](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-129317) | `Label / Default`, `tint`, `darkGray` | 투자상품 상단의 계열사·ETF_주식형·적립식·채권혼합·채권·재간접·실물·기타·TDF·주식형·주식혼합형·채권혼합형·MMF 등. ‘1년제’는 퇴직연금 운용상품 미리보기의 원리금보장형, KB라이프생명·보험차익비과세는 보험상품 하단, ‘2025.09.05 까지’는 ISA 상품바구니 유효기간 예시입니다. 제한된 사용 맥락을 다른 화면에 일괄 확대하지 않습니다. |
+| [상품 테마 6261:130427](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-130427) | `Label / Default`, `tint`, `darkGray` | 국내 지수 추종형·해외 지수 추종형·주식테마형·주식 섹터형·채권 혼합형·기타 등 테마를 표시합니다. 예시 문구를 신규 화면에 임의 추가하지 않습니다. |
+
+### 승인 수신거래현황 화면의 적용
+
+- [3386:36770](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3386-36770)의 계좌 분류는 **입출금 `Label / Default(line, blue)`, 적립식 `Label / Default(line, green)`**입니다. 이 화면의 ‘적립식’은 수신계좌 분류로 사용자 승인된 line/green 사례이며, 투자상품 상단의 상품유형 ‘적립식’ tint/darkGray와 구분합니다. 같은 단어라도 실제 정보 역할과 승인 맥락을 먼저 확인합니다.
+- Data Block 안에서 라벨은 `Label` Auto Layout으로 묶고 계좌 제목·데이터보다 위에 배치합니다. 승인 구조는 `Data Block > Label > Label / Default`, 그다음 `Title / DataList Group`, 필요한 경우 `Card / Footer / Accordian`입니다. **이 Data Block의 직계 블록 사이 gap은 16px(`spacing/xl`), Label 래퍼 내부 gap은 0**입니다. 라벨을 DataList의 Label Text나 계좌 제목으로 합치지 않습니다.
+- 가로 Hug와 원형 높이·서체·내부 패딩·라운드·색상 변수 및 공개 variant/tone 연결을 유지합니다. 조회한 Label 사례의 원형 높이는 20px이며, 이 실측을 다른 Badge 유형 전체의 고정 높이로 강제하지 않습니다. 47px 등 현재 문구의 실측 너비를 고정값으로 복제하지 않습니다.
+- 반복 항목은 실제로 묶고 복수 Label은 `Label Group`, 복수 Badge는 `Badge Group`으로 명명합니다. 단일 라벨을 정렬하기 위한 래퍼는 `Label`이며, 구조 변경 후 상위 복합 명칭도 재검사합니다. 라벨이 추가되었다는 이유만으로 액션 없는 Data Block을 Card로 바꾸지 않습니다.
+
+### 공통 제작·검수
+
+- 기획·사용자 지시의 배지/라벨 문구·개수·노출·의미를 보존하고, 위 역할에 맞는 최신 라이브러리 원형을 import합니다. 일반 Text·수제 도형·임의 컬러 문구로 대체하거나 주변 화면의 변형 인스턴스를 복제하지 않습니다. 상태 표시 등 이번 표 밖의 용도는 해당 기획과 별도 사용자 승인 기준을 따릅니다. 기존 제출현황의 처리중 Badge(character/blueTint)·처리완료 Badge(character/brandAltMuted)는 해당 업무 승인 사례이며 모든 상태에 고정 적용하는 규칙이 아닙니다.
+- 공개 `variant`·`tone`으로 설정하고 원본 서체·토큰·자연 너비를 보존합니다. detach, 고정 폭, 내부 색상·스타일 override로 우측 프로퍼티 패널의 타입 전환을 막지 않습니다. Dot·Number·Account 등 Badge의 다른 유형도 실제 의미가 기획에 있을 때 사용합니다.
+- 완료 전에 **역할 → 실제 Badge/Label 컴포넌트 → variant/tone → 원문·노출 → 자연 너비·주변 간격 → 실제 그룹·부모 이름**을 함께 대조합니다. 변경한 공개 옵션의 원본 동작도 확인하고 불일치가 있으면 수정 후 해당 범위만 재검사합니다. 이 문서 업데이트는 승인 참조를 이후 제작 기준으로 명시하는 작업이며 기존 Figma 화면 전체를 수정했다는 의미는 아닙니다.
 
 ## 알려드립니다 항상 펼침 (2026-10-29 사용자 확정)
 
