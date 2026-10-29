@@ -1,5 +1,11 @@
 # 작업 실행 절차
 
+## 더보기 간격·Dialog 문장부호 최종 기준 (2026-10-29 사용자 변경)
+
+- **상위 목록 그룹 → 더보기 `Button Area` 간격은 항상 20px(`spacing/2xl`)**입니다. `Card Group / Button Area`, `Data Block Group / Button Area` 및 같은 역할의 목록·더보기 조합에 적용하며, 실제 두 형제 블록을 감싸는 Auto Layout의 gap에 연결합니다. 더보기는 `Button Area > Pagination / Basic` 등 원형 구조를 유지하고, 목록 내부 항목 간격이나 더보기 컴포넌트 자체의 패딩으로 20px를 대체·중복 가산하지 않습니다. 지정 화면 `2484:33969`의 `Card Group / Button Area`(`2484:33982`)도 이 기준을 적용합니다.
+- **Dialog Title의 마침표는 기획 원문 그대로 유지합니다.** Title 단독인지 Title·Description 조합인지에 따라 마침표를 자동 추가하거나 제거하던 종전 공통 규정은 삭제합니다. 기획에 마침표가 있으면 유지하고 없으면 추가하지 않으며, Description 노출을 바꾸어도 제목의 문장부호를 별도로 정규화하지 않습니다. 문구·숫자의 소수점·기타 문장부호도 원문과 대조합니다.
+- 완료 검수에서는 목록 하단 → 더보기 영역 상단의 실제 20px 및 토큰 연결, 실제 자식 구성에 맞는 부모 명칭, Dialog 원문과 마침표 일치를 확인합니다. 원형 컴포넌트·서체 변수·공개 옵션·HomeIndicator의 Dialog Fill 숨김 규칙은 유지합니다.
+
 ## 기획에 명시된 배지 보존 (2026-10-29 사용자 확정)
 
 - **기획에 배지로 표시된 상태·짧은 강조 정보는 최신 라이브러리의 실제 `Badge` 인스턴스로 유지합니다.** 일반 Text, 임의 색상 문구, 수제 둥근 프레임이나 `Label`로 임의 대체하지 않습니다. 이번 제출현황의 ‘처리중’·‘처리완료’도 배지로 표시합니다. 배지에 없던 상태·문구·동작을 추측해 추가하지 않습니다.
@@ -40,7 +46,7 @@
 - **상단 제목·설명 그룹핑 필수**: 대표전화가 노출되는 이 Dialog에서는 **대표전화 위의 `Title`과 설명 `Text`도 실제 하나의 Vertical Auto Layout `Title / Text`로 묶습니다.** 이 상단 그룹 내부 gap은 **8px(`spacing/md`)**입니다. 따라서 `Dialog > Slot`의 직계 자식은 **상단 `Title / Text`(Title + Text)**와 **하단 `Title / Text`(대표전화 Title / Element + 번호 Text)**인 두 형제 블록이며, 두 그룹 사이 gap은16px입니다. Title·Text·대표전화를 Slot에 평탄하게 세 항목으로 나열하거나, 대표전화 블록만 그룹핑한 상태는 실패입니다. 각 원형 컴포넌트·텍스트 스타일과 변수 연결은 보존하고 완료 검수에서 상단의 실제 그룹핑·부모 명칭·8px/16px/4px 계층을 함께 확인합니다.
 - **대표전화 제목**: 최신 `Title / Element`의 **KBFG Text / 14px / Medium / line-height20px**, 색상 **`text/neutral/primary`**를 유지합니다. optional·tooltip·suffix는 false입니다. 대응 Text Style은 `Dynamic/Body/sm∙14∙Medium`(key `87439f01ad7a7fbf6b1556036328a19d5f0ef75c`)이며 medium 변수 연결을 유지합니다.
 - **전화번호**: 승인 참조와 동일한 **KBFG Text / 16px / Bold / line-height22px**, 색상 **`text/neutral/secondary`**, 밑줄 없음으로 적용합니다. 대응 Text Style은 `Dynamic/Body/md∙16∙Bold`(key `c0b7c927f31310c8297f679419d5a38377fc74db`)이며 `font-weight/bold`·크기·행간·색상 변수 연결을 보존합니다. **이 사용자 지정 Dialog 대표전화 블록에 한정해 숫자 전용 Pretendard 및 일반 본문 강조 Medium 규칙보다 위 사양을 우선**하며 다른 숫자·DataList·일반 강조까지 KBFG/Bold로 확대하지 않습니다. 번호를 이유로 링크·전화 연결 동작을 임의 추가하지 않습니다.
-- **크기 모드·주변 영역**: 두 블록과 Text 래퍼는 가로 Fill·세로 Hug, 번호 Text는 가로 Fill·내용에 따른 높이 및 자연스러운 줄바꿈을 사용합니다. 참조의 280px 본문 폭에서 번호가 두 줄인 것을 고정 높이44px나 강제 개행으로 복제하지 않습니다. Dialog Slot → 별도 자세히보기 Accordion → ButtonGroup의 원형 관계와 간격은 유지합니다. 이 참조의 대표전화 블록 아래 Accordion과의 간격은 **20px(`spacing/2xl`)**이며 일반 Dialog의 제목/Description 마침표·HomeIndicator Fill 예외는 그대로 적용합니다. 참조의 다른 레이어 누락이나 문구를 규칙으로 상속하지 않습니다.
+- **크기 모드·주변 영역**: 두 블록과 Text 래퍼는 가로 Fill·세로 Hug, 번호 Text는 가로 Fill·내용에 따른 높이 및 자연스러운 줄바꿈을 사용합니다. 참조의 280px 본문 폭에서 번호가 두 줄인 것을 고정 높이44px나 강제 개행으로 복제하지 않습니다. Dialog Slot → 별도 자세히보기 Accordion → ButtonGroup의 원형 관계와 간격은 유지합니다. 이 참조의 대표전화 블록 아래 Accordion과의 간격은 **20px(`spacing/2xl`)**이며 Dialog 제목·설명의 문장부호는 기획 원문을 따르고 HomeIndicator Fill 숨김 예외는 유지합니다. 참조의 다른 레이어 누락이나 문구를 규칙으로 상속하지 않습니다.
 - **완료 검수**: 설명→대표전화16px, 제목→번호4px, 번호→후속 Accordion20px의 실질 간격과 토큰, Title / Element 인스턴스·옵션, 제목14 Medium/primary·번호16 Bold/secondary의 Text Style·변수, Fill/Hug·줄바꿈·실제 번호·부모 명칭을 확인합니다. 대표전화 문구를 설명에 이어 붙이거나 상단 설명 스타일을 번호에 그대로 사용하는 것은 실패입니다. 이번 요청은 MD 규칙 갱신이며 기존 Figma 화면의 일괄 수정 완료를 의미하지 않습니다.
 
 ## 긴 문장 선택의 sentence SelectButton·링크 primary/medium (2026-10-28 사용자 확정)
@@ -157,10 +163,6 @@ HomeIndicator Fill 검수 전에 화면 유형을 판별한다. Dialog는 elevat
 1. 바텀시트 화면 루트를 Vertical Auto Layout, 하단 정렬(MAX), gap·하단 padding 0으로 구성한다. Dimmed와 StatusBar만 화면 레벨 ABSOLUTE로 둔다.
 2. BottomSheet와 HomeIndicator는 layoutPositioning AUTO, 가로 Fill로 배치한다. BottomSheet Hug 및 유형별 최소/고정 높이, HomeIndicator 원형 높이·iOS 속성을 보존한다. 문자 키패드가 있으면 BottomSheet → Keypad(Item / Pad) → HomeIndicator 순서 모두 AUTO로 두고 배경 Popup·Fill/clip 래퍼는 추가하지 않고 루트 배경과 Dimmed만 배치한다. 원형 내부 position은 일괄 변경하지 않는다.
 3. 완료 전에 화면 레벨 ABSOLUTE 자식 목록이 Dimmed·StatusBar뿐인지 검사한다. BottomSheet·HomeIndicator·키패드가 AUTO인지, 두 컴포넌트 사이와 안전영역에 틈·겹침이 없는지 확인한다. 좌표만 같은 화면은 PASS가 아니며 실제 속성과 콘텐츠 높이 변경 시 흐름 배치를 검수한다.
-
-## Dialog Title 마침표 적용·검수 — 2026-10-27
-
-Dialog의 실제 Slot에서 노출되는 Item / Slot 타입과 내용을 먼저 확인합니다. Title만 노출되면 기획의 마침표 유무와 관계없이 Title 문장 끝에 마침표(`.`)를 적용하며 중복하지 않습니다. Title과 Description이 함께 노출되면 Title의 문장 종결용 마침표를 제거합니다. 숨김·내용 없는 더미 Description으로 분기를 바꾸지 않습니다. Description 노출을 변경한 뒤에는 같은 조건으로 다시 검수하고, Description·버튼명·숫자의 소수점·스타일·변수·Slot 계층·공개 옵션과 인스턴스 연결은 보존합니다.
 
 ## Popup 내부 레이어명 적용·검수 — 2026-10-27
 

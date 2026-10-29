@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 더보기 간격·Dialog 문장부호 최종 기준 (2026-10-29 사용자 변경)
+
+- **상위 목록 그룹 → 더보기 `Button Area` 간격은 항상 20px(`spacing/2xl`)**입니다. `Card Group / Button Area`, `Data Block Group / Button Area` 및 같은 역할의 목록·더보기 조합에 적용하며, 실제 두 형제 블록을 감싸는 Auto Layout의 gap에 연결합니다. 더보기는 `Button Area > Pagination / Basic` 등 원형 구조를 유지하고, 목록 내부 항목 간격이나 더보기 컴포넌트 자체의 패딩으로 20px를 대체·중복 가산하지 않습니다. 지정 화면 `2484:33969`의 `Card Group / Button Area`(`2484:33982`)도 이 기준을 적용합니다.
+- **Dialog Title의 마침표는 기획 원문 그대로 유지합니다.** Title 단독인지 Title·Description 조합인지에 따라 마침표를 자동 추가하거나 제거하던 종전 공통 규정은 삭제합니다. 기획에 마침표가 있으면 유지하고 없으면 추가하지 않으며, Description 노출을 바꾸어도 제목의 문장부호를 별도로 정규화하지 않습니다. 문구·숫자의 소수점·기타 문장부호도 원문과 대조합니다.
+- 완료 검수에서는 목록 하단 → 더보기 영역 상단의 실제 20px 및 토큰 연결, 실제 자식 구성에 맞는 부모 명칭, Dialog 원문과 마침표 일치를 확인합니다. 원형 컴포넌트·서체 변수·공개 옵션·HomeIndicator의 Dialog Fill 숨김 규칙은 유지합니다.
+
 ## 기획에 명시된 배지 보존 (2026-10-29 사용자 확정)
 
 - **기획에 배지로 표시된 상태·짧은 강조 정보는 최신 라이브러리의 실제 `Badge` 인스턴스로 유지합니다.** 일반 Text, 임의 색상 문구, 수제 둥근 프레임이나 `Label`로 임의 대체하지 않습니다. 이번 제출현황의 ‘처리중’·‘처리완료’도 배지로 표시합니다. 배지에 없던 상태·문구·동작을 추측해 추가하지 않습니다.
@@ -40,7 +46,7 @@
 - **상단 제목·설명 그룹핑 필수**: 대표전화가 노출되는 이 Dialog에서는 **대표전화 위의 `Title`과 설명 `Text`도 실제 하나의 Vertical Auto Layout `Title / Text`로 묶습니다.** 이 상단 그룹 내부 gap은 **8px(`spacing/md`)**입니다. 따라서 `Dialog > Slot`의 직계 자식은 **상단 `Title / Text`(Title + Text)**와 **하단 `Title / Text`(대표전화 Title / Element + 번호 Text)**인 두 형제 블록이며, 두 그룹 사이 gap은16px입니다. Title·Text·대표전화를 Slot에 평탄하게 세 항목으로 나열하거나, 대표전화 블록만 그룹핑한 상태는 실패입니다. 각 원형 컴포넌트·텍스트 스타일과 변수 연결은 보존하고 완료 검수에서 상단의 실제 그룹핑·부모 명칭·8px/16px/4px 계층을 함께 확인합니다.
 - **대표전화 제목**: 최신 `Title / Element`의 **KBFG Text / 14px / Medium / line-height20px**, 색상 **`text/neutral/primary`**를 유지합니다. optional·tooltip·suffix는 false입니다. 대응 Text Style은 `Dynamic/Body/sm∙14∙Medium`(key `87439f01ad7a7fbf6b1556036328a19d5f0ef75c`)이며 medium 변수 연결을 유지합니다.
 - **전화번호**: 승인 참조와 동일한 **KBFG Text / 16px / Bold / line-height22px**, 색상 **`text/neutral/secondary`**, 밑줄 없음으로 적용합니다. 대응 Text Style은 `Dynamic/Body/md∙16∙Bold`(key `c0b7c927f31310c8297f679419d5a38377fc74db`)이며 `font-weight/bold`·크기·행간·색상 변수 연결을 보존합니다. **이 사용자 지정 Dialog 대표전화 블록에 한정해 숫자 전용 Pretendard 및 일반 본문 강조 Medium 규칙보다 위 사양을 우선**하며 다른 숫자·DataList·일반 강조까지 KBFG/Bold로 확대하지 않습니다. 번호를 이유로 링크·전화 연결 동작을 임의 추가하지 않습니다.
-- **크기 모드·주변 영역**: 두 블록과 Text 래퍼는 가로 Fill·세로 Hug, 번호 Text는 가로 Fill·내용에 따른 높이 및 자연스러운 줄바꿈을 사용합니다. 참조의 280px 본문 폭에서 번호가 두 줄인 것을 고정 높이44px나 강제 개행으로 복제하지 않습니다. Dialog Slot → 별도 자세히보기 Accordion → ButtonGroup의 원형 관계와 간격은 유지합니다. 이 참조의 대표전화 블록 아래 Accordion과의 간격은 **20px(`spacing/2xl`)**이며 일반 Dialog의 제목/Description 마침표·HomeIndicator Fill 예외는 그대로 적용합니다. 참조의 다른 레이어 누락이나 문구를 규칙으로 상속하지 않습니다.
+- **크기 모드·주변 영역**: 두 블록과 Text 래퍼는 가로 Fill·세로 Hug, 번호 Text는 가로 Fill·내용에 따른 높이 및 자연스러운 줄바꿈을 사용합니다. 참조의 280px 본문 폭에서 번호가 두 줄인 것을 고정 높이44px나 강제 개행으로 복제하지 않습니다. Dialog Slot → 별도 자세히보기 Accordion → ButtonGroup의 원형 관계와 간격은 유지합니다. 이 참조의 대표전화 블록 아래 Accordion과의 간격은 **20px(`spacing/2xl`)**이며 Dialog 제목·설명의 문장부호는 기획 원문을 따르고 HomeIndicator Fill 숨김 예외는 유지합니다. 참조의 다른 레이어 누락이나 문구를 규칙으로 상속하지 않습니다.
 - **완료 검수**: 설명→대표전화16px, 제목→번호4px, 번호→후속 Accordion20px의 실질 간격과 토큰, Title / Element 인스턴스·옵션, 제목14 Medium/primary·번호16 Bold/secondary의 Text Style·변수, Fill/Hug·줄바꿈·실제 번호·부모 명칭을 확인합니다. 대표전화 문구를 설명에 이어 붙이거나 상단 설명 스타일을 번호에 그대로 사용하는 것은 실패입니다. 이번 요청은 MD 규칙 갱신이며 기존 Figma 화면의 일괄 수정 완료를 의미하지 않습니다.
 
 ## 긴 문장 선택의 sentence SelectButton·링크 primary/medium (2026-10-28 사용자 확정)
@@ -172,10 +178,6 @@ Card 직계의 기본 Affix는 ABSOLUTE·visible false로 유지되어 있다. �
 ## 바텀시트 배치 교정 — 2026-10-27
 
 사용자는 Dimmed·StatusBar만 position(Absolute)이고 BottomSheet·HomeIndicator는 Auto Layout 흐름이어야 한다고 확정했다. 직전 산출물 bDKgQrkt0oHMJ1EbPUQTp8 / 3113:17785·3113:18332·3113:18621에서 BottomSheet와 HomeIndicator가 모두 ABSOLUTE인 오류를 확인했다. 화면 레벨 좌표로 외형을 맞추면서 컴포넌트의 흐름 배치를 놓친 제작 오류이며 승인 패턴으로 재사용하지 않는다. Vertical Auto Layout 하단 정렬·gap 0과 AUTO 자식으로 교정하고, 문자 키패드도 AUTO로 이어 붙인다. 원형 내부 계층·서체·변수와 최소 높이 규칙은 유지한다.
-
-## Dialog Title 마침표 공통 교정 승인 — 2026-10-27
-
-사용자는 Dialog Slot에 Item / Slot의 Title만 있으면 기획에 마침표가 있든 없든 Title 문장 끝에 마침표를 적용하고, Title과 Description이 함께 있으면 Title의 문장 종결용 마침표를 제거하도록 확정했습니다. 실제 노출 콘텐츠로 판단하며 숨겨진 기본 Description·내용 없는 더미는 제외합니다. 중복 마침표를 추가하지 않고 Description의 문구·문장부호, 숫자의 소수점, 버튼명 및 원형 스타일·변수·인스턴스 연결은 유지합니다. 이번 작업은 MD 규칙 갱신이며 기존 Figma 화면의 수정 완료 기록은 아닙니다.
 
 ## Popup 내부 레이어명 원복 승인 — 2026-10-27
 
