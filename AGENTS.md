@@ -68,7 +68,7 @@
 
 - 2026-10-28 선택 UI 역할 매핑: 기획 segmented_control 명칭을 복제하지 않는다. 승인3205:38245처럼 조회기간 프리셋은 SegmentedControl을 유지하고 정렬순서(최신순/과거순)는 SelectButton(word/single)이다. 승인3205:38078의 이름/계좌번호 표시(보임/일부가림)도 같은 SelectButton을 사용한다. 이 두 항목 패턴은 root·slot Fill/Hug, slot Horizontal·원형 Wrap·gap8, 두 Item / Word / Single 모두 가로Fill/세로Hug로 균등하게 채운다. 부모만 Fill·Item Hug 또는 고정171px는 실패다. 원형44px/Hug·Label/문구Hug·스타일·변수·공개옵션을 보존하고 선택값은 기획을 따른다. 역할별 컴포넌트·실제 Item resizing·균등 폭·선택 상태를 검수한다.
 
-- 2026-10-28 속도 개선: 단순 Dialog 1분 안팎·일반 단일 화면3분 이내를 목표로 한다. 검증된 제작 스크립트와 키 매핑을 재사용하고 독립 기획/위치/원본 조회는 병렬로 묶는다. 필요한 최신 원형 확인은 유지하되 같은 작업의 불필요한 재조회를 하지 않는다. 단순 수정은 대상 범위만 처리한다. 제작 중 구조·서체·속성 검수와 마지막 스크린샷 검수를 결합하고 통과 후 변경이 없으면 반복하지 않는다. 오류·수정 부분은 재검수하며 미검증 PASS는 금지한다. 3분 초과 시 원인·남은 작업을 짧게 알리고 별도 요청 없으면 추가 보고서는 생략한다.
+- 2026-10-29 공통 속도 개선: 이 저장소를 참조하는 모든 작업자·AI는 [공통 실행 기준](docs/sources/designer-ui-rules.md#figma-작업-속도와-필수-검수-2026-10-29-공통-실행-기준)을 기본 적용한다. 단순 Dialog 1분 안팎·일반 단일 화면3분 이내를 목표로 하며 기획/원본 확인·도구 대기·필수 검수를 실제 시간에 포함한다. 한 요청의 화면·케이스·위치를 먼저 묶고, 필요한 최신 원형·공개 속성·Slot·스타일/토큰은 자산별 한 번 확인한 뒤 같은 묶음에서 재사용한다. 원본 변경·문맥 전환·새 자산·오류/불일치/누락 범위만 다시 확인한다. 독립 조회와 import는 묶고 검증된 스크립트에 기획 데이터를 매핑하여 같은 유형을 일괄 제작한다. optional·tooltip·prefix/suffix·아이콘·선택/비활성 상태는 제작 시점에 설정하고 원형 동작·변수·CTA Hug를 보존한다. 네 가지 레이어 검사와 필수 구조·서체·화면 검수는 제작에 결합하며 통과 후 변경 없으면 반복 조회·검사·캡처하지 않는다. 실제 수정은 영향 범위만 재검수한다. 3분 초과 시 원인·남은 작업을 짧게 알리고, 별도 요청 없는 정형 보고서·추가 파일은 생략한다. 구형 캐시/주변 화면 복제와 미검증 PASS는 금지한다.
 
 - 2026-10-28 암호화 증명서 완료: 승인3105:17567처럼 Large Feedback의 안내 Text와 열람비밀번호 카드를 분리한다. Card / Surface(lightGray/basic) > Slot > DataList Group에 개인/생년월일6자리·사업자/사업자번호10자리를 split14/gap12로 배치하고 증명서 보기(tertiary/medium)는 카드 밖 Slot-buttonGroup에 둔다. hasErrorCode는 카드 가시성 제어이므로 true이며 오류 문자열을 넣지 않는다. 안내 Text에 비밀번호 규칙을 합치거나 카드를 일반 Data Block 아웃라인으로 바꾸지 않는다. 후속 데이터 D19 구분선을 유지하고 카드·버튼의 실제 부모를 검수한다.
 - 2026-10-28 공유 방법 선택 공통: 승인3138:31620처럼 BottomSheet > Slot > GridButton(secondary/grid) > Slot > Grid(1행3열·균등 열·gap8·항목높이121)를 사용한다. 카카오톡/문자메시지/더보기 순서와 최신 solid-kakaotalk/solid-message/line-ellipsis-horizontal 아이콘(IconContainer36)을 적용한다. Item / Vertical secondary·hasSubLabel false·미선택·활성, StickyButton 비노출, Slot Fill·BottomSheet211px·AUTO/HomeIndicator Fill 노출을 지킨다. primary 테두리형·기본 ICON·제작 주석 노출을 금지하고 최종 화면에서 검사한다.
@@ -102,12 +102,12 @@
 - 상단 Feedback + 후속 데이터가 있는 완료 화면은 승인 예시 `2668:26353`과 D18·D19를 따른다. BODY padding `40px 20px 32px` / gap 40px, Container 2의 반복 `Title / DataList Group` 사이 32px, 각 그룹 내부 `Title`↔`DataList Group` 16px, Title 내부와 DataList 목록 내부 각각 12px를 구분한다. Title은 Vertical Auto Layout으로 `Title / Element`와 `Divider / Horizontal (thickness: 1px, variant: primary, length: full)`을 감싼다. Container·하위 그룹 패딩은 0이며 Title 내부 Divider 때문에 BODY 좌우 20px를 제거하지 않는다.
 - 토큰 미연결 원본 수치는 자동으로 토큰으로 승격하지 않는다. 원본 컴포넌트 내부는 상속하되 새 컨테이너에 재사용하려면 검증 가능한 템플릿 근거와 미연결 사실을 기록한다. 엄격한 토큰 전용 조건을 충족하지 못하면 해당 부분을 차단한다.
 - 일반 이미지는 영역만 표시한다. 단, 사용자 승인 원본 `09eGMNTNnkE0CTxPdr7lnk / 10580:10543`의 Image Area는 더미 그래픽과 “더미이미지” 라벨을 포함한 전체 구성을 앞으로 기본 재사용한다. 빈 ImageContainer로 대체하거나 라벨을 생략하지 않는다. 최신 재사용 참조는 `0P0j17OPstNhC3LWjBdBGy / 67:1947`의 Image Area `67:2127`이며 라벨은 편집 가능한 TEXT / Pretendard SemiBold와 원본 fontFamily 변수를 보존한다. 폰트 outline·SVG·벡터·이미지 변환과 대체 폰트를 금지한다. 원본 아이콘의 키와 출처를 확인한다. 현재 아이콘 페이지는 Graphic 라이브러리 이동 안내다. 이동 링크와 실제 사용 인스턴스를 추적한다.
-- wireframe → requirement → template/reference → component/token → output node의 추적표를 남긴다.
+- wireframe → requirement → template/reference → component/token → output node의 연결 근거를 제작 호출의 반환값·검수 결과에 남긴다. 사용자가 보고서를 요청한 경우에만 별도 추적표 파일로 정리한다.
 - 기획서/산출물 URL이 없으면 하네스 분석·유지보수는 진행하되 실제 화면 제작을 완료했다고 보고하지 않는다.
 - 템플릿 스크린샷과 최종 산출물 스크린샷을 직접 비교한다. 구조 검사 통과만으로 시각 품질 통과를 선언하지 않는다.
-- 알 수 없는 값, 누락 증거, 실패한 검사, 미검사는 PASS가 아니다. 오류를 숨기거나 임의 대체하지 말고 리포트에 남긴다.
+- 알 수 없는 값, 누락 증거, 실패한 검사, 미검사는 PASS가 아니다. 오류를 숨기거나 임의 대체하지 말고 해결하거나 남은 제한으로 짧게 알린다. 별도 리포트는 요청한 경우에 작성한다.
 - 모든 Figma 변경 전에 설치된 figma-use 및 화면 제작 시 figma-generate-design 스킬을 읽는다. 도구 지원 여부는 실제 API 정의로 확인한다.
-- 디자이너 규칙의 상황별 적용/비적용, Component Properties, 토큰 key, 실제 결과 노드와 검사 근거를 작업별 `designer-review.md`에 기록한다. 해당 규칙에 FAIL/미검증이 있으면 CLI PASS만으로 완료 처리하지 않는다.
+- 디자이너 규칙의 적용 여부, Component Properties, 토큰 key, 실제 결과 노드와 검사 근거는 필수 검수에서 확인한다. 사용자가 정형 검증 보고서를 요청한 경우 `designer-review.md` 양식으로 기록한다. 해당 규칙에 FAIL/미검증이 있으면 CLI PASS만으로 완료 처리하지 않는다.
 
 - 링크 목록의 제목·목록 래퍼 이름은 `Title / List Group`이다. Container 2 이상에서는 이 래퍼 padding-top 24px(`spacing/3xl`), 내부 `List Group` gap 0px를 적용한다. 래퍼 자체 gap 16px와 Container 1 기존 값은 유지하고, 실제 List 컴포넌트 이름은 변경하지 않는다. 내부 목록 gap 24px는 철회된 값이다.
 
