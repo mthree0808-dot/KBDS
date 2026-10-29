@@ -1,5 +1,11 @@
 # 작업 실행 절차
 
+## 알려드립니다 항상 펼침 (2026-10-29 사용자 확정)
+
+- **‘알려드립니다’ Accordion은 제작·수정 후 항상 `expanded: true`로 펼쳐 본문을 노출합니다.** 기획서의 기본값이 접힘이거나 원형·이전 제작본이 접혀 있어도 이 사용자 확정 규칙을 우선 적용합니다.
+- 완료 검수에서 실제 인스턴스의 `expanded` 값과 본문 가시성·줄바꿈·높이·잘림 여부를 확인합니다. 검수 중 상태를 전환했다면 마지막에는 반드시 펼침으로 복원하고 상위 Auto Layout·화면 높이를 반영합니다. 기존 전폭 Container·10px 외부 Divider·`hasDivider: false`·본문 크기·간격과 원형 화살표·공개 옵션 연결은 보존합니다.
+- 적용 대상은 **‘알려드립니다’**이며 다른 용도의 Accordion은 각 기획·사용자 규칙을 따릅니다. 이번 요청은 공유 MD 갱신이며 기존 Figma 화면 전체를 일괄 수정했다는 의미가 아닙니다.
+
 ## 약관 참조 재확인·Slot 구분선 보존 (2026-10-29 사용자 교정)
 
 - **현재 참조를 역할로 구분**: 약관 템플릿 탐색 시작점은 [Templates 페이지 10552:10031](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10552-10031)이며 페이지 자체를 개별 화면으로 복제하지 않습니다. 상위·하위 동의 목록의 기본 참조는 [Depth 1+2 31061:78124](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78124)입니다. [78292 초기 레이블](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292)·[78209 실제 문구](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209)는 1~4뎁스·긴 문구·체크/라디오·Grid의 기준, [78333 BottomSheet](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333)는 시트의 기준입니다. 필요한 사례의 실제 자식·속성·간격을 확인하고 최신 라이브러리 원형을 import합니다.
@@ -259,7 +265,7 @@ Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Gro
 
 2026-10-20 선택형 버튼 UI: 신분증 종류 선택 등 버튼형 선택지는 실제 GridButton을 우선합니다. 승인 화면 `zNwpdAWcBMOM5ExkiBUoGn / 2074:1554`의 GridButton > Slot > Grid 구조를 재사용하고 Slot 내부 Grid의 행·열·아이템 수·순서를 기획에 맞게 조정합니다. 1행 2열은 현재 예시이며 모든 화면에 고정 적용하지 않습니다. native selected/disabled 상태·레이블·아이콘·변수 연결과 Grid 내부 배치를 검수하며, 일반 Card / Surface 선택 판정보다 이 규칙을 우선합니다. 셀렉트 바텀시트 List 등 별도 전용 규칙은 유지합니다.
 
-2026-10-20 필수·선택 및 알려드립니다 교정: InputField 필수 항목은 Title / Element의 optional false / optional 래퍼 비노출을 검수합니다. 필수가 아닌 항목은 optional true / 기본 `(선택)` 문구와 색상·서체·스타일·변수를 원형 그대로 보존합니다. 기존 `(필수)` 및 강조색 재정의는 원형으로 복원합니다. 알려드립니다는 `zNwpdAWcBMOM5ExkiBUoGn / 2075:2064` 하단처럼 전용 Container(gap·padding 0, Full Width) > 외부 10px tertiary full Divider → basic/standard/medium Accordion(hasPrefix true, solid-info-circle, hasDivider false, expanded true)으로 하단 버튼 위에 배치합니다. 상단 본문과 간격 32px, 내부 TextList size 14 / Slot gap 8px를 확인하며 Accordion만 단독 배치하지 않습니다.
+2026-10-20 필수·선택 및 알려드립니다 교정: InputField 필수 항목은 Title / Element의 optional false / optional 래퍼 비노출을 검수합니다. 필수가 아닌 항목은 optional true / 기본 `(선택)` 문구와 색상·서체·스타일·변수를 원형 그대로 보존합니다. 기존 `(필수)` 및 강조색 재정의는 원형으로 복원합니다. 알려드립니다는 `zNwpdAWcBMOM5ExkiBUoGn / 2075:2064` 하단처럼 전용 Container(gap·padding 0, Full Width) > 외부 10px tertiary full Divider → basic/standard/medium Accordion(hasPrefix true, solid-info-circle, hasDivider false, expanded true)으로 하단 버튼 위에 배치합니다. 상단 본문과 간격 32px, 내부 TextList size 14 / Slot gap 8px를 확인하며 Accordion만 단독 배치하지 않습니다. 알려드립니다는 기획·원형의 접힘 기본값보다 사용자 확정 펼침 규칙을 우선하여 expanded true·본문 노출 상태로 완료하고, 검수 후 접힌 상태로 남기지 않습니다.
 
 2026-10-20 TextButton 최종 교정: 인풋 조합 및 박스 아래에 별도 배치하는 TextButton은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:7407`의 `2025:7417`처럼 variant secondary로 계획·제작·검수합니다. 종전 인풋 조합의 primary 지정은 철회합니다. 크기·간격·정렬은 각 승인 패턴을 유지하며, InputField 내부 버튼과 독립 CTA에는 일괄 적용하지 않습니다.
 

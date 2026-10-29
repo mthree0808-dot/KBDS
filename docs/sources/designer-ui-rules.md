@@ -1,5 +1,11 @@
 # UI Design & Code Generation Rules
 
+## 알려드립니다 항상 펼침 (2026-10-29 사용자 확정)
+
+- **‘알려드립니다’ Accordion은 제작·수정 후 항상 `expanded: true`로 펼쳐 본문을 노출합니다.** 기획서의 기본값이 접힘이거나 원형·이전 제작본이 접혀 있어도 이 사용자 확정 규칙을 우선 적용합니다.
+- 완료 검수에서 실제 인스턴스의 `expanded` 값과 본문 가시성·줄바꿈·높이·잘림 여부를 확인합니다. 검수 중 상태를 전환했다면 마지막에는 반드시 펼침으로 복원하고 상위 Auto Layout·화면 높이를 반영합니다. 기존 전폭 Container·10px 외부 Divider·`hasDivider: false`·본문 크기·간격과 원형 화살표·공개 옵션 연결은 보존합니다.
+- 적용 대상은 **‘알려드립니다’**이며 다른 용도의 Accordion은 각 기획·사용자 규칙을 따릅니다. 이번 요청은 공유 MD 갱신이며 기존 Figma 화면 전체를 일괄 수정했다는 의미가 아닙니다.
+
 ## 약관 참조 재확인·Slot 구분선 보존 (2026-10-29 사용자 교정)
 
 - **현재 참조를 역할로 구분**: 약관 템플릿 탐색 시작점은 [Templates 페이지 10552:10031](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10552-10031)이며 페이지 자체를 개별 화면으로 복제하지 않습니다. 상위·하위 동의 목록의 기본 참조는 [Depth 1+2 31061:78124](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78124)입니다. [78292 초기 레이블](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292)·[78209 실제 문구](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209)는 1~4뎁스·긴 문구·체크/라디오·Grid의 기준, [78333 BottomSheet](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333)는 시트의 기준입니다. 필요한 사례의 실제 자식·속성·간격을 확인하고 최신 라이브러리 원형을 import합니다.
@@ -694,7 +700,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
     - `Container` 또는 `Container [순번]` 내부에 `Divider / Horizontal (thickness: 10px, variant: tertiary, length: full)`을 상단에 배치하고, 그 바로 아래에 `Accordion (type: basic, variant: standard, size: medium, hasDivider: false)` 컴포넌트를 순서대로 배치합니다.
     - **독립 컨테이너 분할 필수**: '알려드립니다'는 다른 본문 요소와 합치지 않고 반드시 **독립된 `Container [순번]`으로 그룹핑하여 분할**합니다.
     - **승인된 하단 구성 필수 재사용 (2026-10-20)**: [신분증 확인 2075:2064](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2075-2064)의 하단 전용 컨테이너 `2071:4202`처럼 구성합니다. **외부 Divider(10px, tertiary, full) → Accordion**, 컨테이너 gap·padding 0, 가로 Full Width, 본문과의 간격 32px이며 하단 버튼 위에 배치합니다. Accordion만 단독으로 본문 끝에 붙이지 않습니다.
-    - **Accordion 속성**: `type: basic`, `variant: standard`, `size: medium`, `hasPrefix: true`, Prefix의 아이콘은 **`solid-info-circle`**, `hasDivider: false`, `expanded: true`로 설정합니다. 원형 제목·화살표·슬롯 계층을 유지합니다. 본문 `TextList / Unordered`는 size 14, Slot-contents gap 8px를 유지하며 불릿을 일반 텍스트로 바꾸지 않습니다.
+    - **Accordion 속성**: `type: basic`, `variant: standard`, `size: medium`, `hasPrefix: true`, Prefix의 아이콘은 **`solid-info-circle`**, `hasDivider: false`, **`expanded: true`로 항상 펼칩니다. 기획·원형의 기본값이 접힘이어도 이 상태를 우선 적용합니다.** 원형 제목·화살표·슬롯 계층을 유지합니다. 본문 `TextList / Unordered`는 size 14, Slot-contents gap 8px를 유지하며 불릿을 일반 텍스트로 바꾸지 않습니다.
     - **내부 Divider 숨김**: 알려드립니다 내부에 위치하는 Accordion은 **`hasDivider: false`를 적용하며, Accordion 내부의 divider는 항상 숨김(비노출)** 처리합니다.
     - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**로 설정합니다.
     - 이 Container의 Auto Layout **`gap: 0px`**을 적용합니다.

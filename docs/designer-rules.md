@@ -1,5 +1,11 @@
 # 디자이너 규칙의 적용과 검수
 
+## 알려드립니다 항상 펼침 (2026-10-29 사용자 확정)
+
+- **‘알려드립니다’ Accordion은 제작·수정 후 항상 `expanded: true`로 펼쳐 본문을 노출합니다.** 기획서의 기본값이 접힘이거나 원형·이전 제작본이 접혀 있어도 이 사용자 확정 규칙을 우선 적용합니다.
+- 완료 검수에서 실제 인스턴스의 `expanded` 값과 본문 가시성·줄바꿈·높이·잘림 여부를 확인합니다. 검수 중 상태를 전환했다면 마지막에는 반드시 펼침으로 복원하고 상위 Auto Layout·화면 높이를 반영합니다. 기존 전폭 Container·10px 외부 Divider·`hasDivider: false`·본문 크기·간격과 원형 화살표·공개 옵션 연결은 보존합니다.
+- 적용 대상은 **‘알려드립니다’**이며 다른 용도의 Accordion은 각 기획·사용자 규칙을 따릅니다. 이번 요청은 공유 MD 갱신이며 기존 Figma 화면 전체를 일괄 수정했다는 의미가 아닙니다.
+
 ## 약관 참조 재확인·Slot 구분선 보존 (2026-10-29 사용자 교정)
 
 - **현재 참조를 역할로 구분**: 약관 템플릿 탐색 시작점은 [Templates 페이지 10552:10031](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10552-10031)이며 페이지 자체를 개별 화면으로 복제하지 않습니다. 상위·하위 동의 목록의 기본 참조는 [Depth 1+2 31061:78124](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78124)입니다. [78292 초기 레이블](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292)·[78209 실제 문구](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209)는 1~4뎁스·긴 문구·체크/라디오·Grid의 기준, [78333 BottomSheet](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333)는 시트의 기준입니다. 필요한 사례의 실제 자식·속성·간격을 확인하고 최신 라이브러리 원형을 import합니다.
@@ -269,7 +275,7 @@ StepIndicator와 FullWidth가 동시에 있을 때의 서로 간 순서는 원�
 |D19|완료 화면 후속 데이터|Container 2 Vertical, padding 0, 가로 Fill/세로 Hug. 복수 `Title / DataList Group` 사이 gap `5xl`=32. 각 그룹은 `Title` → `DataList Group` 순서, gap `xl`=16. Title은 Vertical Auto Layout, padding 0, `Title / Element` → `Divider / Horizontal(thickness:1px,variant:primary,length:full)`, gap `lg`=12. DataList Group도 Vertical/padding 0, `DataList(split,14,hasDivider:false)` 사이 gap `lg`=12. full Divider는 350px 콘텐츠 폭이며 BODY 좌우 패딩 제거 금지 **2026-10-28 교정: 제목이 없으면 Title / Element만 숨기고 Title 래퍼와 primary Divider는 노출 유지. Title 전체 숨김·생략 금지, 빈 제목 공간 없이 Divider 높이만 Hug. Divider↔목록 16px·목록 내부 12px 및 실제 상단 Divider 노출 필수 검수.**|
 |D20|Title / Page 직후 단일 공지|Infobox / Solid(size=medium,status=warning,hasSuffix=true). Container 위 `5xl`=32, 다음 Container 위 `3xl`=24|
 |D21|하단 공지 카드|Infobox / Card, Container 위 `5xl`=32. Title Area·Slot-Contents·Button Area를 기획에 따라 노출하고 Slot-Contents에 내용 배치|
-|D22|하단 알려드립니다|승인 기준 `2075:2064` 하단 `2071:4202` 재사용. 전용 Container(gap·padding 0, Full Width) > 외부 Divider(10px,tertiary,full) → Accordion(type=basic,variant=standard,size=medium,hasPrefix=true, Icon=solid-info-circle,hasDivider=false,expanded=true). 하단 버튼 위, 본문과 간격 `5xl`=32. 본문 TextList 14 / Slot gap 8. Accordion만 단독 배치 금지|
+|D22|하단 알려드립니다|승인 기준 `2075:2064` 하단 `2071:4202` 재사용. 전용 Container(gap·padding 0, Full Width) > 외부 Divider(10px,tertiary,full) → Accordion(type=basic,variant=standard,size=medium,hasPrefix=true, Icon=solid-info-circle,hasDivider=false,expanded=true). 하단 버튼 위, 본문과 간격 `5xl`=32. 본문 TextList 14 / Slot gap 8. 기획 기본값이 접힘이어도 항상 expanded=true로 완료. Accordion만 단독 배치 금지|
 |D23|Title / Page 다음 Empty State|Feedback variant=small, Container 위 `7xl`=48|
 |D24|알아두세요 Box|기존 Infobox 용도라면 원본 DS 컴포넌트·전용 규칙 유지. 그 외 설명·안내 박스는 D30의 `Text Box`로 분류하고, 예시별 내부 구조·간격을 확인하여 과거 Box 수치를 일괄 적용하지 않음|
 

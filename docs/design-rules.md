@@ -1,5 +1,11 @@
 # 실측 디자인 규칙
 
+## 알려드립니다 항상 펼침 (2026-10-29 사용자 확정)
+
+- **‘알려드립니다’ Accordion은 제작·수정 후 항상 `expanded: true`로 펼쳐 본문을 노출합니다.** 기획서의 기본값이 접힘이거나 원형·이전 제작본이 접혀 있어도 이 사용자 확정 규칙을 우선 적용합니다.
+- 완료 검수에서 실제 인스턴스의 `expanded` 값과 본문 가시성·줄바꿈·높이·잘림 여부를 확인합니다. 검수 중 상태를 전환했다면 마지막에는 반드시 펼침으로 복원하고 상위 Auto Layout·화면 높이를 반영합니다. 기존 전폭 Container·10px 외부 Divider·`hasDivider: false`·본문 크기·간격과 원형 화살표·공개 옵션 연결은 보존합니다.
+- 적용 대상은 **‘알려드립니다’**이며 다른 용도의 Accordion은 각 기획·사용자 규칙을 따릅니다. 이번 요청은 공유 MD 갱신이며 기존 Figma 화면 전체를 일괄 수정했다는 의미가 아닙니다.
+
 ## 약관 참조 재확인·Slot 구분선 보존 (2026-10-29 사용자 교정)
 
 - **현재 참조를 역할로 구분**: 약관 템플릿 탐색 시작점은 [Templates 페이지 10552:10031](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10552-10031)이며 페이지 자체를 개별 화면으로 복제하지 않습니다. 상위·하위 동의 목록의 기본 참조는 [Depth 1+2 31061:78124](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78124)입니다. [78292 초기 레이블](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292)·[78209 실제 문구](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209)는 1~4뎁스·긴 문구·체크/라디오·Grid의 기준, [78333 BottomSheet](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333)는 시트의 기준입니다. 필요한 사례의 실제 자식·속성·간격을 확인하고 최신 라이브러리 원형을 import합니다.
@@ -356,7 +362,7 @@ CTA 원본 BoxButton(primary/large) key `fa61e02668d4cdbaa3804bebdf3b37cdef9b274
 
 사용자 지정 [신분증 확인 2075:2064](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2075-2064)의 이름·주민등록번호·면허번호·발급일은 모두 필수입니다. 네 InputField의 Title / Element에서 optional 속성을 false로 설정하여 optional 프레임 전체를 숨겼습니다. 기존 `(필수)`와 강조색·서체 재정의는 원형의 `(선택)` 및 Text Style·색상 변수로 복원했습니다. 앞으로 필수는 optional 래퍼 비노출, 필수가 아닌 항목은 기본 `(선택)`과 원형 색상·서체·스타일·변수를 그대로 노출합니다. 필수 상태를 표시하려고 텍스트나 색상을 바꾸지 않습니다.
 
-하단 알려드립니다의 승인된 원형은 전용 컨테이너 `2071:4202`(Full Width 390 / gap·padding 0) > 외부 Divider `2071:4203`(10px / tertiary / full, key `d1a200f3e40be0db71dc5873437dedd977d1b3e7`) → Accordion `2071:4207`(key `b92f854c8b1436c0fba64b704ae991e7d68028e3`)입니다. Accordion은 basic / standard / medium / expanded true / hasPrefix true / hasDivider false이며 Prefix는 solid-info-circle(key `c6afd5f6833dcfcd9bf15b7a9181e72c24beb700`)입니다. 본문 TextList / Unordered는 size 14, Slot-contents gap 8px입니다. 본문과의 간격은 32px, 위치는 하단 버튼 위이며 이 구성을 알려드립니다 노출 화면에 재사용합니다. 내부 1px Divider 비노출과 외부 10px Divider 노출을 구분하고 Accordion만 단독 배치하지 않습니다. 이 화면의 사용자가 변경한 72×72 이미지 영역은 보존했습니다.
+하단 알려드립니다의 승인된 원형은 전용 컨테이너 `2071:4202`(Full Width 390 / gap·padding 0) > 외부 Divider `2071:4203`(10px / tertiary / full, key `d1a200f3e40be0db71dc5873437dedd977d1b3e7`) → Accordion `2071:4207`(key `b92f854c8b1436c0fba64b704ae991e7d68028e3`)입니다. Accordion은 basic / standard / medium / expanded true / hasPrefix true / hasDivider false이며 Prefix는 solid-info-circle(key `c6afd5f6833dcfcd9bf15b7a9181e72c24beb700`)입니다. 본문 TextList / Unordered는 size 14, Slot-contents gap 8px입니다. 본문과의 간격은 32px, 위치는 하단 버튼 위이며 이 구성을 알려드립니다 노출 화면에 재사용합니다. 알려드립니다는 기획에서 기본 접힘으로 표시했더라도 expanded true로 항상 펼쳐 완료하며 실제 본문 노출·높이를 검수합니다. 내부 1px Divider 비노출과 외부 10px Divider 노출을 구분하고 Accordion만 단독 배치하지 않습니다. 이 화면의 사용자가 변경한 72×72 이미지 영역은 보존했습니다.
 
 ## 단일 항목 Data Block 승인 (2026-10-20)
 
