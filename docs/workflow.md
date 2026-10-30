@@ -1,5 +1,17 @@
 # 작업 실행 절차
 
+## 고객확인 등록 안내의 불릿·복합 구조·옵션 대조 (2026-10-30 사용자 교정)
+
+- **승인 근거·적용 범위**: [고객확인 등록 승인 화면 3478:41680](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3478-41680)을 해당 유형의 기준으로 사용합니다. [오류 제작본 3521:2924](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3521-2924)의 일반 Text 변환·임의 Container 분할·제목 및 버튼 옵션·StickyButton 기본값을 재사용하지 않습니다. 아래 수치는 이 승인 패턴의 명시적 예외이며, 다른 화면의 일반 TextList 간격·Title 원형·서비스 바로가기 secondary/small 규칙을 전역 변경하지 않습니다. 해당 고객확인 등록 패턴에서는 이 최신 교정을 우선합니다.
+- **기획의 표현도 요구사항**: 문구만 추출하여 맞추면 완료가 아닙니다. 기획의 불릿·번호·항목 경계·순서·강조·링크 여부와 각 문장의 역할을 함께 매핑합니다. “고객님의 안전한 금융거래를 위해 고객님의 정보를 1년 또는 3년마다 재확인하고 있어요.”와 “영업점 방문 전 간편하게 등록해주세요.”는 각각 최신 라이브러리의 실제 `TextList / Unordered(size: 16)` 인스턴스로 배치합니다. 일반 Text나 문자열 앞에 직접 입력한 불릿으로 대신하지 않습니다. 기존 인포박스 단일 항목의 불릿 생략 예외를 인포박스 밖 일반 본문에 적용하지 않습니다.
+- **실제 복합 계층**: `## BODY > Container 1` 안에 `StepIndicator`와 `Title / Contents`를 함께 배치합니다. `Title / Contents`의 자식은 `Title / Page`와 `TextList Group / Button Area`이며, 후자의 자식은 실제 복수 TextList를 묶은 `TextList Group`과 `Button Area`입니다. 알려드립니다는 BODY의 형제 `Container 2`로 분리합니다. 불릿 두 개를 Text Group으로 만들거나, Step·제목/본문을 임의로 독립 Container들로 분할하지 않습니다. 자식 구성을 바꾼 뒤 영향을 받는 부모 명칭도 재판정합니다.
+- **계층별 간격·폭**: BODY는 padding0/0/32/0, gap32px(`spacing/5xl`)입니다. Container 1은 전폭·padding0·gap24px(`spacing/3xl`)이며, StepIndicator → Title / Contents 사이24px를 적용합니다. Title / Contents는 좌우padding20px·gap24px이고 내부 콘텐츠 폭은350px입니다. 이 패턴의 TextList Group 내부 두 항목 사이는12px(`spacing/lg`), TextList Group → Button Area 사이는12px입니다. Container 1 → 알려드립니다 Container 2 사이는32px이며 BODY 전체에24px를 넣어 이 구간까지 줄이지 않습니다. 각 부모의 실제 itemSpacing·padding과 실질 경계를 대조합니다.
+- **제목의 실제 스타일·줄바꿈**: Title / Page라는 이름이나 component key 일치만으로 통과하지 않습니다. 이 승인 화면의 제목은 KBFG Text Medium22px·행간31px, 원본 Text Style key `a4d970f16ce5404c28e6e948667b88b96aa5cbec` 기준입니다. “부모님의 고객확인(CDD/EDD)정보를” 뒤에서 줄바꿈하여 “등록해주세요”를 두 번째 줄에 배치합니다. 최신 라이브러리의 대응 Text Style·변수 연결로 매핑하고 fontSize/fontWeight 직접 덮어쓰기로 외형만 맞추지 않습니다. 승인본의 제목을 임의24px로 바꾸거나 “정보를” 앞에서 개행하지 않습니다. 이22px 지정을 모든 Title / Page에 일괄 적용하지 않습니다.
+- **바로가기 공개 옵션**: 이 패턴의 “고객확인제도(CDD/EDD) 바로가기”는 우측 정렬의 실제 `TextButton(variant: primary, size: xsmall, underline: false, hasPrefix: false, hasSuffix: true)`와 우측 chevron을 사용합니다. 본문 독립 서비스 버튼의 일반 secondary/small 규칙보다 이 사용자 지정 예외가 우선합니다. 승인본 텍스트는12px Medium이며 버튼과 Label 문구는 Hug를 유지합니다. size 이름이나 화면상 색상만 추정하지 않고 실제 componentProperties와 텍스트 스타일을 확인합니다.
+- **알려드립니다·푸터 옵션**: 알려드립니다는 기존 전폭10px Divider + Accordion(hasDivider:false, expanded:true), TextList14·항목gap8px 구조를 유지합니다. 승인본의 정보 Prefix는20px이며 임의24px로 확대하지 않습니다. 하단은 `StickyButton(variant: elevated, hasScrollDim: false)` + HomeIndicator로 구성합니다. white 원형의 기본 ScrollDim28px를 남겨 푸터 높이126px로 만들지 않습니다. 이 패턴의 StickyButton64px + HomeIndicator34px = FOOTER98px를 대조하고 HomeIndicator의 배경 Fill 노출·원형 높이·AUTO 및 CTA Label Hug를 보존합니다.
+- **완료 판정 강화**: 제작 전 `기획 노드의 표현/역할 → 승인 근거 → 요구 속성 → 실제 결과 노드`를 대응시키고, 제작 후 ① 두 불릿 원문·개수·컴포넌트, ② 복합 부모/자식 구조·명칭, ③ 24/12/32px의 적용 계층·실측·토큰, ④ 제목 크기/굵기/스타일/변수·줄바꿈, ⑤ TextButton variant/size/밑줄/아이콘·Hug, ⑥ StickyButton variant/ScrollDim·푸터 높이·HomeIndicator Fill을 승인본과 직접 대조합니다. placeholder 없음·텍스트 일치·같은 key·전체 스크린샷 중 일부만 검사하고 “검수 완료”로 보고하지 않습니다. 불일치는 수정 후 해당 범위와 부모를 재검사합니다. 기본 제작 스크립트·캐시의 값은 이번 요구값과 다르면 교정하며, 3분 목표를 위해 이 대조를 생략하지 않습니다.
+- 이번 변경은 공유 MD의 제작·검수 기준 갱신입니다. MD 갱신만으로 기존 Figma 화면을 수정했다고 보고하지 않습니다.
+
 ## 단순 서비스 진입 링크 목록의 Card 매핑 (2026-10-30 사용자 확정)
 
 - **적용 조건·우선순위**: [기획 5749:143981](https://www.figma.com/design/cLQlbxcEeZPBxBFz9c1rJk/?node-id=5749-143981)처럼 서비스명과 이동 화살표를 세로로 나열하고 각 항목이 해당 서비스·조회 화면으로 진입하는 단순 링크 목록은 [승인 화면 598:30627](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=598-30627)의 **`Card / Surface` 패턴**을 적용합니다. 이 유형을 일반 버튼형 선택지로 해석해 GridButton으로 바꾸거나, List·BoxButton·수동 프레임으로 외형만 만들지 않습니다. 인라인 링크·일반 메뉴 List 전체에 확대하지 않으며, 선택 바텀시트·은행/증권사 선택·라디오 Card 등 별도 전용 패턴도 유지합니다.
@@ -13,7 +25,7 @@
 
 - **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
 - `Button Area`는 가로 Fill·세로 Hug·gap0으로 만들고 실제 오른쪽 끝에 버튼을 배치합니다. Vertical Auto Layout이면 `counterAxisAlignItems: MAX`, Horizontal이면 `primaryAxisAlignItems: MAX`로 가로 우측 정렬하며 교차 축은 가운데 정렬합니다. 버튼은 가로·세로 Hug, Label 안 버튼명은 WIDTH_AND_HEIGHT·가로 Hug를 유지하고 좌표·고정 폭·빈 프레임으로 우측 정렬을 대신하지 않습니다.
-- 최신 라이브러리의 실제 TextButton 인스턴스와 공개 variant/size를 사용합니다. 문구·이동 목적과 기획에 있는 우측 화살표는 보존하고, Prefix·Suffix·밑줄·아이콘은 해당 기획과 원형 용도에 맞춥니다. 이 유형의 이전 xsmall 지정은 small로 변경하며 버튼 크기 변경만을 이유로 기존 외부 간격을 바꾸지 않습니다. Infobox / Card 등 다른 컴포넌트에 내장된 전용 버튼 영역과 독립 CTA·AppBar·인라인 링크에는 이 본문 독립 버튼 규칙을 일괄 적용하지 않습니다.
+- 최신 라이브러리의 실제 TextButton 인스턴스와 공개 variant/size를 사용합니다. 문구·이동 목적과 기획에 있는 우측 화살표는 보존하고, Prefix·Suffix·밑줄·아이콘은 해당 기획과 원형 용도에 맞춥니다. 별도 사용자 지정 예외가 없는 이 유형의 이전 xsmall 지정은 small로 변경하며 버튼 크기 변경만을 이유로 기존 외부 간격을 바꾸지 않습니다. 단, 고객확인 등록 승인 화면 `3478:41680`은 최신 교정 절의 primary/xsmall·밑줄 비노출 예외를 우선합니다. Infobox / Card 등 다른 컴포넌트에 내장된 전용 버튼 영역과 독립 CTA·AppBar·인라인 링크에는 이 본문 독립 버튼 규칙을 일괄 적용하지 않습니다.
 - 완료 검수에서 실제 variant가 secondary·size가 small인지, Button Area 오른쪽 경계와 버튼 오른쪽 경계가 일치하는지, 부모 명칭·문구·화살표·Hug·자연 너비 및 원본 연결을 확인합니다.
 
 ## Infobox 후속 Tab은 2depth (2026-10-29 사용자 교정)
