@@ -1,5 +1,14 @@
 # MO Figma 디자인 하네스
 
+## 화면별 제작 전·중·후 실행 기준 (2026-10-30 사용자 확정)
+
+1. **제작 전** 이번 화면의 MD 규칙·예외·승인 참조와 기획의 요구값을 확정하고, 확인할 실제 결과 속성까지 연결한다. 이전 대화 요약·캐시나 문서 열람만으로 적용 완료로 간주하지 않는다.
+2. **제작 중** 최신 라이브러리 인스턴스·토큰과 원본 공개 옵션을 보존한다. 사용자가 전체 재사용을 지정한 더미이미지는 [승인 Image Area 3478:12649](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3478-12649)의 그래픽·Fill/크롭·편집 가능한 라벨·Pretendard SemiBold와 원본 fontFamily alias·크기·배치까지 유지한다. 같은 ImageContainer key와 임의 텍스트 조합으로 대체하지 않는다. 이 자산 재사용 예외를 일반 UI의 주변 화면 복제로 확대하지 않는다.
+3. **완료 전** 기획 내용·케이스·상태, 네 가지 레이어 검사, 계층별 실측 간격, 실제 이미지, 서체/스타일/변수, 크기 모드와 공개 옵션의 원본 전환을 산출물에서 대조한다. component key나 서체 계열 일치만으로 통과시키지 않고 승인 참조와 실제 속성·화면을 직접 비교한다.
+4. **불일치 발견 시** 수정 후 영향 범위와 상위 부모·화면을 재검사하고 통과한 뒤 완료 보고한다. 미검사·불일치를 남긴 정상 완료 보고는 금지한다.
+
+일반 단일 화면 **3분 목표**는 유지한다. 독립 조회·import를 묶고 검증된 제작 스크립트 및 이번 작업에서 확인한 매핑을 재사용해 시간을 줄인다. 필수 대조·검수는 생략하지 않으며, 3분 초과 시 지연 원인과 남은 작업을 짧게 알린다. 별도 요청 없는 추가 보고서는 생략한다. 상세 절차는 [공통 실행 기준](docs/sources/designer-ui-rules.md#figma-작업-속도와-필수-검수-2026-10-29-공통-실행-기준)을 따른다.
+
 ## 본문 서비스 바로가기 TextButton의 우측 배치 (2026-10-29 사용자 교정)
 
 - **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
@@ -160,7 +169,7 @@
 - 디자이너의 명시 규칙을 기본으로 적용하고 템플릿에서 구조·역할별 근거를 확인한다. 두 자료가 다르면 `docs/designer-rules.md`의 우선순위와 차이 기록 절차를 따른다. 전체 화면에 단일 gap을 적용하지 않는다. 문구 길이에 맞추려고 폰트를 줄이거나 문구를 생략하지 않는다.
 - 상단 Feedback + 후속 데이터가 있는 완료 화면은 승인 예시 `2668:26353`과 D18·D19를 따른다. BODY padding `40px 20px 32px` / gap 40px, Container 2의 반복 `Title / DataList Group` 사이 32px, 각 그룹 내부 `Title`↔`DataList Group` 16px, Title 내부와 DataList 목록 내부 각각 12px를 구분한다. Title은 Vertical Auto Layout으로 `Title / Element`와 `Divider / Horizontal (thickness: 1px, variant: primary, length: full)`을 감싼다. Container·하위 그룹 패딩은 0이며 Title 내부 Divider 때문에 BODY 좌우 20px를 제거하지 않는다.
 - 토큰 미연결 원본 수치는 자동으로 토큰으로 승격하지 않는다. 원본 컴포넌트 내부는 상속하되 새 컨테이너에 재사용하려면 검증 가능한 템플릿 근거와 미연결 사실을 기록한다. 엄격한 토큰 전용 조건을 충족하지 못하면 해당 부분을 차단한다.
-- 일반 이미지는 영역만 표시한다. 단, 사용자 승인 원본 `09eGMNTNnkE0CTxPdr7lnk / 10580:10543`의 Image Area는 더미 그래픽과 “더미이미지” 라벨을 포함한 전체 구성을 앞으로 기본 재사용한다. 빈 ImageContainer로 대체하거나 라벨을 생략하지 않는다. 최신 재사용 참조는 `0P0j17OPstNhC3LWjBdBGy / 67:1947`의 Image Area `67:2127`이며 라벨은 편집 가능한 TEXT / Pretendard SemiBold와 원본 fontFamily 변수를 보존한다. 폰트 outline·SVG·벡터·이미지 변환과 대체 폰트를 금지한다. 원본 아이콘의 키와 출처를 확인한다. 현재 아이콘 페이지는 Graphic 라이브러리 이동 안내다. 이동 링크와 실제 사용 인스턴스를 추적한다.
+- 일반 이미지는 영역만 표시한다. 단, 사용자 승인 원본 `09eGMNTNnkE0CTxPdr7lnk / 10580:10543`의 Image Area는 더미 그래픽과 “더미이미지” 라벨을 포함한 전체 구성을 앞으로 기본 재사용한다. 빈 ImageContainer로 대체하거나 라벨을 생략하지 않는다. 현재 재사용 참조는 `bDKgQrkt0oHMJ1EbPUQTp8 / 3478:12649`의 Image Area이며(이전 승인 참조 `0P0j17OPstNhC3LWjBdBGy / 67:2127`의 후속 적용본) 라벨은 편집 가능한 TEXT / Pretendard SemiBold와 원본 fontFamily 변수를 보존한다. 폰트 outline·SVG·벡터·이미지 변환과 대체 폰트를 금지한다. 원본 아이콘의 키와 출처를 확인한다. 현재 아이콘 페이지는 Graphic 라이브러리 이동 안내다. 이동 링크와 실제 사용 인스턴스를 추적한다.
 - wireframe → requirement → template/reference → component/token → output node의 연결 근거를 제작 호출의 반환값·검수 결과에 남긴다. 사용자가 보고서를 요청한 경우에만 별도 추적표 파일로 정리한다.
 - 기획서/산출물 URL이 없으면 하네스 분석·유지보수는 진행하되 실제 화면 제작을 완료했다고 보고하지 않는다.
 - 템플릿 스크린샷과 최종 산출물 스크린샷을 직접 비교한다. 구조 검사 통과만으로 시각 품질 통과를 선언하지 않는다.
