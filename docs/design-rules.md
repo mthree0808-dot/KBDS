@@ -1,5 +1,14 @@
 # 실측 디자인 규칙
 
+## 단순 서비스 진입 링크 목록의 Card 매핑 (2026-10-30 사용자 확정)
+
+- **적용 조건·우선순위**: [기획 5749:143981](https://www.figma.com/design/cLQlbxcEeZPBxBFz9c1rJk/?node-id=5749-143981)처럼 서비스명과 이동 화살표를 세로로 나열하고 각 항목이 해당 서비스·조회 화면으로 진입하는 단순 링크 목록은 [승인 화면 598:30627](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=598-30627)의 **`Card / Surface` 패턴**을 적용합니다. 이 유형을 일반 버튼형 선택지로 해석해 GridButton으로 바꾸거나, List·BoxButton·수동 프레임으로 외형만 만들지 않습니다. 인라인 링크·일반 메뉴 List 전체에 확대하지 않으며, 선택 바텀시트·은행/증권사 선택·라디오 Card 등 별도 전용 패턴도 유지합니다.
+- **컴포넌트·옵션**: 지정 최신 라이브러리의 실제 `Card / Surface`를 새 인스턴스로 가져옵니다. 승인 사례의 공개 속성은 **`type: outline`, `variant: select`, `select: false`, `disabled: false`**입니다. 개별 기획의 비활성·상태가 있으면 그 값을 우선하며, 이동 링크라는 이유로 radio/check 상태를 추가하지 않습니다. 현재 참조의 원형 key `87e4f7ed5b778f83141856fd287deba5faa31b66`은 탐색 근거이며 이후 최신 원형 확인을 대신하지 않습니다.
+- **Slot 내부 구조**: `Card / Surface > Slot > Body`를 사용합니다. `Body`는 Horizontal / 가로 Fill·세로 Hug / gap12px(`spacing/lg`) / 좌측·세로 가운데 정렬이며, 직계 자식은 `Logo`·`Groups`·`Card / Header / Affix`입니다. `Logo > Card / Body / Logo(variant: bgIcon)`는 승인 사례의 48px 원형 영역을 유지하고, `Groups > Group > Card / Body / Group-A(variant: title, size: 16)`에 항목명을 넣습니다. Groups는 가로 Fill·세로 Hug로 남은 폭을 사용합니다. 우측 Affix는 **`variant: pageIndicator` / 24px 원형 / visible true / AUTO**로 Body 안에 배치하며, 숨겨진 Absolute Affix를 중복 노출하지 않습니다.
+- **내용·심볼**: 문구·항목 수·순서·이동 목적은 해당 기획대로 유지합니다. 승인 예시는 ‘은행에 서류 제출’의 `style-bankbook-won`, ‘제출 내역 조회’의 `style-phone-check`입니다. 이 두 심볼과 문구를 다른 서비스에 그대로 복사하지 않고, 기획·승인 맥락에 맞는 최신 라이브러리 원본 심볼을 연결합니다. 임의 그림이나 기본 ICON 더미로 대신하지 않습니다. 하위 컴포넌트의 서체·색상·변수·내부 Hug와 공개 옵션을 보존합니다.
+- **그룹·간격**: 복수 카드는 실제 Vertical Auto Layout **`Card Group`**, 내부 반복 항목명은 모두 **`Card / Surface`**로 유지합니다. **카드 사이 gap12px(`spacing/lg`), Title / Page → Card Group gap24px(`spacing/3xl`)**를 적용합니다. 카드 자체 padding20px(`spacing/2xl`)와 내부 Body gap12px를 외부 간격과 구분합니다. 단일 페이지 컨테이너는 `Container`, 복수는 기존 순번 규칙을 따릅니다. 콘텐츠 폭에 맞게 Card Group·Card를 가로 Fill·세로 Hug로 배치하고 승인 사례의 실측350×88px를 모든 항목의 고정 폭·높이로 강제하지 않습니다.
+- **완료 검수**: 서비스 진입 링크 역할, 실제 Card / Surface와 위 공개 속성, Slot/Body의 Logo·Groups·pageIndicator 구조 및 AUTO, 원문·심볼·순서, 실제 Card Group과 부모 명칭, 12px/24px 계층별 간격·토큰, 서체/변수·Hug/Fill·편집 옵션의 원본 동작을 대조합니다. 승인 화면은 현재 Card 패턴이며 과거 GridButton 제작 기록을 근거로 되돌리지 않습니다. 이번 MD 업데이트만으로 기존 Figma 화면을 수정했다고 보고하지 않습니다.
+
 ## 본문 서비스 바로가기 TextButton의 우측 배치 (2026-10-29 사용자 교정)
 
 - **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.

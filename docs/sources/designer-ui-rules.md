@@ -1,5 +1,14 @@
 # UI Design & Code Generation Rules
 
+## 단순 서비스 진입 링크 목록의 Card 매핑 (2026-10-30 사용자 확정)
+
+- **적용 조건·우선순위**: [기획 5749:143981](https://www.figma.com/design/cLQlbxcEeZPBxBFz9c1rJk/?node-id=5749-143981)처럼 서비스명과 이동 화살표를 세로로 나열하고 각 항목이 해당 서비스·조회 화면으로 진입하는 단순 링크 목록은 [승인 화면 598:30627](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=598-30627)의 **`Card / Surface` 패턴**을 적용합니다. 이 유형을 일반 버튼형 선택지로 해석해 GridButton으로 바꾸거나, List·BoxButton·수동 프레임으로 외형만 만들지 않습니다. 인라인 링크·일반 메뉴 List 전체에 확대하지 않으며, 선택 바텀시트·은행/증권사 선택·라디오 Card 등 별도 전용 패턴도 유지합니다.
+- **컴포넌트·옵션**: 지정 최신 라이브러리의 실제 `Card / Surface`를 새 인스턴스로 가져옵니다. 승인 사례의 공개 속성은 **`type: outline`, `variant: select`, `select: false`, `disabled: false`**입니다. 개별 기획의 비활성·상태가 있으면 그 값을 우선하며, 이동 링크라는 이유로 radio/check 상태를 추가하지 않습니다. 현재 참조의 원형 key `87e4f7ed5b778f83141856fd287deba5faa31b66`은 탐색 근거이며 이후 최신 원형 확인을 대신하지 않습니다.
+- **Slot 내부 구조**: `Card / Surface > Slot > Body`를 사용합니다. `Body`는 Horizontal / 가로 Fill·세로 Hug / gap12px(`spacing/lg`) / 좌측·세로 가운데 정렬이며, 직계 자식은 `Logo`·`Groups`·`Card / Header / Affix`입니다. `Logo > Card / Body / Logo(variant: bgIcon)`는 승인 사례의 48px 원형 영역을 유지하고, `Groups > Group > Card / Body / Group-A(variant: title, size: 16)`에 항목명을 넣습니다. Groups는 가로 Fill·세로 Hug로 남은 폭을 사용합니다. 우측 Affix는 **`variant: pageIndicator` / 24px 원형 / visible true / AUTO**로 Body 안에 배치하며, 숨겨진 Absolute Affix를 중복 노출하지 않습니다.
+- **내용·심볼**: 문구·항목 수·순서·이동 목적은 해당 기획대로 유지합니다. 승인 예시는 ‘은행에 서류 제출’의 `style-bankbook-won`, ‘제출 내역 조회’의 `style-phone-check`입니다. 이 두 심볼과 문구를 다른 서비스에 그대로 복사하지 않고, 기획·승인 맥락에 맞는 최신 라이브러리 원본 심볼을 연결합니다. 임의 그림이나 기본 ICON 더미로 대신하지 않습니다. 하위 컴포넌트의 서체·색상·변수·내부 Hug와 공개 옵션을 보존합니다.
+- **그룹·간격**: 복수 카드는 실제 Vertical Auto Layout **`Card Group`**, 내부 반복 항목명은 모두 **`Card / Surface`**로 유지합니다. **카드 사이 gap12px(`spacing/lg`), Title / Page → Card Group gap24px(`spacing/3xl`)**를 적용합니다. 카드 자체 padding20px(`spacing/2xl`)와 내부 Body gap12px를 외부 간격과 구분합니다. 단일 페이지 컨테이너는 `Container`, 복수는 기존 순번 규칙을 따릅니다. 콘텐츠 폭에 맞게 Card Group·Card를 가로 Fill·세로 Hug로 배치하고 승인 사례의 실측350×88px를 모든 항목의 고정 폭·높이로 강제하지 않습니다.
+- **완료 검수**: 서비스 진입 링크 역할, 실제 Card / Surface와 위 공개 속성, Slot/Body의 Logo·Groups·pageIndicator 구조 및 AUTO, 원문·심볼·순서, 실제 Card Group과 부모 명칭, 12px/24px 계층별 간격·토큰, 서체/변수·Hug/Fill·편집 옵션의 원본 동작을 대조합니다. 승인 화면은 현재 Card 패턴이며 과거 GridButton 제작 기록을 근거로 되돌리지 않습니다. 이번 MD 업데이트만으로 기존 Figma 화면을 수정했다고 보고하지 않습니다.
+
 ## 본문 서비스 바로가기 TextButton의 우측 배치 (2026-10-29 사용자 교정)
 
 - **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
@@ -617,6 +626,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 |역할|사용 방식|대표 예시|
 |---|---|---|
+|단순 서비스 진입 링크 목록|디자인 시스템의 `Card / Surface` 인스턴스|서비스명·이동 화살표로 다음 화면에 진입하는 세로 목록. 598:30627의 outline/select·Logo/Groups/pageIndicator 패턴 우선|
 |버튼형 선택지|디자인 시스템의 `GridButton` 인스턴스|모바일 주민등록증·운전면허증 등 선택지를 버튼으로 열거하고 선택하는 UI|
 |동작·복합 카드|디자인 시스템의 `Card / Surface` 인스턴스|이체, 상세 이동, 정보와 동작을 결합한 카드. 버튼형 선택지는 GridButton 규칙 우선|
 |사실 데이터 표시|직접 구성한 Auto Layout 프레임 `Data Block`|이름, 전화번호, 부모님 기본정보, 거래내역, 계좌정보, 금액|
@@ -625,7 +635,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 기존 `Infobox / Basic`, `Infobox / Solid`, `Infobox / Card`, `Infobox / FullWidth`의 용도에 해당하면 해당 컴포넌트와 전용 규칙을 우선 적용합니다. `Text Box`를 이유로 기존 Infobox를 일괄 대체하지 않습니다.
 
 #### 0. 선택지 버튼 UI: `GridButton` (2026-10-20 사용자 승인)
-- **적용 조건**: [신분증 촬영_모바일 2074:1554](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2074-1554)처럼 복수의 선택지를 버튼 형태로 제시하고 사용자가 선택하는 UI는 실제 **`GridButton`** 컴포넌트로 구성합니다. 이 패턴은 일반적인 Card / Surface의 선택·동작 판정 규칙보다 우선하며, Card들을 나란히 놓아 대체하지 않습니다. 셀렉트 바텀시트의 List·계좌 선택 등 별도로 정한 전용 패턴은 해당 규칙을 유지합니다.
+- **적용 조건**: [신분증 촬영_모바일 2074:1554](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2074-1554)처럼 복수의 선택지를 버튼 형태로 제시하고 사용자가 선택하는 UI는 실제 **`GridButton`** 컴포넌트로 구성합니다. 이 패턴은 일반적인 Card / Surface의 선택·동작 판정 규칙보다 우선하며, Card들을 나란히 놓아 대체하지 않습니다. 단순 서비스 진입 링크 목록은 598:30627의 Card / Surface 전용 규칙을 우선합니다. 셀렉트 바텀시트의 List·계좌 선택 등 별도로 정한 전용 패턴은 해당 규칙을 유지합니다.
 - **계층**: **`GridButton > Slot > Grid > Item / Vertical`** 등 원형 아이템 인스턴스 구조를 유지합니다. 컴포넌트를 detach하거나 Slot 밖에 별도 Grid를 만들어 흉내 내지 않습니다. 원형 컴포넌트와 반복 아이템의 이름에 임의 순번을 붙이지 않습니다.
 - **기획별 Grid 수정**: **Slot 안의 `Grid` 오토레이아웃**에서 행·열 수, 아이템 수·배치 순서, 열 너비와 간격을 기획에 맞춰 조정합니다. 기준 화면의 1행 2열을 모든 화면에 고정 적용하지 않습니다. 실제 `layoutMode: GRID`를 유지하며, 행 자동 확장(`gridAutoTracks: ROWS`)을 쓰는 경우 열 수와 아이템 수에 따라 행 수가 결정되도록 합니다.
 - **현재 승인 예시**: `GridButton (variant: primary, type: grid)` / Grid **1행 2열**, 동일한 Fill 열 2개, 가로 Fill·세로 Hug, 행·열 gap **8px (`spacing/md`)**, 선택지 순서는 모바일 주민등록증 → 모바일 운전면허증입니다. 이 수치는 현재 기획의 예시이며 다른 기획에서는 Grid 구성을 다시 맞춥니다.
