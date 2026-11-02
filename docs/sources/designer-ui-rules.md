@@ -794,6 +794,8 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 | Depth 1+2+3 | [31061:78179](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78179) | 3d-group·3d, 직접 설명(description), 보조 레이블(hasSubLabel) 분기 |
 | Depth 1+2+3+4 초기 레이블 | [31061:78292](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78292) | 뎁스별 기본 이름과 Slot·반복 구조를 확인하는 원형 |
 | Depth 1+2+3+4 실제 문구 예시 | [31061:78209](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78209) | 긴 문구 줄바꿈, 체크·라디오 상태, 4d Grid와 설명 목록의 조합 |
+| 다단계 약관 초기 레이블 추가 사례 | 삭제 예정 승인본 `bDKgQrkt0oHMJ1EbPUQTp8 / 3615:26089` | 아래 §4.D의 독립 보존 명세를 사용. 삭제 예정 노드 조회·복제를 제작 전제조건으로 삼지 않음 |
+| 다단계 약관 긴 문구·선택 혼합 추가 사례 | 삭제 예정 승인본 `bDKgQrkt0oHMJ1EbPUQTp8 / 3615:26006` | 아래 §4.D의 체크/라디오·2열 Grid·긴 문구·하단 목록 분기 적용 |
 | 약관 BottomSheet | [31061:78333](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78333) | BottomSheet Slot의 안내문과 ConsentGroup 조합 |
 | TextList(16) + 확인 동의 | [31061:78354](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31061-78354) | Title / Section + TextList Group + 별도 ConsentFinal |
 
@@ -840,6 +842,56 @@ Container 2 (gap 12px)
 - **BottomSheet**: 제목 `약관동의` 및 닫기 표시, handle 비노출 / hasStickyButton true / hasScrollDim false를 대응 참조에서 유지합니다. Slot은 Fill·Hug / padding 0 20px 20px / gap 20px이며, Container 1 안내문(16px Light) → Container 2 ConsentGroup(gap 12px) 순서입니다. StickyButton은 elevated / hasCTA true / hasSubButton false / hasScrollDim false, iOS HomeIndicator는 아트보드 하단 형제로 둡니다. 최소 콘텐츠 Slot Fill 등 별도 명시 조건은 해당 경우에만 적용합니다.
 - **TextList 확인형**: Container 1 Title / Page(기획에 있는 Description), Container 2 `Title / Section → TextList Group` gap 16px, 목록 내부 gap 8px / TextList / Unordered size 16·bullet·depth 1, Container 3 **`ConsentFinal (variant: outline)`** 순서입니다. 원형 내부 Item / Consent(1d)는 hasSuffix false이며 확인 문구·체크 상태를 기획에 맞춥니다. 일반 약관 묶음인 ConsentGroup이나 구형 Consent로 대체하지 않습니다. ConsentFinal의 다른 variant(muted)는 기획·대응 원형에 맞을 때만 사용합니다.
 - **검수**: 실제 최신 component key·Slot 부모·뎁스 variant, checkbox/radio와 선택 상태, hasSubLabel/hasSuffix·펼침 상태, 문구 줄바꿈·서체·변수, 그룹/항목 간격 및 Grid flow를 원형과 대조합니다. 공개 속성 전환을 유지하고 검수 뒤 기획 상태로 복원합니다. 참조의 더미 문구·디스크립션·상태를 임의 노출하지 않습니다.
+
+---
+
+### D. 삭제 예정 다단계 약관 사례의 독립 보존 명세 (2026-11-02 사용자 확정)
+
+**보존·적용 범위**: 승인 사례는 `bDKgQrkt0oHMJ1EbPUQTp8 / 3615:26089`(초기 레이블)와 `3615:26006`(긴 문구·선택 혼합)이다. 두 화면은 삭제 예정이므로 node ID는 출처 이력으로만 보관한다. 아래 명세로 사례를 재현하며 삭제된 화면의 재조회·복제를 제작 전제조건으로 삼지 않는다. 컴포넌트는 계속 지정 MO 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 현재 원형을 확인·import한다. 사례 화면 삭제와 원본 라이브러리 자산 삭제는 구분한다.
+
+**공통 외곽**: 일반 페이지의 Vertical Auto Layout `## HEADER / ## BODY / ## FOOTER`이며 Popup으로 감싸지 않는다. BODY는 Fill·Hug / padding **24/20/32/20px** / gap **24px**다. `Container 1 > Title / Page` 다음 `Container 2`에 실제 ConsentGroup들을 gap **12px**로 배치하고 Container 패딩은0이다. 별도 반복 래퍼가 필요하면 `ConsentGroup Group`으로 명명하되 native 이름 `ConsentGroup`은 바꾸지 않는다. 제목 예시는 “KB스타뱅킹 이용을 위해 / 약관 동의가 필요해요”의 두 줄이다. AppBar는 sub·뒤로가기 노출·hasTitle false이며 **이 두 사례는 취소 TextButton 비노출**이다. 기존 참조의 취소 노출을 모든 약관에 강제하지 않는다. FOOTER는 StickyButton(white, CTA large) + iOS HomeIndicator이고 예시의 “다음”은 disabled true다. 새 기획의 제목·CTA 활성 조건·취소 유무를 우선한다. 폭390px 기준 ConsentGroup350px → 원형 Container 좌우20px 안310px → 3d/4d 들여쓰기 후278px이며, **1863/2185px 높이는 문구에 따른 Hug 결과이지 고정 높이가 아니다.**
+
+**실제 계층**: 각 2d와 뒤따르는 3d-group·4d-group은 **동일 Slot의 형제**다. 의미상 2d의 세부 동의라고 해서 3d/4d group을 2d 또는 개별3d 체크의 자식으로 옮기지 않는다. 하위 항목이 없는2d에는 빈 group을 추가하지 않는다.
+
+```text
+Container 2 (Vertical, gap12)
+└─ ConsentGroup (필요한 수만큼 반복)
+   └─ Container (원형 좌우padding20, gap0)
+      ├─ Item / Consent (1d)
+      └─ Slot (gap0, padding-bottom8)
+         ├─ Divider (padding-bottom12) > Divider / Horizontal (secondary, 1px, Fill)
+         ├─ Item / Consent (2d: 첫 번째 약관)
+         ├─ Item / Consent (3d-group: 동의 항목, 있는 경우)
+         │  └─ Slot-Depth-3 > GridContainer (Vertical, gap0) > Item / Consent (3d) 반복
+         ├─ Item / Consent (4d-group: 추가 선택, 있는 경우)
+         │  └─ Slot-Depth-4 > GridContainer (GRID, 2열) > Item / Consent (4d) 반복
+         ├─ Item / Consent (2d: 다음 약관) → 해당3d-group/4d-group 형제들
+         └─ Item / Consent (textList: 기획에 있을 때)
+            ├─ Divider (상하padding8)
+            └─ Container (상하padding12) > Slot-TextList (gap8)
+               └─ TextList / Unordered (size14, 불릿 및 기획의 dash 하위 항목)
+```
+
+**사례 A — 초기 레이블 구조**: 첫 ConsentGroup은 1d 아래 `2d → 3d-group(3d 두 항목) → 2d → 3d-group(3d 두 항목) → 2d`다. 두 번째 ConsentGroup은 1d 아래 `2d → 3d-group(3d 두 항목) → 4d-group(4d 네 항목)`을 세 번 이어 놓고 마지막에 textList의 불릿 두 항목을 둔다. 3d는 check-small, 4d는 radio의2×2 미선택 예시다. “약관1/2/3/4뎁스”·더미 안내문·항목 수는 구조 설명용이며 제품 화면에 고정 복사하지 않는다.
+
+**사례 B — 긴 문구·체크/라디오 혼합**:
+
+| 의미상 약관 묶음 | 실제 구성·선택 분기 |
+| --- | --- |
+| 금리우대를 위한 카드매출정보 조회 선택 동의 | 1d 아래2d 세 항목. 첫 두 항목의3d-group에는 체크를 각각2개/3개 배치. 세 번째 금융거래정보 제공 동의서에는 하위 group 없음 |
+| 마케팅 안내 동의서 | 2d → 3d-group(수집·이용/광고성 수신 체크2개) → 4d-group(문자·이메일·전화·우편 체크4개, 2×2) |
+| 카카오톡 채널추가 동의서 | 2d → 3d-group(체크2개) → 4d-group(추가/차단 **radio**2개, 한 행2열) |
+| 계열사정보제공 동의서 | 2d → 3d-group(체크3개) → 4d-group(문자·이메일·전화·우편 체크4개, 2×2) |
+| 그룹 하단 경로 안내 | 마지막 textList에 size14 불릿 “경로”와 dash 하위 경로2개. 예시는 KB스타기업뱅킹/KB스타뱅킹 → 전체메뉴 → 고객센터 → 고객정보 관리이며 실제 문구·경로는 기획대로 적용 |
+
+**컨트롤·상태**: 1d Prefix는 check-large, 2d/3d는 check-small이다. 4d는 다중 안내수단이면 check-small, 상호 배타적인 추가/차단이면 radio다. 모든4d를 Radio·SelectButton 등 한 타입으로 통일하지 않는다. native Item / Box·Item / Radio의 checked·disabled·indeterminate·invalid와 Prefix/Suffix 연결을 유지한다. 사례 B의 일부 선택 예시는 카카오톡 하위 “개인정보 제3자 제공 동의” 체크와 “추가” 라디오 선택, 계열사 하위 “광고성 정보 수신 동의”와 안내수단4개 선택이다. 상위1d/2d의 미선택과 하위 일부 선택을 구분하고 전체선택으로 임의 보정하지 않는다. 이 상태를 신규 기획에 강제하지 않으며 실제 기획의 초기값·활성 조건을 따른다. 상세 이동이 있는1d/2d는 Suffix pageIndicator, 펼쳐진3d-group은 up을 사용하고, 실제 동작이 없는 항목에는 Suffix를 추가하지 않는다.
+
+**간격·서체**: 1d는 KBFG Text16 Bold·상하padding16·gap8, 2d는16 Medium·상하padding12·gap8이다. 3d-group 제목은16 Light·Top 상하padding12, 4d-group 제목은14 Light·Top 상하padding6이다. 두 group 바깥 padding은 **0/0/12/32px**, 내부 gap0이다. 3d/4d 항목은14 Light·상하padding4·gap8이다. 4d Grid는2열 균등FLEX·행Hug·행/열gap0이며4항목=2행,2항목=1행이다. 일반 Radio/Checkbox Group gap20을 원형에 덮어쓰지 않는다. 4/6/8/12/16/24/32px는 각각 `spacing/xs/sm/md/lg/xl/3xl/5xl`을 연결한다. 긴 문구는 원형 Label·Fill/Hug로 높이가 늘어나도록 하며 폰트 축소·고정높이·말줄임으로 맞추지 않는다.
+
+**삭제 후 라이브러리 탐색 근거**(2026-11-02 확인): ConsentGroup key `3e734ffbcf9495c4b93f0cf5ecaf1c2b368c2063`; Item / Consent는1d `6496a1d3f06ba209cd782b2c11083e895e14c609`,2d `a74ee42ace75cc01015fc5a1fbf2ae23fdb24287`,3d-group `d6538a2ef603acb50d5dbecfcf4638bafa990b20`,3d `6b4292485405d45ac581450fde1049e17f086f54`,4d-group `abee473e01d486c0b794a8a17357381a84751e0d`,4d `d97b6bd74b0eb3f3a6e8b18800cc28a8152bbd47`,textList `c5125fd24a5180ae3ed2cdaef685b7895208fb48`다. Text Style 탐색 기준은16Bold `c0b7c927f31310c8297f679419d5a38377fc74db`,16Medium `1c8368513c856adb717a8f46922bc5f4a800bb66`,16Light `161acb8a632b6627494a8a2b575e49ed8a12f3a6`,14Light `b9f5d92dffa67d9779e50c32f2c9f732a727fe8a`다. key는 탐색 근거이며 최신 원형 확인·스타일/변수 연결을 대체하지 않는다. 과거 사례 내부 node ID로 새 인스턴스를 탐색하지 않는다.
+
+**완료 조건**: 2d와 하위 group의 대응·실제 Slot 부모·필수 첫 Divider·Grid 흐름/열수·항목 개수/순서·checkbox/radio·일부선택/미선택·불릿/dash·간격·서체/변수·긴 문구 줄바꿈과 구조 변경 후 부모 이름을 확인한다. 삭제 예정 참조가 열리지 않는다는 이유로 주변 화면·추정 스타일로 대체하지 않는다. 이번 요청은 MD 보존이며 Figma 화면 수정·삭제는 포함하지 않는다.
+
 
 ---
 

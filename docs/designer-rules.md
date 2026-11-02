@@ -1,5 +1,15 @@
 # 디자이너 규칙의 적용과 검수
 
+## 삭제 예정 다단계 약관 사례 추가 (2026-11-02 사용자 확정)
+
+- 초기 레이블 `3615:26089`와 긴 문구·선택 혼합 `3615:26006`을 승인 사례로 추가했다. 삭제 예정 노드 재조회·복제에 의존하지 않고 [원문 §4.D 독립 보존 명세](sources/designer-ui-rules.md#d-삭제-예정-다단계-약관-사례의-독립-보존-명세-2026-11-02-사용자-확정)의 구조·사례별 항목 매핑·수치·서체·상태를 적용한다. 원형은 계속 지정 MO 라이브러리의 현재 컴포넌트를 직접 확인·import한다.
+- 동일 ConsentGroup Slot의 2d·해당3d-group·4d-group은 순서대로 이어지는 형제다. 3d는 Slot-Depth-3 > Vertical GridContainer > 체크, 4d는 Slot-Depth-4 > 2열 GridContainer를 사용한다. 안내수단4개는 check-small2×2, 추가/차단2개는 radio1×2다. 하위 없는2d에는 group을 추가하지 않으며 끝의 textList14 불릿/dash 하위 목록을 보존한다.
+- BODY padding24/20/32/20·gap24, ConsentGroup 사이12, 내부 Slot gap0·하단8, 첫 Divider 래퍼 하단12·secondary선1px, 3d/4d-group padding0/0/12/32·Top 상하12/6, 항목 상하4·gap8, Grid 행/열gap0을 구분한다. 1d16Bold·2d16Medium·3d-group16Light·4d-group/3d/4d14Light의 원형 KBFG 스타일·변수를 유지한다.
+- 초기/긴 문구 사례의 문장·개수·일부선택은 예시다. 실제 기획의 항목·상태를 우선하고 긴 문구는 Fill/Hug로 늘린다. 추가 사례 AppBar는 취소 비노출이며, 기존 일반 참조의 취소 노출을 전역 강제하지 않는다. 1863/2185px는 예시 Hug 높이로 고정하지 않는다.
+- 실제 Slot 부모·각2d와 하위 group 대응·checkbox/radio·Grid·첫Divider·상태·간격·서체·줄바꿈과 부모 명명을 완료 조건으로 대조한다. 두 화면 삭제 후에도 규칙은 유지되며, 문서 반영이 Figma 화면 수정·삭제를 의미하지 않는다.
+
+
+
 ## 고객확인 등록 안내의 불릿·복합 구조·옵션 대조 (2026-10-30 사용자 교정)
 
 - **승인 근거·적용 범위**: [고객확인 등록 승인 화면 3478:41680](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3478-41680)을 해당 유형의 기준으로 사용합니다. [오류 제작본 3521:2924](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3521-2924)의 일반 Text 변환·임의 Container 분할·제목 및 버튼 옵션·StickyButton 기본값을 재사용하지 않습니다. 아래 수치는 이 승인 패턴의 명시적 예외이며, 다른 화면의 일반 TextList 간격·Title 원형·서비스 바로가기 secondary/small 규칙을 전역 변경하지 않습니다. 해당 고객확인 등록 패턴에서는 이 최신 교정을 우선합니다.
