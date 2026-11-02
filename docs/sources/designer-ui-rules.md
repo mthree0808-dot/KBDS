@@ -1,5 +1,13 @@
 # UI Design & Code Generation Rules
 
+## 약관 PDF 뷰어의 BG 토큰·Fill 노출 필수 검수 (2026-11-02 사용자 교정)
+
+- **승인 근거**: [사용자가 BG를 보완한 Popup 4036:2220](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4036-2220). 기존 제작에서 빠진 `Popup > Slot > Body > Title Area`의 배경 Fill을 누락 사례로 기록합니다. 컴포넌트·텍스트·구조가 맞거나 부모의 흰색 바탕으로 보인다는 이유만으로 배경 검수를 통과시키지 않습니다.
+- **영역별 BG**: `Body > Title Area`(검색·다운로드·메뉴 툴바)와 형제 `Body > body`(PDF 뷰포트)는 각각 실제 Fill에 **`background/neutral/light-gray`**(key `a888f227e02f51f118bd937ae9d9ad73617f1765`)를 연결합니다. 승인 시점 해석값은 `#FAFAFA`이며 색상값을 하드코딩하는 대신 최신 라이브러리 변수를 사용합니다. **두 영역을 각각 검사**하며 `body`만 채우고 Title Area를 투명하게 남기지 않습니다.
+- 아트보드와 `body > PDF Document`의 바탕은 **`background/neutral/white`**(key `f90471c40d02473a064c0edcaa006d4f8d251b9d`)를 유지합니다. 회색 툴바·뷰포트와 흰색 문서의 역할을 구분하며 Popup·Slot·Body 전체를 회색으로 덮거나 투명한 구조용 래퍼까지 일괄 Fill 처리하지 않습니다. 최신 컴포넌트의 연결·공개 옵션과 기존 문서 테두리·위계·간격은 보존합니다.
+- **가시성·검수 조건**: 위 BG는 해당 레이어가 `visible: true`, 레이어 opacity `1`, 실제 SOLID Paint가 **`visible: true`, opacity `1`**인 상태여야 합니다. Fill 배열 존재, 변수명·key 연결, 해석 색상과 화면 렌더를 함께 확인합니다. 빈 Fill·숨긴 Paint·연결 누락을 발견하면 해당 영역을 수정한 뒤 재검사하고 완료합니다. 흰색과 연한 회색의 차이가 작다는 이유로 생략하지 않습니다.
+- 이 규칙은 고정 PDF 뷰어와 긴 약관 전체 노출 유형 모두에 적용하며, 각 유형의 Fill/Hug·Pagination·Footer 배치 예외는 그대로 유지합니다. 사용자 보완 화면의 다른 구형 제목·구조를 새 제작 기준으로 복제하지 않습니다. 이번 요청은 공유 MD 갱신이며 사용자 수정본을 다시 편집하거나 다른 화면까지 수정했다는 뜻은 아닙니다.
+
 ## 긴 약관 상세의 제목 위계·그룹·전체 노출 (2026-11-02 사용자 승인)
 
 - **적용 범위와 우선순위**: [간편로그인/전자서명 정보제공동의 승인 수정본 4005:4902](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4005-4902)을 같은 유형의 긴 약관 상세 제작 기준으로 사용합니다. 기획 `dUJ53drCu5eV3E5FSIQvxs / 4276:47593`의 두 프레임은 한 약관의 연속 내용입니다. 제작본 `4036:2209`의 낮은 제목 위계·평탄한 그룹·24px 문서 간격·844px 고정 뷰포트·Pagination 노출을 이 유형의 기준으로 재사용하지 않습니다. 승인본은 구조·역할·간격의 근거이며 컴포넌트는 계속 지정 최신 MO 라이브러리에서 직접 확인·import합니다.
@@ -553,6 +561,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **아트보드·StatusBar·Popup**: 기준은 390×844, Vertical / gap·padding 0 / `background/neutral/white`입니다. StatusBar는 아트보드 직계 첫 자식이며 iOS/light, 가로 Fill·세로 Fixed 44px, **Auto Layout 일반 흐름**입니다. Popup은 그 아래 가로·세로 Fill(기준 390×800), Slot은 Fill·Fill / gap·padding 0입니다. 이 PDF 유형에 키패드 Popup의 StatusBar Absolute 규칙을 일괄 적용하지 않습니다.
 - **`Header`**: Fill·Hug, 기준 56px. AppBar는 `variant: sub`, `hasTitle: true`, `hasPrev: false`, `hasTextButton: false`, `hasIconButton1/2: false`, `hasIconButton3: true`이며 원형 닫기 버튼과 실제 약관 제목을 사용합니다.
 - **`Body`**: Fill·Fill / Vertical / gap·padding 0, 기준 390×744px. `Title Area`는 Horizontal / Fill·Hug / padding 12px 20px 0 / gap 16px, 기준 높이 36px입니다. 내부 `title + button > Suffix`의 아이콘 그룹은 gap 16px, 실제 IconContainer size 24이며 검색·다운로드·목차 아이콘의 원본 연결을 유지합니다. `body`는 Vertical / Fill·Fill / 양 축 center / padding·gap 12px, 기준 높이 708px입니다.
+- **툴바·뷰포트 BG 필수**: `Body > Title Area`와 `Body > body` 각각에 `background/neutral/light-gray`(key `a888f227e02f51f118bd937ae9d9ad73617f1765`) Fill을 연결하고 Paint `visible: true`, opacity `1`을 확인합니다. 흰색 문서 배경과 구분하며 문서 상단의 「약관 PDF 뷰어의 BG 토큰·Fill 노출 필수 검수」를 따릅니다.
 - **PDF 영역**: `body` 안 흰색 Rectangle은 원형 배경·테두리 변수와 Fill 크기를 유지하고, `pdf 약관 내용` 표시 텍스트는 실제 원형 스타일·서체·색상 변수와 Absolute 중앙 배치를 유지합니다. 콘텐츠를 이미지로 평탄화하지 않습니다.
 - **`Footer`**: Popup Slot의 자식이지만 **Absolute**, 기준 x0/y674(Popup Slot 좌표), 가로 Fixed 390·세로 Hug 126px입니다. BODY의 Fill 높이를 줄이는 일반 흐름으로 바꾸지 않습니다. StickyButton은 white / hasCTA true / hasSubButton false / hasScrollDim true, HomeIndicator는 os iOS입니다. CTA 문구는 기획에 맞추되 Label과 버튼명은 원형 Hug를 유지합니다.
 - **`Pagination / Carousel`**: 아트보드의 직계 실제 인스턴스 / Absolute / black·medium, 기준 103×32px, x143.5/y686 / horizontal CENTER·vertical MAX constraints입니다. Popup Slot 내부로 옮기거나 일반 흐름에 넣지 않습니다. 최신 원형을 import하고 서체·변수·원본 연결을 유지하며 SVG·벡터·일반 Frame이나 이전 화면 clone으로 대체하지 않습니다.

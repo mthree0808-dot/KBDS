@@ -1,5 +1,10 @@
 # 디자이너 규칙의 적용과 검수
 
+## 약관 PDF 뷰어 BG 누락 방지 (2026-11-02 사용자 교정)
+
+- [사용자 보완 Popup 4036:2220](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4036-2220)과 [독립 보존 명세](sources/designer-ui-rules.md#약관-pdf-뷰어의-bg-토큰fill-노출-필수-검수-2026-11-02-사용자-교정)를 따른다. `Popup > Slot > Body > Title Area`와 형제 `body` 각각에 **`background/neutral/light-gray`**(key `a888f227e02f51f118bd937ae9d9ad73617f1765`) Fill을 연결하며, 툴바 BG를 투명하게 남기지 않는다.
+- 아트보드·PDF Document의 `background/neutral/white`와 구분한다. 구조용 Popup·Slot·Body를 일괄 회색으로 채우지 않으며 고정/긴 문서의 기존 크기·배치 예외는 유지한다. 완료 전에 **영역별 Fill 존재·변수명/key·Paint visible true/opacity1·레이어 노출·렌더**를 함께 검사하고 누락을 수정한다. 컴포넌트 존재·텍스트 일치만으로 PASS 처리하지 않는다.
+
 ## 긴 약관 상세의 전체 노출·제목 위계 (2026-11-02 사용자 승인)
 
 - [승인 수정본 4005:4902](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4005-4902)과 [원문의 독립 규칙](sources/designer-ui-rules.md#긴-약관-상세의-제목-위계그룹전체-노출-2026-11-02-사용자-승인)을 적용한다. 일반 고정 PDF 뷰어의844px·Fill·Pagination 노출과, 이 긴 약관 본문·표 전체 노출 유형의 **세로 Hug·Pagination visible false**를 제작 전에 구분한다. 승인 실측1222px를 고정 높이로 복사하지 않는다.
