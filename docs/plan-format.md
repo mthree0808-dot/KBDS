@@ -4,7 +4,7 @@
 
 상단 Feedback + 후속 데이터가 있는 완료 화면의 reason에는 D18·D19와 승인 참조 `2668:26353`을 연결합니다. BODY padding `40px 20px 32px`, BODY gap 40px, 반복 `Title / DataList Group` 간 32px, `Title`↔`DataList Group` 간 16px, Title 내부와 DataList 목록 내부 각각 12px를 해당 부모별로 기록합니다. `Title`은 Vertical Auto Layout이며 `Title / Element` + `Divider / Horizontal (thickness:1px,variant:primary,length:full)`을 감쌉니다. Container·하위 그룹 패딩 0, DataList의 `hasDivider:false`와 각 토큰 key도 기록하고, 데이터 영역을 단일 12px gap 구조로 평탄화하지 않습니다.
 
-디자이너 규칙도 기본으로 적용합니다. 각 노드의 reason에 관련 D01~D32를 기록하고 `designer-review.md`에서 적용값·근거·결과 노드를 연결합니다. 화면 주변의 페이지 ID 영역을 확인하여 ID가 있으면 `실제페이지ID_화면명`(예: `F730_화면명`), 공란이면 기존 `화면ID_화면명`으로 계획합니다. ID 미확인 상태를 공란으로 단정하거나 임의 ID를 만들지 않습니다. 현재 일반 생성기의 root 이름 `MO/runId`와는 차이가 있으므로 그대로 완료 처리하지 않습니다. 전용 경로 및 미지원 규칙 처리 기준은 `docs/designer-rules.md`를 참조합니다.
+디자이너 규칙도 기본으로 적용합니다. 각 노드의 reason에 관련 D01~D32를 기록하고 제작 호출의 반환값과 검수 결과에 적용값·근거·결과 노드를 연결합니다. 별도 `designer-review.md`는 요청한 경우에만 작성합니다. 화면 주변의 페이지 ID 영역을 확인하여 ID가 있으면 `실제페이지ID_화면명`(예: `F730_화면명`), 공란이면 기존 `화면ID_화면명`으로 계획합니다. ID 미확인 상태를 공란으로 단정하거나 임의 ID를 만들지 않습니다. 현재 일반 생성기의 root 이름 `MO/runId`와는 차이가 있으므로 그대로 완료 처리하지 않습니다. 전용 경로 및 미지원 규칙 처리 기준은 `docs/designer-rules.md`를 참조합니다.
 
 박스의 reason에는 D28~D32에 따라 역할(`Card / Surface` / `Data Block` / `Text Box`), 동작이 박스 내부/전체에 있는지 또는 외부 형제 `Button Area`에만 있는지, 아웃라인/회색 무테 선택 이유, 참조 노드와 실제 토큰 key를 기록합니다. 회색 무테는 `surface/neutral/tertiary-muted` + 외곽 `strokes: []`를 명시합니다. 안내 박스는 기존 Infobox 적용 여부를 먼저 확인합니다. 기존 `kind: layout`으로 직접 구성한 Data Block/Text Box의 참조·토큰을 연결하며, 새 kind나 신규 컴포넌트를 추가한다는 의미는 아닙니다. CLI만으로 역할·스타일 판단이 검증된 것으로 처리하지 않습니다.
 
@@ -43,3 +43,7 @@ properties는 실제 Figma 속성 키를 사용합니다. `Label#...` 같은 suf
 참조와 기획의 컴포넌트가 다르면 적합한 템플릿을 다시 고르거나, 추가 원본 근거를 모아 전용 제작 경로를 사용합니다. 임의의 component key를 넣어 비슷한 UI로 바꾸지 않습니다.
 
 receipt는 최소한 status, planHash, fileKey, pageId, rootId, 계획 id→실제 nodeId 매핑(nodes), createdNodeIds, mutatedNodeIds가 필요합니다. receipt는 제작 도구의 실제 반환값이어야 합니다. 계획서와 같은 파일에 결과를 만들 때에는 읽기 전용 기획 영역과 출력 영역이 겹치지 않는지 실제 계층으로 추가 확인합니다.
+
+## 공통 검사 명세
+
+계획의 `screenContract`는 [공통 검사 형식](screen-guard.md)을 사용합니다. 기본 `screenType: auto`와 작업별 `checks`를 지정합니다. 일반 build와 verify는 같은 검사를 기본 실행하며, 복잡한 전용 스크립트도 guard-build로 연결합니다. component key가 같다는 이유만으로 내용·공개 옵션을 통과시키지 말고 필요한 text/instance/property 검사 경로를 기획과 대응시킵니다. 자동 구조 검사를 통과해도 현재 스크린샷의 시각 검수는 별도입니다.

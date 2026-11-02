@@ -1,4 +1,5 @@
 import { digest, parseUrl, validatePlan } from './core.mjs';
+import { guardBuildScript } from './screen-guard.mjs';
 
 // Conservative compiler: only referenced layouts, linked instances and styled text.
 // Unsupported source features stop here rather than silently approximating them.
@@ -19,7 +20,8 @@ export function buildScript(plan, registry, reference) {
     }
   }
   const payload={plan,reference,registry,target:parseUrl(plan.targetUrl),planHash:digest(plan)};
-  return `return await (${build.toString()})(figma, ${JSON.stringify(payload)});`;
+  return guardBuildScript(`return await (${build.toString()})(figma, ${JSON.stringify(payload)});`,
+    {fileKey: payload.target.fileKey, pageIdFromReceipt: true}, plan.screenContract);
 }
 async function build(figma, data) {
   const {plan,reference,registry,target,planHash}=data;

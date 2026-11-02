@@ -1,0 +1,19 @@
+{
+  "version": "2026-11-02.1",
+  "source": "docs/sources/designer-ui-rules.md",
+  "colors": {
+    "white": "f90471c40d02473a064c0edcaa006d4f8d251b9d",
+    "pdf": "a888f227e02f51f118bd937ae9d9ad73617f1765",
+    "elevated": "7c14df9dfaf712b02335c5846362892232fa14c4"
+  },
+  "spacing": {
+    "0": null,
+    "8": "05c59452624fbed61e5be4c26c8a03c54be6dcad",
+    "12": "466bd0e6b2233083a08d900e3be39f48196d1bee",
+    "16": "dd4b6787bca3ceba45b9b41a16963083cacea533",
+    "20": "5491ce4ce8c48cc4a679f8cedc426cb96bb9a141",
+    "24": "fb23d20e74566ea2a3280e9e3ca48e40122b6d95",
+    "32": "840e7bd3a0d91d1161f8dcbd3c3299310e014cac",
+    "40": "5bc593ee6f05df006566535e37f5fce0ed3a085b"
+  }
+}

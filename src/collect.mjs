@@ -1,8 +1,11 @@
 // Serialized into use_figma by the CLI. No network or canvas writes.
 export async function collect(figma, config) {
+  if (figma.fileKey && config.fileKey && figma.fileKey !== config.fileKey) throw new Error('Wrong file for collection');
   const page = await figma.getNodeByIdAsync(config.pageId);
   if (!page || page.type !== 'PAGE') throw new Error('Expected an existing pageId');
-  await figma.setCurrentPageAsync(page);
+  if (config.skipPageSwitch) {
+    if (figma.currentPage.id !== page.id) throw new Error('Build and audit must use the same page');
+  } else await figma.setCurrentPageAsync(page);
   const root = await figma.getNodeByIdAsync(config.rootId);
   if (!root) throw new Error('Root not found');
   let owner = root;
@@ -75,6 +78,7 @@ export async function collect(figma, config) {
     styles.push(s ? {id:s.id,key:s.key,name:s.name,type:s.type} : {id,unresolved:true});
   }
   return {schemaVersion:1,fileKey:config.fileKey,pageId:page.id,rootId:root.id,total:all.length,
+    complete:offset===0 && items.length===all.length,
     offset,limit,nextOffset:offset+items.length<all.length?offset+items.length:null,items,variables,styles};
 }
 

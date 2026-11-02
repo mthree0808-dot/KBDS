@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { auditScreen, screenRules } from './screen-guard.mjs';
 
 export const SOURCE = '09eGMNTNnkE0CTxPdr7lnk';
 export const digest = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
@@ -104,6 +105,8 @@ export function validatePlan(plan, registry, references) {
 
 export function validateOutput(plan, registry, references, actual, receipt, visual) {
   const errors=[...validatePlan(plan,registry,references).errors];
+  const screenAudit = auditScreen(actual, plan.screenContract, screenRules);
+  errors.push(...screenAudit.errors);
   check(errors,actual.complete===true && actual.items?.length===actual.total,'OUTPUT_INCOMPLETE','산출물 전체 수집 필요');
   check(errors,receipt.planHash===digest(plan),'RECEIPT_PLAN','제작 영수증과 계획 불일치');
   check(errors,receipt.status==='BUILT_REQUIRES_REVIEW','RECEIPT_STATUS','부분 실패한 제작은 완료 처리 불가');
@@ -180,7 +183,7 @@ export function validateOutput(plan, registry, references, actual, receipt, visu
     && ['layout','typography','spacing','clipping','overlap','requirements','icons','imageRegions'].every(k=>visual.checks?.[k]?.status==='PASS'&&visual.checks[k].evidence)
     && visual.screenshots?.reference && visual.screenshots?.output;
   check(errors,visualOk,'VISUAL_REVIEW','현재 산출물 스크린샷 기반 시각 검수 근거 필요');
-  return {status:errors.length?'BLOCKED':'PASS',errors,planHash:digest(plan),outputHash:digest(actual)};
+  return {status:errors.length?'BLOCKED':'PASS',errors,screenAudit,planHash:digest(plan),outputHash:digest(actual)};
 }
 
 export function report(result, plan) {

@@ -16,6 +16,12 @@
 
 박스 UI는 **동작·선택이 있으면 `Card / Surface`**, **사실 데이터 표시면 `Data Block`**, **기존 Infobox로 정의되지 않은 설명·안내·주의·상태 전달이면 `Text Box`**로 구분합니다. Data Block과 Text Box는 DS 토큰과 하위 컴포넌트를 사용해 Auto Layout으로 직접 구성합니다. 아웃라인형과 `surface/neutral/tertiary-muted` 회색 배경·무테형은 주변 정보 위계·밀도와 테두리 중첩에 따라 선택합니다. 역할은 스타일과 별개이며, 박스 바깥 버튼만으로 Data Block을 Card로 바꾸지 않습니다. 상세 기준은 [디자이너 규칙](docs/sources/designer-ui-rules.md)의 Box UI Rules와 [실행 규칙 D28~D32](docs/designer-rules.md)를 따릅니다.
 
+## 공통 자동 검사 (2026-11-02)
+
+- 일반 `build`는 제작 후 실제 결과의 공통 검사까지 같은 Figma 호출에 포함합니다. 전용 제작 스크립트도 `node src/cli.mjs guard-build build.js FILE_KEY PAGE_ID checked.js [contract.json]`으로 감싸 실행합니다.
+- BG 토큰·Fill 노출, CTA Hug, 숫자/문자 서체, 실제 반복/혼합 그룹·부모명, 주요 간격과 오버레이 규칙을 검사합니다. 실패하면 `BLOCKED_REQUIRES_FIX`, 통과해도 시각 검수 전에는 `BUILT_REQUIRES_REVIEW`입니다.
+- [실행법·명세·자동 검사 범위](docs/screen-guard.md)를 따릅니다. 팀원은 최신 저장소를 받고 해당 폴더에서 작업하면 되며, 개인화 설정에 규칙을 중복 입력할 필요는 없습니다. 모든 MD의 자동 검사를 구현했다고 가정하지 않습니다.
+
 ## 이번에 반영한 핵심
 
 - 완료 화면의 BODY 패딩과 `Title / DataList Group` 반복 구조는 [디자이너 원문](docs/sources/designer-ui-rules.md)의 완료 화면 절 및 [D18·D19](docs/designer-rules.md)를 적용합니다. BODY padding `40px 20px 32px`, 계층별 gap 40 / 32 / 16 / 12px와 Title의 Vertical Auto Layout을 구분합니다.
@@ -40,6 +46,8 @@
 |`knowledge/reference-header.json`|대표 템플릿 42개 노드의 전체 수집 결과|
 |`knowledge/screenshots/`|직접 확인한 대표 템플릿 PNG 3개|
 |`src/`|수집·계획 검사·제작 스크립트 생성·산출물 검사·리포트 CLI|
+|`src/screen-guard.mjs`, `knowledge/screen-rules.json`|제작 호출에 포함하는 공통 필수 검사와 토큰 규칙|
+|`docs/screen-guard.md`|팀 공통 실행 방법·작업별 명세·지원 범위|
 |`test/`|위반·누락·잘림·변경을 차단하는 회귀 테스트|
 |`reports/setup-report.md`|이번 구축의 근거·오류·검증 범위|
 |`runs/<run-id>/`|개별 디자인 작업의 계획·증거·리포트|

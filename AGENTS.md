@@ -1,237 +1,38 @@
-# MO Figma 디자인 하네스
+# MO Figma 공통 제작·검수 지침
 
-## 약관 PDF 뷰어 BG 누락 방지 (2026-11-02 사용자 교정)
+## 시작점과 우선순위
 
-- [사용자 보완 Popup 4036:2220](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4036-2220)과 [독립 보존 명세](docs/sources/designer-ui-rules.md#약관-pdf-뷰어의-bg-토큰fill-노출-필수-검수-2026-11-02-사용자-교정)를 따른다. `Popup > Slot > Body > Title Area`와 형제 `body` 각각에 **`background/neutral/light-gray`**(key `a888f227e02f51f118bd937ae9d9ad73617f1765`) Fill을 연결하며, 툴바 BG를 투명하게 남기지 않는다.
-- 아트보드·PDF Document의 `background/neutral/white`와 구분한다. 구조용 Popup·Slot·Body를 일괄 회색으로 채우지 않으며 고정/긴 문서의 기존 크기·배치 예외는 유지한다. 완료 전에 **영역별 Fill 존재·변수명/key·Paint visible true/opacity1·레이어 노출·렌더**를 함께 검사하고 누락을 수정한다. 컴포넌트 존재·텍스트 일치만으로 PASS 처리하지 않는다.
+- 사용자 최신 지시를 우선한다. 디자인 규칙의 단일 기준은 `docs/sources/designer-ui-rules.md`이며, 작업 화면 유형에 해당하는 절과 승인 근거를 읽는다. `docs/history/`는 변경 이력 보존용이고 현재 실행 지침이 아니다.
+- 상세 문서를 이 파일에 계속 복제하지 않는다. 이 파일은 16KiB 이내로 유지한다. 공통 검사 사용법·검사 범위는 `docs/screen-guard.md`, 실행 순서는 `docs/workflow.md`를 따른다.
+- 원본 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`와 기획서는 읽기 전용이다. 사용자가 지정한 작업 파일·범위만 수정한다. Figma 작업 전에 `figma-use`, 화면 제작 시 `figma-generate-design` 스킬을 읽는다.
 
-## 긴 약관 상세의 전체 노출·제목 위계 (2026-11-02 사용자 승인)
+## 제작과 속도
 
-- [승인 수정본 4005:4902](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4005-4902)과 [원문의 독립 규칙](docs/sources/designer-ui-rules.md#긴-약관-상세의-제목-위계그룹전체-노출-2026-11-02-사용자-승인)을 적용한다. 일반 고정 PDF 뷰어의844px·Fill·Pagination 노출과, 이 긴 약관 본문·표 전체 노출 유형의 **세로 Hug·Pagination visible false**를 제작 전에 구분한다. 승인 실측1222px를 고정 높이로 복사하지 않는다.
-- 문서 주 제목은 최신 실제 **Title / Page(승인 시점24px KBFG Medium)**, “KB국민은행 귀중”·“제공 항목”은 **Title / Section(16px KBFG Bold)**이다. Section·Element·일반 Text로 위계를 낮추거나 글자 크기만 덮어쓰지 않는다. 원형 스타일·변수·공개 옵션을 보존한다.
-- **PDF Document(gap32) > Title / Page, Title / Table Group, Title / Contents, Text** 구조다. Title / Table Group은 **Title / Text(Title / Section + Text)와 Table Group**을 실제로 묶으며, 두 계층의 내부 gap은 각각16px다. 제공 항목의 Title / Contents 내부 제목→표 그룹16px, 표→CI 설명 TextList12px를 구분한다. 실제 itemSpacing과 spacing/5xl·xl·lg 토큰을 대조한다.
-- StatusBar Auto·Popup Slot의 **Header / Body / Footer** 명칭·툴바·최신 표 원형은 유지한다. 이 유형은 아트보드부터 Popup·Slot·Body·body·문서까지 세로 Hug로 늘려 후반 표·CI 설명·동의 질문을 모두 노출한다. Footer는 Absolute·하단 MAX로 확장된 Slot을 따르며 y674/y1052를 고정 복제하지 않는다. CTA Label Hug·white StickyButton·iOS HomeIndicator elevated Fill 노출을 보존한다.
-- 기획 원문·내용 연속성, Page/Section 역할과 스타일/변수, 실제 그룹과 부모 명칭,32/16/12px 계층·토큰, 마지막 내용의 노출, Pagination 숨김·Footer 위치를 완료 조건으로 함께 검사한다. 기존 제목·그룹·간격 적용 누락과 이번 Hug·Pagination 예외를 구분하며, 문구 일치나 컴포넌트 존재만으로 PASS 처리하지 않는다. 최신 원형은 지정 MO 라이브러리에서 직접 import하고 승인 화면의 변형 인스턴스를 복제하지 않는다.
+- 단일 화면은 3분 내 완료를 목표로 한다. 독립 조회·import는 묶고, 같은 작업에서 확인한 최신 자산과 제작 절차를 재사용한다. 통과 후 변경 없는 항목을 반복 조회·캡처하지 않는다. 3분을 넘으면 원인과 남은 작업을 짧게 알린다.
+- 컴포넌트는 지정 MO 라이브러리의 현재 원형에서 직접 import한다. `knowledge/`는 시점별 캐시이며 원본 확인을 대체하지 않는다. 주변 화면·이전 제작본의 override를 새 컴포넌트 기준으로 복제하지 않는다.
+- 기획의 원문·순서·불릿·번호·강조·링크·선택/비활성 상태를 확인한다. 페이지 ID 필드가 실제로 있을 때만 `실제페이지ID_화면명`, 공란이면 `화면ID_화면명`을 사용한다. 요구사항 ID나 흐름명을 페이지 ID로 추정하지 않는다.
+- detach·새 라이브러리 컴포넌트/토큰·임의 색상/폰트/간격·이미지 평탄화를 금지한다. 승인된 Data Block/Text Box 구성과 편집 가능한 더미 Image Area는 상세 MD의 예외대로 적용한다. 공개 옵션과 원형의 Hug/Fill·variant 전환 동작을 보존한다.
 
-## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
+## 필수: 제작 호출에 공통 검사를 포함
 
-- **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
-- 구조는 `## BODY > Container 1 > Tab, Infobox / Card`를 유지하고, 두 직계 자식을 배치하는 Container 1의 실제 Auto Layout `itemSpacing`에 16px 토큰을 연결한다. 별도 Container·빈 프레임·패딩으로 간격을 대신하거나 중복하지 않는다.
-- **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Data Block·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
-- 완료 시 부모 gap과 토큰 연결뿐 아니라 Tab 하단 경계에서 Infobox / Card 상단 경계까지 실제 16px인지 확인한다. KB국민인증서 이용내역의 최근 제작 8개 화면(작업 파일 `LHQQGe8DG3PWQL0mNUaBkr`, 섹션 `2007:5670`)에 같은 기준을 적용한다.
+1. 일반 컴파일러 `build`는 기본으로 공통 검사를 포함한다. 복잡한 Slot·중첩 구성용 전용 스크립트도 반드시 `node src/cli.mjs guard-build <build.js> <file-key> <page-id> <output.js> [contract.json]`으로 감싼 뒤 실행한다.
+2. 제작 함수는 실제 `rootId` 또는 `mapping[].id`를 반환한다. 반환된 화면들만 같은 MCP 호출에서 한 번씩 수집하고 `src/screen-guard.mjs`로 검사한다. 필수값마다 추가 MCP 호출을 만들지 않는다.
+3. 기획 원문·선택한 최신 component key·공개 옵션·특정 레이아웃 요구는 `contract.checks`의 실제 경로로 명시한다. 경로/옵션 키를 추정하지 않는다. 자동 판정이 어려운 MD 규칙은 해당 작업의 필수 직접 검수 항목으로 남긴다.
+4. `BLOCKED` / `BLOCKED_REQUIRES_FIX` 또는 오류가 있으면 완료 보고를 금지한다. 오류 노드와 영향받는 부모만 수정한 뒤 해당 화면을 재검사한다. `STRUCTURE_OK_REQUIRES_VISUAL_REVIEW` / `BUILT_REQUIRES_REVIEW`는 시각 검수 완료가 아니다.
+5. 실제 스크린샷으로 문구·아이콘·줄바꿈·잘림·겹침·위계를 한 번 확인한다. 관련 수정이 없으면 반복하지 않는다. 일반 `verify`도 같은 공통 검사와 현재 구조/스크린샷 증거를 요구한다. 별도 보고서 파일은 요청이 있을 때만 작성한다.
 
-## 삭제 예정 다단계 약관 사례 추가 (2026-11-02 사용자 확정)
+## 누락을 막는 핵심 확인
 
-- 초기 레이블 `3615:26089`와 긴 문구·선택 혼합 `3615:26006`을 승인 사례로 추가했다. 삭제 예정 노드 재조회·복제에 의존하지 않고 [원문 §4.D 독립 보존 명세](docs/sources/designer-ui-rules.md#d-삭제-예정-다단계-약관-사례의-독립-보존-명세-2026-11-02-사용자-확정)의 구조·사례별 항목 매핑·수치·서체·상태를 적용한다. 원형은 계속 지정 MO 라이브러리의 현재 컴포넌트를 직접 확인·import한다.
-- 동일 ConsentGroup Slot의 2d·해당3d-group·4d-group은 순서대로 이어지는 형제다. 3d는 Slot-Depth-3 > Vertical GridContainer > 체크, 4d는 Slot-Depth-4 > 2열 GridContainer를 사용한다. 안내수단4개는 check-small2×2, 추가/차단2개는 radio1×2다. 하위 없는2d에는 group을 추가하지 않으며 끝의 textList14 불릿/dash 하위 목록을 보존한다.
-- BODY padding24/20/32/20·gap24, ConsentGroup 사이12, 내부 Slot gap0·하단8, 첫 Divider 래퍼 하단12·secondary선1px, 3d/4d-group padding0/0/12/32·Top 상하12/6, 항목 상하4·gap8, Grid 행/열gap0을 구분한다. 1d16Bold·2d16Medium·3d-group16Light·4d-group/3d/4d14Light의 원형 KBFG 스타일·변수를 유지한다.
-- 초기/긴 문구 사례의 문장·개수·일부선택은 예시다. 실제 기획의 항목·상태를 우선하고 긴 문구는 Fill/Hug로 늘린다. 추가 사례 AppBar는 취소 비노출이며, 기존 일반 참조의 취소 노출을 전역 강제하지 않는다. 1863/2185px는 예시 Hug 높이로 고정하지 않는다.
-- 실제 Slot 부모·각2d와 하위 group 대응·checkbox/radio·Grid·첫Divider·상태·간격·서체·줄바꿈과 부모 명명을 완료 조건으로 대조한다. 두 화면 삭제 후에도 규칙은 유지되며, 문서 반영이 Figma 화면 수정·삭제를 의미하지 않는다.
+- PDF: `Body > Title Area`와 `Body > body`는 각각 `background/neutral/light-gray` Fill을 연결·노출한다. 흰색 아트보드·PDF Document와 구분한다. BG 변수 key, Paint visible/opacity, 레이어 노출과 렌더까지 확인한다.
+- CTA: Label 문구는 원형 가로 Hug / WIDTH_AND_HEIGHT를 유지한다. 고정폭 49px 등으로 덮어쓰지 않는다.
+- 서체: 판정 단위는 실제 Text다. 숫자·숫자 서식만 있으면 Pretendard, 문자와 섞인 한 Text는 KBFG Text다. 하이픈이 있는 전화번호도 숫자다. 더미 라벨은 편집 가능한 Pretendard SemiBold를 보존한다.
+- 반복 항목은 실제 `[명칭] Group`으로 묶는다. Text·TextList 혼합은 각각 묶고 `Text / TextList Group`, 그 위 제목은 `Title / Contents`로 재판정한다. 구조 변경 후 영향을 받는 부모도 검사한다. 원형 내부 레이어를 일괄 재명명하지 않는다.
+- Title / Section 뒤16px(바텀시트 텍스트12px 예외), Title / TextList Group 간24px, Tab→Infobox / Card16px, 일반 Tab 후24px 등 해당 조합의 최신 간격을 구분한다. 숫자 값과 spacing 토큰을 같이 검사한다.
+- Popup 내부는 Header/Body/Footer다. 일반 화면은 직계 ## HEADER/## BODY/## FOOTER를 기본으로 하며 사용자 승인 Footer 예외를 따른다. 약관이 CTA에 붙으면 `Footer > ConsentFinal / StickyButton(24px), HomeIndicator`와 화면 직계 Tooltip 구조를 사용한다.
+- HomeIndicator elevated Fill은 Dialog에서만 숨기고 다른 화면에서는 노출한다. 바텀시트는 Dimmed·StatusBar만 Absolute, BottomSheet·HomeIndicator는 AUTO다. 오버레이 뒤의 이전 화면을 재현하지 않는다.
+- 알려드립니다는 항상 펼친다. 긴 약관 전체 노출과 고정 PDF 뷰어는 별도 유형으로 구분하고 상세 MD의 높이·Pagination·Footer 규칙을 따른다.
 
+## 규칙 변경 시 유지보수
 
-
-## 고객확인 등록 안내의 불릿·복합 구조·옵션 대조 (2026-10-30 사용자 교정)
-
-- **승인 근거·적용 범위**: [고객확인 등록 승인 화면 3478:41680](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3478-41680)을 해당 유형의 기준으로 사용합니다. [오류 제작본 3521:2924](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3521-2924)의 일반 Text 변환·임의 Container 분할·제목 및 버튼 옵션·StickyButton 기본값을 재사용하지 않습니다. 아래 수치는 이 승인 패턴의 명시적 예외이며, 다른 화면의 일반 TextList 간격·Title 원형·서비스 바로가기 secondary/small 규칙을 전역 변경하지 않습니다. 해당 고객확인 등록 패턴에서는 이 최신 교정을 우선합니다.
-- **기획의 표현도 요구사항**: 문구만 추출하여 맞추면 완료가 아닙니다. 기획의 불릿·번호·항목 경계·순서·강조·링크 여부와 각 문장의 역할을 함께 매핑합니다. “고객님의 안전한 금융거래를 위해 고객님의 정보를 1년 또는 3년마다 재확인하고 있어요.”와 “영업점 방문 전 간편하게 등록해주세요.”는 각각 최신 라이브러리의 실제 `TextList / Unordered(size: 16)` 인스턴스로 배치합니다. 일반 Text나 문자열 앞에 직접 입력한 불릿으로 대신하지 않습니다. 기존 인포박스 단일 항목의 불릿 생략 예외를 인포박스 밖 일반 본문에 적용하지 않습니다.
-- **실제 복합 계층**: `## BODY > Container 1` 안에 `StepIndicator`와 `Title / Contents`를 함께 배치합니다. `Title / Contents`의 자식은 `Title / Page`와 `TextList Group / Button Area`이며, 후자의 자식은 실제 복수 TextList를 묶은 `TextList Group`과 `Button Area`입니다. 알려드립니다는 BODY의 형제 `Container 2`로 분리합니다. 불릿 두 개를 Text Group으로 만들거나, Step·제목/본문을 임의로 독립 Container들로 분할하지 않습니다. 자식 구성을 바꾼 뒤 영향을 받는 부모 명칭도 재판정합니다.
-- **계층별 간격·폭**: BODY는 padding0/0/32/0, gap32px(`spacing/5xl`)입니다. Container 1은 전폭·padding0·gap24px(`spacing/3xl`)이며, StepIndicator → Title / Contents 사이24px를 적용합니다. Title / Contents는 좌우padding20px·gap24px이고 내부 콘텐츠 폭은350px입니다. 이 패턴의 TextList Group 내부 두 항목 사이는12px(`spacing/lg`), TextList Group → Button Area 사이는12px입니다. Container 1 → 알려드립니다 Container 2 사이는32px이며 BODY 전체에24px를 넣어 이 구간까지 줄이지 않습니다. 각 부모의 실제 itemSpacing·padding과 실질 경계를 대조합니다.
-- **제목의 실제 스타일·줄바꿈**: Title / Page라는 이름이나 component key 일치만으로 통과하지 않습니다. 이 승인 화면의 제목은 KBFG Text Medium22px·행간31px, 원본 Text Style key `a4d970f16ce5404c28e6e948667b88b96aa5cbec` 기준입니다. “부모님의 고객확인(CDD/EDD)정보를” 뒤에서 줄바꿈하여 “등록해주세요”를 두 번째 줄에 배치합니다. 최신 라이브러리의 대응 Text Style·변수 연결로 매핑하고 fontSize/fontWeight 직접 덮어쓰기로 외형만 맞추지 않습니다. 승인본의 제목을 임의24px로 바꾸거나 “정보를” 앞에서 개행하지 않습니다. 이22px 지정을 모든 Title / Page에 일괄 적용하지 않습니다.
-- **바로가기 공개 옵션**: 이 패턴의 “고객확인제도(CDD/EDD) 바로가기”는 우측 정렬의 실제 `TextButton(variant: secondary, size: xsmall, underline: false, hasPrefix: false, hasSuffix: true)`와 우측 chevron을 사용합니다. 컬러는 secondary로 적용하며 종전 primary 지정은 폐기합니다(2026-10-30 사용자 재교정). 크기 xsmall·밑줄 비노출 등 이 패턴의 지정 옵션은 유지하며, 본문 독립 서비스 버튼의 일반 secondary/small 규칙보다 이 사용자 지정 예외가 우선합니다. 승인본 텍스트는12px Medium이며 버튼과 Label 문구는 Hug를 유지합니다. size 이름이나 화면상 색상만 추정하지 않고 실제 componentProperties와 텍스트 스타일을 확인합니다.
-- **알려드립니다·푸터 옵션**: 알려드립니다는 기존 전폭10px Divider + Accordion(hasDivider:false, expanded:true), TextList14·항목gap8px 구조를 유지합니다. 승인본의 정보 Prefix는20px이며 임의24px로 확대하지 않습니다. 하단은 `StickyButton(variant: elevated, hasScrollDim: false)` + HomeIndicator로 구성합니다. white 원형의 기본 ScrollDim28px를 남겨 푸터 높이126px로 만들지 않습니다. 이 패턴의 StickyButton64px + HomeIndicator34px = FOOTER98px를 대조하고 HomeIndicator의 배경 Fill 노출·원형 높이·AUTO 및 CTA Label Hug를 보존합니다.
-- **완료 판정 강화**: 제작 전 `기획 노드의 표현/역할 → 승인 근거 → 요구 속성 → 실제 결과 노드`를 대응시키고, 제작 후 ① 두 불릿 원문·개수·컴포넌트, ② 복합 부모/자식 구조·명칭, ③ 24/12/32px의 적용 계층·실측·토큰, ④ 제목 크기/굵기/스타일/변수·줄바꿈, ⑤ TextButton variant/size/밑줄/아이콘·Hug, ⑥ StickyButton variant/ScrollDim·푸터 높이·HomeIndicator Fill을 승인본과 직접 대조합니다. placeholder 없음·텍스트 일치·같은 key·전체 스크린샷 중 일부만 검사하고 “검수 완료”로 보고하지 않습니다. 불일치는 수정 후 해당 범위와 부모를 재검사합니다. 기본 제작 스크립트·캐시의 값은 이번 요구값과 다르면 교정하며, 3분 목표를 위해 이 대조를 생략하지 않습니다.
-- 이번 변경은 공유 MD의 제작·검수 기준 갱신입니다. MD 갱신만으로 기존 Figma 화면을 수정했다고 보고하지 않습니다.
-
-## 단순 서비스 진입 링크 목록의 Card 매핑 (2026-10-30 사용자 확정)
-
-- **적용 조건·우선순위**: [기획 5749:143981](https://www.figma.com/design/cLQlbxcEeZPBxBFz9c1rJk/?node-id=5749-143981)처럼 서비스명과 이동 화살표를 세로로 나열하고 각 항목이 해당 서비스·조회 화면으로 진입하는 단순 링크 목록은 [승인 화면 598:30627](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=598-30627)의 **`Card / Surface` 패턴**을 적용합니다. 이 유형을 일반 버튼형 선택지로 해석해 GridButton으로 바꾸거나, List·BoxButton·수동 프레임으로 외형만 만들지 않습니다. 인라인 링크·일반 메뉴 List 전체에 확대하지 않으며, 선택 바텀시트·은행/증권사 선택·라디오 Card 등 별도 전용 패턴도 유지합니다.
-- **컴포넌트·옵션**: 지정 최신 라이브러리의 실제 `Card / Surface`를 새 인스턴스로 가져옵니다. 승인 사례의 공개 속성은 **`type: outline`, `variant: select`, `select: false`, `disabled: false`**입니다. 개별 기획의 비활성·상태가 있으면 그 값을 우선하며, 이동 링크라는 이유로 radio/check 상태를 추가하지 않습니다. 현재 참조의 원형 key `87e4f7ed5b778f83141856fd287deba5faa31b66`은 탐색 근거이며 이후 최신 원형 확인을 대신하지 않습니다.
-- **Slot 내부 구조**: `Card / Surface > Slot > Body`를 사용합니다. `Body`는 Horizontal / 가로 Fill·세로 Hug / gap12px(`spacing/lg`) / 좌측·세로 가운데 정렬이며, 직계 자식은 `Logo`·`Groups`·`Card / Header / Affix`입니다. `Logo > Card / Body / Logo(variant: bgIcon)`는 승인 사례의 48px 원형 영역을 유지하고, `Groups > Group > Card / Body / Group-A(variant: title, size: 16)`에 항목명을 넣습니다. Groups는 가로 Fill·세로 Hug로 남은 폭을 사용합니다. 우측 Affix는 **`variant: pageIndicator` / 24px 원형 / visible true / AUTO**로 Body 안에 배치하며, 숨겨진 Absolute Affix를 중복 노출하지 않습니다.
-- **내용·심볼**: 문구·항목 수·순서·이동 목적은 해당 기획대로 유지합니다. 승인 예시는 ‘은행에 서류 제출’의 `style-bankbook-won`, ‘제출 내역 조회’의 `style-phone-check`입니다. 이 두 심볼과 문구를 다른 서비스에 그대로 복사하지 않고, 기획·승인 맥락에 맞는 최신 라이브러리 원본 심볼을 연결합니다. 임의 그림이나 기본 ICON 더미로 대신하지 않습니다. 하위 컴포넌트의 서체·색상·변수·내부 Hug와 공개 옵션을 보존합니다.
-- **그룹·간격**: 복수 카드는 실제 Vertical Auto Layout **`Card Group`**, 내부 반복 항목명은 모두 **`Card / Surface`**로 유지합니다. **카드 사이 gap12px(`spacing/lg`), Title / Page → Card Group gap24px(`spacing/3xl`)**를 적용합니다. 카드 자체 padding20px(`spacing/2xl`)와 내부 Body gap12px를 외부 간격과 구분합니다. 단일 페이지 컨테이너는 `Container`, 복수는 기존 순번 규칙을 따릅니다. 콘텐츠 폭에 맞게 Card Group·Card를 가로 Fill·세로 Hug로 배치하고 승인 사례의 실측350×88px를 모든 항목의 고정 폭·높이로 강제하지 않습니다.
-- **완료 검수**: 서비스 진입 링크 역할, 실제 Card / Surface와 위 공개 속성, Slot/Body의 Logo·Groups·pageIndicator 구조 및 AUTO, 원문·심볼·순서, 실제 Card Group과 부모 명칭, 12px/24px 계층별 간격·토큰, 서체/변수·Hug/Fill·편집 옵션의 원본 동작을 대조합니다. 승인 화면은 현재 Card 패턴이며 과거 GridButton 제작 기록을 근거로 되돌리지 않습니다. 이번 MD 업데이트만으로 기존 Figma 화면을 수정했다고 보고하지 않습니다.
-
-## 화면별 제작 전·중·후 실행 기준 (2026-10-30 사용자 확정)
-
-1. **제작 전** 이번 화면의 MD 규칙·예외·승인 참조와 기획의 요구값을 확정하고, 확인할 실제 결과 속성까지 연결한다. 이전 대화 요약·캐시나 문서 열람만으로 적용 완료로 간주하지 않는다.
-2. **제작 중** 최신 라이브러리 인스턴스·토큰과 원본 공개 옵션을 보존한다. 사용자가 전체 재사용을 지정한 더미이미지는 [승인 Image Area 3478:12649](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3478-12649)의 그래픽·Fill/크롭·편집 가능한 라벨·Pretendard SemiBold와 원본 fontFamily alias·크기·배치까지 유지한다. 같은 ImageContainer key와 임의 텍스트 조합으로 대체하지 않는다. 이 자산 재사용 예외를 일반 UI의 주변 화면 복제로 확대하지 않는다.
-3. **완료 전** 기획 내용·케이스·상태, 네 가지 레이어 검사, 계층별 실측 간격, 실제 이미지, 서체/스타일/변수, 크기 모드와 공개 옵션의 원본 전환을 산출물에서 대조한다. component key나 서체 계열 일치만으로 통과시키지 않고 승인 참조와 실제 속성·화면을 직접 비교한다.
-4. **불일치 발견 시** 수정 후 영향 범위와 상위 부모·화면을 재검사하고 통과한 뒤 완료 보고한다. 미검사·불일치를 남긴 정상 완료 보고는 금지한다.
-
-일반 단일 화면 **3분 목표**는 유지한다. 독립 조회·import를 묶고 검증된 제작 스크립트 및 이번 작업에서 확인한 매핑을 재사용해 시간을 줄인다. 필수 대조·검수는 생략하지 않으며, 3분 초과 시 지연 원인과 남은 작업을 짧게 알린다. 별도 요청 없는 추가 보고서는 생략한다. 상세 절차는 [공통 실행 기준](docs/sources/designer-ui-rules.md#figma-작업-속도와-필수-검수-2026-10-29-공통-실행-기준)을 따른다.
-
-## 본문 서비스 바로가기 TextButton의 우측 배치 (2026-10-29 사용자 교정)
-
-- **‘KB스타클럽 서비스 바로가기’처럼 본문 안내·설명 아래 별도 `Button Area`에 배치하는 서비스 바로가기·보조 TextButton은 우측 정렬, `variant: secondary`, `size: small`을 적용합니다.** 기획서가 좌측 정렬로 표현되어 있어도 이 사용자 확정 배치 기준을 우선합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
-- `Button Area`는 가로 Fill·세로 Hug·gap0으로 만들고 실제 오른쪽 끝에 버튼을 배치합니다. Vertical Auto Layout이면 `counterAxisAlignItems: MAX`, Horizontal이면 `primaryAxisAlignItems: MAX`로 가로 우측 정렬하며 교차 축은 가운데 정렬합니다. 버튼은 가로·세로 Hug, Label 안 버튼명은 WIDTH_AND_HEIGHT·가로 Hug를 유지하고 좌표·고정 폭·빈 프레임으로 우측 정렬을 대신하지 않습니다.
-- 최신 라이브러리의 실제 TextButton 인스턴스와 공개 variant/size를 사용합니다. 문구·이동 목적과 기획에 있는 우측 화살표는 보존하고, Prefix·Suffix·밑줄·아이콘은 해당 기획과 원형 용도에 맞춥니다. 별도 사용자 지정 예외가 없는 이 유형의 이전 xsmall 지정은 small로 변경하며 버튼 크기 변경만을 이유로 기존 외부 간격을 바꾸지 않습니다. 단, 고객확인 등록 승인 화면 `3478:41680`은 최신 교정 절의 secondary/xsmall·밑줄 비노출 예외를 우선합니다. Infobox / Card 등 다른 컴포넌트에 내장된 전용 버튼 영역과 독립 CTA·AppBar·인라인 링크에는 이 본문 독립 버튼 규칙을 일괄 적용하지 않습니다.
-- 완료 검수에서 실제 variant가 secondary·size가 small인지, Button Area 오른쪽 경계와 버튼 오른쪽 경계가 일치하는지, 부모 명칭·문구·화살표·Hug·자연 너비 및 원본 연결을 확인합니다.
-
-## Infobox 후속 Tab은 2depth (2026-10-29 사용자 교정)
-
-- **Infobox 다음에 Tab이 배치되는 화면은 `Tab`의 `variant: 2depth`를 사용합니다.** `Infobox / FullWidth` 다음에 항목 탐색 탭이 이어지는 금융거래종합보고서 화면도 이 기준에 해당합니다. 승인 적용 화면은 [KB스타클럽 등급 3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)입니다.
-- 최신 라이브러리의 실제 2depth Tab 원형을 import하고, 내부 `Item / Tab`도 실제 2depth로 연결된 기본 구성을 사용합니다. 이전 1depth Slot 항목을 그대로 옮겨 외곽 variant만 바꾸는 방식은 피합니다. 항목 문구·개수·기획의 선택 상태·탐색 순서와 필요한 extendable 설정은 유지하며, 공개 옵션·원본 연결을 보존합니다.
-- Infobox 다음 탭의 외부 간격과 Tab 다음 일반 콘텐츠 간격은 각각 기존 **24px(`spacing/3xl`)**를 유지합니다. Tab은 가로 Fill이며 2depth 원형의 내부 패딩·간격·서체·선택/비선택 스타일을 사용합니다. 1depth의 밑줄이나 색상·내부 레이아웃을 override로 남기지 않습니다.
-- 완료 검수에서 실제 앞선 형제가 Infobox인지, 외곽 Tab과 하위 Item / Tab의 variant가 모두 2depth인지, 항목·선택 상태·24px 간격과 부모 레이어명이 실제 구조에 맞는지 확인합니다. 이 규칙은 Infobox 뒤에 오는 탭의 판정 기준이며 다른 화면의 탭 유형은 해당 기획과 별도 사용자 규칙을 따릅니다.
-
-## 숫자 전용 대표전화의 Pretendard 필수 적용 (2026-10-29 사용자 교정)
-
-- **대표전화·전화번호가 숫자와 번호 구분 기호만으로 이루어진 독립 Text이면 반드시 `Pretendard`를 적용합니다.** 예: `1588-9999`, `1588-9999, 1599-9999, 1644-9999`. 하이픈(`-`)·쉼표(`,`)·공백·전화번호 표기용 괄호·국가번호의 `+`는 숫자 서식의 일부이며 문자·숫자 혼용으로 판정하는 근거가 아닙니다.
-- 종전 **‘Dialog 대표전화는 KBFG Text를 우선한다’는 예외는 삭제**합니다. 참고 화면의 KBFG 서체를 복제하거나 대표전화라는 역할을 근거로 이 숫자 규칙을 우회하지 않습니다. 대표전화 제목은 별도 문자 Text이므로 KBFG Text를 유지하며, 숫자만 있는 번호 Text는 Pretendard로 각각 판정합니다.
-- `대표전화 1588-9999`처럼 문자와 숫자가 실제 하나의 Text에 섞인 경우는 기존 원칙대로 전체 KBFG Text입니다. Pretendard 적용을 위해 혼용 Text를 임의로 분할하지 않습니다. 이미 제목·번호가 분리된 구조를 하나의 혼용 Text로 합쳐 숫자 서체 적용을 피하지 않습니다.
-- 최신 라이브러리에서 해당 숫자 역할·크기·굵기에 대응하는 Text Style·fontFamily 변수를 사용합니다. **대표전화 번호 Text의 색상은 `text/neutral/primary` 변수를 연결합니다.** 종전 secondary 지시는 이 최신 기준으로 변경합니다. 번호의 크기·행간·자간·밑줄·원문·자연 줄바꿈·Hug/Fill과 `Title / Text` 구조, 8px/16px/4px/20px 간격 및 컴포넌트 연결은 보존합니다. Pretendard Variable이나 다른 서체로 임의 대체하지 않습니다.
-- 완료 검수에서 실제 번호 Text의 **font family가 `Pretendard`인지**, 숫자용 스타일·변수 연결과 하이픈·쉼표가 있는 번호 전체에 동일하게 적용됐는지 확인합니다. KBFG로 남아 있으면 실패입니다. 이 MD 갱신만으로 기존 Figma 화면을 수정했다고 보고하지 않습니다.
-
-## 더보기 간격·Dialog 문장부호 최종 기준 (2026-10-29 사용자 변경)
-
-- **상위 목록 그룹 → 더보기 `Button Area` 간격은 항상 20px(`spacing/2xl`)**입니다. `Card Group / Button Area`, `Data Block Group / Button Area` 및 같은 역할의 목록·더보기 조합에 적용하며, 실제 두 형제 블록을 감싸는 Auto Layout의 gap에 연결합니다. 더보기는 `Button Area > Pagination / Basic` 등 원형 구조를 유지하고, 목록 내부 항목 간격이나 더보기 컴포넌트 자체의 패딩으로 20px를 대체·중복 가산하지 않습니다. 지정 화면 `2484:33969`의 `Card Group / Button Area`(`2484:33982`)도 이 기준을 적용합니다.
-- **Dialog Title의 마침표는 기획 원문 그대로 유지합니다.** Title 단독인지 Title·Description 조합인지에 따라 마침표를 자동 추가하거나 제거하던 종전 공통 규정은 삭제합니다. 기획에 마침표가 있으면 유지하고 없으면 추가하지 않으며, Description 노출을 바꾸어도 제목의 문장부호를 별도로 정규화하지 않습니다. 문구·숫자의 소수점·기타 문장부호도 원문과 대조합니다.
-- 완료 검수에서는 목록 하단 → 더보기 영역 상단의 실제 20px 및 토큰 연결, 실제 자식 구성에 맞는 부모 명칭, Dialog 원문과 마침표 일치를 확인합니다. 원형 컴포넌트·서체 변수·공개 옵션·HomeIndicator의 Dialog Fill 숨김 규칙은 유지합니다.
-
-## 뱃지·라벨 용도별 선택 기준 (2026-10-29 사용자 재정의)
-
-**기획의 정보 역할을 먼저 판정한 뒤 최신 라이브러리의 실제 `Badge / Default` 또는 `Label / Default`를 선택합니다.** 짧은 문구를 둘러싼 외형이나 ‘뱃지’라는 통칭만 보고 두 컴포넌트를 혼용하지 않습니다. 아래 6개 Usage와 [승인 적용 화면 3386:36770](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3386-36770)을 이후 화면 제작의 기준으로 사용합니다. 종전 포괄 참조 `6261:123851`보다 이번 개별 용도 정의와 사용자 지정 사례를 우선합니다.
-
-| 정보 역할·참조 | 실제 컴포넌트·variant | tone·문구 적용 기준 |
-|---|---|---|
-| [위험도 6261:129012](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-129012) | `Label / Default`, `solid` | 고위험 red·중위험 celery·저위험 cyan. 세분화 예시는 매우높은위험 red·높은위험 orange·다소높은위험 yellow·보통위험 celery·낮은위험 cyan·매우낮은위험/초저위험 blue. 단계 체계·문구는 해당 기획을 따르며 없는 단계를 만들지 않습니다. |
-| [가입조건 6261:128988](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-128988) | `Label / Default`, `tint` | 안정추구형 이상 가입 cyan·안정형 이상 가입 blue·위험중립형 이상 가입 green·적극투자형 이상 가입 orange·공격투자형만 가입 red. 청약철회기간 미적용·청약철회제외 신청시에만 가능은 darkGray입니다. |
-| [펀드 내 구분 6261:130820](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-130820) | `Badge / Default`, `character` | NEW red 또는 redTint, 추천 blue 또는 blueTint, 투자상품·외화펀드·역외펀드 brandAltMuted. 두 tone 예시가 있는 경우 해당 기획·승인 사용 맥락에 맞추고 단어만으로 임의의 다른 색을 만들지 않습니다. |
-| [상품 카테고리 6261:130167](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-130167) | `Label / Default`, `line` | 입출금 blue·예금/적금 green·청약 orange·대출 red·펀드/신탁/ISA indigo·퇴직연금 seaform·보험 cyan·외화예금 olive·골드/실버 yellow. `seaform`은 라이브러리의 실제 공개 tone 이름을 사용합니다. |
-| [상품유형·그 외 6261:129317](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-129317) | `Label / Default`, `tint`, `darkGray` | 투자상품 상단의 계열사·ETF_주식형·적립식·채권혼합·채권·재간접·실물·기타·TDF·주식형·주식혼합형·채권혼합형·MMF 등. ‘1년제’는 퇴직연금 운용상품 미리보기의 원리금보장형, KB라이프생명·보험차익비과세는 보험상품 하단, ‘2025.09.05 까지’는 ISA 상품바구니 유효기간 예시입니다. 제한된 사용 맥락을 다른 화면에 일괄 확대하지 않습니다. |
-| [상품 테마 6261:130427](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6261-130427) | `Label / Default`, `tint`, `darkGray` | 국내 지수 추종형·해외 지수 추종형·주식테마형·주식 섹터형·채권 혼합형·기타 등 테마를 표시합니다. 예시 문구를 신규 화면에 임의 추가하지 않습니다. |
-
-### 승인 수신거래현황 화면의 적용
-
-- [3386:36770](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3386-36770)의 계좌 분류는 **입출금 `Label / Default(line, blue)`, 적립식 `Label / Default(line, green)`**입니다. 이 화면의 ‘적립식’은 수신계좌 분류로 사용자 승인된 line/green 사례이며, 투자상품 상단의 상품유형 ‘적립식’ tint/darkGray와 구분합니다. 같은 단어라도 실제 정보 역할과 승인 맥락을 먼저 확인합니다.
-- Data Block 안에서 라벨은 `Label` Auto Layout으로 묶고 계좌 제목·데이터보다 위에 배치합니다. 승인 구조는 `Data Block > Label > Label / Default`, 그다음 `Title / DataList Group`, 필요한 경우 `Card / Footer / Accordian`입니다. **이 Data Block의 직계 블록 사이 gap은 16px(`spacing/xl`), Label 래퍼 내부 gap은 0**입니다. 라벨을 DataList의 Label Text나 계좌 제목으로 합치지 않습니다.
-- 가로 Hug와 원형 높이·서체·내부 패딩·라운드·색상 변수 및 공개 variant/tone 연결을 유지합니다. 조회한 Label 사례의 원형 높이는 20px이며, 이 실측을 다른 Badge 유형 전체의 고정 높이로 강제하지 않습니다. 47px 등 현재 문구의 실측 너비를 고정값으로 복제하지 않습니다.
-- 반복 항목은 실제로 묶고 복수 Label은 `Label Group`, 복수 Badge는 `Badge Group`으로 명명합니다. 단일 라벨을 정렬하기 위한 래퍼는 `Label`이며, 구조 변경 후 상위 복합 명칭도 재검사합니다. 라벨이 추가되었다는 이유만으로 액션 없는 Data Block을 Card로 바꾸지 않습니다.
-
-### 공통 제작·검수
-
-- 기획·사용자 지시의 배지/라벨 문구·개수·노출·의미를 보존하고, 위 역할에 맞는 최신 라이브러리 원형을 import합니다. 일반 Text·수제 도형·임의 컬러 문구로 대체하거나 주변 화면의 변형 인스턴스를 복제하지 않습니다. 상태 표시 등 이번 표 밖의 용도는 해당 기획과 별도 사용자 승인 기준을 따릅니다. 기존 제출현황의 처리중 Badge(character/blueTint)·처리완료 Badge(character/brandAltMuted)는 해당 업무 승인 사례이며 모든 상태에 고정 적용하는 규칙이 아닙니다.
-- 공개 `variant`·`tone`으로 설정하고 원본 서체·토큰·자연 너비를 보존합니다. detach, 고정 폭, 내부 색상·스타일 override로 우측 프로퍼티 패널의 타입 전환을 막지 않습니다. Dot·Number·Account 등 Badge의 다른 유형도 실제 의미가 기획에 있을 때 사용합니다.
-- 완료 전에 **역할 → 실제 Badge/Label 컴포넌트 → variant/tone → 원문·노출 → 자연 너비·주변 간격 → 실제 그룹·부모 이름**을 함께 대조합니다. 변경한 공개 옵션의 원본 동작도 확인하고 불일치가 있으면 수정 후 해당 범위만 재검사합니다. 이 문서 업데이트는 승인 참조를 이후 제작 기준으로 명시하는 작업이며 기존 Figma 화면 전체를 수정했다는 의미는 아닙니다.
-
-## 알려드립니다 항상 펼침 (2026-10-29 사용자 확정)
-
-- **‘알려드립니다’ Accordion은 제작·수정 후 항상 `expanded: true`로 펼쳐 본문을 노출합니다.** 기획서의 기본값이 접힘이거나 원형·이전 제작본이 접혀 있어도 이 사용자 확정 규칙을 우선 적용합니다.
-- 완료 검수에서 실제 인스턴스의 `expanded` 값과 본문 가시성·줄바꿈·높이·잘림 여부를 확인합니다. 검수 중 상태를 전환했다면 마지막에는 반드시 펼침으로 복원하고 상위 Auto Layout·화면 높이를 반영합니다. 기존 전폭 Container·10px 외부 Divider·`hasDivider: false`·본문 크기·간격과 원형 화살표·공개 옵션 연결은 보존합니다.
-- 적용 대상은 **‘알려드립니다’**이며 다른 용도의 Accordion은 각 기획·사용자 규칙을 따릅니다. 이번 요청은 공유 MD 갱신이며 기존 Figma 화면 전체를 일괄 수정했다는 의미가 아닙니다.
-
-## StepIndicator → Infobox / Solid → Feedback 간격 (2026-10-28 사용자 확정)
-
-- 승인 참조는 [원천징수영수증 계좌 없음 3272:24337](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3272-24337)입니다. **StepIndicator 아래에 Infobox / Solid, 그 아래에 Feedback이 이어지는 흐름에서는 두 구간의 외부 Auto Layout gap을 모두24px(`spacing/3xl`)로 적용합니다.** StepIndicator → Infobox / Solid와 Infobox / Solid → Feedback 각각에 적용하며 일반 BODY/인포박스 후속 간격32px를 상속하지 않습니다.
-- 컴포넌트가 Container 또는 별도 래퍼로 묶여 있어도 해당 두 블록을 직접 배치하는 부모의 itemSpacing에24px 토큰을 연결합니다. Empty State 규칙에 따라 `Feedback` Auto Layout이 실제 Feedback 인스턴스를 감싸는 경우 **Infobox / Solid → Feedback 래퍼 사이 gap이24px**이며, 래퍼 내부의 상하24px 패딩은 별도 계층입니다. 승인된 데이터 없음 패딩을 외부 gap과 혼동해 삭제하거나, 외부 gap24px를 만들려고 패딩·빈 프레임으로 대신하지 않습니다.
-- 적용 범위는 위 조합의 두 구간입니다. Feedback 뒤 후속 콘텐츠의 외부 gap40px, 알려드립니다의 전폭10px Divider + Accordion(hasDivider:false) 구조, 원형 내부 간격·서체·아이콘 및 사용자 편집 상태는 유지합니다. 이 사례를 모든 Infobox나 모든 Feedback 앞뒤 간격의 일괄24px 변경으로 확대하지 않습니다.
-- 완료 검수에서 부모 itemSpacing과 `spacing/3xl` 연결, StepIndicator→후속 블록24px 및 Infobox→Feedback(해당 래퍼)24px를 실측하고, 외부 gap과 Empty State 내부 패딩을 구분합니다. 기존 사용자 수정 구조가 이미24px이면 유지하고 관련 없는 레이어를 재구성하지 않습니다.
-
-## 대표전화가 포함된 Dialog의 구조·서체·간격 (2026-10-28 사용자 확정)
-
-- 승인 참조는 [대표전화 포함 Dialog 3138:28871](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-28871)입니다. **설명과 대표전화를 하나의 Description 문장으로 합치거나 동일한 14px Light 본문으로 처리하지 않습니다.** 대표전화가 기획에 있는 경우에만 아래 독립 블록으로 구성하고 실제 번호·문구는 해당 기획을 따릅니다.
-- **구조**: `Dialog > Slot` 안에 상단 제목·설명 블록과 대표전화 블록을 형제로 배치합니다. 대표전화 블록은 `Title / Text` Vertical Auto Layout이며, `Title / Element`(“대표전화”)와 `Text` Auto Layout(gap0) > 번호 Text로 구성합니다. 대표전화 제목을 번호와 같은 Text에 합치거나 Description 타입을 추가하여 대체하지 않습니다. Dialog와 하위 컴포넌트는 최신 라이브러리에서 새 인스턴스로 가져오며 승인 화면의 override를 복제하지 않습니다.
-- **위쪽 간격**: 상단 설명의 끝 → 대표전화 블록의 시작은 **16px(`spacing/xl`)**입니다. 실제 Slot의 두 블록 사이 itemSpacing으로 연결하며 padding·빈 프레임을 중복 가산하지 않습니다. **대표전화 제목 → 번호 Text는 4px(`spacing/xs`)**로 연결합니다. 일반 제목 뒤16px·반복 그룹24px 규칙을 이 승인된 전화 블록 내부에 적용하지 않습니다.
-- **상단 제목·설명 그룹핑 필수**: 대표전화가 노출되는 이 Dialog에서는 **대표전화 위의 `Title`과 설명 `Text`도 실제 하나의 Vertical Auto Layout `Title / Text`로 묶습니다.** 이 상단 그룹 내부 gap은 **8px(`spacing/md`)**입니다. 따라서 `Dialog > Slot`의 직계 자식은 **상단 `Title / Text`(Title + Text)**와 **하단 `Title / Text`(대표전화 Title / Element + 번호 Text)**인 두 형제 블록이며, 두 그룹 사이 gap은16px입니다. Title·Text·대표전화를 Slot에 평탄하게 세 항목으로 나열하거나, 대표전화 블록만 그룹핑한 상태는 실패입니다. 각 원형 컴포넌트·텍스트 스타일과 변수 연결은 보존하고 완료 검수에서 상단의 실제 그룹핑·부모 명칭·8px/16px/4px 계층을 함께 확인합니다.
-- **대표전화 제목**: 최신 `Title / Element`의 **KBFG Text / 14px / Medium / line-height20px**, 색상 **`text/neutral/primary`**를 유지합니다. optional·tooltip·suffix는 false입니다. 대응 Text Style은 `Dynamic/Body/sm∙14∙Medium`(key `87439f01ad7a7fbf6b1556036328a19d5f0ef75c`)이며 medium 변수 연결을 유지합니다.
-- **전화번호 (2026-10-29 교정)**: 숫자와 번호 구분 기호만 있는 번호 Text는 **Pretendard / 16px / line-height22px**, 색상 **`text/neutral/primary`**, 밑줄 없음으로 적용합니다. 굵기와 서체 연결은 해당 역할에 대응하는 최신 라이브러리 숫자용 Text Style·변수를 사용하며, KBFG Text 스타일(`Dynamic/Body/md∙16∙Bold`)을 번호의 기준으로 재사용하지 않습니다. 하이픈·쉼표·공백은 숫자 서식이므로 Pretendard 판정을 바꾸지 않습니다. 대표전화에 KBFG를 우선하던 예외는 삭제하며, 번호를 이유로 링크·전화 연결 동작을 임의 추가하지 않습니다.
-- **크기 모드·주변 영역**: 두 블록과 Text 래퍼는 가로 Fill·세로 Hug, 번호 Text는 가로 Fill·내용에 따른 높이 및 자연스러운 줄바꿈을 사용합니다. 참조의 280px 본문 폭에서 번호가 두 줄인 것을 고정 높이44px나 강제 개행으로 복제하지 않습니다. Dialog Slot → 별도 자세히보기 Accordion → ButtonGroup의 원형 관계와 간격은 유지합니다. 이 참조의 대표전화 블록 아래 Accordion과의 간격은 **20px(`spacing/2xl`)**이며 Dialog 제목·설명의 문장부호는 기획 원문을 따르고 HomeIndicator Fill 숨김 예외는 유지합니다. 참조의 다른 레이어 누락이나 문구를 규칙으로 상속하지 않습니다.
-- **완료 검수**: 설명→대표전화16px, 제목→번호4px, 번호→후속 Accordion20px의 실질 간격과 토큰, Title / Element 인스턴스·옵션, 제목14 KBFG Medium/primary·번호16 Pretendard/primary의 숫자용 Text Style·변수, Fill/Hug·줄바꿈·실제 번호·부모 명칭을 확인합니다. 대표전화 문구를 설명에 이어 붙이거나 상단 설명 스타일을 번호에 그대로 사용하는 것은 실패입니다. 이번 요청은 MD 규칙 갱신이며 기존 Figma 화면의 일괄 수정 완료를 의미하지 않습니다.
-
-## 긴 문장 선택의 sentence SelectButton·링크 primary/medium (2026-10-28 사용자 확정)
-
-- **긴 문장의 선택 항목은 SelectButton(type: sentence)**을 사용합니다. 승인 사례는 [발급서류 선택 635:31188](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=635-31188)의 “직불카드 사용금액확인서 / 현금카드 사용금액확인서”입니다. 기존 기획·화면이 Radio로 표현돼 있어도 이와 같은 문장형 서류·항목 단일 선택은 **SelectButton(type: sentence, variant: single)와 Item / Sentence / Single**로 매핑합니다. 사용자 지정 이전 Radio 사례 링크는 3205:54840입니다.
-- 문구가 간결한 항목은 기존 word 타입을 유지합니다. sentence 항목에 word용 한 행 균등 배치나 고정 폭·높이를 강제하지 않으며, 승인 사례와 최신 원형의 세로 배열·항목 가로 Fill/세로 Hug·줄바꿈·padding·Label/문구 크기 모드를 보존합니다. 설명이 없는 항목은 hasSubLabel false로 두고 문구·순서·선택/비활성 상태는 기획을 따릅니다. 이 규칙을 모든 Radio나 라디오 선택형 Card의 일괄 교체로 확대하지 않습니다. 별도 지정된 Card 선택 패턴은 유지합니다.
-- **기획 또는 사용자 지시로 링크로 확정된 구간의 색상은 `text/neutral/primary`, 굵기는 동일 텍스트 크기·계열의 원본 Medium Text Style 및 `medium` 변수**를 사용합니다. 사용자 지정 링크 사례는 [3205:54857](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3205-54857)입니다. 종전 인라인 링크의 `text/neutral/secondary` 색상 지시는 primary로 대체합니다. 고정 색상·fontWeight, Bold/Semibold, 글자 크기 확대로 표현하지 않습니다.
-- 링크 구간 외 본문의 스타일·변수를 보존합니다. 기존 인라인 링크의 Underline·Offset25% 규칙은 유지하며, 이 색상·굵기 교정을 이유로 기획에 없는 강조·밑줄·링크 URL·이동 동작을 추가하지 않습니다. 일반 메뉴명·대괄호만 보고 링크를 만들지 않고, 실제 URL·연결이 주어진 경우에만 그 값을 연결합니다. 모든 TextButton의 variant를 일괄 primary로 바꾸라는 규칙이 아닙니다.
-- **완료 검수**: 실제 SelectButton type/variant와 내부 Sentence 아이템 타입·문구·선택 상태·Fill/Hug·긴 문구 줄바꿈·공개 옵션 연결을 확인합니다. 링크는 해당 구간의 primary 색상 변수·Medium 스타일/medium alias 연결, 동일 글자 크기, 밑줄과 실제 연결 유무 및 일반 본문 보존을 확인합니다. 직접 명시된 사용자 규칙을 우선하며 참조 화면을 조회했다는 이유만으로 원형 검수나 기존 화면 일괄 수정을 완료했다고 보고하지 않습니다.
-
-## 바텀시트의 섹션 제목·텍스트 단락 간격 예외 (2026-10-28 사용자 확정)
-
-- 승인 기준은 최신 MO 라이브러리 v0.95.4의 [단락 케이스 31034:86654](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31034-86654)입니다. **바텀시트 본문에 `Title / Section`과 텍스트 콘텐츠를 조합하는 경우**, 아래 12px/20px 규칙을 일반 제목·반복 그룹 간격보다 우선 적용합니다.
-- **각 그룹 내부의 `Title / Section` → 텍스트 콘텐츠 gap은 12px(`spacing/lg`)**입니다. 일반 Text, Text Group, TextList Group 및 Text·TextList가 조합된 텍스트 콘텐츠에 적용하며, 일반 화면의 제목 후속 gap16px(`spacing/xl`)를 이 패턴에 상속하지 않습니다.
-- **이러한 제목·본문 그룹 사이의 gap은 20px(`spacing/2xl`)**입니다. 이 그룹들을 직접 담는 BottomSheet Slot 또는 실제 부모 Auto Layout의 itemSpacing에 20px 토큰을 연결합니다. 일반 반복 제목·본문 그룹 사이 기본24px를 이 패턴에 적용하지 않습니다. 참조에서는 Slot의 세 Container 사이20px, 각 Container 내부 제목→본문12px입니다.
-- **적용 범위를 구분합니다.** 바텀시트가 아닌 일반 화면은 기존 제목→콘텐츠16px·반복 제목/본문 그룹 사이24px를 유지합니다. TextList Group 내부 개별 항목 사이8px 등 하위 간격, 바텀시트 헤더·CTA와의 원형 간격, 별도 명시된 선택·약관 등 다른 패턴의 규칙은 이 예외로 일괄 변경하지 않습니다. 제목 컴포넌트 내부 gap8px를 제목과 외부 본문 사이12px와 혼동하지 않습니다.
-- **구조·검수**: 실제 자식 구성에 따라 Text는 Text Auto Layout, 복수 Text는 Text Group, 복수 TextList는 TextList Group으로 구성하고, 혼합·상위 래퍼는 기존 명명 공식을 적용합니다. 참조의 일반 Group 명칭이나 예시 문구를 그대로 복제하지 않습니다. 필수 검수에서 바텀시트/일반 화면 분기를 먼저 판정한 뒤 해당 부모의 실제 itemSpacing·토큰과 실질 간격12px/20px, 하위 항목 간격 보존을 확인합니다. padding이나 빈 프레임으로 간격을 중복 가산하지 않습니다.
-
-## 레이어 구조 자동 검수와 단일 화면 3분 목표 (2026-10-28 사용자 확정)
-
-모든 제작 AI와 작업자는 다음 네 검사를 제작·수정 과정의 완료 조건으로 적용합니다. 기존 명명 규칙을 바꾸는 것이 아니라 실제 자식 구성에 맞게 적용됐는지를 검사하는 절차입니다.
-
-1. **동일 항목 반복**: 실제 자식 유형·역할·개수를 확인합니다. 동일 항목이 복수로 연속 반복되면 하나의 Auto Layout으로 묶였는지와 `[명칭] Group`인지 검사합니다. 복수 Text는 `Text Group`, 복수 TextList 컴포넌트는 `TextList Group`입니다. 단수에 Group을 붙이거나 이름만 Group으로 바꾸고 실제로 묶지 않으면 실패입니다. 원형 컴포넌트 명칭과 별도 Container 순번 규칙은 유지합니다.
-2. **Text·TextList 혼합**: Text와 복수 TextList가 함께 있으면 TextList들을 실제 `TextList Group`으로 먼저 묶고, Text와 그 그룹의 부모를 `Text / TextList Group`으로 명명합니다. 여기에 Title이 결합된 상위는 `Title / Contents`입니다. 텍스트만 있는 곳이나 혼합 본문 전체에 `TextList Group`을 일괄 적용하지 않습니다. 다른 조합도 실제 구성과 기존 복합 명명 공식을 대조합니다.
-3. **구조 변경 후 부모 재검사**: 자식 추가·삭제·재배치·그룹핑·컴포넌트 교체 후 해당 래퍼와 영향을 받는 상위 부모의 이름을 다시 판정합니다. 예를 들어 본문이 Text / TextList 혼합으로 바뀌었다면 과거의 `Title / TextList Group`을 남기지 않습니다. 문구·서체/변수·컴포넌트 연결·기획 순서·해당 계층의 간격도 보존됐는지 확인합니다.
-4. **불일치 수정 후 재검사**: 불일치가 있으면 구조와 명칭을 수정한 뒤 영향을 받은 범위와 상위 부모를 다시 검사하고 통과한 경우에만 완료 보고합니다. 변경 ID와 실제 부모·자식 구성, 검사 결과를 제작 호출에서 함께 반환합니다. 미검사·실패·도구 제한은 PASS로 처리하지 않으며, 문서에 검사를 기재한 것만으로 실행한 것으로 간주하지 않습니다.
-
-**시간 목표는 단일 화면 3분 이내로 유지합니다.** 네 검사는 가능한 한 같은 제작 스크립트·호출 안에서 이미 읽거나 생성한 노드 정보를 사용해 묶어서 수행합니다. 검수만을 위한 반복 전체 조회를 추가하지 않고, 불일치·변경·미확인 범위만 재조회·재검사합니다. 최신 라이브러리 확인과 필수 구조·서체·화면 검수는 생략하지 않으며, 통과 후 변경이 없으면 반복하지 않습니다. 3분을 넘으면 지연 원인과 남은 작업을 짧게 알리고 작업을 이어갑니다. 3분은 목표이며 품질 검사 생략이나 완료 시간 보장을 뜻하지 않습니다. 별도 요청 없는 추가 보고서는 작성하지 않습니다.
-
-## 중첩 제목 그룹 명명과 아코디언 제목 위계 (2026-10-28 사용자 교정)
-
-- 승인 기준은 [주택자금대출 납입연도 선택 3205:51104](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3205-51104)입니다. `Container 1` 안에서 두 개 이상의 `Title / Accordion Group`처럼 완성된 제목·콘텐츠 조합 그룹을 다시 감싸는 상위 래퍼는 **`Title / Contents`**로 명명합니다. `Title / Accordion Group > Title / Accordion Group`처럼 상·하위 역할을 같은 조합명으로 중첩하지 않습니다. 하위의 각 실제 제목·아코디언 조합은 `Title / Accordion Group`을 유지합니다. 직접 자식이 두 개라는 이유로 상위 래퍼도 같은 이름을 붙이지 않으며, 기존 3개 이상 요소의 Contents 규칙과 별도로 이 복합 위계에도 Contents를 적용합니다. 단순 동일 컴포넌트 반복의 `[명칭] Group` 규칙은 유지합니다.
-- **반복 `Title / TextList Group` 사이 간격은 24px(`spacing/3xl`)**입니다. 아코디언 `Slot-contents`가 이 그룹들을 직접 담으면 Slot의 실제 itemSpacing을 24px 토큰으로 연결합니다. 원형 Slot의 기본 8px를 상속해 서로 다른 제목·본문 블록을 붙이지 않습니다. 개별 `Title / TextList Group` 내부의 제목→본문 16px와 `TextList Group` 내부 항목 간격 8px는 별도 계층이며 그대로 유지합니다.
-- 상위에 `Title / Section`이 있으면 아코디언 내부의 **소득공제 대상·소득공제 한도 등 한 단계 아래 소제목은 최신 `Title / Element` 인스턴스**로 적용합니다. 이 사례의 바깥 “장기주택저당차입금 이자상환증명서”, “주택자금 상환증명서(전세자금대출)”는 `Title / Section`을 유지합니다. 내부 제목까지 같은 Section으로 만들거나 일반 Text의 크기·굵기만 임의 조정하지 않습니다. Element의 원형 스타일·변수·Hug/Fill·공개 속성을 보존하고 기획에 없는 optional·tooltip·suffix는 비노출합니다.
-- 완료 검수에서 실제 부모·자식 명칭, 반복 그룹 사이 24px와 내부 16px/8px의 구분, 바깥 Section/안쪽 Element 인스턴스·서체 변수 연결, 전체 본문의 보존 및 줄바꿈을 확인합니다. 원본 라이브러리와 기획서는 수정하지 않습니다.
-
-이 폴더에서 디자인 요청을 받으면 아래 문서를 순서대로 읽고 실행한다. 새 작업/새 대화에서도 생략하지 않는다.
-
-1. `docs/sources/designer-ui-rules.md` — 사용자가 제공한 디자이너 원문 전체
-2. `docs/designer-rules.md` — 실행 규칙, 적용 우선순위, 상황별 검수표
-3. `docs/design-rules.md` — 실제 Figma에서 관측한 근거와 예외
-4. `docs/workflow.md` — 분석·제작·검증 절차
-
-원문은 보존하고, 해석·예외·변경 이력은 별도 문서에 기록한다. 상세 규칙을 요약본만 읽고 추정하지 않는다.
-사용자가 명시적으로 규칙 문서의 수정을 요청한 경우에는 `docs/sources/designer-ui-rules.md`에도 승인 내용을 반영하고 실행 규칙·근거·절차 문서와 함께 일치시킨다.
-원본: `09eGMNTNnkE0CTxPdr7lnk`, 템플릿 페이지: `10552:10031`.
-사용자는 특히 **템플릿과 다른 배치·폰트·간격**을 실패로 본다.
-
-## 절대 조건
-
-- 2026-10-28 선택 UI 역할 매핑: 기획 segmented_control 명칭을 복제하지 않는다. 승인3205:38245처럼 조회기간 프리셋은 SegmentedControl을 유지하고 정렬순서(최신순/과거순)는 SelectButton(word/single)이다. 승인3205:38078의 이름/계좌번호 표시(보임/일부가림)도 같은 SelectButton을 사용한다. 이 두 항목 패턴은 root·slot Fill/Hug, slot Horizontal·원형 Wrap·gap8, 두 Item / Word / Single 모두 가로Fill/세로Hug로 균등하게 채운다. 부모만 Fill·Item Hug 또는 고정171px는 실패다. 원형44px/Hug·Label/문구Hug·스타일·변수·공개옵션을 보존하고 선택값은 기획을 따른다. 역할별 컴포넌트·실제 Item resizing·균등 폭·선택 상태를 검수한다.
-
-- 2026-10-29 공통 속도 개선: 이 저장소를 참조하는 모든 작업자·AI는 [공통 실행 기준](docs/sources/designer-ui-rules.md#figma-작업-속도와-필수-검수-2026-10-29-공통-실행-기준)을 기본 적용한다. 단순 Dialog 1분 안팎·일반 단일 화면3분 이내를 목표로 하며 기획/원본 확인·도구 대기·필수 검수를 실제 시간에 포함한다. 한 요청의 화면·케이스·위치를 먼저 묶고, 필요한 최신 원형·공개 속성·Slot·스타일/토큰은 자산별 한 번 확인한 뒤 같은 묶음에서 재사용한다. 원본 변경·문맥 전환·새 자산·오류/불일치/누락 범위만 다시 확인한다. 독립 조회와 import는 묶고 검증된 스크립트에 기획 데이터를 매핑하여 같은 유형을 일괄 제작한다. optional·tooltip·prefix/suffix·아이콘·선택/비활성 상태는 제작 시점에 설정하고 원형 동작·변수·CTA Hug를 보존한다. 네 가지 레이어 검사와 필수 구조·서체·화면 검수는 제작에 결합하며 통과 후 변경 없으면 반복 조회·검사·캡처하지 않는다. 실제 수정은 영향 범위만 재검수한다. 3분 초과 시 원인·남은 작업을 짧게 알리고, 별도 요청 없는 정형 보고서·추가 파일은 생략한다. 구형 캐시/주변 화면 복제와 미검증 PASS는 금지한다.
-
-- 2026-10-28 암호화 증명서 완료: 승인3105:17567처럼 Large Feedback의 안내 Text와 열람비밀번호 카드를 분리한다. Card / Surface(lightGray/basic) > Slot > DataList Group에 개인/생년월일6자리·사업자/사업자번호10자리를 split14/gap12로 배치하고 증명서 보기(tertiary/medium)는 카드 밖 Slot-buttonGroup에 둔다. hasErrorCode는 카드 가시성 제어이므로 true이며 오류 문자열을 넣지 않는다. 안내 Text에 비밀번호 규칙을 합치거나 카드를 일반 Data Block 아웃라인으로 바꾸지 않는다. 후속 데이터 D19 구분선을 유지하고 카드·버튼의 실제 부모를 검수한다.
-- 2026-10-28 공유 방법 선택 공통: 승인3138:31620처럼 BottomSheet > Slot > GridButton(secondary/grid) > Slot > Grid(1행3열·균등 열·gap8·항목높이121)를 사용한다. 카카오톡/문자메시지/더보기 순서와 최신 solid-kakaotalk/solid-message/line-ellipsis-horizontal 아이콘(IconContainer36)을 적용한다. Item / Vertical secondary·hasSubLabel false·미선택·활성, StickyButton 비노출, Slot Fill·BottomSheet211px·AUTO/HomeIndicator Fill 노출을 지킨다. primary 테두리형·기본 ICON·제작 주석 노출을 금지하고 최종 화면에서 검사한다.
-
-- 2026-10-28 완료 데이터의 제목 비노출: 제목이 없는 완료 데이터에서는 `Title / Element`만 숨기고 `Title` Auto Layout 래퍼와 `Divider / Horizontal(thickness:1px,variant:primary,length:full)`은 반드시 노출한다. Title 전체 숨김·생략은 금지한다. Title은 Divider 높이만 Hug하며 빈 제목 공간이나 잔여 12px 간격을 남기지 않는다. Divider↔DataList Group 16px(`spacing/xl`), 목록 내부 12px(`spacing/lg`)를 유지한다. 상단 Divider의 실제 노출을 검수한다. 승인 참조 `3138:30128`, 교정 산출물 `3168:18258`.
-
-- 2026-10-28 라디오 선택형 Card: 승인552:13664처럼 Card / Surface > Slot > Body > Groups + Card / Header / Affix > Item / Radio 구조를 사용한다. 노출 Affix는 variant radio·AUTO·visible true, Body Horizontal·gap12·MIN/MIN, Groups Fill/Hug, Affix24×24 Fixed다. 원형 기본 숨김 Affix는 노출하지 않아 카드당 실제 Affix1개를 유지한다. Card select/disabled와 Radio 상태를 기획과 대조하며 이 지정 패턴을 GridButton·일반 Radio·SelectButton으로 임의 대체하지 않는다.
-
-- 2026-10-28 전폭 헤더 후속 UI: 3138:27761처럼 헤더 직후 StepIndicator·Tab이 오면 BODY 좌우·상단0, 하단32 / Container 1 padding0·Fill / 컴포넌트 전폭390을 유지한다. 후속 독립 콘텐츠 Container 2 이상에만 좌우20을 적용하고 직후 gap24를 유지한다. Data Block은 단일·복수 모두 아웃라인(fill quaternary-muted / border secondary-muted / stroke/md / padding·radius20)이며 회색 무테 재량은 Text Box에만 유지한다. 원형 내부 패딩·별도 확정 복합 패턴·문구·숫자 서체·연결은 보존한다.
-
-- 2026-10-28 사용자 지정 컴포넌트 교정: 발급정보 3142:17373·3142:17946의 발급 언어·주민등록번호 뒷자리 표기 선택은 SelectButton(word/single)이다. 기획 설명에 라디오라고 적혀 있거나 Slot 옵션 문제가 있어도 지정 컴포넌트를 임의로 Radio로 바꾸지 않는다.
-
-- 2026-10-28 오버레이 배경: 바텀시트·다이얼로그·입력용 키패드 시트에서는 기획에 뒤 화면이 보여도 Dimmed 아래에 Popup·일반 화면·복제 프레임·스크린샷을 깔지 않는다. 배경은 루트 background/neutral/white와 Dimmed만 사용하며 이전 배경 Popup Fill·clip 래퍼 지시는 철회한다. 실제 전경으로 요청된 풀팝업/키패드·패턴 Popup은 이 규칙의 배경 화면과 구분한다.
-
-- 2026-10-28 HomeIndicator 배경 Fill: Dialog에서는 background/neutral/elevated Fill의 눈(visible)을 반드시 끄고, Dialog 외 화면에서는 켠다. 원형이 숨김이어도 사용자 승인 참조 bDKgQrkt0oHMJ1EbPUQTp8 / 49:21704처럼 산출물 Paint만 visible true로 교정한다. 변수·모드·색상·opacity·인스턴스 연결·os iOS·내부 막대·원형 높이·AUTO를 유지한다. 레이어 visible만으로 판정하지 않고 Fill 자체의 가시성과 하단 배경을 검수한다.
-
-- 2026-10-27 바텀시트 배치: 화면 레벨에서 Absolute(position)는 Dimmed와 StatusBar에만 사용한다. BottomSheet와 HomeIndicator는 Vertical Auto Layout의 Auto 자식으로 두고 하단 정렬·gap 0으로 연속 배치한다. 문자 키패드가 있으면 BottomSheet → Keypad → HomeIndicator도 Auto로 이어 붙인다. 좌표 고정으로 외형만 맞추지 않고 실제 layoutPositioning, 높이 변경 시 재배치와 하단 안전영역을 검수한다.
-
-- 2026-10-27 Popup 레이어명 최종 원복: Popup > Slot 내부 3단 영역은 Header, Body, Footer로 명명한다. 약관 상세(PDF)·키패드·패턴·일반 풀팝업 모두 적용하고 종전 ## HEADER/## BODY/## FOOTER로 변경하라는 지시는 철회한다. 일반·완료 화면 아트보드 직계의 ## HEADER/## BODY/## FOOTER는 유지하며 Popup 내부 명칭 외 구조·속성·배치는 변경하지 않는다.
-- 2026-10-28 문자·숫자 서체 최종 기준: 하나의 Text에 문자와 숫자가 섞이면 전체 KBFG Text다. 실제 별도 Text로 분리된 숫자는 Pretendard, 문자는 KBFG Text이며 숫자 전용 텍스트·입력값·Table 숫자 전용 셀도 Pretendard다. DataList 데이터(값) Text는 숫자만이면 Pretendard, 혼용이면 KBFG Text다. 항목명과 별도 값 Text는 각각 판정하고 숫자 서식 구분자·소수점은 숫자와 같은 서체를 사용한다. 종전 동일 Text 내 구간별 서체 분리 지시는 철회하며 서체 적용을 위한 임의 레이어 분할은 금지한다. 최신 역할·크기·굵기별 스타일·변수와 다른 타이포그래피 속성·크기 모드·인스턴스 연결·공개 옵션 및 별도 승인 서체 예외를 보존하고 실제 Text 경계·family·스타일·변수와 Table/DataList 분기를 검수한다.
-- 2026-10-29 약관 재확인: Templates 페이지10552:10031에서 실제 유형을 확인한다. 하위 동의가 있는 기본 참조는31061:78124이며 78292/78209의1~4뎁스·긴 문구·Grid,78333의BottomSheet를 역할별로 적용한다. 종전78151은 현재 상품설명서1d 단일 항목이므로 하위 목록 기준으로 사용하지 않는다. 하위 항목이 있는 ConsentGroup은 Slot 첫 자식에 Divider Auto Layout(gap0/padding-bottom12px·spacing/lg) > Divider / Horizontal(secondary/1px/Fill)을 반드시 유지·복원한다. 더미 항목 교체 시 필수 Divider까지 지우고 체크 항목만 채우는 것은 실패다. 하위 없는 그룹에는 선을 추가하지 않는다. native1d/2d 및3d/4d·서체/변수·상태·Prefix/Suffix·그룹12px·실제 줄바꿈을 원형과 대조하고 인스턴스 사용만으로 PASS 처리하지 않는다. 78124의 선택 완료 상태는 예시이며 미선택 기획은 false를 유지한다. 일반 BODY와 전폭 StepIndicator 작성 단계의 외곽 구조를 구분한다. PDF31888:30615의 Popup 내부 Header/Body/Footer, 별도78179·78354 유형도 해당 역할에만 유지한다. 원형 라이브러리는 읽기 전용이며 원문§2.G·§4 및 2026-10-29 약관 교정 절을 따른다.
-- 모든 컴포넌트는 지정 MO 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 현재 원형·공개 속성·Slot·텍스트 스타일/변수 연결을 직접 확인하고 import한 새 인스턴스로 제작한다. 주변 화면·기획안·이전 산출물의 컴포넌트나 override를 복제하여 원형으로 삼지 않는다. 기획은 내용·순서·상태·행동의 기준이며 승인 예시는 명시된 배치·위계·간격의 근거다. 검증된 스크립트·캐시는 탐색과 절차만 재사용하며 최신 원형 조회를 대신하지 않는다. 원형 내부 Hug/Fill/Fixed와 속성 전환을 유지하고 Slot·텍스트 구간까지 검수한다. 원본 확인이나 전환 검수에 실패하면 주변 화면으로 추정 대체하거나 정상 완료로 보고하지 않는다.
-- 디자인 시스템과 해당 화면에 맞는 템플릿을 실제로 읽은 후 제작한다. `knowledge/`는 시점별 캐시다. 매 작업에서 사용할 원본 노드와 토큰을 다시 조회한다.
-- 원본 라이브러리와 기획서는 읽기 전용으로 취급한다. 사용자가 지정한 산출물 URL의 범위만 수정한다.
-- 컴포넌트 인스턴스와 원본의 토큰·스타일만 사용한다. 컴포넌트 조합은 허용한다. 신규 컴포넌트/토큰, detach, 임의 폰트·색상·간격, 외부 아이콘은 금지한다.
-- 박스는 역할로 구분한다. 이체·상세 이동·체크/라디오·상품/계좌/항목 선택처럼 박스 내부 또는 박스 전체에 동작이 있으면 `Card / Surface`, 사실 데이터 표시만 하면 `Data Block`, 기존 Infobox에 해당하지 않는 설명·안내·주의·상태 전달은 `Text Box`를 쓴다. 박스 바깥 형제 `Button Area`의 버튼만으로 Data Block을 Card로 바꾸지 않는다.
-- `Data Block`과 `Text Box`는 승인된 예시와 DS 토큰·스타일·하위 컴포넌트를 사용한 Auto Layout 프레임으로 직접 구성할 수 있다. 이는 신규 라이브러리 컴포넌트 생성이나 detach 허용이 아니다. 콘텐츠 박스 이름과 내부 패딩은 페이지 `Container [순번]` 규칙과 구분한다.
-- Data Block은 최신 사용자 지시에 따라 아웃라인형으로 제작한다. Text Box의 아웃라인형과 `surface/neutral/tertiary-muted` 회색 배경·무테형은 주변 위계·밀도와 테두리 중첩을 보고 선택한다. 역할명은 유지하며, `Card / Surface`의 스타일 선택은 원본 공개 속성 범위에 한정한다. 상세 기준과 승인 예시는 원문 Box UI Rules 및 `docs/designer-rules.md` D28~D32를 따른다.
-- 디자이너의 명시 규칙을 기본으로 적용하고 템플릿에서 구조·역할별 근거를 확인한다. 두 자료가 다르면 `docs/designer-rules.md`의 우선순위와 차이 기록 절차를 따른다. 전체 화면에 단일 gap을 적용하지 않는다. 문구 길이에 맞추려고 폰트를 줄이거나 문구를 생략하지 않는다.
-- 상단 Feedback + 후속 데이터가 있는 완료 화면은 승인 예시 `2668:26353`과 D18·D19를 따른다. BODY padding `40px 20px 32px` / gap 40px, Container 2의 반복 `Title / DataList Group` 사이 32px, 각 그룹 내부 `Title`↔`DataList Group` 16px, Title 내부와 DataList 목록 내부 각각 12px를 구분한다. Title은 Vertical Auto Layout으로 `Title / Element`와 `Divider / Horizontal (thickness: 1px, variant: primary, length: full)`을 감싼다. Container·하위 그룹 패딩은 0이며 Title 내부 Divider 때문에 BODY 좌우 20px를 제거하지 않는다.
-- 토큰 미연결 원본 수치는 자동으로 토큰으로 승격하지 않는다. 원본 컴포넌트 내부는 상속하되 새 컨테이너에 재사용하려면 검증 가능한 템플릿 근거와 미연결 사실을 기록한다. 엄격한 토큰 전용 조건을 충족하지 못하면 해당 부분을 차단한다.
-- 일반 이미지는 영역만 표시한다. 단, 사용자 승인 원본 `09eGMNTNnkE0CTxPdr7lnk / 10580:10543`의 Image Area는 더미 그래픽과 “더미이미지” 라벨을 포함한 전체 구성을 앞으로 기본 재사용한다. 빈 ImageContainer로 대체하거나 라벨을 생략하지 않는다. 현재 재사용 참조는 `bDKgQrkt0oHMJ1EbPUQTp8 / 3478:12649`의 Image Area이며(이전 승인 참조 `0P0j17OPstNhC3LWjBdBGy / 67:2127`의 후속 적용본) 라벨은 편집 가능한 TEXT / Pretendard SemiBold와 원본 fontFamily 변수를 보존한다. 폰트 outline·SVG·벡터·이미지 변환과 대체 폰트를 금지한다. 원본 아이콘의 키와 출처를 확인한다. 현재 아이콘 페이지는 Graphic 라이브러리 이동 안내다. 이동 링크와 실제 사용 인스턴스를 추적한다.
-- wireframe → requirement → template/reference → component/token → output node의 연결 근거를 제작 호출의 반환값·검수 결과에 남긴다. 사용자가 보고서를 요청한 경우에만 별도 추적표 파일로 정리한다.
-- 기획서/산출물 URL이 없으면 하네스 분석·유지보수는 진행하되 실제 화면 제작을 완료했다고 보고하지 않는다.
-- 템플릿 스크린샷과 최종 산출물 스크린샷을 직접 비교한다. 구조 검사 통과만으로 시각 품질 통과를 선언하지 않는다.
-- 알 수 없는 값, 누락 증거, 실패한 검사, 미검사는 PASS가 아니다. 오류를 숨기거나 임의 대체하지 말고 해결하거나 남은 제한으로 짧게 알린다. 별도 리포트는 요청한 경우에 작성한다.
-- 모든 Figma 변경 전에 설치된 figma-use 및 화면 제작 시 figma-generate-design 스킬을 읽는다. 도구 지원 여부는 실제 API 정의로 확인한다.
-- 디자이너 규칙의 적용 여부, Component Properties, 토큰 key, 실제 결과 노드와 검사 근거는 필수 검수에서 확인한다. 사용자가 정형 검증 보고서를 요청한 경우 `designer-review.md` 양식으로 기록한다. 해당 규칙에 FAIL/미검증이 있으면 CLI PASS만으로 완료 처리하지 않는다.
-
-- 링크 목록의 제목·목록 래퍼 이름은 `Title / List Group`이다. Container 2 이상에서는 이 래퍼 padding-top 24px(`spacing/3xl`), 내부 `List Group` gap 0px를 적용한다. 래퍼 자체 gap 16px와 Container 1 기존 값은 유지하고, 실제 List 컴포넌트 이름은 변경하지 않는다. 내부 목록 gap 24px는 철회된 값이다.
-
-## 실행
-
-`node src/cli.mjs help`로 명령을 확인한다. 별도 패키지 설치와 API 토큰은 필요 없다.
-Figma 연결은 Codex Figma MCP를 이용한다. 로컬 CLI 자체는 Figma에 접속하지 않는다.
-수집 스크립트 생성 → MCP 실행 → 결과 JSON 저장 → 계획 검사 → 제작 → 실제 노드 재수집 → 검증·리포트 순서다.
+- 새 사용자 규칙을 상세 MD에 반영하고, 기계적으로 판정 가능한 항목은 `knowledge/screen-rules.json` / `src/screen-guard.mjs`와 재발 방지 테스트를 함께 갱신한다. 문서만 바꾸고 자동 검사까지 구현했다고 보고하지 않는다.
+- 코드 변경 후 `node --test`, `git diff --check`를 실행한다. 실패·미지원·미검사를 숨기지 않으며 문서의 지시, 자동 검사의 지원 범위, 실제 화면 수정 여부를 구분한다.

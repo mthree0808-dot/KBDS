@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { parseUrl, unwrap, mergeChunks, digest, validatePlan, validateOutput, report } from './core.mjs';
 import { collectorScript } from './collect.mjs';
 import { buildScript } from './build.mjs';
+import { auditScreen, screenRules, screenAuditScript, guardBuildScript } from './screen-guard.mjs';
 
 const base=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=p=>JSON.parse(fs.readFileSync(p,'utf8').replace(/^\uFEFF/,''));
@@ -20,7 +21,10 @@ try {
   hash <file.json>                      계획 근거 해시
   plan <plan.json> <reference.json>     제작 전 검사
   build <plan.json> <reference.json> <output.js>
-  verify <plan.json> <reference.json> <actual.json> <receipt.json> <visual.json> <report.md>
+  guard <file-key> <page-id> <root-id> <output.js> [contract.json]
+  guard-build <build.js> <file-key> <page-id> <output.js> [contract.json]
+  audit <snapshot.json> [contract.json] 공통 필수 규칙 검사 (오류 시 exit 1)
+  verify <plan.json> <reference.json> <actual.json> <receipt.json> <visual.json> [report.md]
 
 생성한 JS를 Codex Figma use_figma(code, fileKey, skillNames)로 실행합니다.
 CLI는 Figma에 직접 접속하지 않으며 build는 스크립트만 생성합니다.`);
@@ -33,7 +37,7 @@ CLI는 Figma에 직접 접속하지 않으며 build는 스크립트만 생성합
     parseUrl(wireframeUrl);const target=parseUrl(targetUrl);
     if(target.fileKey==='09eGMNTNnkE0CTxPdr7lnk')throw new Error('원본 디자인 시스템은 산출물 대상이 아닙니다');
     const dir=path.join(base,'runs',runId);if(fs.existsSync(dir))throw new Error('동일 run-id가 존재합니다');
-    write(path.join(dir,'plan.json'),{schemaVersion:1,runId,wireframeUrl,targetUrl,registryHash:digest(read(registryPath)),referenceHash:'',preflight:{sourceRechecked:false,evidence:''},requirements:[],nodes:[]});
+    write(path.join(dir,'plan.json'),{schemaVersion:1,runId,wireframeUrl,targetUrl,registryHash:digest(read(registryPath)),referenceHash:'',preflight:{sourceRechecked:false,evidence:''},screenContract:{screenType:'auto',checks:[]},requirements:[],nodes:[]});
     write(path.join(dir,'visual.json'),{status:'NOT_RUN',reviewer:'',outputHash:'',referenceHash:'',screenshots:{reference:'',output:''},checks:Object.fromEntries(['layout','typography','spacing','clipping','overlap','requirements','icons','imageRegions'].map(k=>[k,{status:'NOT_RUN',evidence:''}]))});
     console.log(dir);
   } else if(command==='collect') {
@@ -48,10 +52,23 @@ CLI는 Figma에 직접 접속하지 않으며 build는 스크립트만 생성합
     const [p,r,out]=args;const plan=read(p),refs=read(r),registry=read(registryPath);
     if(command==='build'){write(out,buildScript(plan,registry,refs));console.log(out);}
     else {const result=validatePlan(plan,registry,refs);console.log(JSON.stringify(result,null,2));if(result.errors.length)process.exitCode=1;}
+  } else if(command==='guard') {
+    const [fileKey,pageId,rootId,out,contract]=args;
+    if (!out) throw new Error('guard: file-key page-id root-id output.js 필요');
+    write(out,screenAuditScript({fileKey,pageId,rootId},contract?read(contract):{}));console.log(out);
+  } else if(command==='guard-build') {
+    const [source,fileKey,pageId,out,contract]=args;
+    if (!out) throw new Error('guard-build: build.js file-key page-id output.js 필요');
+    write(out,guardBuildScript(fs.readFileSync(source,'utf8'),{fileKey,pageId},contract?read(contract):{}));console.log(out);
+  } else if(command==='audit') {
+    const [source,contract]=args;const result=auditScreen(unwrap(read(source)),contract?read(contract):{},screenRules);
+    console.log(JSON.stringify(result,null,2));if(result.errors.length)process.exitCode=1;
   } else if(command==='verify') {
     const [p,r,a,receipt,v,out]=args;const plan=read(p);
-    const result=validateOutput(plan,read(registryPath),read(r),read(a),unwrap(read(receipt)),read(v));
-    write(out,report(result,plan));write(out+'.json',result);console.log(result.status);
+    const raw=unwrap(read(receipt));
+    const result=validateOutput(plan,read(registryPath),read(r),read(a),raw.receipt??raw,read(v));
+    if(out){write(out,report(result,plan));write(out+'.json',result);console.log(result.status);}
+    else console.log(JSON.stringify(result,null,2));
     if(result.errors.length)process.exitCode=1;
   } else throw new Error('Unknown command. Use help.');
 } catch(e) {console.error(e.message);process.exitCode=1;}

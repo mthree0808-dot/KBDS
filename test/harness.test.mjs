@@ -8,9 +8,9 @@ function fixture() {
   const registry={sourceFileKey:'SOURCE',components:[{type:'COMPONENT',key:'button'}],variables:[{id:'v1',key:'spacing'}],collections:[],textStyles:[]};
   const ref={id:'r1',type:'FRAME',name:'Root',width:390,height:844,layoutMode:'VERTICAL',layoutSizingHorizontal:'FIXED',layoutSizingVertical:'FIXED',itemSpacing:24,
     paddingTop:0,paddingLeft:0,paddingRight:0,paddingBottom:0,primaryAxisAlignItems:'MIN',counterAxisAlignItems:'MIN',fills:[],strokes:[],boundVariables:{itemSpacing:{type:'VARIABLE_ALIAS',id:'v1'}}};
-  const references={complete:true,items:[ref],variables:[],styles:[]};
+  const references={complete:true,pageId:'p1',items:[ref],variables:[],styles:[]};
   const plan={schemaVersion:1,runId:'test',wireframeUrl:'https://www.figma.com/design/Wire/?node-id=1-2',targetUrl:'https://www.figma.com/design/Target/?node-id=3-4',
-    registryHash:digest(registry),referenceHash:digest(references),preflight:{sourceRechecked:true,evidence:'fresh MCP read'},requirements:[{id:'R1',sourceNodeId:'1:2',description:'화면'}],
+    registryHash:digest(registry),referenceHash:digest(references),screenContract:{screenType:'layout'},preflight:{sourceRechecked:true,evidence:'fresh MCP read'},requirements:[{id:'R1',sourceNodeId:'1:2',description:'화면'}],
     nodes:[{id:'root',kind:'layout',referenceId:'r1',reason:'공통 화면 구조',requirementIds:['R1']}]};
   const actual={complete:true,total:1,fileKey:'Target',rootId:'o1',items:[{...ref,id:'o1',parentId:null}],variables:[{id:'v1',key:'spacing'}]};
   const receipt={status:'BUILT_REQUIRES_REVIEW',planHash:digest(plan),rootId:'o1',nodes:{root:'o1'}};
