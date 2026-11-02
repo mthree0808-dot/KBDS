@@ -1,5 +1,33 @@
 # UI Design & Code Generation Rules
 
+## 긴 약관 상세의 제목 위계·그룹·전체 노출 (2026-11-02 사용자 승인)
+
+- **적용 범위와 우선순위**: [간편로그인/전자서명 정보제공동의 승인 수정본 4005:4902](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4005-4902)을 같은 유형의 긴 약관 상세 제작 기준으로 사용합니다. 기획 `dUJ53drCu5eV3E5FSIQvxs / 4276:47593`의 두 프레임은 한 약관의 연속 내용입니다. 제작본 `4036:2209`의 낮은 제목 위계·평탄한 그룹·24px 문서 간격·844px 고정 뷰포트·Pagination 노출을 이 유형의 기준으로 재사용하지 않습니다. 승인본은 구조·역할·간격의 근거이며 컴포넌트는 계속 지정 최신 MO 라이브러리에서 직접 확인·import합니다.
+- **주 제목과 소제목**: 문서의 주 제목 “KB국민인증서 / 전자서명인증서비스”는 실제 **`Title / Page`**, 승인 시점 **KBFG Text / 24px / Medium**입니다. “KB국민은행 귀중”과 “제공 항목”은 실제 **`Title / Section`**, 승인 시점 **KBFG Text / 16px / Bold**입니다. 주 제목을 Section으로 낮추거나 “KB국민은행 귀중”을 일반 Text·Title / Element로 대신하지 않습니다. 기획의 글자 크기·볼드 외형을 복제하는 대신 역할에 맞는 원형 Text Style·fontFamily/fontSize/fontWeight/lineHeight/letterSpacing 변수와 공개 옵션을 보존합니다. 이 값들을 다른 제목 유형에 전역 강제하지 않습니다.
+- **실제 문서 계층**: `Popup > Slot > Body > body > PDF Document` 안에서 아래처럼 묶습니다. 이름만 바꾸지 않고 실제 부모·자식 관계를 구성하며, 설명과 첫 표를 PDF Document의 독립 형제로 평탄하게 나열하지 않습니다.
+
+```text
+PDF Document (Vertical / Fill·Hug / gap 32px)
+├─ Title / Page
+├─ Title / Table Group (gap 16px)
+│  ├─ Title / Text (gap 16px)
+│  │  ├─ Title / Section — KB국민은행 귀중
+│  │  └─ Text > 본문 Text
+│  └─ Table Group > Slot-Body > Grid — 제공받는 자·이용 목적·보유 기간·거부 권리
+├─ Title / Contents (gap 16px)
+│  ├─ Title / Section — 제공 항목
+│  └─ Table Group (표와 하단 TextList 사이 12px)
+│     ├─ Slot-Body > Grid
+│     └─ TextList / Unordered — 연계정보(CI) 설명
+└─ Text > 동의 여부 질문
+```
+
+- **간격의 적용 계층**: PDF Document의 큰 형제 블록 사이는 **32px(`spacing/5xl`, key `840e7bd3a0d91d1161f8dcbd3c3299310e014cac`)**입니다. Title / Table Group 내부의 설명 그룹→표, Title / Text 내부의 Section→본문, Title / Contents 내부의 Section→표 그룹은 각각 **16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**입니다. 제공 항목 표→하단 TextList의 **12px(`spacing/lg`)**는 별도 하위 계층입니다. 문서 전체에 24px를 넣거나 제목 내부 원형 gap8px를 제목과 외부 본문 간격으로 상속하지 않습니다. 패딩·빈 프레임으로 간격을 중복하지 않습니다.
+- **긴 문서 전체 노출 예외**: 이 유형의 제작 아트보드·Popup·Slot·Body·body·PDF Document는 가로 Fill 또는 기준 폭390px를 유지하고 **세로 Hug로 실제 내용 전체가 보이도록 확장**합니다. 승인 수정본의 아트보드 높이 **1222px는 내용에 따른 실측 결과이며 고정 규격이 아닙니다.** 종전 §2.G의 844px 아트보드·Body/body Fill·708px 내부 뷰포트를 이 유형에 강제하여 아래 표·CI 설명·동의 질문을 제작 화면에서 가리지 않습니다. `body`의 세로 스크롤 설정만 추가하고 부모를 고정 높이로 남기는 것은 전체 노출의 대체가 아닙니다.
+- **Pagination과 Footer**: 이 유형은 실제 `Pagination / Carousel` 인스턴스를 **`visible: false`로 숨깁니다.** 기획서가 편의상 두 연속 프레임으로 나뉘었다는 이유만으로 페이지 수를 추정해 Pagination을 노출하지 않습니다. Popup Slot 내부 **`Header / Body / Footer`** 명칭은 유지하고 Footer는 기존 **Absolute / 하단 MAX constraints**를 보존하여 확장된 Slot 하단을 따릅니다. 기준800px Slot의 y674나 승인 수정본의 y1052를 새 콘텐츠에도 고정 복사하지 않습니다. StickyButton white·hasCTA true·hasSubButton false·hasScrollDim true, CTA 원형 Label Hug와 실제 문구, iOS HomeIndicator의 elevated 배경 Fill 노출을 유지합니다.
+- **기존 고정 PDF 뷰어와 구분**: 일반적인 고정 PDF 뷰어는 계속 §2.G의 StatusBar Auto·Popup·Body Fill·Pagination 원형을 적용합니다. 이번 변경은 승인본처럼 긴 약관의 실제 본문·표를 전체 노출하는 제작 유형의 예외이며, 모든 Popup·PDF·Carousel을 Hug 또는 비노출로 바꾸라는 규칙이 아닙니다. 두 유형 모두 최신 라이브러리 컴포넌트·표 원형과 텍스트/숫자 서체 규칙을 유지하며 약관을 전체 이미지로 평탄화하지 않습니다.
+- **완료 조건**: 기획 원문·연속 내용·역할 → 실제 Page/Section 원형 및 스타일/변수 → Title / Table Group·Title / Text의 실제 부모 관계 → 계층별32/16/12px·토큰 → 전체 높이 Hug와 마지막 CI 설명·동의 질문의 노출 → Pagination 비노출·Footer 하단 정렬·CTA Hug를 함께 대조합니다. 컴포넌트 존재 여부나 문구 일치만으로 검수 완료를 보고하지 않습니다. 기존 규칙을 제작에서 놓친 제목·그룹·간격 문제와 이번에 명시한 Hug·Pagination 예외를 구분합니다. 이 MD 반영 자체가 기존 Figma 화면 수정 완료를 뜻하지는 않습니다.
+
 ## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
 
 - **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
@@ -505,6 +533,8 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
       - `Footer` (오토레이아웃) > 내부 필수: `HomeIndicator` (Property: **`os: iOS`**)
 
 ### G. 약관 상세 화면 (PDF 뷰어 화면) — v0.95 Popup 구조
+
+**분기 우선 확인**: 아래 390×844·Body Fill·Pagination 노출 규격은 고정 PDF 뷰어 기준입니다. 승인 `4005:4902`와 같은 긴 약관 본문·표 전체 노출 제작 유형에는 문서 상단의 **「긴 약관 상세의 제목 위계·그룹·전체 노출」** 규칙을 우선하여 세로 Hug·Pagination 비노출 및32/16/12px 구조를 적용합니다.
 
 최신 승인 기준은 [약관 상세 31888:30615](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=31888-30615)입니다. 종전 `72:9033 → 82:1994`의 직계 HEADER/BODY/FOOTER 구조 대신 실제 `Popup`을 사용합니다.
 

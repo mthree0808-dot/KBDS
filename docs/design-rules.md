@@ -1,5 +1,13 @@
 # 실측 디자인 규칙
 
+## 긴 약관 상세의 전체 노출·제목 위계 (2026-11-02 사용자 승인)
+
+- [승인 수정본 4005:4902](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4005-4902)과 [원문의 독립 규칙](sources/designer-ui-rules.md#긴-약관-상세의-제목-위계그룹전체-노출-2026-11-02-사용자-승인)을 적용한다. 일반 고정 PDF 뷰어의844px·Fill·Pagination 노출과, 이 긴 약관 본문·표 전체 노출 유형의 **세로 Hug·Pagination visible false**를 제작 전에 구분한다. 승인 실측1222px를 고정 높이로 복사하지 않는다.
+- 문서 주 제목은 최신 실제 **Title / Page(승인 시점24px KBFG Medium)**, “KB국민은행 귀중”·“제공 항목”은 **Title / Section(16px KBFG Bold)**이다. Section·Element·일반 Text로 위계를 낮추거나 글자 크기만 덮어쓰지 않는다. 원형 스타일·변수·공개 옵션을 보존한다.
+- **PDF Document(gap32) > Title / Page, Title / Table Group, Title / Contents, Text** 구조다. Title / Table Group은 **Title / Text(Title / Section + Text)와 Table Group**을 실제로 묶으며, 두 계층의 내부 gap은 각각16px다. 제공 항목의 Title / Contents 내부 제목→표 그룹16px, 표→CI 설명 TextList12px를 구분한다. 실제 itemSpacing과 spacing/5xl·xl·lg 토큰을 대조한다.
+- StatusBar Auto·Popup Slot의 **Header / Body / Footer** 명칭·툴바·최신 표 원형은 유지한다. 이 유형은 아트보드부터 Popup·Slot·Body·body·문서까지 세로 Hug로 늘려 후반 표·CI 설명·동의 질문을 모두 노출한다. Footer는 Absolute·하단 MAX로 확장된 Slot을 따르며 y674/y1052를 고정 복제하지 않는다. CTA Label Hug·white StickyButton·iOS HomeIndicator elevated Fill 노출을 보존한다.
+- 기획 원문·내용 연속성, Page/Section 역할과 스타일/변수, 실제 그룹과 부모 명칭,32/16/12px 계층·토큰, 마지막 내용의 노출, Pagination 숨김·Footer 위치를 완료 조건으로 함께 검사한다. 기존 제목·그룹·간격 적용 누락과 이번 Hug·Pagination 예외를 구분하며, 문구 일치나 컴포넌트 존재만으로 PASS 처리하지 않는다. 최신 원형은 지정 MO 라이브러리에서 직접 import하고 승인 화면의 변형 인스턴스를 복제하지 않는다.
+
 ## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
 
 - **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
