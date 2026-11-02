@@ -1,5 +1,12 @@
 # 실측 디자인 규칙
 
+## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
+
+- **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
+- 구조는 `## BODY > Container 1 > Tab, Infobox / Card`를 유지하고, 두 직계 자식을 배치하는 Container 1의 실제 Auto Layout `itemSpacing`에 16px 토큰을 연결한다. 별도 Container·빈 프레임·패딩으로 간격을 대신하거나 중복하지 않는다.
+- **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Data Block·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
+- 완료 시 부모 gap과 토큰 연결뿐 아니라 Tab 하단 경계에서 Infobox / Card 상단 경계까지 실제 16px인지 확인한다. KB국민인증서 이용내역의 최근 제작 8개 화면(작업 파일 `LHQQGe8DG3PWQL0mNUaBkr`, 섹션 `2007:5670`)에 같은 기준을 적용한다.
+
 ## 삭제 예정 다단계 약관 사례 추가 (2026-11-02 사용자 확정)
 
 - 초기 레이블 `3615:26089`와 긴 문구·선택 혼합 `3615:26006`을 승인 사례로 추가했다. 삭제 예정 노드 재조회·복제에 의존하지 않고 [원문 §4.D 독립 보존 명세](sources/designer-ui-rules.md#d-삭제-예정-다단계-약관-사례의-독립-보존-명세-2026-11-02-사용자-확정)의 구조·사례별 항목 매핑·수치·서체·상태를 적용한다. 원형은 계속 지정 MO 라이브러리의 현재 컴포넌트를 직접 확인·import한다.
@@ -500,7 +507,7 @@ Pagination `86:2136`은 key `6955cc776fae1a9f38a3e93e8ecabfe286a4db6c`의 실제
 
 ## Tab 후속 간격·조회 내역 승인 갱신 (2026-10-19)
 
-일반 콘텐츠의 Tab 직후 간격은 `spacing/3xl`=24px(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)입니다. BODY 기본 32px보다 우선합니다. 사용자 교정에 따라 `## BODY > Container 1 > Tab, Infobox / Card`로 구성하며 두 컴포넌트는 Container 1의 직계 자식입니다. 외부 `Tab / Infobox` 래퍼와 각 컴포넌트의 별도 Container를 만들지 않습니다. 이 화면에서 Container 1 gap 24px, Tab 폭 390px, Infobox 폭 350px·x=20px를 실측했습니다. 다음 독립 본문 블록은 형제 Container 2로 명명합니다.
+일반 콘텐츠의 Tab 직후 간격은 `spacing/3xl`=24px(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)입니다. BODY 기본 32px보다 우선합니다. 사용자 교정에 따라 `## BODY > Container 1 > Tab, Infobox / Card`로 구성하며 두 컴포넌트는 Container 1의 직계 자식입니다. 외부 `Tab / Infobox` 래퍼와 각 컴포넌트의 별도 Container를 만들지 않습니다. 최신 사용자 변경에 따라 Container 1 gap은 16px(`spacing/xl`)이며, Tab 폭 390px, Infobox 폭 350px·x=20px 구조를 유지합니다. 다음 독립 본문 블록은 형제 Container 2로 명명합니다.
 
 사용자 지정 [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979)과 [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994)을 직접 재조회했습니다. 두 박스 모두 Vertical, padding 20px, radius 20px, Title↔목록 gap 16px, 목록 gap 12px입니다. 각각 `spacing/2xl`, `radius/2xl`, `spacing/xl`, `spacing/lg`에 연결되어 있습니다. outline fill은 `surface/neutral/quaternary-muted`, stroke는 `border/neutral/secondary-muted` + `stroke/md`; 무테 fill은 `surface/neutral/tertiary-muted`, strokes는 빈 배열입니다.
 

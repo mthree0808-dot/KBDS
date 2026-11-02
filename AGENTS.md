@@ -1,5 +1,12 @@
 # MO Figma 디자인 하네스
 
+## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
+
+- **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
+- 구조는 `## BODY > Container 1 > Tab, Infobox / Card`를 유지하고, 두 직계 자식을 배치하는 Container 1의 실제 Auto Layout `itemSpacing`에 16px 토큰을 연결한다. 별도 Container·빈 프레임·패딩으로 간격을 대신하거나 중복하지 않는다.
+- **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Data Block·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
+- 완료 시 부모 gap과 토큰 연결뿐 아니라 Tab 하단 경계에서 Infobox / Card 상단 경계까지 실제 16px인지 확인한다. KB국민인증서 이용내역의 최근 제작 8개 화면(작업 파일 `LHQQGe8DG3PWQL0mNUaBkr`, 섹션 `2007:5670`)에 같은 기준을 적용한다.
+
 ## 삭제 예정 다단계 약관 사례 추가 (2026-11-02 사용자 확정)
 
 - 초기 레이블 `3615:26089`와 긴 문구·선택 혼합 `3615:26006`을 승인 사례로 추가했다. 삭제 예정 노드 재조회·복제에 의존하지 않고 [원문 §4.D 독립 보존 명세](docs/sources/designer-ui-rules.md#d-삭제-예정-다단계-약관-사례의-독립-보존-명세-2026-11-02-사용자-확정)의 구조·사례별 항목 매핑·수치·서체·상태를 적용한다. 원형은 계속 지정 MO 라이브러리의 현재 컴포넌트를 직접 확인·import한다.

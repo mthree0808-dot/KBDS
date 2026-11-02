@@ -1,5 +1,12 @@
 # UI Design & Code Generation Rules
 
+## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
+
+- **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
+- 구조는 `## BODY > Container 1 > Tab, Infobox / Card`를 유지하고, 두 직계 자식을 배치하는 Container 1의 실제 Auto Layout `itemSpacing`에 16px 토큰을 연결한다. 별도 Container·빈 프레임·패딩으로 간격을 대신하거나 중복하지 않는다.
+- **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Data Block·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
+- 완료 시 부모 gap과 토큰 연결뿐 아니라 Tab 하단 경계에서 Infobox / Card 상단 경계까지 실제 16px인지 확인한다. KB국민인증서 이용내역의 최근 제작 8개 화면(작업 파일 `LHQQGe8DG3PWQL0mNUaBkr`, 섹션 `2007:5670`)에 같은 기준을 적용한다.
+
 ## 고객확인 등록 안내의 불릿·복합 구조·옵션 대조 (2026-10-30 사용자 교정)
 
 - **승인 근거·적용 범위**: [고객확인 등록 승인 화면 3478:41680](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3478-41680)을 해당 유형의 기준으로 사용합니다. [오류 제작본 3521:2924](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3521-2924)의 일반 Text 변환·임의 Container 분할·제목 및 버튼 옵션·StickyButton 기본값을 재사용하지 않습니다. 아래 수치는 이 승인 패턴의 명시적 예외이며, 다른 화면의 일반 TextList 간격·Title 원형·서비스 바로가기 secondary/small 규칙을 전역 변경하지 않습니다. 해당 고객확인 등록 패턴에서는 이 최신 교정을 우선합니다.
@@ -300,8 +307,8 @@
 - **범위와 출처**: 기획의 항목명·순서·중복·선택 상태와 Grid 행·열 구성을 보존합니다. 심볼은 MO 디자인 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 F07. System Icon 페이지 `1:672` > `04 로고`(`18273:39357`)에서 기관명·기관 코드·component key를 확인하여 사용합니다. 은행은 `logo/bg/bank/` 원본을 우선하며 증권사는 해당 증권사 원본을 확인합니다. IconContainer의 원형 크기와 인스턴스 구조를 유지하고 detach·직접 그리기를 하지 않습니다. 심볼을 확인하지 못하면 다른 기관으로 추정 대체하지 않고 미확인으로 명시합니다.
 
 ### 사용자 승인 갱신 (2026-10-19): Tab 후속 간격과 조회 내역
-- **Tab 후속 일반 콘텐츠 간격과 계층**: 1depth·2depth·3depth Tab 다음에 Infobox / Card, 입력, 목록, Data Block 등 일반 콘텐츠가 이어지면 **gap 24px (`spacing/3xl`)**을 적용합니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 같은 콘텐츠 블록은 하나의 `Container [순번]` 안에 구성하며, 간격을 맞추기 위해 각 요소를 별도 Container로 감싼 뒤 외부 복합 래퍼에 넣지 않습니다. 패딩이나 빈 프레임으로 간격을 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
-- **Tab + Infobox / Card 필수 구조 (2026-10-19 사용자 교정)**: `## BODY > Container 1 > Tab, Infobox / Card`로 구성합니다. `Tab`과 `Infobox / Card`는 **Container 1의 직계 자식**이며 Container 1의 Vertical Auto Layout gap에 `spacing/3xl`=24px를 연결합니다. `Tab / Infobox > Container 1, Container 2` 구조와, Tab·Infobox를 각각 Container로 감싸는 구조는 금지합니다. 이 규칙은 아래 일반 복합 그룹 네이밍 공식보다 우선합니다. Tab은 화면 폭을 채우고, Infobox / Card는 좌우 20px 여백이 남는 콘텐츠 폭으로 가운데 정렬합니다. 다음 독립 본문 블록은 형제 `Container 2`부터 순차 명명합니다.
+- **Tab 후속 일반 콘텐츠 간격과 계층**: 1depth·2depth·3depth Tab 다음 입력, 목록, Data Block 등 일반 콘텐츠에는 **gap 24px (`spacing/3xl`)**을 적용합니다. **Tab 바로 다음 Infobox / Card는 최신 사용자 변경에 따라 gap 16px (`spacing/xl`)**을 적용합니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 같은 콘텐츠 블록은 하나의 `Container [순번]` 안에 구성하며, 간격을 맞추기 위해 각 요소를 별도 Container로 감싼 뒤 외부 복합 래퍼에 넣지 않습니다. 패딩이나 빈 프레임으로 간격을 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
+- **Tab + Infobox / Card 필수 구조 (2026-10-19 사용자 교정)**: `## BODY > Container 1 > Tab, Infobox / Card`로 구성합니다. `Tab`과 `Infobox / Card`는 **Container 1의 직계 자식**이며 Container 1의 Vertical Auto Layout gap에 최신 사용자 변경값인 `spacing/xl`=16px를 연결합니다. `Tab / Infobox > Container 1, Container 2` 구조와, Tab·Infobox를 각각 Container로 감싸는 구조는 금지합니다. 이 규칙은 아래 일반 복합 그룹 네이밍 공식보다 우선합니다. Tab은 화면 폭을 채우고, Infobox / Card는 좌우 20px 여백이 남는 콘텐츠 폭으로 가운데 정렬합니다. 다음 독립 본문 블록은 형제 `Container 2`부터 순차 명명합니다.
 - **건별 조회 내역의 Data Block 매핑**: 고객명·이용기관·이용서비스·인증완료처럼 한 건을 구성하는 사실 데이터는 와이어프레임의 평면 DataList Group·상하 Divider 형태를 그대로 복제하지 않고 **건별 Data Block**으로 치환합니다. 문구·값·순서·건수는 보존합니다. 일반 수평 DataList의 Divider 규칙보다 이 매핑을 우선하며, 완료 화면의 별도 Feedback·데이터 구조는 유지합니다.
 - **승인 참조**: [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979), [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994). 두 링크는 기존 구조 참조이며 2026-10-28 최신 지시에 따라 Data Block 외형은 아웃라인으로 적용합니다. 회색 무테 참조를 기본 스타일 대안으로 재사용하지 않습니다.
 - **구조와 토큰**: Vertical Auto Layout, padding 20px (`spacing/2xl`), radius 20px (`radius/2xl`), Title↔DataList Group gap 16px (`spacing/xl`), 목록 내부 gap 12px (`spacing/lg`). 각 DataList는 `layout: split`, `size: 14`, `hasDivider: false`를 적용합니다. 아웃라인은 `surface/neutral/quaternary-muted` + `border/neutral/secondary-muted` + `stroke/md`, 회색 무테는 `surface/neutral/tertiary-muted` + `strokes: []`를 사용합니다.

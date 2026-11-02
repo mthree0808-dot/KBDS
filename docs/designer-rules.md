@@ -1,5 +1,12 @@
 # 디자이너 규칙의 적용과 검수
 
+## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
+
+- **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
+- 구조는 `## BODY > Container 1 > Tab, Infobox / Card`를 유지하고, 두 직계 자식을 배치하는 Container 1의 실제 Auto Layout `itemSpacing`에 16px 토큰을 연결한다. 별도 Container·빈 프레임·패딩으로 간격을 대신하거나 중복하지 않는다.
+- **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Data Block·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
+- 완료 시 부모 gap과 토큰 연결뿐 아니라 Tab 하단 경계에서 Infobox / Card 상단 경계까지 실제 16px인지 확인한다. KB국민인증서 이용내역의 최근 제작 8개 화면(작업 파일 `LHQQGe8DG3PWQL0mNUaBkr`, 섹션 `2007:5670`)에 같은 기준을 적용한다.
+
 ## 삭제 예정 다단계 약관 사례 추가 (2026-11-02 사용자 확정)
 
 - 초기 레이블 `3615:26089`와 긴 문구·선택 혼합 `3615:26006`을 승인 사례로 추가했다. 삭제 예정 노드 재조회·복제에 의존하지 않고 [원문 §4.D 독립 보존 명세](sources/designer-ui-rules.md#d-삭제-예정-다단계-약관-사례의-독립-보존-명세-2026-11-02-사용자-확정)의 구조·사례별 항목 매핑·수치·서체·상태를 적용한다. 원형은 계속 지정 MO 라이브러리의 현재 컴포넌트를 직접 확인·import한다.
@@ -322,7 +329,7 @@ Figma의 실제 component key, Component Properties 정의, variable/style key�
 - PDF 약관 상세는2026-10-27 확정한v0.95 기준31888:30615와 원문§2.G를 적용합니다. StatusBar는 아트보드 직계Auto, 3단 영역은 Popup > Slot 안 Header / Body / Footer입니다. BODY·body Fill, Footer Absolute, 아트보드 직계 Pagination 실제 인스턴스·Absolute를 유지합니다. 종전72:9033의 직계3단·Container1/2 유지 규칙을 새 구조에 적용하지 않습니다.
 - Image Area는 승인 원본 `10580:10543`의 **더미 그래픽과 “더미이미지” 라벨까지 포함한 전체 구성**을 기본 재사용합니다. 빈 ImageContainer로 바꾸거나 라벨을 생략하지 않습니다. 원본 이미지·크롭·레이어·외형을 보존하며 임의 새 이미지 생성은 하지 않습니다. 현재 승인 참조 `bDKgQrkt0oHMJ1EbPUQTp8 / 3478:12649`의 Image Area처럼(이전 승인본 `0P0j17OPstNhC3LWjBdBGy / 67:2127`의 후속 적용본) 라벨은 편집 가능한 TEXT / Pretendard SemiBold와 원본 fontFamily 변수 alias를 유지합니다. 폰트 outline·SVG·벡터·이미지 변환과 대체 폰트는 금지합니다. 기존 SVG 대체 예외는 폐기합니다.
 - `Title / Page` → `Image Area`는 같은 Container의 직계 자식으로 gap 0px입니다. Image Area 다음 콘텐츠는 종류와 무관하게 `spacing/3xl`=24px입니다. [참조 10580:10543](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=10580-10543)의 Vertical / Fill·Hug / padding 40px 0 / gap 0을 적용합니다. ImageContainer는 ratio 2:1, Fill·Fixed(폭 350px 기준 350×175px), 전체 영역 350×255px입니다. 이미지 앞뒤 간격에 BODY 기본값을 일괄 적용하지 않습니다.
-- 일반 콘텐츠의 Tab 직후 간격은 `spacing/3xl`=24px입니다. BODY 기본 32px보다 우선합니다. Tab + Infobox / Card는 `## BODY > Container 1 > Tab, Infobox / Card`로 구성하고 두 컴포넌트를 Container 1의 직계 자식으로 둡니다. `Tab / Infobox > Container 1, Container 2`와 각 컴포넌트의 별도 Container 래핑은 금지합니다. Container 1 내부 gap 24px로 제어하며 다음 독립 본문 블록은 형제 Container 2부터 이어갑니다. 일반 복합 그룹 네이밍보다 이 계층 규칙을 우선합니다. 특수 Feedback 패턴은 전용 규칙을 유지합니다.
+- 일반 콘텐츠의 Tab 직후 간격은 `spacing/3xl`=24px입니다. BODY 기본 32px보다 우선합니다. Tab + Infobox / Card는 `## BODY > Container 1 > Tab, Infobox / Card`로 구성하고 두 컴포넌트를 Container 1의 직계 자식으로 둡니다. `Tab / Infobox > Container 1, Container 2`와 각 컴포넌트의 별도 Container 래핑은 금지합니다. 이 Tab → Infobox / Card 구간은 최신 교정에 따라 Container 1 내부 gap 16px(`spacing/xl`)로 제어하며 다음 독립 본문 블록은 형제 Container 2부터 이어갑니다. 일반 복합 그룹 네이밍보다 이 계층 규칙을 우선합니다. 특수 Feedback 패턴은 전용 규칙을 유지합니다.
 - D29·D32: 고객명~인증완료 등 건별 조회 내역은 와이어프레임의 평면 DataList Group·상하 Divider 대신 `0P0j17OPstNhC3LWjBdBGy / 4:979, 4:994`의 Data Block으로 치환합니다. 이 경우 아래 D14보다 D29를 우선합니다. padding·radius 20px, 목록 gap 12px, Title이 있을 때 Title↔목록 gap 16px, 반복 박스 gap 12px를 DS 토큰으로 연결합니다. 기획에 없는 Title·툴팁·아이콘은 숨깁니다. 완료 화면 D18·D19는 유지합니다.
 
 |규칙 ID|적용 상황|필수 확인|
