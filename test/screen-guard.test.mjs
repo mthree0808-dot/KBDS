@@ -68,6 +68,20 @@ test('long PDF recalculates reserve for different footer and viewport heights',(
   s.items.find(n=>n.id==='doc').paddingBottom=128;
   assert.equal(check(s).errors.length,0);
 });
+test('long PDF preserves included inside border and uses 113px reserve',()=>{
+  const s=longPdf();Object.assign(s.items.find(n=>n.id==='doc'),{
+    paddingBottom:113,strokeBottomWeight:1,strokeAlign:'INSIDE',strokesIncludedInLayout:true,strokes:fill(rules.colors.white)});
+  assert.equal(check(s).errors.length,0);
+  s.items.find(n=>n.id==='doc').paddingBottom=114;
+  assert.ok(codes(s).includes('PDF_FOOTER_PADDING'));
+});
+test('long PDF subtracts only the included interior part of visible border',()=>{
+  for(const [align,included,show,padding]of [['CENTER',true,true,113.5],['OUTSIDE',true,true,114],['INSIDE',false,true,114],['INSIDE',true,false,114]]){
+    const s=longPdf();Object.assign(s.items.find(n=>n.id==='doc'),{
+      paddingBottom:padding,strokeBottomWeight:1,strokeAlign:align,strokesIncludedInLayout:included,strokes:[{...fill(rules.colors.white)[0],visible:show}]});
+    assert.equal(check(s).errors.length,0,`${align}/${included}/${show}`);
+  }
+});
 test('PDF missing toolbar layer is not mistaken for a normal popup',()=>{
   const s=pdf();s.items=s.items.filter(n=>n.id!=='toolbar');s.total--;assert.ok(codes(s).includes('REQUIRED_PATH'));
 });

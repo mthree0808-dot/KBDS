@@ -25,7 +25,7 @@ export async function collect(figma, config) {
     'paddingTop','paddingRight','paddingBottom','paddingLeft','primaryAxisAlignItems','counterAxisAlignItems',
     'primaryAxisSizingMode','counterAxisSizingMode','layoutSizingHorizontal','layoutSizingVertical',
     'layoutPositioning','clipsContent','cornerRadius','topLeftRadius','topRightRadius','bottomLeftRadius','bottomRightRadius',
-    'fills','strokes','strokeWeight','effects','opacity','boundVariables','explicitVariableModes','resolvedVariableModes',
+    'fills','strokes','strokeWeight','strokeBottomWeight','strokeAlign','strokesIncludedInLayout','effects','opacity','boundVariables','explicitVariableModes','resolvedVariableModes',
     'fillStyleId','strokeStyleId','effectStyleId','absoluteBoundingBox','constraints'];
   for (const row of all.slice(offset, offset + limit)) {
     const n = row.node;

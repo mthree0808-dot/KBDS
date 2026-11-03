@@ -103,8 +103,10 @@ export function auditScreen(snapshot, contract = {}, rules) {
         // Long, fully exposed terms reserve only the area covered by the
         // absolute footer; the viewport already contributes bottom padding.
         if (root.layoutSizingVertical==='HUG' && document?.layoutSizingVertical==='HUG' && footer?.layoutPositioning==='ABSOLUTE') {
-          const expected=footer.height-viewport.paddingBottom;
-          if (!Number.isFinite(expected) || expected<0 || !near(document.paddingBottom,expected)) fail('PDF_FOOTER_PADDING',document,'긴 약관의 문서 하단 패딩은 Footer 높이 − body 하단 패딩입니다');
+          const strokeInLayout=document.strokesIncludedInLayout && (document.strokes??[]).some(p=>p.visible!==false&&(p.opacity??1)>0);
+          const bottomStroke=strokeInLayout ? (document.strokeBottomWeight??document.strokeWeight??0)*(document.strokeAlign==='INSIDE'?1:document.strokeAlign==='CENTER'?0.5:0) : 0;
+          const expected=footer.height-viewport.paddingBottom-bottomStroke;
+          if (!Number.isFinite(expected) || expected<0 || !near(document.paddingBottom,expected)) fail('PDF_FOOTER_PADDING',document,'긴 약관의 문서 하단 패딩은 Footer 높이 − body 하단 패딩 − 레이아웃에 포함된 하단 테두리입니다');
           const last=kids(document).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE').at(-1);
           const bottom=last?.absoluteBoundingBox?.y+last?.absoluteBoundingBox?.height;
           const top=footer.absoluteBoundingBox?.y;
