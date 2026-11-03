@@ -176,6 +176,14 @@ test('Tab to Infobox Card requires 16 including token connection',()=>{
   s.items.find(n=>n.id==='g').itemSpacing=16;assert.ok(codes(s).includes('GAP_TOKEN'));
   s.items.find(n=>n.id==='g').boundVariables={itemSpacing:{id:rules.spacing[16]}};assert.equal(check(s).errors.length,0);
 });
+test('full-width Tab keeps 16px to Card inside its inset wrapper',()=>{
+  const s=add(page(),frames('g','Tab / Infobox','body',{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:16,boundVariables:{itemSpacing:{id:rules.spacing[16]}}}),
+    component('tab','Tab','g'),frames('inset','Infobox','g',{paddingLeft:20,paddingRight:20}),component('info','Infobox / Card','inset'));
+  assert.equal(check(s).errors.length,0);
+  s.items.find(n=>n.id==='g').itemSpacing=24;assert.ok(codes(s).includes('GAP'));
+  s.items.find(n=>n.id==='g').boundVariables.itemSpacing={id:rules.spacing[24]};
+  s.items.find(n=>n.id==='info').name='Text';assert.equal(check(s).errors.length,0);
+});
 test('explicit copy, public property and component-key requirements block mismatches',()=>{
   const s=add(page(),textNode('text','수정 전','body'),component('c','Chip / Basic','body',{componentProperties:{variant:{value:'single'}}}));
   const c={checks:[{path:['## BODY','Content'],kind:'text',value:'수정 후'},{path:['## BODY','Chip / Basic'],kind:'property',property:'variant',value:'multiple'},

@@ -289,7 +289,11 @@ export function auditScreen(snapshot, contract = {}, rules) {
       if (a.name === 'Title / Page' && b.name === 'Image Area') gap = 0;
       if (['Image Area', 'ImageContainer', 'Infobox / Card'].includes(a.name)) gap = 24;
       if (a.name === 'Chip / Basic') gap = b.name === 'Feedback' ? 24 : 8;
-      if (a.name === 'Tab') gap = b.name === 'Infobox / Card' ? 16 : 24;
+      if (a.name === 'Tab') {
+        const content=kids(b).filter(c=>visible(c)&&c.layoutPositioning!=='ABSOLUTE');
+        const insetInfobox=b.type==='FRAME'&&b.name==='Infobox'&&content.length===1&&content[0].type==='INSTANCE'&&content[0].name==='Infobox / Card';
+        gap=b.name==='Infobox / Card'||insetInfobox?16:24;
+      }
       if (a.name === 'Feedback') gap = 40;
       if (a.name === 'Infobox / Solid' && ['InputField', 'InputField Group', 'Feedback'].includes(b.name)) gap = 24;
       if (gap !== undefined && ['VERTICAL', 'HORIZONTAL'].includes(n.layoutMode)) spacing(n, gap, `${a.name} → ${b.name}`);
