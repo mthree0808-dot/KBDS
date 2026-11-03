@@ -146,8 +146,31 @@ export function auditScreen(snapshot, contract = {}, rules) {
   }
   const stem = n => n.type === 'TEXT' ? 'Text' : n.type === 'INSTANCE' ? n.name.split(' / ')[0] : n.name;
   const repeatable = new Set(['Text', 'TextList', 'InputField', 'DataList', 'Card', 'Data Block', 'Radio', 'Checkbox', 'List', 'Accordion']);
+  // Bottom-pinned consent is one composite. Detect flattened/renamed versions
+  // as well, rather than checking only a group that already has the right name.
+  const footers = items.filter(n => n.type === 'FRAME' && ['Footer', '## FOOTER'].includes(n.name));
+  for (const footer of footers) {
+    const hasConsent = items.some(n => n.type === 'INSTANCE' && ['ConsentFinal', 'ConsentGroup'].includes(n.name) && visible(n) && within(n, a => a.id === footer.id));
+    if (hasConsent && kids(footer).filter(n => n.type === 'FRAME' && n.name === 'ConsentFinal / StickyButton' && visible(n)).length !== 1) fail('CONSENT_CTA_GROUP', footer, '하단 약관은 직계 ConsentFinal / StickyButton으로 실제 묶어야 합니다');
+  }
+  function consentComposite(n) {
+    const cs = kids(n), parent = map.get(n.parentId);
+    if (parent?.type !== 'FRAME' || !['Footer', '## FOOTER'].includes(parent.name)) fail('CONSENT_CTA_PARENT', n, 'ConsentFinal / StickyButton은 Footer의 직계 자식입니다');
+    if (n.layoutMode !== 'VERTICAL' || n.layoutPositioning !== 'AUTO' || n.layoutSizingHorizontal !== 'FILL' || n.layoutSizingVertical !== 'HUG' || ['paddingTop','paddingRight','paddingBottom','paddingLeft'].some(p => !near(n[p],0))) fail('CONSENT_CTA_LAYOUT', n, '약관·CTA 그룹은 Vertical / Fill·Hug / AUTO / padding0입니다');
+    if (cs.length !== 2 || cs[0].name !== 'ConsentFinal' || cs[0].type !== 'FRAME' || cs[1].name !== 'StickyButton' || cs[1].type !== 'INSTANCE') {fail('CONSENT_CTA', n, 'ConsentFinal 래퍼 → 실제 StickyButton 인스턴스 순서·구조 필요'); return;}
+    spacing(n,24);
+    const wrap=cs[0], native=kids(wrap), sticky=cs[1];
+    if (wrap.layoutMode !== 'VERTICAL' || wrap.layoutPositioning !== 'AUTO' || wrap.layoutSizingHorizontal !== 'FILL' || wrap.layoutSizingVertical !== 'HUG' || !near(wrap.itemSpacing,0)) fail('CONSENT_CTA_WRAPPER', wrap, 'ConsentFinal 래퍼는 Vertical / Fill·Hug / AUTO / gap0입니다');
+    for (const [field,value] of Object.entries({paddingTop:0,paddingRight:20,paddingBottom:0,paddingLeft:20})) {
+      if (!near(wrap[field],value) || value && token(wrap.boundVariables?.[field]) !== rules.spacing[value]) fail('CONSENT_CTA_PADDING',wrap,`${field}: ${value}px 및 해당 spacing 토큰 필요`);
+    }
+    if (native.length !== 1 || native[0].type !== 'INSTANCE' || native[0].name !== 'ConsentFinal') fail('CONSENT_CTA_INSTANCE',wrap,'래퍼 안에 실제 ConsentFinal 인스턴스 1개 필요; ConsentGroup·수동 프레임으로 대체 금지');
+    else if (native[0].layoutPositioning !== 'AUTO' || native[0].layoutSizingVertical !== 'HUG') fail('CONSENT_CTA_SIZING',native[0],'약관 인스턴스는 AUTO / 세로 Hug로 긴 문구를 수용합니다');
+    if (sticky.layoutPositioning !== 'AUTO' || sticky.layoutSizingHorizontal !== 'FILL' || sticky.layoutSizingVertical !== 'HUG') fail('CONSENT_CTA_SIZING',sticky,'StickyButton은 AUTO / 가로 Fill·세로 Hug입니다');
+  }
   for (const n of items.filter(n => n.type === 'FRAME' && authored(n) && visible(n))) {
     const cs = kids(n).filter(c => visible(c) && c.layoutPositioning !== 'ABSOLUTE');
+    if (n.name === 'ConsentFinal / StickyButton') consentComposite(n);
     if (!cs.length) continue;
     if (n.name.endsWith(' Group') && !n.name.includes(' / ')) {
       const base = n.name.slice(0, -6);
@@ -164,10 +187,6 @@ export function auditScreen(snapshot, contract = {}, rules) {
     const uniformGap = {'InputField Group': 24, 'Radio Group': 20, 'Checkbox Group': 20};
     if (uniformGap[n.name] !== undefined) spacing(n, uniformGap[n.name]);
     if (cs.length > 1 && cs.every(c => c.name === 'Title / TextList Group')) spacing(n, 24);
-    if (n.name === 'ConsentFinal / StickyButton') {
-      if (cs.length !== 2 || cs[0].name !== 'ConsentFinal' || cs[1].name !== 'StickyButton') fail('CONSENT_CTA', n, 'ConsentFinal → StickyButton 순서·구조 필요');
-      spacing(n, 24);
-    }
     for (let i = 0; i < cs.length - 1; i++) {
       const a = cs[i], b = cs[i + 1]; let gap;
       if (['Title / Section', 'Title / Element'].includes(a.name)) gap = screenType === 'bottom-sheet' && (b.type === 'TEXT' || ['Text', 'Text Group', 'TextList Group'].includes(b.name)) ? 12 : 16;

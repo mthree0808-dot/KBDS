@@ -28,7 +28,7 @@
 - 서체: 판정 단위는 실제 Text다. 숫자·숫자 서식만 있으면 Pretendard, 문자와 섞인 한 Text는 KBFG Text다. 하이픈이 있는 전화번호도 숫자다. 더미 라벨은 편집 가능한 Pretendard SemiBold를 보존한다.
 - 반복 항목은 실제 `[명칭] Group`으로 묶는다. Text·TextList 혼합은 각각 묶고 `Text / TextList Group`, 그 위 제목은 `Title / Contents`로 재판정한다. 구조 변경 후 영향을 받는 부모도 검사한다. 원형 내부 레이어를 일괄 재명명하지 않는다.
 - Title / Section 뒤16px(바텀시트 텍스트12px 예외), Title / TextList Group 간24px, Tab→Infobox / Card16px, 일반 Tab 후24px 등 해당 조합의 최신 간격을 구분한다. 숫자 값과 spacing 토큰을 같이 검사한다.
-- Popup 내부는 Header/Body/Footer다. 일반 화면은 직계 ## HEADER/## BODY/## FOOTER를 기본으로 하며 사용자 승인 Footer 예외를 따른다. 약관이 CTA에 붙으면 `Footer > ConsentFinal / StickyButton(24px), HomeIndicator`와 화면 직계 Tooltip 구조를 사용한다.
+- Popup 내부는 Header/Body/Footer다. 일반 화면은 직계 ## HEADER/## BODY/## FOOTER를 기본으로 하며 사용자 승인 Footer 예외를 따른다. 하단 약관은 `Footer > ConsentFinal / StickyButton` 안에 `ConsentFinal` 래퍼(좌우20px) > 실제 ConsentFinal 인스턴스, 실제 StickyButton을 순서대로 배치한다. 그룹은 Vertical·Fill/Hug·AUTO·padding0·gap24이며 원문 「하단 고정 약관과 CTA의 복합 그룹」을 따른다. 참조4023:518에서는 이 그룹만 기준으로 삼고 다른 영역·문구·선택/버튼 상태는 기획대로 적용한다.
 - HomeIndicator elevated Fill은 Dialog에서만 숨기고 다른 화면에서는 노출한다. 바텀시트는 Dimmed·StatusBar만 Absolute, BottomSheet·HomeIndicator는 AUTO다. 오버레이 뒤의 이전 화면을 재현하지 않는다.
 - 알려드립니다는 항상 펼친다. 긴 약관 전체 노출과 고정 PDF 뷰어는 별도 유형으로 구분하고 상세 MD의 높이·Pagination·Footer 규칙을 따른다.
 

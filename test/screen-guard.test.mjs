@@ -197,6 +197,32 @@ test('entry instructions stay below 16KiB and point to executable checks',()=>{
   const agents=fs.readFileSync(new URL('../AGENTS.md',import.meta.url),'utf8');
   assert.ok(Buffer.byteLength(agents)<16*1024);assert.match(agents,/guard-build/);assert.match(agents,/docs\/sources\/designer-ui-rules\.md/);
 });
+function pinnedConsent() {
+  const modes={layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',paddingTop:0,paddingRight:0,paddingBottom:0,paddingLeft:0};
+  return add(page(),frames('consent-cta','ConsentFinal / StickyButton','foot',{...modes,itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}}),
+    frames('consent-wrap','ConsentFinal','consent-cta',{...modes,paddingLeft:20,paddingRight:20,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]}}}),
+    component('consent-native','ConsentFinal','consent-wrap',{layoutSizingVertical:'HUG'}),component('sticky','StickyButton','consent-cta',modes));
+}
+test('bottom consent keeps its approved composite, actual wrapper and native instances',()=>assert.equal(check(pinnedConsent()).errors.length,0));
+test('flattened or renamed bottom consent composite cannot escape the check',()=>{
+  const s=pinnedConsent();s.items.find(n=>n.id==='consent-cta').name='Button Area';assert.ok(codes(s).includes('CONSENT_CTA_GROUP'));
+  const t=pinnedConsent();t.items.find(n=>n.id==='consent-wrap').parentId='foot';t.items.find(n=>n.id==='sticky').parentId='foot';t.items=t.items.filter(n=>n.id!=='consent-cta');t.total--;
+  assert.ok(codes(t).includes('CONSENT_CTA_GROUP'));
+});
+test('ConsentGroup does not substitute for ConsentFinal; manual CTA is rejected',()=>{
+  const s=pinnedConsent();s.items.find(n=>n.id==='consent-native').name='ConsentGroup';assert.ok(codes(s).includes('CONSENT_CTA_INSTANCE'));
+  const t=pinnedConsent();t.items.find(n=>n.id==='sticky').type='FRAME';assert.ok(codes(t).includes('CONSENT_CTA'));
+});
+test('bottom consent padding, AUTO/Hug and exact child order are required',()=>{
+  for(const mutate of [s=>s.items.find(n=>n.id==='consent-wrap').paddingLeft=0,s=>s.items.find(n=>n.id==='sticky').layoutPositioning='ABSOLUTE',
+    s=>s.items.find(n=>n.id==='consent-native').layoutSizingVertical='FIXED',s=>s.items.find(n=>n.id==='consent-cta').paddingTop=24]){
+    const s=pinnedConsent();mutate(s);assert.ok(check(s).errors.length);
+  }
+  const s=pinnedConsent();const a=s.items.findIndex(n=>n.id==='sticky'),b=s.items.findIndex(n=>n.id==='consent-wrap');[s.items[a],s.items[b]]=[s.items[b],s.items[a]];assert.ok(codes(s).includes('CONSENT_CTA'));
+});
+test('consent state, label and button state are not copied from the reference',()=>{
+  for(const selected of ['true','false']){const s=pinnedConsent();s.items.find(n=>n.id==='consent-native').componentProperties={checked:{value:selected}};s.items.find(n=>n.id==='sticky').componentProperties={disabled:{value:selected}};assert.equal(check(s).errors.length,0);}
+});
 test('default color and gap token keys exist in the shared registry',()=>{
   const registry=JSON.parse(fs.readFileSync(new URL('../knowledge/registry.json',import.meta.url),'utf8'));
   const keys=new Set(registry.variables.map(v=>v.key));

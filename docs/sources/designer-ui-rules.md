@@ -1,5 +1,22 @@
 # UI Design & Code Generation Rules
 
+## 하단 고정 약관과 CTA의 복합 그룹 (2026-11-03 사용자 확정)
+
+- **참조 범위**: [승인 화면 4023:518](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4023-518)의 **`Footer > ConsentFinal / StickyButton` 그룹만** 기준으로 사용합니다. 앞으로 약관 확인 영역이 화면 하단 CTA에 붙는 경우 아래 실제 계층을 적용합니다. 참조의 HEADER·BODY·Footer 외곽·HomeIndicator·Tooltip·화면 문구를 이번 규칙의 근거로 확대하지 않습니다.
+
+```text
+Footer
+└─ ConsentFinal / StickyButton (Vertical / Fill·Hug / AUTO / gap24 / padding0)
+   ├─ ConsentFinal (Auto Layout 래퍼 / Vertical / Fill·Hug / AUTO / gap0 / padding0·20·0·20)
+   │  └─ ConsentFinal (최신 라이브러리의 실제 컴포넌트 인스턴스 / 세로 Hug / AUTO)
+   └─ StickyButton (최신 라이브러리의 실제 컴포넌트 인스턴스 / Fill·Hug / AUTO)
+```
+
+- **계층과 폭**: Footer에 약관 래퍼와 CTA를 독립 형제로 평탄하게 놓지 않고 두 영역을 하나의 `ConsentFinal / StickyButton` Auto Layout으로 실제 묶습니다. 약관 래퍼와 실제 약관 인스턴스의 이름은 모두 `ConsentFinal`입니다. `ConsentGroup Area`·`ConsentGroup`·수동 체크 프레임으로 대신하거나, `StickyButton`을 약관 인스턴스 안에 넣지 않습니다. 그룹은 padding0·gap24이며, 래퍼는 상하0·좌우20px·gap0입니다. 참조390px 기준 약관 가용 폭은350px이고 실제 인스턴스는 가로 Fixed350·세로 Hug입니다. 다른 화면 폭에서는 좌우20px을 뺀 가용 폭에 맞추고 원형 sizing·긴 문구에 따른 높이를 보존합니다. 56/64/144px 등 참조의 계산 높이를 고정하지 않습니다.
+- **토큰**: 24px 간격과 20px 패딩에는 현재 지정 MO 라이브러리의 대응 spacing 변수를 연결합니다. 현재 key는 각각 `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`와 `5491ce4ce8c48cc4a679f8cedc426cb96bb9a141`입니다. 참조에서 관찰한 구형 `spacing-3xl`·`spacing-2xl`의 파일별 alias ID를 새 파일에 복사하지 않습니다.
+- **컴포넌트와 상태**: 참조의 ConsentFinal은 outline, StickyButton은 elevated·hasCTA true·hasSubButton false·hasScrollDim false입니다. 이는 해당 하단 약관 패턴의 기본 조합이며 최신 원형의 공개 옵션·스타일·토큰을 직접 확인해 사용합니다. 실제 약관 문구·상세 이동 Suffix·선택 여부·CTA 문구·활성/비활성은 각 기획을 우선하고, 참조의 ‘다음’·미선택·disabled 상태를 전역 고정하지 않습니다. Label 문구는 원형 Hug를 보존하며, 이 규칙 때문에 새로운 Tooltip·HomeIndicator·동의 항목을 추가하지 않습니다.
+- **필수 검사**: Footer의 직계 복합 그룹 유무, 두 자식의 순서·역할, 실제 ConsentFinal 및 StickyButton 인스턴스, 래퍼의 좌우20px·gap0, 그룹 gap24·padding0, AUTO·Fill/Hug·토큰 연결과 기획 상태를 대조합니다. 공통 검사기는 올바른 이름의 그룹이 있을 때만 검사하지 않고, 하단 약관을 평탄하게 배치했거나 다른 그룹명으로 우회한 경우도 차단합니다. 이 MD 업데이트는 기존 Figma 화면 수정 요청이 아닙니다.
+
 ## 공통 제작·검수 스크립트 실행 의무 (2026-11-02)
 
 - 문서 지시를 실제로 검사하기 위해 `src/screen-guard.mjs`와 `knowledge/screen-rules.json`을 추가했습니다. 일반 `build`는 기본으로 포함하고, 전용 MCP 제작 코드도 `guard-build`로 감싸 **제작 → 결과 수집 → 공통 검사**를 같은 호출에서 실행합니다. [실행법과 현재 지원 범위](../screen-guard.md)를 따릅니다.

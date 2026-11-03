@@ -1,5 +1,9 @@
 # 디자이너 규칙의 적용과 검수
 
+## 하단 약관·CTA 구조 (2026-11-03)
+
+[원문 「하단 고정 약관과 CTA의 복합 그룹」](sources/designer-ui-rules.md#하단-고정-약관과-cta의-복합-그룹-2026-11-03-사용자-확정)을 적용합니다. 참조4023:518의 Footer 내부 ConsentFinal / StickyButton만 기준으로 삼습니다. Vertical·Fill/Hug·AUTO·gap24·padding0인 복합 그룹 안에 ConsentFinal 래퍼(좌우20px·gap0) > 실제 ConsentFinal, 실제 StickyButton을 순서대로 배치합니다. 기획 문구·선택/버튼 상태는 유지하고 다른 참조 영역을 전역 상속하지 않습니다. 공통 검사와 재발 방지 테스트를 함께 적용합니다.
+
 ## 공통 제작·검수 스크립트 실행 의무 (2026-11-02)
 
 - 문서 지시를 실제로 검사하기 위해 `src/screen-guard.mjs`와 `knowledge/screen-rules.json`을 추가했습니다. 일반 `build`는 기본으로 포함하고, 전용 MCP 제작 코드도 `guard-build`로 감싸 **제작 → 결과 수집 → 공통 검사**를 같은 호출에서 실행합니다. [실행법과 현재 지원 범위](screen-guard.md)를 따릅니다.

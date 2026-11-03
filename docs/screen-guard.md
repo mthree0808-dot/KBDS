@@ -44,6 +44,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |오버레이|이전 화면 배경 재현 금지, 바텀시트 AUTO/Absolute 구분|
 |컴포넌트|실제 mainComponent key, 명시한 최신 key·공개 옵션과 일치|
 |CTA|BoxButton/TextButton의 Label 문구 가로 Hug·WIDTH_AND_HEIGHT|
+|하단 약관·CTA|Footer 직계 ConsentFinal / StickyButton 존재, 실제 래퍼·인스턴스·순서, gap24, 좌우padding20, AUTO·Fill/Hug; 이름만 바꾸거나 ConsentGroup으로 대체한 경우 차단|
 |서체|실제 Text 단위 숫자/혼용 판정, 전화번호·날짜 구분자, 누락 폰트와 스타일/서체 변수 연결|
 |레이어|실제 반복 그룹, Text/TextList 혼합, 구조에 맞는 부모명, 원형 내부 일괄 변경 방지|
 |간격|InputField Group24, Radio/Checkbox Group20, Section16/바텀시트 텍스트12, Tab→Infobox / Card16, Image Area 후24 등 코드에 명시된 조합과 토큰|
