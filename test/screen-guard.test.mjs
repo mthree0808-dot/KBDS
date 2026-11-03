@@ -7,7 +7,7 @@ import path from 'node:path';
 import {auditScreen, screenRules as rules, screenAuditScript, guardBuildScript} from '../src/screen-guard.mjs';
 
 const frames = (id, name, parentId, extra = {}) => ({id, name, parentId, type:'FRAME', visible:true, opacity:1,
-  layoutMode:'VERTICAL', layoutPositioning:'AUTO', width:390, height:40, itemSpacing:0, fills:[], ...extra});
+  layoutMode:'VERTICAL', layoutPositioning:'AUTO', width:390, height:40, itemSpacing:0, paddingTop:0,paddingRight:0,paddingBottom:0,paddingLeft:0, fills:[], ...extra});
 const component = (id,name,parentId,extra={}) => frames(id,name,parentId,{type:'INSTANCE',component:{key:`key-${name}`},...extra});
 const fill = key => [{type:'SOLID',visible:true,opacity:1,color:{r:1,g:1,b:1},boundVariables:{color:{type:'VARIABLE_ALIAS',id:key}}}];
 function snapshot(items) {
@@ -171,7 +171,7 @@ test('Section gap is 16, while bottom sheet text exception is 12',()=>{
   assert.equal(check(s).errors.length,0);
 });
 test('Tab to Infobox Card requires 16 including token connection',()=>{
-  const s=add(page(),frames('g','Container','body',{itemSpacing:24}),component('tab','Tab','g'),component('info','Infobox / Card','g'));
+  const s=add(page(),frames('g','Tab / Infobox','body',{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:24}),component('tab','Tab','g'),component('info','Infobox / Card','g'));
   assert.ok(codes(s).includes('GAP'));
   s.items.find(n=>n.id==='g').itemSpacing=16;assert.ok(codes(s).includes('GAP_TOKEN'));
   s.items.find(n=>n.id==='g').boundVariables={itemSpacing:{id:rules.spacing[16]}};assert.equal(check(s).errors.length,0);
@@ -319,4 +319,56 @@ test('an explicit dialog pattern cannot pass when Dialog itself is absent',()=>{
   const s=snapshot([frames('root','화면',null,{fills:fill(rules.colors.white)}),frames('dim','Dimmed','root'),component('home','HomeIndicator','root',{fills:fill(rules.colors.elevated).map(p=>({...p,visible:false}))})]);
   assert.ok(codes(s,{screenType:'dialog',dialogPattern:'phone-details'}).includes('DIALOG_INSTANCE'));
   assert.ok(codes(finalPhoneDialog(),{dialogPattern:'unknown'}).includes('CONTRACT'));
+});
+
+function containerPage(single=false) {
+  const s=page();
+  const padding=(top,bottom)=>({paddingTop:top,paddingBottom:bottom,paddingLeft:20,paddingRight:20,
+    boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},...(top?{paddingTop:{id:rules.spacing[top]}}:{}),...(bottom?{paddingBottom:{id:rules.spacing[bottom]}}:{})}});
+  if(single)return add(s,frames('c1','Container','body',padding(24,32)));
+  return add(s,frames('c1','Container 1','body',padding(24,0)),frames('c2','Container 2','body',padding(0,0)),frames('c3','Container 3','body',padding(0,32)));
+}
+test('BODY owns no padding; first and last containers own 24 and 32',()=>{
+  for(const s of [containerPage(),containerPage(true)])assert.equal(check(s).errors.length,0);
+  for(const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft']){
+    const s=containerPage();s.items.find(n=>n.id==='body')[field]=20;assert.ok(codes(s).includes('BODY_PADDING'));
+  }
+});
+test('container position and spacing tokens cannot be replaced by BODY padding',()=>{
+  for(const [id,field,value]of [['c1','paddingTop',0],['c2','paddingTop',24],['c2','paddingBottom',32],['c3','paddingBottom',0]]){
+    const s=containerPage();s.items.find(n=>n.id===id)[field]=value;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+  }
+  const s=containerPage();delete s.items.find(n=>n.id==='c1').boundVariables.paddingTop;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING_TOKEN'));
+});
+test('ordinary containers require 20px insets and bindings',()=>{
+  const s=containerPage();s.items.find(n=>n.id==='c2').paddingLeft=0;assert.ok(codes(s).includes('BODY_CONTAINER_INSET'));
+  const t=containerPage();delete t.items.find(n=>n.id==='c2').boundVariables.paddingRight;assert.ok(codes(t).includes('BODY_CONTAINER_PADDING_TOKEN'));
+});
+test('full-width StepIndicator wrapper uses zero inset but keeps first top24',()=>{
+  const s=containerPage();const c=s.items.find(n=>n.id==='c1');c.paddingLeft=c.paddingRight=0;add(s,component('steps','StepIndicator','c1'));
+  assert.equal(check(s).errors.length,0);c.paddingLeft=20;assert.ok(codes(s).includes('BODY_CONTAINER_INSET'));
+});
+function selectorPage(kind='Tab',variant='2depth') {
+  const s=containerPage(true),c=s.items.find(n=>n.id==='c1');
+  if(kind==='Tab'&&variant==='1depth')c.paddingLeft=c.paddingRight=0;
+  const gap=kind==='Chip'?8:24;
+  return add(s,frames('selector-group',`${kind} / Contents`,'c1',{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:gap,boundVariables:{itemSpacing:{id:rules.spacing[gap]}}}),
+    component('selector',kind,'selector-group',{componentProperties:{variant:{value:variant}}}),frames('contents','Contents','selector-group'));
+}
+test('both Tab depths, Segment and Chip require one actual following-content group',()=>{
+  for(const [name,variant]of [['Tab','1depth'],['Tab','2depth'],['Segment','basic'],['Chip','single']])assert.equal(check(selectorPage(name,variant)).errors.length,0);
+  const s=selectorPage();s.items.find(n=>n.id==='contents').parentId='c1';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+});
+test('renaming an ungrouped selector and flattening it into Container do not pass',()=>{
+  const s=selectorPage();s.items.find(n=>n.id==='selector-group').name='Container';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+  const t=selectorPage();t.items.find(n=>n.id==='selector-group').layoutMode='NONE';assert.ok(codes(t).includes('SELECTOR_CONTENT_GROUP'));
+});
+test('notices are full-width even when their Accordion is inside a wrapper',()=>{
+  const s=containerPage();const c=s.items.find(n=>n.id==='c3');c.paddingLeft=c.paddingRight=0;
+  add(s,component('notice','Accordion','c3'),textNode('notice-title','알려드립니다','notice'));
+  assert.equal(check(s).errors.length,0);c.paddingRight=20;assert.ok(codes(s).includes('BODY_CONTAINER_INSET'));
+});
+test('Popup Body and native Slot padding are outside the literal BODY migration',()=>{
+  const s=pdf();s.items.find(n=>n.id==='body').paddingTop=40;s.items.find(n=>n.id==='slot').paddingLeft=20;
+  assert.equal(check(s).errors.length,0);
 });

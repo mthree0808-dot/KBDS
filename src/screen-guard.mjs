@@ -72,6 +72,27 @@ export function auditScreen(snapshot, contract = {}, rules) {
   if (reachable.size !== items.length) fail('SNAPSHOT_TREE', root, '루트와 연결되지 않은 노드 또는 순환 계층이 있습니다');
   if (errors.length) return {status: 'BLOCKED', errors, checked, ruleVersion: rules?.version};
   const roots = kids(root);
+  // Literal ## BODY wrappers follow the current page rule, including when
+  // nested in a legacy template. Native Popup Body / component Slot padding
+  // is a different scope and is not rewritten by this rule.
+  for (const body of items.filter(n=>n.type==='FRAME'&&n.name==='## BODY'&&visible(n))) {
+    for (const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft']) if (!near(body[field],0)) fail('BODY_PADDING',body,'## BODY의 상하좌우 padding은 모두0px입니다');
+    const containers=kids(body).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE'&&/^Container(?: [1-9]\d*)?$/.test(n.name));
+    containers.forEach((n,index)=>{
+      if (n.type!=='FRAME'||n.layoutMode!=='VERTICAL') fail('BODY_CONTAINER_LAYOUT',n,'BODY의 Container는 실제 Vertical Auto Layout 프레임입니다');
+      const fullWidth=items.some(c=>visible(c)&&within(c,a=>a.id===n.id)&&(c.name==='StepIndicator'||c.name==='Infobox / FullWidth'||c.name==='알려드립니다'||c.name==='Tab'&&c.componentProperties?.variant?.value==='1depth'||c.type==='INSTANCE'&&c.name==='Accordion'&&items.some(t=>t.type==='TEXT'&&t.characters?.trim()==='알려드립니다'&&within(t,a=>a.id===c.id))));
+      for(const field of ['paddingLeft','paddingRight']) {
+        const value=fullWidth?0:20;
+        if(!near(n[field],value)) fail('BODY_CONTAINER_INSET',n,`${fullWidth?'전폭':'일반'} Container의 ${field}=${value}px 필요`);
+        if(value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
+      }
+      for (const [field,value]of [['paddingTop',index===0?24:0],['paddingBottom',index===containers.length-1?32:0]]) {
+        if (!near(n[field],value)) fail('BODY_CONTAINER_PADDING',n,`${field}: ${value}px 필요`);
+        if (value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
+      }
+    });
+    checked.push({kind:'body-container-padding',nodeId:body.id,containers:containers.map(n=>n.id)});
+  }
   const inferred = roots.some(n => ['Dialog','Dialog Area'].includes(n.name)) ? 'dialog'
     : roots.some(n => n.name === 'BottomSheet') ? 'bottom-sheet'
     : roots.some(n => n.name === 'Popup') ? 'popup'
@@ -215,6 +236,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
   }
   const stem = n => n.type === 'TEXT' ? 'Text' : n.type === 'INSTANCE' ? n.name.split(' / ')[0] : n.name;
   const repeatable = new Set(['Text', 'TextList', 'InputField', 'DataList', 'Card', 'Data Block', 'Radio', 'Checkbox', 'List', 'Accordion']);
+  const selectorName = n => n.type==='INSTANCE' && /^(Tab|Segment|SegmentedControl|Chip)(?: \/ .+)?$/.test(n.name) ? n.name.split(' / ')[0] : null;
   // Bottom-pinned consent is one composite. Detect flattened/renamed versions
   // as well, rather than checking only a group that already has the right name.
   const footers = items.filter(n => n.type === 'FRAME' && ['Footer', '## FOOTER'].includes(n.name));
@@ -239,6 +261,10 @@ export function auditScreen(snapshot, contract = {}, rules) {
   }
   for (const n of items.filter(n => n.type === 'FRAME' && authored(n) && visible(n))) {
     const cs = kids(n).filter(c => visible(c) && c.layoutPositioning !== 'ABSOLUTE');
+    for (const selector of cs.filter(selectorName)) {
+      const prefix=selectorName(selector);
+      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||!n.name.startsWith(`${prefix} / `)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'Tab·Segment·Chip은 후속 콘텐츠와 실제 Vertical / Fill·Hug / AUTO 복합 그룹으로 묶고 구조에 맞게 명명합니다');
+    }
     if (n.name === 'ConsentFinal / StickyButton') consentComposite(n);
     if (!cs.length) continue;
     if (n.name.endsWith(' Group') && !n.name.includes(' / ')) {

@@ -38,6 +38,8 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |항목|자동 검사|
 |---|---|
 |스냅샷|전체 수집, 중복 ID, 누락 부모·순환/분리 계층|
+|BODY/Container|BODY 네 방향padding0, 첫/마지막 Container 상24·하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
+|선택 UI 그룹|Tab·Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 복합 부모·명칭·순서|
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
 |BG|PDF Title Area·body의 light-gray, 문서·화면 white, 실제 변수 key·Paint 노출·opacity·레이어 노출|
 |HomeIndicator|elevated 변수 연결, Dialog만 배경 Paint 숨김, 기타 화면 노출|
@@ -78,3 +80,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 ### 대표전화·응답코드 최종 Dialog
 
 공통 오류 최종 틀은 `{"screenType":"dialog","dialogPattern":"phone-details"}`로 명시할 수 있습니다. 실제 alertAccordion Dialog와 대표전화 블록이 있는 경우에도 자동으로 검사합니다. 일반 단순 Dialog에는 이 내용을 강제하지 않습니다. 원형의 자세한 제목/설명 스타일·그림자·아이콘 크기·예시가 아닌 실제 응답코드는 독립 명세와 기획을 함께 직접 대조합니다.
+
+### BODY 전폭 판정의 범위
+
+자동 검사는 실제 이름과 공개 variant로 StepIndicator·Tab(1depth)·Infobox / FullWidth 및 알려드립니다 제목을 가진 Accordion을 식별한다. Divider가 문서 내부인지 화면 전폭인지, 일반 본문 내부 래퍼의 중복 여백과 선택 UI가 제어하는 정확한 콘텐츠 범위는 기획·실제 계층으로 직접 확인한다. 검사를 통과시키기 위해 네이티브 컴포넌트 내부 padding이나 이름을 바꾸지 않는다.

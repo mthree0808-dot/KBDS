@@ -23,6 +23,8 @@
 
 ## 누락을 막는 핵심 확인
 
+- `## BODY`는 padding0이다. 일반 Container 좌우20px·전폭 UI 외부 래퍼 좌우0px, 첫 Container 상24px·마지막 하32px(하나면 둘 다)를 적용한다. 과거 BODY 패딩·상단40/16 예외보다 새 규칙을 우선하며 Popup Body·BottomSheet Slot·PDF·원형 내부는 구분한다.
+- Tab(1depth·2depth)·Segment·Chip은 후속 콘텐츠와 실제 Vertical·Fill/Hug·AUTO 복합 그룹으로 묶는다. `Tab / Contents` 등 실제 구성으로 명명하고 기존 조합별 gap을 유지한다. 전폭 UI와 일반 본문이 섞이면 외부 좌우0px·본문 래퍼20px로 분리한다.
 - PDF: `Body > Title Area`와 `Body > body`는 각각 `background/neutral/light-gray` Fill을 연결·노출한다. 흰색 아트보드·PDF Document와 구분한다. BG 변수 key, Paint visible/opacity, 레이어 노출과 렌더까지 확인한다.
 - CTA: Label 문구는 원형 가로 Hug / WIDTH_AND_HEIGHT를 유지한다. 고정폭 49px 등으로 덮어쓰지 않는다.
 - 서체: 판정 단위는 실제 Text다. 숫자·숫자 서식만 있으면 Pretendard, 문자와 섞인 한 Text는 KBFG Text다. 하이픈이 있는 전화번호도 숫자다. 더미 라벨은 편집 가능한 Pretendard SemiBold를 보존한다.

@@ -1,5 +1,15 @@
 # 작업 실행 절차
 
+## BODY·Container 외곽과 선택 UI 그룹 (2026-11-03 최종)
+
+제작 전에 [현재 독립 명세](sources/designer-ui-rules.md#body-무패딩container-여백선택-ui-복합-그룹-2026-11-03-최종-변경)를 적용한다. 이 문서 아래에 남은 과거 BODY padding24/20/32·상단40/16·전폭 분기와 Tab/Infobox 평탄 배치 문구보다 이 규칙이 우선한다.
+
+- `## BODY` padding은 네 방향 모두0이다. 일반 Container 좌우20px, StepIndicator·Tab(1depth)·알려드립니다 등 전폭 외부 래퍼는 좌우0px다. 혼합 Container는 외부0px·일반 본문 내부 래퍼20px로 구성한다.
+- 첫 Container 상단24px, 마지막 Container 하단32px를 각각 spacing/3xl·5xl에 연결한다. 하나면 둘 다 적용하고 중간 Container의 외곽 상하 패딩은0이다. 컴포넌트 원형 내부 패딩과 Popup Body·BottomSheet Slot·PDF 문서는 별도 범위다.
+- Tab(1depth·2depth)·Segment·Chip과 직후 콘텐츠를 실제 Vertical·Fill/Hug·AUTO 복합 그룹으로 묶는다. `Tab / Contents` 등 실제 구성에 맞게 명명하며 기존 조합별 gap·공개 옵션·문구·선택 상태를 보존한다.
+- 참조3411:3607에서는 `Tab / Contents` 계층만 재사용하고, 이전 BODY 하단32와 첫 Container 상단0은 복제하지 않는다. BODY0·Container 위치별 패딩·토큰·전폭 판정과 복합 그룹의 실제 부모를 검사한다.
+
+
 ## 공통 오류 Dialog 최종 틀 (2026-11-03)
 
 [독립 보존 명세](sources/designer-ui-rules.md#공통-오류대표전화자세히보기-dialog-최종-틀-2026-11-03-독립-보존)를 적용합니다. Dialog Area Fill/Fill·중앙 정렬·상단34px(HomeIndicator 높이) 보정과 HomeIndicator AUTO, Dialog Fixed320/Hug, Slot > Item Group(gap8) + 대표전화 Title / Text(gap4)의 gap16, Dialog > Slot/Accordion/ButtonGroup의 gap20을 구분합니다. 번호는 Pretendard SemiBold16/primary·링크 없음, Accordion solid/standard/small/expanded true입니다. 참조4029:1355의 삭제에 의존하지 않고 문구·번호·응답코드는 실제 기획대로 적용하며 다른 단순 Dialog에 블록을 임의 추가하지 않습니다.
@@ -31,7 +41,7 @@
 ## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
 
 - **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
-- 구조는 `## BODY > Container 1 > Tab, Infobox / Card`를 유지하고, 두 직계 자식을 배치하는 Container 1의 실제 Auto Layout `itemSpacing`에 16px 토큰을 연결한다. 별도 Container·빈 프레임·패딩으로 간격을 대신하거나 중복하지 않는다.
+- **현재 복합 구조**: `## BODY > Container 1 > Tab / Infobox` 안에서 Tab과 후속 본문을 실제로 묶고 그 사이 gap16px를 연결한다. 전폭 Tab(1depth)은 외부 좌우0px, 일반 본문 래퍼는 좌우20px를 적용한다. Container 첫·마지막 상하 패딩은 문서 상단 2026-11-03 규칙을 따른다. 이름만 붙이거나 별도 Container로 분리하지 않는다.
 - **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Data Block·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
 - 완료 시 부모 gap과 토큰 연결뿐 아니라 Tab 하단 경계에서 Infobox / Card 상단 경계까지 실제 16px인지 확인한다. KB국민인증서 이용내역의 최근 제작 8개 화면(작업 파일 `LHQQGe8DG3PWQL0mNUaBkr`, 섹션 `2007:5670`)에 같은 기준을 적용한다.
 
@@ -394,7 +404,7 @@ Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Gro
 
 2026-10-19 승인 패턴: InputField 뒤 보조 이동 버튼은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:6834`의 `InputField / Button Area`(gap 12px)와 우측 정렬 Button Area / TextButton secondary·small·suffix true·underline false를 매핑합니다. 도움말·이용 방법 선택 바텀시트는 `KFlklMvGmg0MXGfAXvpprn / 185:14891`의 테두리 없는 List 패턴을 적용하고, 목록 gap 0·List padding 12/0·기본 Item / Prefix(bgIcon)·Suffix pageIndicator를 확인합니다. 기획 본문이 있으면 Text로 보존하고 목록과 gap 16px로 배치합니다. 아이콘은 작업자가 직접 지정하므로 기본 인스턴스만 두며, 전체 Card 패턴이나 일반 선택 바텀시트의 gap 8px를 이 경우에 적용하지 않습니다. 상세 수치와 키는 원문 및 실측 디자인 규칙을 따릅니다.
 
-2026-10-19 승인 규칙: 일반 콘텐츠의 Tab 직후는 실제 간격 24px(`spacing/3xl`)로 계획·검수합니다. Tab + Infobox / Card는 `## BODY > Container 1 > Tab, Infobox / Card`로 구성하고 두 컴포넌트를 Container 1의 직계 자식으로 둡니다. `Tab / Infobox` 아래에 별도 Container들을 넣는 구조는 금지합니다. 해당 Tab → Infobox / Card의 Container 내부 gap은 최신 사용자 변경에 따라 16px(`spacing/xl`)이며, BODY의 다른 구간 기본 gap 32px와 구분하고, 다음 독립 본문 블록은 형제 Container 2부터 이어갑니다. 고객명~인증완료 등 건별 조회 내역은 와이어프레임의 평면 DataList Group·상하 Divider 대신 승인 참조 `0P0j17OPstNhC3LWjBdBGy / 4:979, 4:994`의 Data Block으로 치환합니다. 문구·값·순서·건수는 유지하고 기획에 없는 Title·툴팁·아이콘은 숨깁니다. 박스 padding·radius 20px, 내부 목록 및 반복 박스 gap 12px의 DS 토큰 연결을 검수합니다. 완료 화면 D18·D19와 특수 Feedback 규칙은 유지합니다.
+- **현재 복합 구조**: `## BODY > Container 1 > Tab / Infobox` 안에서 Tab과 후속 본문을 실제로 묶고 그 사이 gap16px를 연결한다. 전폭 Tab(1depth)은 외부 좌우0px, 일반 본문 래퍼는 좌우20px를 적용한다. Container 첫·마지막 상하 패딩은 문서 상단 2026-11-03 규칙을 따른다. 이름만 붙이거나 별도 Container로 분리하지 않는다.
 
 화면 목적과 모드가 같은 후보를 선택하고 선택 근거를 기록합니다. 공통·안내·약관·선택·바텀시트를 구분합니다. `진행중`은 확정 규칙으로 간주하지 않습니다. 대상 템플릿의 실제 프레임을 스크린샷으로 확인합니다.
 
