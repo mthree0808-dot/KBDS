@@ -1,5 +1,9 @@
 # 실측 디자인 규칙
 
+## 공통 오류 Dialog 최종 틀 (2026-11-03)
+
+[독립 보존 명세](sources/designer-ui-rules.md#공통-오류대표전화자세히보기-dialog-최종-틀-2026-11-03-독립-보존)를 적용합니다. Dialog Area Fill/Fill·중앙 정렬·상단34px(HomeIndicator 높이) 보정과 HomeIndicator AUTO, Dialog Fixed320/Hug, Slot > Item Group(gap8) + 대표전화 Title / Text(gap4)의 gap16, Dialog > Slot/Accordion/ButtonGroup의 gap20을 구분합니다. 번호는 Pretendard SemiBold16/primary·링크 없음, Accordion solid/standard/small/expanded true입니다. 참조4029:1355의 삭제에 의존하지 않고 문구·번호·응답코드는 실제 기획대로 적용하며 다른 단순 Dialog에 블록을 임의 추가하지 않습니다.
+
 ## 하단 약관·CTA 구조 (2026-11-03)
 
 [원문 「하단 고정 약관과 CTA의 복합 그룹」](sources/designer-ui-rules.md#하단-고정-약관과-cta의-복합-그룹-2026-11-03-사용자-확정)을 적용합니다. 참조4023:518의 Footer 내부 ConsentFinal / StickyButton만 기준으로 삼습니다. Vertical·Fill/Hug·AUTO·gap24·padding0인 복합 그룹 안에 ConsentFinal 래퍼(좌우20px·gap0) > 실제 ConsentFinal, 실제 StickyButton을 순서대로 배치합니다. 기획 문구·선택/버튼 상태는 유지하고 다른 참조 영역을 전역 상속하지 않습니다. 공통 검사와 재발 방지 테스트를 함께 적용합니다.

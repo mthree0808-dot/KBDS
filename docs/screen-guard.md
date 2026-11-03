@@ -41,7 +41,8 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
 |BG|PDF Title Area·body의 light-gray, 문서·화면 white, 실제 변수 key·Paint 노출·opacity·레이어 노출|
 |HomeIndicator|elevated 변수 연결, Dialog만 배경 Paint 숨김, 기타 화면 노출|
-|오버레이|이전 화면 배경 재현 금지, 바텀시트 AUTO/Absolute 구분|
+|오버레이|이전 화면 배경 재현 금지, 바텀시트 AUTO/Absolute 구분, Dialog Area의 중앙 정렬·안전영역 보정|
+|대표전화 오류 Dialog|최종320px Dialog·Item Group·16/8/4/20 간격, 번호 SemiBold16/primary/링크 없음, 펼친 자세히보기|
 |컴포넌트|실제 mainComponent key, 명시한 최신 key·공개 옵션과 일치|
 |CTA|BoxButton/TextButton의 Label 문구 가로 Hug·WIDTH_AND_HEIGHT|
 |하단 약관·CTA|Footer 직계 ConsentFinal / StickyButton 존재, 실제 래퍼·인스턴스·순서, gap24, 좌우padding20, AUTO·Fill/Hug; 이름만 바꾸거나 ConsentGroup으로 대체한 경우 차단|
@@ -73,3 +74,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 규칙을 변경할 때 MD·기계 규칙·회귀 테스트를 함께 갱신한다. `node --test`는 BG 누락/숨김, 고정 CTA, 숫자·혼용 서체, 반복/혼합 그룹, 간격·토큰, 스냅샷 오류와 생성 스크립트의 실행·실패 차단을 검사한다. 테스트 시간은 Figma 제작 전체 시간이나 연결 속도를 보장하는 수치가 아니다.
 
 일반 `verify`도 공통 검사를 실행한 뒤 기존 참조 비교와 현재 스크린샷 증거를 검사한다. 구조 통과 후 같은 화면을 변경하지 않았다면 반복 수집하지 않는다. 시각 수정이 발생하면 해당 결과와 영향 범위만 다시 확인한다. 별도 보고서는 사용자 요청이 있을 때만 생성한다.
+
+### 대표전화·응답코드 최종 Dialog
+
+공통 오류 최종 틀은 `{"screenType":"dialog","dialogPattern":"phone-details"}`로 명시할 수 있습니다. 실제 alertAccordion Dialog와 대표전화 블록이 있는 경우에도 자동으로 검사합니다. 일반 단순 Dialog에는 이 내용을 강제하지 않습니다. 원형의 자세한 제목/설명 스타일·그림자·아이콘 크기·예시가 아닌 실제 응답코드는 독립 명세와 기획을 함께 직접 대조합니다.

@@ -1,5 +1,61 @@
 # UI Design & Code Generation Rules
 
+## 공통 오류·대표전화·자세히보기 Dialog 최종 틀 (2026-11-03 독립 보존)
+
+**적용 조건과 우선순위**: [최종 승인 4029:1355](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4029-1355)의 공통 오류 안내 + 대표전화 + 응답코드 자세히보기 유형입니다. 이 절은 아래의 이전 대표전화 Dialog 규칙에서 **상단 그룹명·320px 폭·Dialog Area 배치·번호 굵기**를 갱신합니다. 참조 화면은 추후 삭제될 수 있으므로 아래 독립 명세로 제작하며, 삭제된 노드를 다시 찾거나 주변 화면으로 추정 대체하지 않습니다. 일반 단순 Dialog에 대표전화·응답코드를 무조건 추가하라는 뜻은 아닙니다. 컴포넌트는 계속 지정 최신 MO 라이브러리에서 직접 import합니다.
+
+### 실제 계층
+
+```text
+화면ID_기획 화면명 (390×844 / Vertical / gap0 / padding0 / white)
+├─ Dimmed (Absolute / 화면 전체)
+├─ Dialog Area (Vertical / Fill·Fill / AUTO / gap0 / 양 축 CENTER)
+│  └─ Dialog (실제 인스턴스 / alertAccordion / 가로 Fixed320·세로 Hug / AUTO)
+│     ├─ Slot (Fill·Hug / Vertical / gap16 / padding0)
+│     │  ├─ Item Group (Vertical / Fill·Hug / gap8 / padding0)
+│     │  │  ├─ Item / Slot (variant: title) > Title
+│     │  │  └─ Item / Slot (variant: description) > Description
+│     │  └─ Title / Text (Vertical / Fill·Hug / gap4 / padding0)
+│     │     ├─ Title / Element > 대표전화
+│     │     └─ Text (Vertical / Fill·Hug / gap0 / padding0) > 번호 Text
+│     ├─ Accordion (solid / standard / small / expanded:true)
+│     │  ├─ Title Area > 자세히보기 + 원형 펼침 아이콘
+│     │  └─ Expand Area > Slot-contents > 응답코드 Text
+│     └─ ButtonGroup (count:1 / orientation:vertical / ratio:full)
+│        └─ BoxButton (primary / medium) > Label > 버튼명 (Hug)
+├─ HomeIndicator (실제 iOS 인스턴스 / Fill·Fixed34 / AUTO / 배경 Fill 숨김)
+└─ StatusBar (실제 iOS/light 인스턴스 / Absolute / 상단0)
+```
+
+### 화면·안전영역·Dialog 외곽
+
+- 루트는390×844, Vertical, 가로·세로 Fixed, gap·padding0, `background/neutral/white`(key `f90471c40d02473a064c0edcaa006d4f8d251b9d`)입니다. Dimmed는 전체 영역 Absolute·양 축 Stretch이며 `background/overlay/dimmed`(key `5b0afe68fd2b090238f21dd738144bc98626bde1`), 승인 실측 검정 Paint opacity0.2를 유지합니다. 이전 화면·Popup·이미지를 Dimmed 밑에 재현하지 않습니다.
+- `Dialog Area`와 `HomeIndicator`는 루트의 연속된 AUTO 자식입니다. Dialog Area는 가로·세로 Fill, 양 축 CENTER, gap0, padding **34px 0 0 0**, Fill 없음, clipsContent true입니다. 34px는 현재 iOS HomeIndicator 높이를 보정하는 승인값이며 임의 spacing 토큰을 만들지 않습니다. 높이는 루트844−HomeIndicator34=810px입니다. 이렇게 상단 보정을 주면 Dialog 중심이 전체 화면의 중앙에 오므로 Dialog를 Absolute로 띄워 y256px를 고정 복제하지 않습니다. 원형 높이나 화면 크기가 달라지면 같은 관계를 재계산합니다.
+- Dialog는 원형 `variant: alertAccordion`, `hasCancelButton: false`, 가로 **Fixed320px**·세로 Hug·AUTO입니다. 좌우 여백은390 기준 각각35px, 내용 폭은280px입니다. 내부 세 형제 `Slot → Accordion → ButtonGroup`의 간격은 **20px(`spacing/2xl`)**, padding은 **24px 20px 20px**, radius **24px(`radius/3xl`, key `641774e5cc4a6ba633a2a20a26caaa8901774f94`)**, Fill은 `background/neutral/elevated`입니다. 그림자와 변수·효과는 원형을 상속합니다. 실측 높이332px는 이 예문에서 계산된 결과이며 고정 높이가 아닙니다.
+- HomeIndicator는 `os:iOS`, AUTO·가로 Fill·높이34px를 유지합니다. **elevated 변수 연결과 레이어·막대는 보존하고 배경 Paint만 visible:false**입니다. StatusBar는 Absolute·x0/y0, iOS/light 원형44px이며 시스템 서체를 제품 서체로 덮어쓰지 않습니다.
+
+### Slot·문구·대표전화
+
+- Slot은 Vertical·Fill/Hug·padding0·**gap16px(`spacing/xl`)**입니다. 두 형제는 반드시 **상단 `Item Group`과 하단 `Title / Text`**입니다. 예전의 상단 `Title / Text` 명명은 이 최종 패턴에서 `Item Group`으로 변경합니다. Title·Description·전화번호를 Slot에 평탄하게 나열하지 않습니다.
+- Item Group은 실제 두 `Item / Slot`을 title → description 순서로 묶고, 내부 **gap8px**입니다. 참조의 이8px에는 변수 연결이 없었던 사실을 기록합니다. 신규 제작 래퍼에는 확인한 최신 `spacing/md`를 연결하되 원형 내부를 일괄 수정하지 않습니다. Title은 **KBFG Text Bold16 / 행간22 / primary**, Description은 **KBFG Text Light14 / 행간20 / tertiary**입니다. 예문은 ‘인증 가능시간이 만료되었습니다.’와 ‘처음부터 다시 시도해주세요.’이며 실제 기획 원문·문장부호를 그대로 적용합니다. Title의 마침표 자동 추가·삭제 규칙은 되살리지 않습니다.
+- 대표전화 블록은 `Title / Text > Title / Element, Text > 번호 Text`이며 **제목→번호 gap4px(`spacing/xs`, key `7e1948ea051a28967a1dccd47be5e3349f810380`)**입니다. Title / Element 뒤 일반16px 규칙보다 이 전화 블록의4px 예외가 우선합니다. 각 래퍼는 가로 Fill·세로 Hug·padding0이고, Text 래퍼 내부 gap0입니다.
+- ‘대표전화’ 제목은 실제 Title / Element의 **KBFG Text Medium14 / 행간20 / primary**, tooltip·optional·hasSuffix는 false입니다. 번호는 **Pretendard SemiBold16 / 행간22 / primary**, 숫자용 Text Style **`Dynamic/Body/Numeric/2️⃣ md∙16∙Bold`(key `4f0d344ab0612acddd8acedee57db7177f112f8b`)**를 적용합니다. 스타일 이름의 Bold를 KBFG Bold나 다른 숫자 굵기로 해석하지 말고 실제 Pretendard SemiBold를 확인합니다. 밑줄·하이퍼링크는 추가하지 않습니다. 번호는 한 Text의 Fill 폭·내용 높이를 유지하고 원문 길이에 따라 자연스럽게 줄바꿈합니다.
+- 예시 번호 ‘1588-9999, 1599-9999, 1644-9999’는 해당 기획에 있는 경우에만 사용합니다. 숫자와 쉼표·하이픈·공백은 Pretendard 판정을 바꾸지 않습니다. Description에 합치거나, 번호 줄 수·높이를 고정하거나, 이 예시를 모든 오류 화면의 번호로 복사하지 않습니다.
+
+### 자세히보기·버튼
+
+- Accordion은 Slot 밖, ButtonGroup 앞의 Dialog 직계 형제입니다. **type:solid / variant:standard / size:small / expanded:true**, hasContentDetail true·hasDivider true·hasTooltip false·hasNum false·hasContentEnd false·hasPrefix false를 기준으로 합니다. ‘자세히보기’는 원형 KBFG Bold14입니다. 회색 면은 `surface/neutral/tertiary-muted`(key `59093c4bcca6ee8f9e5f9af90d27f568edcef5b5`), 원형 radius/sm을 유지합니다. hasDivider가 true라는 이유로 별도 수동 선을 추가하지 않습니다.
+- Title Area padding16px·gap8px, Expand Area padding8px 0 16px, Slot-contents padding0 16px·gap8px·Fill/Hug입니다. 응답코드 Text는 **KBFG Text Light14 / 행간20 / tertiary**, 가로 Fill·세로 Hug입니다. 대표전화 블록→Accordion, Accordion→ButtonGroup은 각각 Dialog의20px gap으로 결정하며 여백을 중복하지 않습니다.
+- 접힘 아이콘은 참조에서 IconButton 공개 size24·원형 연결을 유지하면서 표시 영역20×20px인 override가 관찰됐습니다. 이를 size20 variant라고 추정하거나 아이콘을 직접 그리지 않습니다. 이 표시 차이는 승인 사례의 관찰값이며 최신 라이브러리의 실제 공개 옵션·표시 크기와 대조합니다.
+- `응답코드(???)`는 문서화를 위한 자리 표시자입니다. Text 레이어명에 남은 `UCWB1114`도 실제 기획 코드로 해석하지 않습니다. 실제 기획의 응답코드를 넣고, 기획에 응답코드·전화번호가 없는 유형에 이 블록을 임의 추가하지 않습니다.
+- ButtonGroup은 기본1개·vertical·full, 실제 BoxButton은 primary·medium·활성·prefix/suffix false입니다. 예시 문구 ‘확인’은 기획에 맞추며 Label과 문구의 Hug를 보존합니다. 버튼40px·Dialog332px 등의 실측값을 원형 sizing과 무관하게 고정하지 않습니다. 다른 버튼 수·행동은 해당 기획의 별도 사례로 확인합니다.
+
+### 삭제 후에도 사용할 근거와 완료 조건
+
+현재 확인한 원형 key는 Dialog(alertAccordion) `68b7371d2d3bf9d3fdcf2f52bfdcb1963ff5e8ad`, Item / Slot title `d086d26c587defca35a72bf9df269c9bd251fdec`, description `077e30767c65a0d9c494a39bf3e241a97066f759`, Title / Element `4fa94105877b4e3dad3e36f52b5be749deb2ce68`, Accordion(solid/standard/small/expanded) `b75540953d639bbf5cdc9004c703491241f405a9`, ButtonGroup `85c65e15331a78e6822055885794dd4fcc7bc1fe`, BoxButton(primary/medium) `0dc246bbb828b7b9f7eb6fddd20ed0ddfd5c8f16`입니다. 이 key들은 역할·variant 식별용 보존 근거이며 이후 최신 라이브러리 확인을 대체하지 않습니다. primary key는 `5d5ef4d44a87fb3a3a0f52b834b06f9243fc5232`, tertiary key는 `514c08e032007fe4475e6bbbd19a5617f562079f`입니다.
+
+제작·검수에서는 Dialog Area의 Fill·중앙 정렬·34px 안전영역 보정과 HomeIndicator AUTO, 실제 320px Dialog, Slot의 Item Group·대표전화 형제 구조, 8/16/4/20px 적용 계층, Pretendard SemiBold16·primary·밑줄/링크 없음, 펼친 Accordion과 응답코드 원문, CTA Hug를 함께 확인합니다. 공통 검사기는 이 Dialog Area와 전화·자세히보기 패턴을 식별하며 필요하면 `screenContract: {screenType:"dialog", dialogPattern:"phone-details"}`로 명시합니다. 원형 스타일·그림자·아이콘의 표시 차이·기획 원문·실제 렌더는 직접 확인합니다. 참조 삭제는 이 명세의 효력을 없애지 않으며 이번 작업은 문서·검사 갱신이지 화면 수정·삭제 작업이 아닙니다.
+
 ## 하단 고정 약관과 CTA의 복합 그룹 (2026-11-03 사용자 확정)
 
 - **참조 범위**: [승인 화면 4023:518](https://www.figma.com/design/9JLh1f258U8Ig06Y9DzKCk/?node-id=4023-518)의 **`Footer > ConsentFinal / StickyButton` 그룹만** 기준으로 사용합니다. 앞으로 약관 확인 영역이 화면 하단 CTA에 붙는 경우 아래 실제 계층을 적용합니다. 참조의 HEADER·BODY·Footer 외곽·HomeIndicator·Tooltip·화면 문구를 이번 규칙의 근거로 확대하지 않습니다.
@@ -165,16 +221,9 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 - 적용 범위는 위 조합의 두 구간입니다. Feedback 뒤 후속 콘텐츠의 외부 gap40px, 알려드립니다의 전폭10px Divider + Accordion(hasDivider:false) 구조, 원형 내부 간격·서체·아이콘 및 사용자 편집 상태는 유지합니다. 이 사례를 모든 Infobox나 모든 Feedback 앞뒤 간격의 일괄24px 변경으로 확대하지 않습니다.
 - 완료 검수에서 부모 itemSpacing과 `spacing/3xl` 연결, StepIndicator→후속 블록24px 및 Infobox→Feedback(해당 래퍼)24px를 실측하고, 외부 gap과 Empty State 내부 패딩을 구분합니다. 기존 사용자 수정 구조가 이미24px이면 유지하고 관련 없는 레이어를 재구성하지 않습니다.
 
-## 대표전화가 포함된 Dialog의 구조·서체·간격 (2026-10-28 사용자 확정)
+## 대표전화가 포함된 Dialog의 구조·서체·간격 (2026-10-28, 2026-11-03 갱신)
 
-- 승인 참조는 [대표전화 포함 Dialog 3138:28871](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-28871)입니다. **설명과 대표전화를 하나의 Description 문장으로 합치거나 동일한 14px Light 본문으로 처리하지 않습니다.** 대표전화가 기획에 있는 경우에만 아래 독립 블록으로 구성하고 실제 번호·문구는 해당 기획을 따릅니다.
-- **구조**: `Dialog > Slot` 안에 상단 제목·설명 블록과 대표전화 블록을 형제로 배치합니다. 대표전화 블록은 `Title / Text` Vertical Auto Layout이며, `Title / Element`(“대표전화”)와 `Text` Auto Layout(gap0) > 번호 Text로 구성합니다. 대표전화 제목을 번호와 같은 Text에 합치거나 Description 타입을 추가하여 대체하지 않습니다. Dialog와 하위 컴포넌트는 최신 라이브러리에서 새 인스턴스로 가져오며 승인 화면의 override를 복제하지 않습니다.
-- **위쪽 간격**: 상단 설명의 끝 → 대표전화 블록의 시작은 **16px(`spacing/xl`)**입니다. 실제 Slot의 두 블록 사이 itemSpacing으로 연결하며 padding·빈 프레임을 중복 가산하지 않습니다. **대표전화 제목 → 번호 Text는 4px(`spacing/xs`)**로 연결합니다. 일반 제목 뒤16px·반복 그룹24px 규칙을 이 승인된 전화 블록 내부에 적용하지 않습니다.
-- **상단 제목·설명 그룹핑 필수**: 대표전화가 노출되는 이 Dialog에서는 **대표전화 위의 `Title`과 설명 `Text`도 실제 하나의 Vertical Auto Layout `Title / Text`로 묶습니다.** 이 상단 그룹 내부 gap은 **8px(`spacing/md`)**입니다. 따라서 `Dialog > Slot`의 직계 자식은 **상단 `Title / Text`(Title + Text)**와 **하단 `Title / Text`(대표전화 Title / Element + 번호 Text)**인 두 형제 블록이며, 두 그룹 사이 gap은16px입니다. Title·Text·대표전화를 Slot에 평탄하게 세 항목으로 나열하거나, 대표전화 블록만 그룹핑한 상태는 실패입니다. 각 원형 컴포넌트·텍스트 스타일과 변수 연결은 보존하고 완료 검수에서 상단의 실제 그룹핑·부모 명칭·8px/16px/4px 계층을 함께 확인합니다.
-- **대표전화 제목**: 최신 `Title / Element`의 **KBFG Text / 14px / Medium / line-height20px**, 색상 **`text/neutral/primary`**를 유지합니다. optional·tooltip·suffix는 false입니다. 대응 Text Style은 `Dynamic/Body/sm∙14∙Medium`(key `87439f01ad7a7fbf6b1556036328a19d5f0ef75c`)이며 medium 변수 연결을 유지합니다.
-- **전화번호 (2026-10-29 교정)**: 숫자와 번호 구분 기호만 있는 번호 Text는 **Pretendard / 16px / line-height22px**, 색상 **`text/neutral/primary`**, 밑줄 없음으로 적용합니다. 굵기와 서체 연결은 해당 역할에 대응하는 최신 라이브러리 숫자용 Text Style·변수를 사용하며, KBFG Text 스타일(`Dynamic/Body/md∙16∙Bold`)을 번호의 기준으로 재사용하지 않습니다. 하이픈·쉼표·공백은 숫자 서식이므로 Pretendard 판정을 바꾸지 않습니다. 대표전화에 KBFG를 우선하던 예외는 삭제하며, 번호를 이유로 링크·전화 연결 동작을 임의 추가하지 않습니다.
-- **크기 모드·주변 영역**: 두 블록과 Text 래퍼는 가로 Fill·세로 Hug, 번호 Text는 가로 Fill·내용에 따른 높이 및 자연스러운 줄바꿈을 사용합니다. 참조의 280px 본문 폭에서 번호가 두 줄인 것을 고정 높이44px나 강제 개행으로 복제하지 않습니다. Dialog Slot → 별도 자세히보기 Accordion → ButtonGroup의 원형 관계와 간격은 유지합니다. 이 참조의 대표전화 블록 아래 Accordion과의 간격은 **20px(`spacing/2xl`)**이며 Dialog 제목·설명의 문장부호는 기획 원문을 따르고 HomeIndicator Fill 숨김 예외는 유지합니다. 참조의 다른 레이어 누락이나 문구를 규칙으로 상속하지 않습니다.
-- **완료 검수**: 설명→대표전화16px, 제목→번호4px, 번호→후속 Accordion20px의 실질 간격과 토큰, Title / Element 인스턴스·옵션, 제목14 KBFG Medium/primary·번호16 Pretendard/primary의 숫자용 Text Style·변수, Fill/Hug·줄바꿈·실제 번호·부모 명칭을 확인합니다. 대표전화 문구를 설명에 이어 붙이거나 상단 설명 스타일을 번호에 그대로 사용하는 것은 실패입니다. 이번 요청은 MD 규칙 갱신이며 기존 Figma 화면의 일괄 수정 완료를 의미하지 않습니다.
+이전 승인3138:28871의 대표전화 분리 원칙은 유지하며, 공통 오류·응답코드 자세히보기 조합은 문서 상단 **「공통 오류·대표전화·자세히보기 Dialog 최종 틀」**을 우선합니다. 상단은 두 Item / Slot을 묶은 **Item Group(gap8)**, 아래 대표전화는 **Title / Text(gap4)**이고 두 블록의 Slot gap은16px입니다. 번호는 **Pretendard SemiBold16 / primary**, Dialog는 **Dialog Area 안 Fixed320·Hug**로 적용합니다. 종전 상단 Title / Text 명명·일반 루트 직접 중앙 배치를 이 최종 패턴에 재사용하지 않습니다. 코드·번호·문장부호는 실제 기획을 따르고 HomeIndicator 배경 숨김은 유지합니다.
 
 ## 긴 문장 선택의 sentence SelectButton·링크 primary/medium (2026-10-28 사용자 확정)
 

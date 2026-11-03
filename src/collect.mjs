@@ -41,7 +41,9 @@ export async function collect(figma, config) {
       out.characters = n.characters;
       out.textAutoResize = n.textAutoResize;
       out.hasMissingFont = n.hasMissingFont;
-      out.segments = n.getStyledTextSegments(['fontName','fontSize','lineHeight','letterSpacing','textStyleId','fills','boundVariables']);
+      out.segments = n.getStyledTextSegments(['fontName','fontSize','lineHeight','letterSpacing','textStyleId','fills','boundVariables','textDecoration','hyperlink']);
+      out.textDecoration = typeof n.textDecoration === 'symbol' ? 'MIXED' : n.textDecoration;
+      out.hyperlink = typeof n.hyperlink === 'symbol' ? 'MIXED' : n.hyperlink;
       out.textAlignHorizontal = n.textAlignHorizontal;
     }
     items.push(out);

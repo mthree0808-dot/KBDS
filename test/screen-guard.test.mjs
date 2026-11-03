@@ -228,3 +228,51 @@ test('default color and gap token keys exist in the shared registry',()=>{
   const keys=new Set(registry.variables.map(v=>v.key));
   for(const key of [...Object.values(rules.colors),...Object.values(rules.spacing).filter(Boolean)])assert.ok(keys.has(key),key);
 });
+function finalPhoneDialog() {
+  const size={layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG'};
+  const g=value=>({itemSpacing:value,boundVariables:{itemSpacing:{id:rules.spacing[value]}}});
+  return snapshot([
+    frames('root','화면ID_공통 오류',null,{height:844,fills:fill(rules.colors.white)}),frames('dim','Dimmed','root',{type:'RECTANGLE',layoutPositioning:'ABSOLUTE'}),
+    frames('area','Dialog Area','root',{...size,layoutSizingVertical:'FILL',height:810,paddingTop:34,paddingRight:0,paddingBottom:0,paddingLeft:0,primaryAxisAlignItems:'CENTER',counterAxisAlignItems:'CENTER'}),
+    component('dialog','Dialog','area',{...size,layoutSizingHorizontal:'FIXED',width:320,...g(20),paddingTop:24,paddingRight:20,paddingBottom:20,paddingLeft:20,componentProperties:{variant:{value:'alertAccordion'}}}),
+    frames('slot','Slot','dialog',{type:'SLOT',...size,...g(16)}),frames('item-group','Item Group','slot',{...size,...g(8)}),
+    component('title-slot','Item / Slot','item-group',{componentProperties:{variant:{value:'title'}}}),textNode('title','인증시간이 만료되었습니다.','title-slot',{name:'Title'}),
+    component('desc-slot','Item / Slot','item-group',{componentProperties:{variant:{value:'description'}}}),textNode('description','다시 시도해주세요.','desc-slot'),
+    frames('phone','Title / Text','slot',{...size,...g(4)}),component('phone-label','Title / Element','phone',{componentProperties:{'tooltip#1':{value:false},'optional#1':{value:false},'hasSuffix#1':{value:false}}}),
+    textNode('label-text','대표전화','phone-label',{name:'Title'}),frames('numbers','Text','phone',{...size,itemSpacing:0}),
+    textNode('phone-text','1588-9999, 1599-9999, 1644-9999','numbers',{fills:fill(rules.colors.primary),textDecoration:'NONE',hyperlink:null,segments:[{fontName:{family:'Pretendard',style:'SemiBold'},fontSize:16,textStyleId:'numeric-bold'}]}),
+    component('accordion','Accordion','dialog',{componentProperties:{type:{value:'solid'},variant:{value:'standard'},size:{value:'small'},expanded:{value:'true'}}}),
+    component('buttons','ButtonGroup','dialog'),component('home','HomeIndicator','root',{height:34,fills:fill(rules.colors.elevated).map(p=>({...p,visible:false}))})
+  ]);
+}
+test('final phone-details Dialog Area and 8/16/4/20 hierarchy pass together',()=>assert.equal(check(finalPhoneDialog()).errors.length,0));
+test('Dialog Area cannot conceal a reconstructed background screen',()=>{
+  const s=finalPhoneDialog();add(s,frames('back','Previous screen','area'));assert.ok(codes(s).includes('DIALOG_AREA_CONTENT'));
+});
+test('final dialog centering compensates HomeIndicator height instead of fixed y',()=>{
+  for(const mutate of [s=>s.items.find(n=>n.id==='area').paddingTop=0,s=>s.items.find(n=>n.id==='home').layoutPositioning='ABSOLUTE',s=>s.items.find(n=>n.id==='area').height=844]){
+    const s=finalPhoneDialog();mutate(s);assert.ok(codes(s).includes('DIALOG_AREA_SAFE_AREA'));
+  }
+});
+test('old flattened title-description layout is blocked in the final phone pattern',()=>{
+  const s=finalPhoneDialog();s.items.find(n=>n.id==='item-group').name='Title / Text';assert.ok(codes(s).includes('DIALOG_PHONE_SLOT'));
+});
+test('phone block keeps SemiBold16 primary and no invented link',()=>{
+  for(const mutate of [n=>n.segments[0].fontName.style='Regular',n=>n.fills=fill(rules.colors.tertiary),n=>n.hyperlink={type:'URL',value:'tel:1588-9999'},n=>n.textDecoration='UNDERLINE']){
+    const s=finalPhoneDialog();mutate(s.items.find(n=>n.id==='phone-text'));assert.ok(check(s).errors.length);
+  }
+});
+test('details accordion stays expanded and separate from Slot',()=>{
+  const s=finalPhoneDialog();s.items.find(n=>n.id==='accordion').componentProperties.expanded.value='false';assert.ok(codes(s).includes('DIALOG_PHONE_ACCORDION'));
+  const t=finalPhoneDialog();t.items.find(n=>n.id==='accordion').parentId='slot';assert.ok(codes(t).includes('DIALOG_PHONE_ORDER'));
+});
+test('the final pattern is not forced onto unrelated simple dialogs',()=>{
+  const s=finalPhoneDialog();s.items.find(n=>n.id==='dialog').componentProperties.variant.value='alert';
+  s.items.find(n=>n.id==='dialog').width=350;s.items.find(n=>n.id==='phone-text').segments[0].fontName.style='Regular';
+  assert.equal(check(s).errors.length,0);
+});
+test('an explicit dialog pattern cannot pass when Dialog itself is absent',()=>{
+  const s=snapshot([frames('root','화면',null,{fills:fill(rules.colors.white)}),frames('dim','Dimmed','root'),component('home','HomeIndicator','root',{fills:fill(rules.colors.elevated).map(p=>({...p,visible:false}))})]);
+  assert.ok(codes(s,{screenType:'dialog',dialogPattern:'phone-details'}).includes('DIALOG_INSTANCE'));
+  assert.ok(codes(finalPhoneDialog(),{dialogPattern:'unknown'}).includes('CONTRACT'));
+});

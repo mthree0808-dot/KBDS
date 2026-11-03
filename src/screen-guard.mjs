@@ -72,11 +72,12 @@ export function auditScreen(snapshot, contract = {}, rules) {
   if (reachable.size !== items.length) fail('SNAPSHOT_TREE', root, '루트와 연결되지 않은 노드 또는 순환 계층이 있습니다');
   if (errors.length) return {status: 'BLOCKED', errors, checked, ruleVersion: rules?.version};
   const roots = kids(root);
-  const inferred = roots.some(n => n.name === 'Dialog') ? 'dialog'
+  const inferred = roots.some(n => ['Dialog','Dialog Area'].includes(n.name)) ? 'dialog'
     : roots.some(n => n.name === 'BottomSheet') ? 'bottom-sheet'
     : roots.some(n => n.name === 'Popup') ? 'popup'
     : roots.some(n => n.name === '## BODY') ? 'page' : null;
   const screenType = contract.screenType === 'auto' || !contract.screenType ? inferred : contract.screenType;
+  if (contract.dialogPattern!==undefined && contract.dialogPattern!=='phone-details') fail('CONTRACT',root,'지원하지 않는 dialogPattern입니다');
   if (!['page', 'popup', 'pdf', 'dialog', 'bottom-sheet', 'layout'].includes(screenType)) fail('SCREEN_TYPE', root, '화면 유형을 판정할 수 없습니다. screenType을 명시하세요');
   if (screenType !== 'layout' && screenType) paint(root, rules.colors.white);
   if (screenType === 'page') {
@@ -102,7 +103,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
   const overlays = ['dialog', 'bottom-sheet'].includes(screenType);
   if (overlays) {
     one(['Dimmed']);
-    const allowed = new Set(['Dimmed', 'Dialog', 'BottomSheet', 'StatusBar', 'HomeIndicator', 'Keypad']);
+    const allowed = new Set(['Dimmed', 'Dialog', 'Dialog Area', 'BottomSheet', 'StatusBar', 'HomeIndicator', 'Keypad']);
     for (const n of roots) if (visible(n) && !allowed.has(n.name)) fail('OVERLAY_BACKGROUND', n, 'Dimmed 아래에 이전 화면을 재현하지 않습니다');
   }
   if (screenType === 'bottom-sheet') {
@@ -113,6 +114,57 @@ export function auditScreen(snapshot, contract = {}, rules) {
     const homes = items.filter(n => n.name === 'HomeIndicator' && n.type === 'INSTANCE' && visible(n));
     if (homes.length !== 1) fail('HOME_INDICATOR', root, '노출된 HomeIndicator 인스턴스 1개 필요');
     for (const home of homes) paint(home, rules.colors.elevated, screenType !== 'dialog');
+  }
+  const dialogAreas = roots.filter(n => n.name === 'Dialog Area' && visible(n));
+  if (screenType==='dialog' && items.filter(n=>n.type==='INSTANCE'&&n.name==='Dialog'&&visible(n)).length!==1) fail('DIALOG_INSTANCE',root,'실제 노출된 Dialog 인스턴스는 정확히 1개 필요합니다');
+  if (screenType === 'dialog' && dialogAreas.length) {
+    const area=one(['Dialog Area']), home=one(['HomeIndicator']);
+    if (area) {
+      one(['Dialog'],area);
+      if (kids(area).filter(visible).some(n=>n.name!=='Dialog') || roots.some(n=>n.name==='Dialog')) fail('DIALOG_AREA_CONTENT',area,'Dialog Area 내부에는 실제 Dialog만 배치합니다');
+      if (area.type!=='FRAME' || area.layoutMode!=='VERTICAL' || area.layoutSizingHorizontal!=='FILL' || area.layoutSizingVertical!=='FILL' || area.layoutPositioning!=='AUTO' || area.primaryAxisAlignItems!=='CENTER' || area.counterAxisAlignItems!=='CENTER' || !near(area.itemSpacing,0)) fail('DIALOG_AREA_LAYOUT',area,'Dialog Area는 Vertical / Fill·Fill / AUTO / 양 축 CENTER / gap0입니다');
+      if (home && (!near(area.paddingTop,home.height) || ['paddingLeft','paddingRight','paddingBottom'].some(p=>!near(area[p],0)) || !near(area.height,root.height-home.height) || home.layoutPositioning!=='AUTO')) fail('DIALOG_AREA_SAFE_AREA',area,'상단 패딩은 HomeIndicator 높이만큼 보정하며 HomeIndicator는 AUTO 흐름입니다');
+    }
+  }
+  const isPhoneGroup = n => n.name==='Title / Text' && kids(n).some(c=>c.name==='Title / Element' && items.some(t=>t.type==='TEXT' && t.characters==='대표전화' && within(t,a=>a.id===c.id)));
+  for (const dialog of items.filter(n=>n.type==='INSTANCE' && n.name==='Dialog' && visible(n))) {
+    const groups=items.filter(n=>isPhoneGroup(n) && within(n,a=>a.id===dialog.id));
+    const finalPhone = contract.dialogPattern==='phone-details' || dialog.componentProperties?.variant?.value==='alertAccordion' && groups.length;
+    if (!finalPhone) continue;
+    if (dialogAreas.length!==1 || map.get(dialog.parentId)?.name!=='Dialog Area') fail('DIALOG_PHONE_AREA',dialog,'최종 대표전화·응답코드 패턴은 Dialog Area 안에 배치합니다');
+    if (!near(dialog.width,320) || dialog.layoutSizingHorizontal!=='FIXED' || dialog.layoutSizingVertical!=='HUG' || dialog.layoutPositioning!=='AUTO') fail('DIALOG_PHONE_SIZE',dialog,'Dialog는 가로 Fixed320 / 세로 Hug / AUTO입니다');
+    spacing(dialog,20);
+    for (const [p,v] of Object.entries({paddingTop:24,paddingRight:20,paddingBottom:20,paddingLeft:20})) if (!near(dialog[p],v)) fail('DIALOG_PHONE_PADDING',dialog,`${p}=${v}px 필요`);
+    const slot=one(['Slot'],dialog),accordion=one(['Accordion'],dialog),buttons=one(['ButtonGroup'],dialog);
+    if (kids(dialog).filter(visible).map(n=>n.name).join('|')!=='Slot|Accordion|ButtonGroup') fail('DIALOG_PHONE_ORDER',dialog,'Slot → Accordion → ButtonGroup 순서를 유지합니다');
+    if (slot) {
+      spacing(slot,16);
+      if (kids(slot).filter(visible).map(n=>n.name).join('|')!=='Item Group|Title / Text') fail('DIALOG_PHONE_SLOT',slot,'Slot 내부는 Item Group과 대표전화 Title / Text의 두 형제입니다');
+      const group=one(['Item Group'],slot),phone=one(['Title / Text'],slot);
+      if (group) {
+        if (group.layoutMode!=='VERTICAL' || group.layoutSizingHorizontal!=='FILL' || group.layoutSizingVertical!=='HUG' || !near(group.itemSpacing,8)) fail('DIALOG_ITEM_GROUP',group,'상단 제목·설명은 Vertical / Fill·Hug / gap8인 Item Group으로 묶습니다');
+        if (group.boundVariables?.itemSpacing && token(group.boundVariables.itemSpacing)!==rules.spacing[8]) fail('DIALOG_ITEM_GROUP_TOKEN',group,'Item Group 간격에 변수가 연결돼 있으면 spacing/md여야 합니다');
+        const kinds=kids(group).filter(visible).map(n=>n.type==='INSTANCE'&&n.name==='Item / Slot'?n.componentProperties?.variant?.value:null);
+        if (kinds.join('|')!=='title|description') fail('DIALOG_ITEM_GROUP',group,'실제 Item / Slot(title) → Item / Slot(description)이 필요합니다');
+      }
+      if (phone) {
+        spacing(phone,4);
+        if (phone.layoutSizingHorizontal!=='FILL' || phone.layoutSizingVertical!=='HUG' || kids(phone).map(n=>n.name).join('|')!=='Title / Element|Text') fail('DIALOG_PHONE_GROUP',phone,'대표전화는 Title / Text > Title / Element, Text로 구성합니다');
+        const label=one(['Title / Element'],phone),textWrap=one(['Text'],phone);
+        if (label) for (const prefix of ['tooltip#','optional#','hasSuffix#']) if (Object.entries(label.componentProperties??{}).find(([k])=>k.startsWith(prefix))?.[1]?.value!==false) fail('DIALOG_PHONE_LABEL',label,'대표전화 제목 optional·tooltip·suffix는 false입니다');
+        if (textWrap) {
+          const texts=kids(textWrap).filter(n=>n.type==='TEXT');
+          if (texts.length!==1 || !near(textWrap.itemSpacing,0)) fail('DIALOG_PHONE_TEXT',textWrap,'Text 래퍼(gap0) 안에 실제 번호 Text 하나를 배치합니다');
+          for (const t of texts) {
+            if (!t.segments?.length || t.segments.some(s=>s.fontName?.family!=='Pretendard'||s.fontName?.style!=='SemiBold'||s.fontSize!==16)) fail('DIALOG_PHONE_FONT',t,'대표전화는 Pretendard SemiBold16 숫자용 원형 스타일입니다');
+            if (t.hyperlink || (t.textDecoration??'NONE')!=='NONE') fail('DIALOG_PHONE_LINK',t,'대표전화에 임의 밑줄·하이퍼링크를 추가하지 않습니다');
+            paint(t,rules.colors.primary);
+          }
+        }
+      }
+    }
+    if (accordion) for (const [key,value] of Object.entries({type:'solid',variant:'standard',size:'small',expanded:'true'})) if (accordion.componentProperties?.[key]?.value!==value) fail('DIALOG_PHONE_ACCORDION',accordion,`자세히보기 Accordion ${key}=${value} 필요`);
+    if (buttons && buttons.layoutPositioning==='ABSOLUTE') fail('DIALOG_PHONE_BUTTONS',buttons,'ButtonGroup은 Dialog 내부 일반 흐름입니다');
   }
   for (const n of items) {
     if (!visible(n)) continue;
@@ -190,6 +242,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
     for (let i = 0; i < cs.length - 1; i++) {
       const a = cs[i], b = cs[i + 1]; let gap;
       if (['Title / Section', 'Title / Element'].includes(a.name)) gap = screenType === 'bottom-sheet' && (b.type === 'TEXT' || ['Text', 'Text Group', 'TextList Group'].includes(b.name)) ? 12 : 16;
+      if (screenType==='dialog' && isPhoneGroup(n) && a.name==='Title / Element') gap=4;
       if (a.name === 'Title / Page' && b.name === 'Image Area') gap = 0;
       if (['Image Area', 'ImageContainer', 'Infobox / Card'].includes(a.name)) gap = 24;
       if (a.name === 'Chip / Basic') gap = b.name === 'Feedback' ? 24 : 8;
