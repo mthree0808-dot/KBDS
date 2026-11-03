@@ -38,6 +38,36 @@ test('valid page and PDF pass structural checks, never visual PASS',()=>{
 test('missing PDF toolbar fill blocks even if viewport and document are correct',()=>{
   const s=pdf();s.items.find(n=>n.id==='toolbar').fills=[];assert.ok(codes(s).includes('BG_TOKEN'));
 });
+function longPdf() {
+  const s=pdf();
+  Object.assign(s.items.find(n=>n.id==='root'),{layoutSizingVertical:'HUG'});
+  Object.assign(s.items.find(n=>n.id==='doc'),{layoutSizingVertical:'HUG',paddingBottom:114});
+  Object.assign(s.items.find(n=>n.id==='viewport'),{paddingBottom:12});
+  Object.assign(s.items.find(n=>n.id==='foot'),{layoutPositioning:'ABSOLUTE',height:126,absoluteBoundingBox:{y:200,height:126}});
+  return add(s,frames('last','Text','doc',{absoluteBoundingBox:{y:180,height:20}}));
+}
+test('long PDF joins last content to footer with computed 114px reserve',()=>{
+  const result=check(longPdf());
+  assert.equal(result.errors.length,0);
+  assert.ok(result.checked.some(n=>n.kind==='pdf-footer-join'&&n.gap===0&&n.expectedPaddingBottom===114));
+});
+test('long PDF rejects old 146px reserve and extra 32px content-to-footer gap',()=>{
+  const s=longPdf();s.items.find(n=>n.id==='doc').paddingBottom=146;
+  s.items.find(n=>n.id==='foot').absoluteBoundingBox.y+=32;
+  assert.ok(codes(s).includes('PDF_FOOTER_PADDING'));
+  assert.ok(codes(s).includes('PDF_FOOTER_JOIN'));
+});
+test('long PDF measures footer boundary independently and catches overlap',()=>{
+  const s=longPdf();s.items.find(n=>n.id==='foot').absoluteBoundingBox.y-=12;
+  assert.ok(codes(s).includes('PDF_FOOTER_JOIN'));
+  assert.ok(!codes(s).includes('PDF_FOOTER_PADDING'));
+});
+test('long PDF recalculates reserve for different footer and viewport heights',()=>{
+  const s=longPdf();s.items.find(n=>n.id==='foot').height=144;
+  s.items.find(n=>n.id==='viewport').paddingBottom=16;
+  s.items.find(n=>n.id==='doc').paddingBottom=128;
+  assert.equal(check(s).errors.length,0);
+});
 test('PDF missing toolbar layer is not mistaken for a normal popup',()=>{
   const s=pdf();s.items=s.items.filter(n=>n.id!=='toolbar');s.total--;assert.ok(codes(s).includes('REQUIRED_PATH'));
 });

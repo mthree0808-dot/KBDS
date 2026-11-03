@@ -96,7 +96,22 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if (body && pdf) {
       paint(one(['Title Area'], body), rules.colors.pdf);
       const viewport = one(['body'], body); paint(viewport, rules.colors.pdf);
-      if (viewport) paint(one(['PDF Document'], viewport), rules.colors.white);
+      if (viewport) {
+        const document=one(['PDF Document'], viewport);
+        paint(document, rules.colors.white);
+        const footer=resolve(['Footer'],slot)[0];
+        // Long, fully exposed terms reserve only the area covered by the
+        // absolute footer; the viewport already contributes bottom padding.
+        if (root.layoutSizingVertical==='HUG' && document?.layoutSizingVertical==='HUG' && footer?.layoutPositioning==='ABSOLUTE') {
+          const expected=footer.height-viewport.paddingBottom;
+          if (!Number.isFinite(expected) || expected<0 || !near(document.paddingBottom,expected)) fail('PDF_FOOTER_PADDING',document,'긴 약관의 문서 하단 패딩은 Footer 높이 − body 하단 패딩입니다');
+          const last=kids(document).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE').at(-1);
+          const bottom=last?.absoluteBoundingBox?.y+last?.absoluteBoundingBox?.height;
+          const top=footer.absoluteBoundingBox?.y;
+          if (!Number.isFinite(bottom) || !Number.isFinite(top) || !near(top,bottom)) fail('PDF_FOOTER_JOIN',last??document,'긴 약관의 마지막 콘텐츠 하단과 Footer 상단은 실제 간격0px여야 합니다');
+          checked.push({kind:'pdf-footer-join',nodeId:document.id,expectedPaddingBottom:expected,gap:top-bottom});
+        }
+      }
     }
   }
   if (['popup', 'pdf'].includes(screenType) && popups.length !== 1) fail('POPUP', root, 'Popup 인스턴스는 정확히 1개 필요');

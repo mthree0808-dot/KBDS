@@ -32,6 +32,7 @@
 - 공통 오류·대표전화·응답코드 Dialog는 원문 「공통 오류·대표전화·자세히보기 Dialog 최종 틀」을 따른다. Dialog Area Fill/Fill·중앙 정렬·상단 HomeIndicator 높이 보정, 실제 Dialog Fixed320/Hug, Item Group(8)과 대표전화 Title / Text(4)의 Slot 간격16, Dialog 형제 간격20, 번호 Pretendard SemiBold16/primary, 펼친 solid/small Accordion을 적용한다. 승인 화면4029:1355 삭제 후에도 독립 명세를 쓰며 예시 문구·코드를 전역 복사하지 않는다.
 - HomeIndicator elevated Fill은 Dialog에서만 숨기고 다른 화면에서는 노출한다. 바텀시트는 Dimmed·StatusBar만 Absolute, BottomSheet·HomeIndicator는 AUTO다. 오버레이 뒤의 이전 화면을 재현하지 않는다.
 - 알려드립니다는 항상 펼친다. 긴 약관 전체 노출과 고정 PDF 뷰어는 별도 유형으로 구분하고 상세 MD의 높이·Pagination·Footer 규칙을 따른다.
+- 긴 약관 PDF의 마지막 콘텐츠와 Footer는 실제 간격0px로 붙인다. PDF Document 하단 패딩은 Footer 높이−body 하단 패딩으로 계산한다(승인 예126−12=114px). 이전146px·추가32px 공백을 복제하지 않고 마지막 문구의 비가림도 확인한다.
 
 ## 규칙 변경 시 유지보수
 
