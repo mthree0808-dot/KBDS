@@ -4,24 +4,29 @@
 
 - **적용 범위·우선순위**: 앞으로 실제 이름이 `## BODY`인 본문 영역은 **상·우·하·좌 padding 모두0px**다. 아래에 남아 있는 일반·완료·Feedback·키패드·약관·링크 리스트의 종전 BODY padding24/20/32, 상단40/16 또는 전폭 여부에 따른 BODY 패딩 분기는 이 규칙으로 대체한다. `gap`과 패딩은 구분하며, 컴포넌트 조합별 기존 외부 간격은 유지한다. Popup의 `Body`/PDF `body`·`PDF Document`, BottomSheet의 Slot, 컴포넌트 내부 padding은 이번 `## BODY` 외곽 규칙과 다른 범위다.
 - **기본 Container**: `## BODY`의 실제 본문을 담는 `Container`/`Container 1, 2…`는 Vertical Auto Layout·Fill/Hug·AUTO로 구성하고 **좌우padding20px(`spacing/2xl`)**을 적용한다. BODY 자체와 중복 적용하지 않는다. Container가 하나면 순번 없는 `Container`이고, 복수일 때는 기존 번호 규칙을 유지한다.
-- **상하 여백**: BODY 직계에서 보이는 Container 순서를 기준으로 **첫 Container padding-top24px(`spacing/3xl`)**, **마지막 Container padding-bottom32px(`spacing/5xl`)**다. 그 밖의 Container 외곽 상·하 패딩은0이다. 하나의 Container만 있으면 그 Container에 상24·하32를 모두 적용한다. 전폭 Container도 첫·마지막 판정에 포함하며, 참조에 남아 있는 이전 상단0/40 또는 BODY 하단32를 복사하지 않는다.
+- **상하 여백 (2026-11-03 추가 교정)**: BODY 직계에서 보이는 Container 순서를 기준으로 **첫 Container padding-top은 기본24px(`spacing/3xl`)**, **마지막 Container padding-bottom은32px(`spacing/5xl`)**다. 단, **첫 Container의 맨 앞 UI가 StepIndicator 또는 Tab(1depth)이면 그 Container의 padding-top은0px**로 적용한다. `Tab / Infobox`·`Tab / Contents` 같은 구조용 프레임 안에 시작 UI가 있어도 동일한 예외다. 첫 번째 보이는 일반 흐름의 자식 경로를 따라 판정하며, 뒤쪽에 해당 UI가 있다는 이유만으로 상단24px를 없애지 않는다. Tab(2depth)·Segment·Chip·Infobox만으로는 이0px 예외를 추정하지 않는다. 중간 Container 외곽 상하 패딩은0이고, Container가 하나면 일반 시작은 상24·하32, StepIndicator/1depth Tab 시작은 **상0·하32**다. BODY 자체는 계속 네 방향0px다.
 - **전폭 UI**: StepIndicator, Tab(1depth), 알려드립니다 등 전폭 UI를 담는 **외부 Container·복합 래퍼는 좌우padding0px**로 배치한다. Infobox / FullWidth와 화면 전폭 Divider 등도 같은 전폭 경계를 보존한다. 전폭 UI와 일반 본문이 한 Container에 함께 있으면 외부 Container는 좌우0, 일반 본문을 실제 역할에 맞는 내부 Auto Layout으로 묶어 그 래퍼에만 좌우20px을 준다. 네이티브 컴포넌트 내부의 Title Area·Slot 등 고유 패딩을 외부 여백과 혼동해 일괄0으로 변경하지 않는다. Data Block 내부 Divider처럼 콘텐츠 폭만 채우는 요소는 전폭 요소로 추정하지 않는다.
 - **Tab·Segment·Chip 그룹핑 필수**: [구조 참조3411:3607](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3411-3607)의 `Tab / Contents`처럼 **Tab(1depth·2depth), Segment, Chip과 그 선택에 따라 바로 이어지는 콘텐츠를 하나의 실제 Auto Layout으로 묶는다.** Vertical·Fill/Hug·AUTO로 구성하며 이름은 실제 구성에 따라 `Tab / Contents`, `Tab / Infobox`, `Segment / Contents`, `Chip / Data Block Group` 등으로 판정한다. 선택 UI만 단독 래퍼에 넣거나 다음 콘텐츠를 다른 Container로 분리해 같은 그룹인 것처럼 이름만 붙이지 않는다. Tab 1depth는 전폭 외부 래퍼·일반 본문 내부20px 구성을 쓰며, 2depth·Segment·Chip은 기본 본문 인셋 안에 배치하되 함께 있는 전폭 UI가 있으면 위 혼합 구성을 따른다.
 - **간격과 원형 보존**: 그룹을 만들었다고 gap을 새로 추정하지 않는다. Tab→일반 콘텐츠24px, Tab→Infobox / Card16px, Chip / Basic→일반 콘텐츠8px·Feedback24px 등 기존 조합별 간격과 토큰을 그룹의 실제 Auto Layout에 적용한다. Segment 간격은 확인한 해당 원형·승인 조합을 따른다. 원본 인스턴스·공개 variant·선택 상태·가로 스크롤·서체는 보존한다.
-- **참조에서 가져오는 범위**: 3411:3607은 선택 UI와 후속 본문을 실제로 묶는 계층의 근거다. 확인 시점 참조의 BODY 하단padding32, 첫 Container 상단0은 이번 변경 이전 상태이므로 새 규격의 값으로 복제하지 않는다. 원본 컴포넌트는 지정 최신 MO 라이브러리에서 직접 가져온다.
+- **상위 탭의 전체 콘텐츠 범위 (2026-11-03 추가 교정)**: [사용자 수정2013:6542](https://www.figma.com/design/LHQQGe8DG3PWQL0mNUaBkr/?node-id=2013-6542)는 **하나의 `Container` 안에 `Tab / Infobox`와 `Tab / Data Block Group`이 형제로 배치된 구조**다. `Tab / Infobox`에는 최상위1depth Tab과 Infobox 인셋 래퍼가, `Tab / Data Block Group`에는 하위2depth Tab과 Data Block Group이 들어간다. 상위 Tab이 하위 탭·목록까지 제어하므로 이 전체를 같은 Container 아래에 포함한다. 최상위 Tab을 Infobox하고만 묶은 뒤 하위 탭·목록을 BODY의 별도 Container로 떼지 않는다. 제어 범위가 실제로 끝나는 독립 알려드립니다·다른 본문은 기획에 따라 별도 Container를 사용할 수 있다. 단일 Container 예시에서는 번호를 붙이지 않는다.
+- **혼합 폭과 간격**: 이 승인 사례의 Container는 가로390px·Fill/Hug·Vertical·AUTO, padding **0/0/32/0**·gap24px다. `Tab / Infobox`는 가로Fill·gap16px·padding0, 내부 `Infobox` 래퍼만 좌우20px여서 실제 Infobox / Card는350px다. 형제 `Tab / Data Block Group`은 가로Fill·gap24px·padding0이며, 내부 `Data Block Group`이 좌우20px·gap12px를 담당해 실제 Data Block은350px다. 하위 탭도 이 전폭 공통 Container 범위에 포함시키며 본문20px를 상위·하위 래퍼에 중복하지 않는다. Tab의 원형 내부 Slot·PaddingContainer·가로 스와이프·선택 상태는 실제 원형과 승인 범위로 확인하고 전체에 임의 padding0을 일괄 적용하지 않는다.
+- **삭제 후에도 적용**: 3411:3607은 선택 UI와 후속 본문을 실제로 묶는 계층의 근거이며 참조의 이전 BODY 하단32는 복제하지 않는다. 2013:6542를 삭제해도 위 독립 계층·0/20/32 여백·16/24/12 간격·제어 범위 원칙을 적용한다. 참조의 문구·항목 수·선택 상태는 실제 기획으로 결정하고, 원본 컴포넌트는 지정 최신 MO 라이브러리에서 직접 가져온다.
 
 ```text
 ## BODY (Vertical / padding0)
-├─ Container 1 (상24·좌우0·하0; 전폭 UI와 본문 혼합 예)
-│  └─ Tab / Contents (Vertical / Fill·Hug / AUTO / 좌우0)
-│     ├─ Tab (1depth / 전폭)
-│     └─ InputField / Contents (일반 본문 / 좌우20)
-├─ Container 2 (상하0·좌우20; 일반 콘텐츠)
-└─ Container 3 (상0·좌우0·하32; 알려드립니다 전폭)
-   └─ 알려드립니다 영역 (항상 펼침)
+└─ Container (Vertical / Fill·Hug / AUTO / padding0·0·32·0 / gap24)
+   ├─ Tab / Infobox (padding0 / gap16)
+   │  ├─ Tab (1depth / 최상위)
+   │  └─ Infobox (래퍼 / 좌우20)
+   │     └─ Infobox / Card
+   └─ Tab / Data Block Group (padding0 / gap24)
+      ├─ Tab (2depth / 하위)
+      └─ Data Block Group (좌우20 / gap12)
+         ├─ Data Block
+         └─ Data Block
 ```
 
-완료 전에 BODY padding0, Container의 상24/하32 적용 위치·좌우20/전폭0 및 토큰, 선택 UI와 후속 콘텐츠의 실제 공통 부모·명칭·간격을 함께 검사한다. 이번 요청은 공유 MD와 검사 기준 갱신이며 기존 Figma 화면의 일괄 수정 요청은 아니다.
+완료 전에 BODY padding0, Container의 기본 상24·StepIndicator/1depth Tab 시작 상0·하32 적용 위치·좌우20/전폭0 및 토큰, 선택 UI와 후속 콘텐츠의 실제 공통 부모·명칭·간격을 함께 검사한다. 이번 요청은 공유 MD와 검사 기준 갱신이며 기존 Figma 화면의 일괄 수정 요청은 아니다.
 
 ## 공통 오류·대표전화·자세히보기 Dialog 최종 틀 (2026-11-03 독립 보존)
 
@@ -540,7 +545,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
    - **Auto Layout 속성 (기본 및 예외)**: Flow: **Vertical**, **`gap: 32px` (`5xl` 토큰)**
      - **컴포넌트 조합 간격 우선 적용**: `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl` 토큰)**을 적용합니다. 각 컴포넌트를 감싼 `Container` 또는 `Container [순번]` 사이에도 동일하게 적용하며, 해당 구간에서는 기본 `gap: 32px`보다 우선합니다. (상세 규칙: 섹션 3 및 7-C)
      - **링크 리스트 전용 화면 예외**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**로 적용합니다.
-   - **패딩 (2026-11-03 최종 변경)**: `## BODY`는 상하좌우0px다. 일반 Container 좌우20px·전폭 Container 좌우0px, 첫 Container 상단24px·마지막 Container 하단32px를 적용한다. Container 하나면 상24·하32를 함께 적용한다. 일반 본문과 전폭 UI가 섞이면 전폭 외부 래퍼0px + 본문 내부 래퍼20px로 나눈다. 상세는 문서 상단 「BODY 무패딩·Container 여백·선택 UI 복합 그룹」을 따른다.
+   - **패딩 (2026-11-03 최종 변경)**: `## BODY`는 상하좌우0px다. 일반 Container 좌우20px·전폭 Container 좌우0px, 첫 Container 상단은 기본24px·StepIndicator/1depth Tab으로 시작하면0px, 마지막 Container 하단은32px를 적용한다. Container 하나면 시작 UI에 따라 상24/0·하32를 함께 적용한다. 일반 본문과 전폭 UI가 섞이면 전폭 외부 래퍼0px + 본문 내부 래퍼20px로 나눈다. 상세는 문서 상단 「BODY 무패딩·Container 여백·선택 UI 복합 그룹」을 따른다.
    - **선택 UI**: Tab(1depth·2depth)·Segment·Chip은 후속 콘텐츠와 실제 복합 Auto Layout으로 묶는다. 기존 조합별 gap과 원형 동작은 보존한다.
    - **'알려드립니다' 컨테이너 분할 필수 원칙**: `## BODY` 내에 '알려드립니다'가 위치할 경우, 다른 상단 요소들과 결합하지 않고 반드시 독립된 **`Container [순번]`으로 그룹핑하여 분할**합니다.
    - 높이 속성은 위 콘텐츠 양 규칙(Fill 또는 Hug)을 준수
@@ -1139,7 +1144,7 @@ Container 2 (Vertical, gap12)
 ---
 
 ### B. ## BODY 기본 간격 구조
-- **최신 외곽 패딩**: BODY 상하좌우0px. 일반 Container 좌우20px, 전폭 UI를 담는 Container·외부 래퍼 좌우0px. 첫 Container 상단24px, 마지막 Container 하단32px이며 단일 Container는 둘 다 적용한다. 종전 BODY padding과 상단40/16 등 외곽 예외는 이 규칙으로 대체한다.
+- **최신 외곽 패딩**: BODY 상하좌우0px. 일반 Container 좌우20px, 전폭 UI를 담는 Container·외부 래퍼 좌우0px. 첫 Container 상단은 기본24px이고 StepIndicator/1depth Tab으로 시작하면0px다. 마지막 Container 하단32px는 단일 Container에도 적용한다. 종전 BODY padding과 상단40/16 등 외곽 예외는 이 규칙으로 대체한다.
 - **선택 UI와 본문**: Tab(1depth·2depth)·Segment·Chip은 후속 콘텐츠와 실제 복합 Auto Layout으로 묶는다. 전폭 UI와 일반 본문이 함께 있으면 외부0px·본문 래퍼 좌우20px로 구성한다. 상세·검수 기준은 문서 상단 최종 변경 절을 따른다.
 - **`## BODY` 내부 컴포넌트/Container 간 간격**: Auto Layout **`gap: 32px` (`5xl`)** 기본 적용 (단, 링크 리스트 전용 화면은 **`gap: 0px`** 적용)
   - **24px 우선 적용 구간**: `StepIndicator`(또는 이를 감싼 Container) 직후 및 `Infobox / Solid` 다음 `InputField`(또는 이를 감싼 Container) 사이에는 **`gap: 24px` (`3xl`)**을 적용합니다. 해당 구간을 구분해 기본 32px 간격과 혼용합니다. (상세 규칙: 섹션 3 및 7-C)

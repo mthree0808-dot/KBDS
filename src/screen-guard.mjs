@@ -78,6 +78,15 @@ export function auditScreen(snapshot, contract = {}, rules) {
   for (const body of items.filter(n=>n.type==='FRAME'&&n.name==='## BODY'&&visible(n))) {
     for (const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft']) if (!near(body[field],0)) fail('BODY_PADDING',body,'## BODY의 상하좌우 padding은 모두0px입니다');
     const containers=kids(body).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE'&&/^Container(?: [1-9]\d*)?$/.test(n.name));
+    function leadingUi(container) {
+      let current=container;const seen=new Set();
+      while(current?.type==='FRAME'&&!seen.has(current.id)) {
+        seen.add(current.id);
+        const first=kids(current).find(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE');
+        if(!first)break;current=first;
+      }
+      return current;
+    }
     containers.forEach((n,index)=>{
       if (n.type!=='FRAME'||n.layoutMode!=='VERTICAL') fail('BODY_CONTAINER_LAYOUT',n,'BODY의 Container는 실제 Vertical Auto Layout 프레임입니다');
       const fullWidth=items.some(c=>visible(c)&&within(c,a=>a.id===n.id)&&(c.name==='StepIndicator'||c.name==='Infobox / FullWidth'||c.name==='알려드립니다'||c.name==='Tab'&&c.componentProperties?.variant?.value==='1depth'||c.type==='INSTANCE'&&c.name==='Accordion'&&items.some(t=>t.type==='TEXT'&&t.characters?.trim()==='알려드립니다'&&within(t,a=>a.id===c.id))));
@@ -86,11 +95,20 @@ export function auditScreen(snapshot, contract = {}, rules) {
         if(!near(n[field],value)) fail('BODY_CONTAINER_INSET',n,`${fullWidth?'전폭':'일반'} Container의 ${field}=${value}px 필요`);
         if(value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
       }
-      for (const [field,value]of [['paddingTop',index===0?24:0],['paddingBottom',index===containers.length-1?32:0]]) {
+      const lead=leadingUi(n);
+      const beginsFlush=lead?.type==='INSTANCE'&&(lead.name==='StepIndicator'||lead.name==='Tab'&&lead.componentProperties?.variant?.value==='1depth');
+      for (const [field,value]of [['paddingTop',index===0&&!beginsFlush?24:0],['paddingBottom',index===containers.length-1?32:0]]) {
         if (!near(n[field],value)) fail('BODY_CONTAINER_PADDING',n,`${field}: ${value}px 필요`);
         if (value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
       }
     });
+    const firstLead=leadingUi(containers[0]);
+    const topTabs=items.filter(n=>n.type==='INSTANCE'&&n.name==='Tab'&&n.componentProperties?.variant?.value==='1depth'&&visible(n)&&within(n,a=>a.id===body.id));
+    if(topTabs.length===1&&firstLead?.id===topTabs[0].id) {
+      for(const tab of items.filter(n=>n.type==='INSTANCE'&&n.name==='Tab'&&n.componentProperties?.variant?.value==='2depth'&&visible(n)&&within(n,a=>a.id===body.id))) {
+        if(!within(tab,a=>a.id===containers[0]?.id)) fail('TOP_TAB_SCOPE',tab,'본문 맨 앞의 최상위1depth Tab과 하위2depth Tab/콘텐츠는 같은 Container 범위 안에 포함합니다');
+      }
+    }
     checked.push({kind:'body-container-padding',nodeId:body.id,containers:containers.map(n=>n.id)});
   }
   const inferred = roots.some(n => ['Dialog','Dialog Area'].includes(n.name)) ? 'dialog'

@@ -352,13 +352,13 @@ test('ordinary containers require 20px insets and bindings',()=>{
   const s=containerPage();s.items.find(n=>n.id==='c2').paddingLeft=0;assert.ok(codes(s).includes('BODY_CONTAINER_INSET'));
   const t=containerPage();delete t.items.find(n=>n.id==='c2').boundVariables.paddingRight;assert.ok(codes(t).includes('BODY_CONTAINER_PADDING_TOKEN'));
 });
-test('full-width StepIndicator wrapper uses zero inset but keeps first top24',()=>{
-  const s=containerPage();const c=s.items.find(n=>n.id==='c1');c.paddingLeft=c.paddingRight=0;add(s,component('steps','StepIndicator','c1'));
+test('leading StepIndicator wrapper uses zero inset and top0',()=>{
+  const s=containerPage();const c=s.items.find(n=>n.id==='c1');c.paddingLeft=c.paddingRight=c.paddingTop=0;delete c.boundVariables.paddingTop;add(s,component('steps','StepIndicator','c1'));
   assert.equal(check(s).errors.length,0);c.paddingLeft=20;assert.ok(codes(s).includes('BODY_CONTAINER_INSET'));
 });
 function selectorPage(kind='Tab',variant='2depth') {
   const s=containerPage(true),c=s.items.find(n=>n.id==='c1');
-  if(kind==='Tab'&&variant==='1depth')c.paddingLeft=c.paddingRight=0;
+  if(kind==='Tab'&&variant==='1depth'){c.paddingLeft=c.paddingRight=c.paddingTop=0;delete c.boundVariables.paddingTop;}
   const gap=kind==='Chip'?8:24;
   return add(s,frames('selector-group',`${kind} / Contents`,'c1',{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:gap,boundVariables:{itemSpacing:{id:rules.spacing[gap]}}}),
     component('selector',kind,'selector-group',{componentProperties:{variant:{value:variant}}}),frames('contents','Contents','selector-group'));
@@ -379,4 +379,37 @@ test('notices are full-width even when their Accordion is inside a wrapper',()=>
 test('Popup Body and native Slot padding are outside the literal BODY migration',()=>{
   const s=pdf();s.items.find(n=>n.id==='body').paddingTop=40;s.items.find(n=>n.id==='slot').paddingLeft=20;
   assert.equal(check(s).errors.length,0);
+});
+
+test('leading nested first-depth Tab gets top0 while second-depth alone keeps24',()=>{
+  const s=selectorPage('Tab','1depth');assert.equal(check(s).errors.length,0);
+  s.items.find(n=>n.id==='c1').paddingTop=24;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+  const t=selectorPage('Tab','2depth');assert.equal(check(t).errors.length,0);
+  t.items.find(n=>n.id==='c1').paddingTop=0;assert.ok(codes(t).includes('BODY_CONTAINER_PADDING'));
+});
+test('first-depth Tab later in a container does not remove initial top24',()=>{
+  const s=selectorPage('Tab','1depth');const c=s.items.find(n=>n.id==='c1');c.paddingTop=24;c.boundVariables.paddingTop={id:rules.spacing[24]};
+  s.items.splice(s.items.findIndex(n=>n.id==='selector-group'),0,frames('intro','Intro','c1'));s.total=s.items.length;
+  assert.equal(check(s).errors.length,0);
+});
+test('first UI detection skips hidden and absolute nodes through layout wrappers',()=>{
+  const s=containerPage(true),c=s.items.find(n=>n.id==='c1');c.paddingTop=c.paddingLeft=c.paddingRight=0;
+  add(s,frames('hidden','Hidden','c1',{visible:false}),frames('overlay','Overlay','c1',{layoutPositioning:'ABSOLUTE'}),frames('wrap','Contents','c1'),component('step','StepIndicator','wrap'));
+  assert.equal(check(s).errors.length,0);
+});
+function nestedTabPage(){
+  const s=containerPage(true),c=s.items.find(n=>n.id==='c1');c.paddingTop=c.paddingLeft=c.paddingRight=0;
+  const layout={layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG'};
+  add(s,frames('upper','Tab / Infobox','c1',{...layout,itemSpacing:16,boundVariables:{itemSpacing:{id:rules.spacing[16]}}}),
+    component('tab1','Tab','upper',{componentProperties:{variant:{value:'1depth'}}}),
+    frames('inset','Infobox','upper',{paddingLeft:20,paddingRight:20}),component('info','Infobox / Card','inset'),
+    frames('lower','Tab / Data Block Group','c1',{...layout,itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}}),
+    component('tab2','Tab','lower',{componentProperties:{variant:{value:'2depth'}}}),frames('data','Data Block Group','lower',{paddingLeft:20,paddingRight:20}));
+  return s;
+}
+test('upper Tab includes both sibling selector-content groups in one Container',()=>{
+  const s=nestedTabPage();assert.equal(check(s).errors.length,0);
+  s.items.find(n=>n.id==='c1').paddingBottom=0;
+  add(s,frames('c2','Container 2','body',{paddingBottom:32,paddingLeft:20,paddingRight:20,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},paddingBottom:{id:rules.spacing[32]}}}));
+  s.items.find(n=>n.id==='lower').parentId='c2';assert.ok(codes(s).includes('TOP_TAB_SCOPE'));
 });

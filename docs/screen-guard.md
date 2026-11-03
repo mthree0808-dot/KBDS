@@ -38,7 +38,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |항목|자동 검사|
 |---|---|
 |스냅샷|전체 수집, 중복 ID, 누락 부모·순환/분리 계층|
-|BODY/Container|BODY 네 방향padding0, 첫/마지막 Container 상24·하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
+|BODY/Container|BODY 네 방향padding0, 첫 Container 상단 기본24·StepIndicator/1depth Tab 시작0, 마지막 하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
 |선택 UI 그룹|Tab·Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 복합 부모·명칭·순서|
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
 |BG|PDF Title Area·body의 light-gray, 문서·화면 white, 실제 변수 key·Paint 노출·opacity·레이어 노출|
@@ -84,3 +84,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 ### BODY 전폭 판정의 범위
 
 자동 검사는 실제 이름과 공개 variant로 StepIndicator·Tab(1depth)·Infobox / FullWidth 및 알려드립니다 제목을 가진 Accordion을 식별한다. Divider가 문서 내부인지 화면 전폭인지, 일반 본문 내부 래퍼의 중복 여백과 선택 UI가 제어하는 정확한 콘텐츠 범위는 기획·실제 계층으로 직접 확인한다. 검사를 통과시키기 위해 네이티브 컴포넌트 내부 padding이나 이름을 바꾸지 않는다.
+
+### 첫 UI와 상위 Tab 범위
+
+Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth Tab 시작을 식별하며 상단0px 예외를 검사한다. 본문 맨 앞1depth Tab이 하나이고 하위2depth Tab이 있는 패턴은 같은 Container에 포함되는지 검사한다. 여러 독립 상위 탭의 의미상 제어 범위·일반 콘텐츠/알려드립니다의 독립 여부는 기획으로 직접 확인한다. 원문에 독립 보존한2013:6542의 실제 두 형제 복합 그룹 구조를 따른다.

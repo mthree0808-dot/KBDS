@@ -5,9 +5,9 @@
 제작 전에 [현재 독립 명세](sources/designer-ui-rules.md#body-무패딩container-여백선택-ui-복합-그룹-2026-11-03-최종-변경)를 적용한다. 이 문서 아래에 남은 과거 BODY padding24/20/32·상단40/16·전폭 분기와 Tab/Infobox 평탄 배치 문구보다 이 규칙이 우선한다.
 
 - `## BODY` padding은 네 방향 모두0이다. 일반 Container 좌우20px, StepIndicator·Tab(1depth)·알려드립니다 등 전폭 외부 래퍼는 좌우0px다. 혼합 Container는 외부0px·일반 본문 내부 래퍼20px로 구성한다.
-- 첫 Container 상단24px, 마지막 Container 하단32px를 각각 spacing/3xl·5xl에 연결한다. 하나면 둘 다 적용하고 중간 Container의 외곽 상하 패딩은0이다. 컴포넌트 원형 내부 패딩과 Popup Body·BottomSheet Slot·PDF 문서는 별도 범위다.
+- 첫 Container 상단은 기본24px(spacing/3xl)이며 맨 앞 UI가 StepIndicator 또는1depth Tab이면0px다. 구조용 첫 그룹 안에 있는 경우도 동일하게 판정한다. 마지막 Container 하단32px(spacing/5xl)는 유지하고, 단일 Container에도 시작 UI별 상24/0·하32를 적용한다. 중간 Container의 외곽 상하 패딩은0이다. 컴포넌트 원형 내부 패딩과 Popup Body·BottomSheet Slot·PDF 문서는 별도 범위다.
 - Tab(1depth·2depth)·Segment·Chip과 직후 콘텐츠를 실제 Vertical·Fill/Hug·AUTO 복합 그룹으로 묶는다. `Tab / Contents` 등 실제 구성에 맞게 명명하며 기존 조합별 gap·공개 옵션·문구·선택 상태를 보존한다.
-- 참조3411:3607에서는 `Tab / Contents` 계층만 재사용하고, 이전 BODY 하단32와 첫 Container 상단0은 복제하지 않는다. BODY0·Container 위치별 패딩·토큰·전폭 판정과 복합 그룹의 실제 부모를 검사한다.
+- 참조3411:3607에서는 복합 그룹 계층을 참고하고 이전 BODY 하단32를 복제하지 않는다. 첫 Container 상단은 새 시작 UI 예외로 판정한다. 사용자 수정2013:6542처럼 상위1depth Tab이 하위2depth Tab과 목록까지 제어하면 하나의 Container(상0·좌우0·하32) 안에 Tab / Infobox(gap16)와 Tab / Data Block Group(gap24)을 형제로 둔다. Infobox 및 Data Block Group의 본문 래퍼만 좌우20px를 적용한다. 단일 Container에 번호를 붙이거나 하위 탭을 다음 Container로 떼지 않는다. 이 독립 명세는 참조 삭제 후에도 적용한다. BODY0·Container 위치별 패딩·토큰·전폭 판정과 복합 그룹의 실제 부모를 검사한다.
 
 
 ## 공통 오류 Dialog 최종 틀 (2026-11-03)
