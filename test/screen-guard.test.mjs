@@ -363,13 +363,13 @@ function selectorPage(kind='Tab',variant='2depth') {
   return add(s,frames('selector-group',`${kind} / Contents`,'c1',{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:gap,boundVariables:{itemSpacing:{id:rules.spacing[gap]}}}),
     component('selector',kind,'selector-group',{componentProperties:{variant:{value:variant}}}),frames('contents','Contents','selector-group'));
 }
-test('both Tab depths, Segment and Chip require one actual following-content group',()=>{
+test('existing Tab composites remain valid while Segment and Chip still require grouping',()=>{
   for(const [name,variant]of [['Tab','1depth'],['Tab','2depth'],['Segment','basic'],['Chip','single']])assert.equal(check(selectorPage(name,variant)).errors.length,0);
-  const s=selectorPage();s.items.find(n=>n.id==='contents').parentId='c1';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+  for(const name of ['Segment','Chip']){const s=selectorPage(name);s.items.find(n=>n.id==='contents').parentId='c1';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));}
 });
-test('renaming a nested selector wrapper to Container does not replace a direct BODY Container',()=>{
-  const s=selectorPage();s.items.find(n=>n.id==='selector-group').name='Container';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
-  const t=selectorPage();t.items.find(n=>n.id==='selector-group').layoutMode='NONE';assert.ok(codes(t).includes('SELECTOR_CONTENT_GROUP'));
+test('Segment grouping still requires an actual correctly named auto-layout',()=>{
+  const s=selectorPage('Segment');s.items.find(n=>n.id==='selector-group').name='Container';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+  const t=selectorPage('Segment');t.items.find(n=>n.id==='selector-group').layoutMode='NONE';assert.ok(codes(t).includes('SELECTOR_CONTENT_GROUP'));
 });
 
 function directTabContainer(){
@@ -383,18 +383,19 @@ function directTabContainer(){
 test('direct BODY Container can group a leading Tab and its whole content subtree',()=>{
   assert.equal(check(directTabContainer()).errors.length,0);
 });
-test('Container with another sibling requires an explicit Tab composite',()=>{
+test('Tab next to other Container siblings does not require an explicit composite',()=>{
   const s=directTabContainer();add(s,frames('other','Title / Contents','c1'));
-  assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+  assert.equal(check(s).errors.length,0);
 });
-test('Container acceptance retains selector order layout and following-content requirements',()=>{
+test('Tab grouping cancellation removes order naming and following-content group assertions',()=>{
   for(const change of ['order','layout','sizing','content']){
     const s=directTabContainer(),c=s.items.find(n=>n.id==='c1');
     if(change==='order'){const i=s.items.findIndex(n=>n.id==='contents');s.items.unshift(s.items.splice(i,1)[0]);}
     if(change==='layout')c.layoutMode='NONE';
     if(change==='sizing')c.layoutSizingVertical='FIXED';
     if(change==='content')s.items.find(n=>n.id==='contents').parentId='body';
-    assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'),change);
+    assert.ok(!codes(s).includes('SELECTOR_CONTENT_GROUP'),change);
+    if(change==='layout')assert.ok(codes(s).includes('BODY_CONTAINER_LAYOUT'));
   }
 });
 test('Tab to composite beginning with inset Infobox Card uses16 rather than24',()=>{
@@ -439,9 +440,9 @@ function nestedTabPage(){
     component('tab2','Tab','lower',{componentProperties:{variant:{value:'2depth'}}}),frames('data','Data Block Group','lower',{paddingLeft:20,paddingRight:20}));
   return s;
 }
-test('upper Tab includes both sibling selector-content groups in one Container',()=>{
+test('upper and lower Tabs may occupy separate Containers after grouping cancellation',()=>{
   const s=nestedTabPage();assert.equal(check(s).errors.length,0);
   s.items.find(n=>n.id==='c1').paddingBottom=0;
   add(s,frames('c2','Container 2','body',{paddingBottom:32,paddingLeft:20,paddingRight:20,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},paddingBottom:{id:rules.spacing[32]}}}));
-  s.items.find(n=>n.id==='lower').parentId='c2';assert.ok(codes(s).includes('TOP_TAB_SCOPE'));
+  s.items.find(n=>n.id==='lower').parentId='c2';assert.equal(check(s).errors.length,0);
 });

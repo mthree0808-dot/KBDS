@@ -6,8 +6,8 @@
 
 - `## BODY` padding은 네 방향 모두0이다. 일반 Container 좌우20px, StepIndicator·Tab(1depth)·알려드립니다 등 전폭 외부 래퍼는 좌우0px다. 혼합 Container는 외부0px·일반 본문 내부 래퍼20px로 구성한다.
 - 첫 Container 상단은 기본24px(spacing/3xl)이며 맨 앞 UI가 StepIndicator 또는1depth Tab이면0px다. 구조용 첫 그룹 안에 있는 경우도 동일하게 판정한다. 마지막 Container 하단32px(spacing/5xl)는 유지하고, 단일 Container에도 시작 UI별 상24/0·하32를 적용한다. 중간 Container의 외곽 상하 패딩은0이다. 컴포넌트 원형 내부 패딩과 Popup Body·BottomSheet Slot·PDF 문서는 별도 범위다.
-- Tab(1depth·2depth)·Segment·Chip과 직후 콘텐츠를 실제 Vertical·Fill/Hug·AUTO 복합 그룹으로 묶는다. Tab은 Container 자체가 전체 범위를 담으면 추가 래퍼 없이 허용하고, 별도 그룹은 `Tab / Contents` 등 실제 구성에 맞게 명명하며 기존 조합별 gap·공개 옵션·문구·선택 상태를 보존한다.
-- 참조2013:6542처럼 Container > Tab + Infobox / Contents가 상위 탭 전체 범위면 Container 자체를 그룹으로 사용한다. 참조2059:1068처럼 Container 안에 독립 Title / Contents도 있으면 탭 범위만 Tab / Infobox로 별도 그룹핑한다. 이전의 두 형제 복합 그룹 강제보다 2026-11-04 원문 독립 명세를 우선한다. 상위 탭→시작 인포박스16, 인포박스→하위 탭 그룹24, 하위 탭→목록24, 목록 내부12를 각각 구분하고 기존 BODY/Container 패딩 규칙은 유지한다. 두 참조 삭제 후에도 이 판정과 계층을 적용한다.
+- Tab과 후속 콘텐츠의 필수 그룹핑은 삭제했다(2026-11-04 최신). Segment·Chip의 기존 복합 그룹핑은 유지한다. Tab의 공개 옵션·문구·선택 상태·기존 간격은 유지한다.
+- 이전2013:6542·2059:1068의 Container 충족/별도 그룹 필수 판정과 상하위 탭의 동일 Container 강제는 더 이상 적용하지 않는다. 기존 그룹을 자동 해제하라는 뜻은 아니다. BODY/Container 패딩·Tab→Infobox16/일반24·인포박스 후24·목록 내부12는 유지하며 다른 부모 사이의 실제 간격은 직접 확인한다.
 
 
 ## 공통 오류 Dialog 최종 틀 (2026-11-03)
@@ -41,7 +41,7 @@
 ## Tab → Infobox / Card 간격 16px (2026-11-02 사용자 변경)
 
 - **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
-- **현재 복합 구조**: Container 자체 또는 필요한 별도 Tab / Infobox에서 Tab과 후속 본문을 실제로 묶고 gap16px를 연결한다. Container가 전체 탭 범위면 중복 래퍼를 추가하지 않는다. 전폭 Tab(1depth)은 외부 좌우0px, 일반 본문 래퍼는 좌우20px를 적용한다. Container 첫·마지막 상하 패딩은 문서 상단 2026-11-03 규칙을 따른다. 이름만 붙이거나 별도 Container로 분리하지 않는다.
+- **그룹핑 의무 삭제 (2026-11-04)**: Tab과 후속 콘텐츠는 별도 부모로 배치할 수 있다. Tab→Infobox / Card의 실제16px와 기존 Container·전폭/본문 패딩 규칙은 유지한다.
 - **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Data Block·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
 - 완료 시 부모 gap과 토큰 연결뿐 아니라 Tab 하단 경계에서 Infobox / Card 상단 경계까지 실제 16px인지 확인한다. KB국민인증서 이용내역의 최근 제작 8개 화면(작업 파일 `LHQQGe8DG3PWQL0mNUaBkr`, 섹션 `2007:5670`)에 같은 기준을 적용한다.
 
@@ -404,7 +404,7 @@ Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Gro
 
 2026-10-19 승인 패턴: InputField 뒤 보조 이동 버튼은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:6834`의 `InputField / Button Area`(gap 12px)와 우측 정렬 Button Area / TextButton secondary·small·suffix true·underline false를 매핑합니다. 도움말·이용 방법 선택 바텀시트는 `KFlklMvGmg0MXGfAXvpprn / 185:14891`의 테두리 없는 List 패턴을 적용하고, 목록 gap 0·List padding 12/0·기본 Item / Prefix(bgIcon)·Suffix pageIndicator를 확인합니다. 기획 본문이 있으면 Text로 보존하고 목록과 gap 16px로 배치합니다. 아이콘은 작업자가 직접 지정하므로 기본 인스턴스만 두며, 전체 Card 패턴이나 일반 선택 바텀시트의 gap 8px를 이 경우에 적용하지 않습니다. 상세 수치와 키는 원문 및 실측 디자인 규칙을 따릅니다.
 
-- **현재 복합 구조**: Container 자체 또는 필요한 별도 Tab / Infobox에서 Tab과 후속 본문을 실제로 묶고 gap16px를 연결한다. Container가 전체 탭 범위면 중복 래퍼를 추가하지 않는다. 전폭 Tab(1depth)은 외부 좌우0px, 일반 본문 래퍼는 좌우20px를 적용한다. Container 첫·마지막 상하 패딩은 문서 상단 2026-11-03 규칙을 따른다. 이름만 붙이거나 별도 Container로 분리하지 않는다.
+- **그룹핑 의무 삭제 (2026-11-04)**: Tab과 후속 콘텐츠는 별도 부모로 배치할 수 있다. Tab→Infobox / Card의 실제16px와 기존 Container·전폭/본문 패딩 규칙은 유지한다.
 
 화면 목적과 모드가 같은 후보를 선택하고 선택 근거를 기록합니다. 공통·안내·약관·선택·바텀시트를 구분합니다. `진행중`은 확정 규칙으로 간주하지 않습니다. 대상 템플릿의 실제 프레임을 스크린샷으로 확인합니다.
 

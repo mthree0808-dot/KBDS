@@ -102,13 +102,6 @@ export function auditScreen(snapshot, contract = {}, rules) {
         if (value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
       }
     });
-    const firstLead=leadingUi(containers[0]);
-    const topTabs=items.filter(n=>n.type==='INSTANCE'&&n.name==='Tab'&&n.componentProperties?.variant?.value==='1depth'&&visible(n)&&within(n,a=>a.id===body.id));
-    if(topTabs.length===1&&firstLead?.id===topTabs[0].id) {
-      for(const tab of items.filter(n=>n.type==='INSTANCE'&&n.name==='Tab'&&n.componentProperties?.variant?.value==='2depth'&&visible(n)&&within(n,a=>a.id===body.id))) {
-        if(!within(tab,a=>a.id===containers[0]?.id)) fail('TOP_TAB_SCOPE',tab,'본문 맨 앞의 최상위1depth Tab과 하위2depth Tab/콘텐츠는 같은 Container 범위 안에 포함합니다');
-      }
-    }
     checked.push({kind:'body-container-padding',nodeId:body.id,containers:containers.map(n=>n.id)});
   }
   const inferred = roots.some(n => ['Dialog','Dialog Area'].includes(n.name)) ? 'dialog'
@@ -279,14 +272,9 @@ export function auditScreen(snapshot, contract = {}, rules) {
   }
   for (const n of items.filter(n => n.type === 'FRAME' && authored(n) && visible(n))) {
     const cs = kids(n).filter(c => visible(c) && c.layoutPositioning !== 'ABSOLUTE');
-    for (const selector of cs.filter(selectorName)) {
+    for (const selector of cs.filter(c=>selectorName(c)&&selectorName(c)!=='Tab')) {
       const prefix=selectorName(selector);
-      // A direct BODY Container can itself express the Tab's complete scope.
-      // Only the unambiguous Tab + one content subtree shape is inferred here;
-      // other direct siblings need their own explicitly named composite.
-      const parent=map.get(n.parentId);
-      const tabContainer=prefix==='Tab'&&/^Container(?: [1-9]\d*)?$/.test(n.name)&&parent?.type==='FRAME'&&parent.name==='## BODY'&&cs.length===2;
-      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||!(n.name.startsWith(`${prefix} / `)||tabContainer)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'선택 UI와 후속 콘텐츠를 실제 Vertical / Fill·Hug / AUTO로 묶습니다. Tab과 전체 콘텐츠를 담은 BODY 직계 Container도 허용하며, 다른 형제가 있으면 별도 Tab / … 그룹을 사용합니다');
+      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||!n.name.startsWith(`${prefix} / `)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'Segment·Chip은 후속 콘텐츠와 실제 Vertical / Fill·Hug / AUTO 복합 그룹으로 묶고 구조에 맞게 명명합니다');
     }
     if (n.name === 'ConsentFinal / StickyButton') consentComposite(n);
     if (!cs.length) continue;

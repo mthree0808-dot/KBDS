@@ -39,7 +39,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |---|---|
 |스냅샷|전체 수집, 중복 ID, 누락 부모·순환/분리 계층|
 |BODY/Container|BODY 네 방향padding0, 첫 Container 상단 기본24·StepIndicator/1depth Tab 시작0, 마지막 하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
-|선택 UI 그룹|Tab·Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 부모·명칭·순서. Tab + 전체 콘텐츠를 담는 BODY 직계 Container도 허용|
+|선택 UI 그룹|Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 부모·명칭·순서. Tab 그룹핑·동일 Container 범위 강제는 삭제|
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
 |BG|PDF Title Area·body의 light-gray, 문서·화면 white, 실제 변수 key·Paint 노출·opacity·레이어 노출|
 |HomeIndicator|elevated 변수 연결, Dialog만 배경 Paint 숨김, 기타 화면 노출|
@@ -85,6 +85,6 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 
 자동 검사는 실제 이름과 공개 variant로 StepIndicator·Tab(1depth)·Infobox / FullWidth 및 알려드립니다 제목을 가진 Accordion을 식별한다. Divider가 문서 내부인지 화면 전폭인지, 일반 본문 내부 래퍼의 중복 여백과 선택 UI가 제어하는 정확한 콘텐츠 범위는 기획·실제 계층으로 직접 확인한다. 검사를 통과시키기 위해 네이티브 컴포넌트 내부 padding이나 이름을 바꾸지 않는다.
 
-### 첫 UI와 상위 Tab 범위
+### 첫 UI와 Tab 그룹핑 의무 삭제 (2026-11-04)
 
-Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth Tab 시작을 식별하며 상단0px 예외를 검사한다. 본문 맨 앞1depth Tab이 하나이고 하위2depth Tab이 있는 패턴은 같은 Container에 포함되는지 검사한다. 여러 독립 상위 탭의 의미상 제어 범위·일반 콘텐츠/알려드립니다의 독립 여부는 기획으로 직접 확인한다. 2026-11-04 독립 명세의 두 경우를 따른다. 2013:6542는 Container > Tab + Infobox / Contents로 전체 범위를 묶고, 2059:1068은 Container에 독립 본문이 있어 Tab / Infobox를 별도로 쓴다. 자동 검사는 BODY 직계 Container의 첫 Tab + 하나의 전체 콘텐츠 하위 트리인 두 자식 형태를 허용하며 순서·Vertical/Fill/Hug/AUTO를 계속 검사한다. 별도 형제가 있는 직접 나열은 차단한다. 이름만 바꾼 중첩 Container는 허용하지 않는다. 의미상 제어 범위·독립 본문 여부는 직접 대조하며 모든 Container를 무조건 탭 그룹으로 인정하지 않는다. Tab 다음 복합 콘텐츠의 첫 보이는 일반 흐름 경로가 실제 Infobox / Card일 때16px를 검사하고 그 외는24px다.
+Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth Tab 시작을 식별하며 상단0px 예외를 계속 검사한다. Tab과 후속 콘텐츠의 그룹·부모 명칭은 검사하지 않으며, 상하위 탭의 동일 Container 강제 검사(TOP_TAB_SCOPE)도 삭제했다. Segment·Chip의 그룹핑과 BODY/Container 패딩 검사는 유지한다. 같은 부모에서 Tab 다음 실제 UI가 Infobox / Card인 경우16px, 그 외24px 간격 검사는 유지한다. 서로 다른 부모 사이의 실제 Tab→콘텐츠 경계 간격은 직접 확인한다. 그룹이 없다는 이유로 새 래퍼를 강제하지 않으며 기존 그룹의 자동 해제도 요구하지 않는다.
