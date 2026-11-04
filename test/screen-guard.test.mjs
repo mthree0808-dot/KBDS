@@ -580,3 +580,26 @@ test('numeric helper loads current and target fonts then keeps style, never lite
   assert.equal((await applyInputNumericText(api,node,'010-1234-5678',style)).styleKey,style.key);assert.equal(value,'010-1234-5678');
   await assert.rejects(applyInputNumericText(api,node,'010입니다',style));
 });
+
+function dataBoxFixture(name='Infobox Group',type='FRAME'){
+  const s=containerPage(true),c=s.items.find(n=>n.id==='c1');c.itemSpacing=32;c.boundVariables.itemSpacing={id:rules.spacing[32]};
+  add(s,frames('data-title','Title / DataList Group','c1',{itemSpacing:16,boundVariables:{itemSpacing:{id:rules.spacing[16]}}}),frames('title','Title','data-title'),frames('rows','DataList Group','data-title',{itemSpacing:12,boundVariables:{itemSpacing:{id:rules.spacing[12]}}}),component('row1','DataList','rows'),component('row2','DataList','rows'),type==='INSTANCE'?component('box',name,'c1'):frames('box',name,'c1'));
+  if(name==='Infobox Group')add(s,component('info','Infobox / Card','box'));
+  if(name==='Data Block Group')add(s,frames('block1','Data Block','box'),frames('block2','Data Block','box'));
+  if(name==='Card Group')add(s,component('card1','Card / Surface','box'),component('card2','Card / Surface','box'));
+  return s;
+}
+test('Title DataList next independent box uses32 without changing internal16 or12',()=>{
+  for(const [name,type]of [['Infobox Group','FRAME'],['Infobox / Card','INSTANCE'],['Infobox / Solid','INSTANCE'],['Data Block','FRAME'],['Data Block Group','FRAME'],['Text Box','FRAME'],['Text Box Group','FRAME'],['Card / Surface','INSTANCE'],['Card Group','FRAME']]){
+    const s=dataBoxFixture(name,type);assert.equal(check(s).errors.length,0,name);assert.equal(s.items.find(n=>n.id==='data-title').itemSpacing,16);assert.equal(s.items.find(n=>n.id==='rows').itemSpacing,12);
+  }
+});
+test('data to box rejects24 and missing32 token, ordinary non-box content stays unaffected',()=>{
+  const s=dataBoxFixture(),c=s.items.find(n=>n.id==='c1');c.itemSpacing=24;c.boundVariables.itemSpacing={id:rules.spacing[24]};assert.ok(codes(s).includes('GAP'));c.itemSpacing=32;assert.ok(codes(s).includes('GAP_TOKEN'));
+  const t=dataBoxFixture('Contents');const p=t.items.find(n=>n.id==='c1');p.itemSpacing=24;p.boundVariables.itemSpacing={id:rules.spacing[24]};assert.equal(check(t).errors.length,0);
+});
+test('data and box in different Containers still measure actual32 rather than container gap alone',()=>{
+  const s=dataBoxFixture();const first=s.items.find(n=>n.id==='c1');first.name='Container 1';add(s,frames('c2','Container 2','body',{paddingLeft:20,paddingRight:20,paddingBottom:32,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},paddingBottom:{id:rules.spacing[32]}}}));
+  Object.assign(s.items.find(n=>n.id==='data-title'),{absoluteBoundingBox:{x:20,y:24,width:350,height:100}});Object.assign(s.items.find(n=>n.id==='box'),{parentId:'c2',absoluteBoundingBox:{x:20,y:148,width:350,height:100}});
+  assert.ok(codes(s).includes('DATA_BOX_GAP'));s.items.find(n=>n.id==='box').absoluteBoundingBox.y=156;assert.equal(check(s).errors.length,0);
+});

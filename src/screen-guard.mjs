@@ -323,6 +323,23 @@ export function auditScreen(snapshot, contract = {}, rules) {
   }
   const stem = n => n.type === 'TEXT' ? 'Text' : n.type === 'INSTANCE' ? n.name.split(' / ')[0] : n.name;
   const repeatable = new Set(['Text', 'TextList', 'InputField', 'DataList', 'Card', 'Data Block', 'Radio', 'Checkbox', 'List', 'Accordion']);
+  const boxUi=n=>n?.type==='INSTANCE'&&(/^(Infobox)(?: \/|$)/.test(n.name)||n.name==='Card / Surface')||n?.type==='FRAME'&&['Infobox Group','Data Block','Data Block Group','Text Box','Text Box Group','Card Group'].includes(n.name);
+  // Preserve the data group and box group as whole UI units across Container
+  // boundaries. Their native/internal spacing is a separate layer.
+  for(const body of items.filter(n=>n.type==='FRAME'&&n.name==='## BODY'&&visible(n))){
+    const flow=[];
+    function blocks(n){for(const c of kids(n).filter(c=>visible(c)&&c.layoutPositioning!=='ABSOLUTE')){
+      if(c.type==='FRAME'&&c.name!=='Title / DataList Group'&&!boxUi(c))blocks(c);else flow.push(c);
+    }}
+    blocks(body);
+    for(let i=0;i<flow.length-1;i++){
+      const a=flow[i],b=flow[i+1];if(a.name!=='Title / DataList Group'||!boxUi(b)||a.parentId===b.parentId)continue;
+      const aa=a.absoluteBoundingBox,bb=b.absoluteBoundingBox;
+      if(!aa||!bb)fail('DATA_BOX_MEASURE',b,'분리된 데이터 그룹/박스의 실제 경계 측정이 필요합니다');
+      else if(!near(bb.y-aa.y-aa.height,rules.titleDataListToBoxGap))fail('DATA_BOX_GAP',b,'Title / DataList Group 다음 박스 UI의 실제 간격은32px입니다');
+      checked.push({kind:'data-to-box-boundary',nodeId:b.id,expected:rules.titleDataListToBoxGap});
+    }
+  }
   const selectorName = n => n.type==='INSTANCE' && /^(Tab|Segment|SegmentedControl|Chip)(?: \/ .+)?$/.test(n.name) ? n.name.split(' / ')[0] : null;
   // Bottom-pinned consent is one composite. Detect flattened/renamed versions
   // as well, rather than checking only a group that already has the right name.
@@ -392,6 +409,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
       }
       if (a.name === 'Feedback') gap = 40;
       if (a.name === 'Infobox / Solid' && ['InputField', 'InputField Group', 'Feedback'].includes(b.name)) gap = 24;
+      if (a.name === 'Title / DataList Group' && boxUi(b)) gap = rules.titleDataListToBoxGap;
       if (gap !== undefined && ['VERTICAL', 'HORIZONTAL'].includes(n.layoutMode)) spacing(n, gap, `${a.name} → ${b.name}`);
     }
   }

@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-04.8",
+  "version": "2026-11-04.9",
   "source": "docs/sources/designer-ui-rules.md",
   "colors": {
     "white": "f90471c40d02473a064c0edcaa006d4f8d251b9d",
@@ -61,5 +61,6 @@
     "keepDynamicModes": true,
     "standaloneDash": "Keep native KBFG Text Medium Fixed16 style; do not treat a separator-only Text as a numeric value.",
     "keepPlanningValues": true
-  }
+  },
+  "titleDataListToBoxGap": 32
 }

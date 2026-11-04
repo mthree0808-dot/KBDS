@@ -53,6 +53,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |필드 설명·약관 경계|FooterArea 내부 TextList 차단, 외부 InputField / TextList(Group)의12px·목록8px, Title / Page→ConsentGroup 동일 부모24 또는 분리 부모 실제 경계24|
 |서체|실제 Text 단위 숫자/혼용 판정, 전화번호·날짜 구분자, 누락 폰트와 스타일/서체 변수 연결|
 |레이어|실제 반복 그룹, Text/TextList 혼합, 구조에 맞는 부모명, 원형 내부 일괄 변경 방지|
+|데이터 그룹 다음 박스|Title / DataList Group→Infobox(그룹)·Data Block(그룹)·Text Box(그룹)·Card/Surface(그룹)의 외부32px 및 토큰, 분리 Container의 실제 경계|
 |간격|InputField Group24, Radio/Checkbox Group20, Section16/바텀시트 텍스트12, Tab→Infobox / Card16, Image Area 후24 등 코드에 명시된 조합과 토큰|
 |기획별 요구|contract에 명시한 원문·component key·공개 옵션·배치 속성·추가 Fill·gap|
 

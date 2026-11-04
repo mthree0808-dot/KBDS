@@ -1,5 +1,12 @@
 # UI Design & Code Generation Rules
 
+## Title / DataList Group 다음 박스 UI 간격32 (2026-11-04)
+
+- **적용 조건**: `Title / DataList Group` 다음에 **Infobox Group 또는 Infobox / Card·Solid 등 Infobox, Data Block(그룹), Text Box(그룹), Card / Surface(그룹) 같은 독립 박스 UI**가 이어지면, 두 블록 **바깥 경계 사이 간격은32px (`spacing/5xl`)**다. 연결 key는 `840e7bd3a0d91d1161f8dcbd3c3299310e014cac`다. 단순히 모든 후속 콘텐츠를32로 변경하지 않고 실제 박스 역할을 기준으로 판정한다.
+- **적용 계층**: 두 요소를 직접 배치하는 부모 Auto Layout에 gap32와 토큰을 연결한다. 예시는 `Container 2(gap32) > Title / DataList Group, Infobox Group`이다. 서로 다른 Container/래퍼에 있더라도 실제 경계32를 확인한다. 여백을 만들기 위해 빈 프레임·박스 padding-top·중복 gap을 추가하거나 native 내부 간격을 바꾸지 않는다.
+- **유지되는 내부 규칙**: `Title / DataList Group` 내부 Title→DataList Group16px, DataList Group 내부12px, Infobox Group/각 native 박스의 별도 내부 gap·padding은 외부32와 구분한다. Infobox / Card→다음 독립 콘텐츠24px, Title / Section 후16px, Feedback 후40px 등 다른 조합의 기존 규칙은 이 지시로 일괄 변경하지 않는다.
+- **삭제 가능한 근거**: [가맹점 신청 완료173:3046](https://www.figma.com/design/VDNcua4WHKOtBMyerxWqdv/?node-id=173-3046)의 실제 `Container 2`는 gap32·좌우20, `Title / DataList Group` 뒤에 `Infobox Group`을 배치한다. 화면 삭제 후에도 이 문장의 조건·계층·수치·토큰으로 적용한다. 이번 요청은 공유 MD·공통 검사 갱신이며 Figma 화면 수정/삭제는 포함하지 않는다.
+
 ## 입력 화면 교정: 제목·약관24 / 숫자 스타일·변수 / 필드 설명12 (2026-11-04)
 
 - **삭제 독립 기준**: [사용자 교정152:3916](https://www.figma.com/design/VDNcua4WHKOtBMyerxWqdv/?node-id=152-3916)과 작업본152:4279의 차이를 실측했다. 참조 삭제 후에는 [재현 설정](../../knowledge/input-field-corrections.json)과 아래 규칙을 사용한다. 마지막 전달152:6777은 확인 당시 조회되지 않아 그 노드의 별도 설정을 추정하지 않았다. 이번 요청은 공유 규칙·검사 갱신이며 교정본/비교본을 임의 수정하거나 삭제하지 않는다.
