@@ -384,7 +384,8 @@ export function auditScreen(snapshot, contract = {}, rules) {
       if (repeatable.has(base) && (cs.length < 2 || cs.some(c => stem(c) !== base))) fail('GROUP_CONTENTS', n, `${n.name}은 실제 같은 항목의 복수만 포함해야 합니다`);
     }
     for (const base of repeatable) {
-      const repeated = cs.filter(c => (c.type === 'TEXT' || c.type === 'INSTANCE' || c.type === 'FRAME') && stem(c) === base);
+      // Native Card section instances are parts of one card, not repeated cards.
+      const repeated = cs.filter(c => (c.type === 'TEXT' || c.type === 'INSTANCE' || c.type === 'FRAME') && stem(c) === base && !(base === 'Card' && c.type === 'INSTANCE' && /^Card \/ (Body|Header|Footer)(?: \/|$)/.test(c.name)));
       if (repeated.length > 1 && n.name !== `${base} Group`) fail('REPEAT_GROUP', n, `반복 ${base} ${repeated.length}개를 실제 ${base} Group으로 묶어야 합니다`);
     }
     if (cs.some(c => stem(c) === 'Text') && cs.some(c => c.name === 'TextList Group') && n.name !== 'Text / TextList Group') fail('MIXED_GROUP_NAME', n, 'Text와 TextList Group의 부모명은 Text / TextList Group입니다');

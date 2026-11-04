@@ -34,6 +34,12 @@ function textNode(id,value,parentId,extra={}) {
 const add = (s,...items) => {s.items.push(...items);s.total=s.items.length;return s;};
 const check = (s,c={}) => auditScreen(s,c,rules);
 const codes = (s,c={}) => check(s,c).errors.map(e=>e.code);
+test('native Card sections in Group are not mistaken for repeated Card surfaces',()=>{
+  const s=snapshot([frames('root','Group',null),component('a','Card / Body / Group-C','root'),component('b','Card / Body / Group-C','root')]);
+  assert.ok(!codes(s,{screenType:'layout'}).includes('REPEAT_GROUP'));
+  s.items[1].name=s.items[2].name='Card / Surface';
+  assert.ok(codes(s,{screenType:'layout'}).includes('REPEAT_GROUP'));
+});
 test('valid page and PDF pass structural checks, never visual PASS',()=>{
   for(const s of [page(),pdf()]) assert.equal(check(s).status,'STRUCTURE_OK_REQUIRES_VISUAL_REVIEW');
 });
