@@ -333,10 +333,10 @@ function containerPage(single=false) {
   const s=page();
   const padding=(top,bottom)=>({paddingTop:top,paddingBottom:bottom,paddingLeft:20,paddingRight:20,
     boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},...(top?{paddingTop:{id:rules.spacing[top]}}:{}),...(bottom?{paddingBottom:{id:rules.spacing[bottom]}}:{})}});
-  if(single)return add(s,frames('c1','Container','body',padding(24,32)));
+  if(single)return add(s,frames('c1','Container','body',padding(24,0)));
   return add(s,frames('c1','Container 1','body',padding(24,0)),frames('c2','Container 2','body',padding(0,0)),frames('c3','Container 3','body',padding(0,32)));
 }
-test('BODY owns no padding; first and last containers own 24 and 32',()=>{
+test('BODY owns no padding; single Container has no bottom while multiple end with32',()=>{
   for(const s of [containerPage(),containerPage(true)])assert.equal(check(s).errors.length,0);
   for(const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft']){
     const s=containerPage();s.items.find(n=>n.id==='body')[field]=20;assert.ok(codes(s).includes('BODY_PADDING'));
@@ -377,7 +377,7 @@ function directTabContainer(){
   s.items=s.items.filter(n=>n.id!=='selector-group');
   s.items.find(n=>n.id==='selector').parentId='c1';
   s.items.find(n=>n.id==='contents').parentId='c1';s.total=s.items.length;
-  Object.assign(s.items.find(n=>n.id==='c1'),{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:24,boundVariables:{paddingBottom:{id:rules.spacing[32]},itemSpacing:{id:rules.spacing[24]}}});
+  Object.assign(s.items.find(n=>n.id==='c1'),{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}});
   return s;
 }
 test('direct BODY Container can group a leading Tab and its whole content subtree',()=>{
@@ -489,4 +489,19 @@ test('keypad and pattern Popup Body own no padding while their Containers own24/
 test('input Popup padding migration preserves token checks without applying to PDF',()=>{
   const s=inputPopup();delete s.items.find(n=>n.id==='c1').boundVariables.paddingTop;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING_TOKEN'));
   const t=pdf();t.items.find(n=>n.id==='body').paddingTop=24;assert.equal(check(t).errors.length,0);
+});
+
+test('single ordinary Feedback and first-depth Tab Containers have bottom0 without token',()=>{
+  const ordinary=containerPage(true),feedback=containerPage(true),tab=selectorPage('Tab','1depth');
+  const c=feedback.items.find(n=>n.id==='c1');c.paddingTop=40;c.boundVariables.paddingTop={id:rules.spacing[40]};add(feedback,component('feedback','Feedback','c1'));
+  for(const s of [ordinary,feedback,tab]){
+    assert.equal(check(s).errors.length,0);
+    const container=s.items.find(n=>n.id==='c1');container.paddingBottom=32;container.boundVariables.paddingBottom={id:rules.spacing[32]};assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+    container.paddingBottom=0;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING_TOKEN'));delete container.boundVariables.paddingBottom;assert.equal(check(s).errors.length,0);
+  }
+});
+test('single input Popup Container also has no bottom while two Containers keep last32',()=>{
+  const s=inputPopup();s.items=s.items.filter(n=>n.id!=='c2');s.total=s.items.length;assert.equal(check(s).errors.length,0);
+  const c=s.items.find(n=>n.id==='c1');c.paddingBottom=32;c.boundVariables.paddingBottom={id:rules.spacing[32]};assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+  assert.equal(check(inputPopup()).errors.length,0);
 });

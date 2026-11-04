@@ -1,12 +1,16 @@
 # 작업 실행 절차
 
+## 단일 Container의 하단 패딩 (2026-11-04)
+
+본문 직계 페이지 Container가 하나면 시작 UI별 상단24/40/0만 적용하고 padding-bottom0·변수 해제로 둔다. 좌우 여백은 유지한다. 복수이면 마지막하32를 유지한다. Container 개수를 바꿔 조건을 맞추지 않는다. 원문의 독립 명세와 공통 검사를 적용한다.
+
 ## 키패드·패턴 Popup Body 여백 소유 (2026-11-04)
 
-Body 자체24px는 철회한다. Popup > Slot > Body는 padding0, 상단24는 첫 Container에 둔다. 좌우20·마지막 하32·기존 Container 분할·Body gap과 원형 내부 패딩을 유지한다. 승인5054:2599의 독립 명세를 원문에 보존했으며 화면 삭제 후에도 이를 적용한다. 실제 위치가 같아도 Body24/Container0으로 대체하지 않는다.
+Body 자체24px는 철회한다. Popup > Slot > Body는 padding0, 상단24는 첫 Container에 둔다. 좌우20·단일 하0/복수 마지막하32·기존 Container 분할·Body gap과 원형 내부 패딩을 유지한다. 승인5054:2599의 독립 명세를 원문에 보존했으며 화면 삭제 후에도 이를 적용한다. 실제 위치가 같아도 Body24/Container0으로 대체하지 않는다.
 
 ## Feedback·상단 아이콘의 첫 Container (2026-11-04)
 
-일반 첫 Container24px와 구분해 Feedback/상단 아이콘으로 시작하는 화면은40px 및 spacing/6xl을 적용한다. BODY는0, 좌우20·마지막 하32·기존 Container 분할은 유지한다. 맨 앞 StepIndicator/1depth Tab은0이다. 원문의 독립 명세를 적용하고 ImageContainer의 의미가 불분명하면 확인 후 firstContainerRole을 계약으로 명시한다. Header나 뒤쪽 아이콘만으로40을 적용하지 않는다.
+일반 첫 Container24px와 구분해 Feedback/상단 아이콘으로 시작하는 화면은40px 및 spacing/6xl을 적용한다. BODY는0, 좌우20·단일 하0/복수 마지막하32·기존 Container 분할은 유지한다. 맨 앞 StepIndicator/1depth Tab은0이다. 원문의 독립 명세를 적용하고 ImageContainer의 의미가 불분명하면 확인 후 firstContainerRole을 계약으로 명시한다. Header나 뒤쪽 아이콘만으로40을 적용하지 않는다.
 
 ## 레이어 정리 시 구조 보존 (2026-11-04)
 
@@ -17,7 +21,7 @@ Body 자체24px는 철회한다. Popup > Slot > Body는 padding0, 상단24는 �
 제작 전에 [현재 독립 명세](sources/designer-ui-rules.md#body-무패딩container-여백선택-ui-복합-그룹-2026-11-03-최종-변경)를 적용한다. 이 문서 아래에 남은 과거 BODY padding24/20/32·상단40/16·전폭 분기와 Tab/Infobox 평탄 배치 문구보다 이 규칙이 우선한다.
 
 - `## BODY` padding은 네 방향 모두0이다. 일반 Container 좌우20px, StepIndicator·Tab(1depth)·알려드립니다 등 전폭 외부 래퍼는 좌우0px다. 혼합 Container는 외부0px·일반 본문 내부 래퍼20px로 구성한다.
-- 첫 Container 상단은 일반24px(spacing/3xl), Feedback/상단 아이콘 시작40px(spacing/6xl)이며 맨 앞 UI가 StepIndicator 또는1depth Tab이면0px다. 구조용 첫 그룹 안에 있는 경우도 동일하게 판정한다. 마지막 Container 하단32px(spacing/5xl)는 유지하고, 단일 Container에도 시작 UI별 상24/40/0·하32를 적용한다. 중간 Container의 외곽 상하 패딩은0이다. 키패드·패턴 Popup Body도0·첫 Container 상단24다. 컴포넌트 원형 내부 패딩과 PDF/다른 Popup Body·BottomSheet Slot은 별도 범위다.
+- 첫 Container 상단은 일반24px(spacing/3xl), Feedback/상단 아이콘 시작40px(spacing/6xl)이며 맨 앞 UI가 StepIndicator 또는1depth Tab이면0px다. 구조용 첫 그룹 안에 있는 경우도 동일하게 판정한다. Container가 복수일 때 마지막 하단32px(spacing/5xl)를 적용한다. 단일은 시작 UI별 상24/40/0만 적용하고 하단0·변수 해제다. 중간 Container의 외곽 상하 패딩은0이다. 키패드·패턴 Popup Body도0·첫 Container 상단24다. 컴포넌트 원형 내부 패딩과 PDF/다른 Popup Body·BottomSheet Slot은 별도 범위다.
 - Tab과 후속 콘텐츠의 필수 그룹핑은 삭제했다(2026-11-04 최신). Segment·Chip의 기존 복합 그룹핑은 유지한다. Tab의 공개 옵션·문구·선택 상태·기존 간격은 유지한다.
 - 이전2013:6542·2059:1068의 Container 충족/별도 그룹 필수 판정과 상하위 탭의 동일 Container 강제는 더 이상 적용하지 않는다. 기존 그룹을 자동 해제하라는 뜻은 아니다. BODY/Container 패딩·Tab→Infobox16/일반24·인포박스 후24·목록 내부12는 유지하며 다른 부모 사이의 실제 간격은 직접 확인한다.
 

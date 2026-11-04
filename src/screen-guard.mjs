@@ -113,10 +113,12 @@ export function auditScreen(snapshot, contract = {}, rules) {
       const beginsFlush=lead?.type==='INSTANCE'&&(lead.name==='StepIndicator'||lead.name==='Tab'&&lead.componentProperties?.variant?.value==='1depth');
       const beginsFeedbackOrIcon=lead?.type==='INSTANCE'&&(['Feedback','IconContainer'].includes(lead.name)||/^status-/.test(lead.name))||['feedback','top-icon'].includes(contract.firstContainerRole);
       const top=index===0?(beginsFlush?0:beginsFeedbackOrIcon?40:24):0;
-      for (const [field,value]of [['paddingTop',top],['paddingBottom',index===containers.length-1?32:0]]) {
+      const bottom=containers.length>1&&index===containers.length-1?32:0;
+      for (const [field,value]of [['paddingTop',top],['paddingBottom',bottom]]) {
         if (!near(n[field],value)) fail('BODY_CONTAINER_PADDING',n,`${field}: ${value}px 필요`);
         if (value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
       }
+      if(containers.length===1&&n.boundVariables?.paddingBottom)fail('BODY_CONTAINER_PADDING_TOKEN',n,'단일 Container의 paddingBottom은0이며 변수 연결도 제거합니다');
     });
     checked.push({kind:'body-container-padding',nodeId:body.id,containers:containers.map(n=>n.id)});
   }
