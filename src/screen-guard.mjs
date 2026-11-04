@@ -72,6 +72,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
   if (reachable.size !== items.length) fail('SNAPSHOT_TREE', root, '루트와 연결되지 않은 노드 또는 순환 계층이 있습니다');
   if (errors.length) return {status: 'BLOCKED', errors, checked, ruleVersion: rules?.version};
   const roots = kids(root);
+  if(contract.firstContainerRole!==undefined&&!['feedback','top-icon'].includes(contract.firstContainerRole))fail('CONTRACT',root,'firstContainerRole은 feedback 또는 top-icon입니다');
   const insetOverrides=contract.containerInsetOverrides??[];
   if(!Array.isArray(insetOverrides))fail('CONTRACT',root,'containerInsetOverrides는 승인 경로·값·근거 배열입니다');
   const approvedInsets=new Map();
@@ -106,7 +107,9 @@ export function auditScreen(snapshot, contract = {}, rules) {
       }
       const lead=leadingUi(n);
       const beginsFlush=lead?.type==='INSTANCE'&&(lead.name==='StepIndicator'||lead.name==='Tab'&&lead.componentProperties?.variant?.value==='1depth');
-      for (const [field,value]of [['paddingTop',index===0&&!beginsFlush?24:0],['paddingBottom',index===containers.length-1?32:0]]) {
+      const beginsFeedbackOrIcon=lead?.type==='INSTANCE'&&(['Feedback','IconContainer'].includes(lead.name)||/^status-/.test(lead.name))||['feedback','top-icon'].includes(contract.firstContainerRole);
+      const top=index===0?(beginsFlush?0:beginsFeedbackOrIcon?40:24):0;
+      for (const [field,value]of [['paddingTop',top],['paddingBottom',index===containers.length-1?32:0]]) {
         if (!near(n[field],value)) fail('BODY_CONTAINER_PADDING',n,`${field}: ${value}px 필요`);
         if (value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
       }

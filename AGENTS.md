@@ -25,7 +25,7 @@
 
 - 레이어 정리는 기존 Container 수·부모·순서·분할을 기록하고 보존한다. Tab 그룹핑 삭제를 근거로 병합·Infobox / Contents 재포장하지 않는다. 허용 범위만 편집하고 직계 자식 계약으로 임의 병합·래퍼 추가를 차단한다. 승인된 전폭/자체 인셋은 경로별 근거로 검사하며 통과를 위해 구조·native 내부 패딩을 바꾸지 않는다.
 
-- `## BODY`는 padding0이다. 일반 Container 좌우20px·전폭 UI 외부 래퍼 좌우0px, 첫 Container 상단 기본24px(맨 앞이 StepIndicator/1depth Tab이면0)·마지막 하32px(단일에도 적용)를 적용한다. 과거 BODY 패딩·상단40/16 예외보다 새 규칙을 우선하며 Popup Body·BottomSheet Slot·PDF·원형 내부는 구분한다.
+- `## BODY`는 padding0이다. 일반 Container 좌우20px·전폭 UI 외부 래퍼 좌우0px, 첫 Container 상단 일반24px·Feedback/상단 아이콘40px(맨 앞이 StepIndicator/1depth Tab이면0)·마지막 하32px(단일에도 적용)를 적용한다. 과거 BODY 자체 패딩·상단16 예외보다 새 규칙을 우선하며 Popup Body·BottomSheet Slot·PDF·원형 내부는 구분한다.
 - Tab(1depth·2depth)과 후속 콘텐츠의 필수 그룹핑·특정 복합 부모명·상하위 탭의 동일 Container 강제는 삭제했다. 기존 그룹은 유지할 수 있으며 화면을 자동으로 해제하지 않는다. Tab 간격·Container 패딩 규칙은 유지한다.
 - Segment·Chip은 후속 콘텐츠와 실제 Vertical·Fill/Hug·AUTO 복합 그룹으로 묶고 실제 구성으로 명명한다. Tab은 이 그룹핑 의무에서 제외한다. 기존 조합별 간격과 전폭 외부0px·본문 래퍼20px는 유지한다.
 - PDF: `Body > Title Area`와 `Body > body`는 각각 `background/neutral/light-gray` Fill을 연결·노출한다. 흰색 아트보드·PDF Document와 구분한다. BG 변수 key, Paint visible/opacity, 레이어 노출과 렌더까지 확인한다.

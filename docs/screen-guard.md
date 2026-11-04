@@ -38,7 +38,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |항목|자동 검사|
 |---|---|
 |스냅샷|전체 수집, 중복 ID, 누락 부모·순환/분리 계층|
-|BODY/Container|BODY 네 방향padding0, 첫 Container 상단 기본24·StepIndicator/1depth Tab 시작0, 마지막 하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
+|BODY/Container|BODY 네 방향padding0, 첫 Container 상단 일반24·Feedback/상단 아이콘40·StepIndicator/1depth Tab 시작0, 마지막 하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
 |선택 UI 그룹|Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 부모·명칭·순서. Tab 그룹핑·동일 Container 범위 강제는 삭제|
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
 |BG|PDF Title Area·body의 light-gray, 문서·화면 white, 실제 변수 key·Paint 노출·opacity·레이어 노출|
@@ -94,3 +94,7 @@ Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth T
 `checks`에 `{path:["## BODY"],kind:"children",value:["Container 1","Container 2"]}`와 각 Container의 실제 직계 자식 이름 목록을 추가한다. 보이는 일반 흐름 자식의 수·이름·순서를 검사해 병합·중간 래퍼 추가를 차단한다. 원래 구조는 자동 추정하지 않으므로 수정 전 계층 또는 사용자 복원 지시를 계약으로 제공한다.
 
 승인된 전폭/자체 인셋과 기본20 판정이 다를 때만 `containerInsetOverrides:[{path:["## BODY","Container 2"],value:0,reason:"2067:2030 승인: native Tab2 내부20·본문350 중앙/자체인셋 보존"}]`로 실제 경로를 명시한다. 값0/20·비어 있지 않은 근거·BODY 직계 Container만 허용한다. 다른 패딩/토큰·서체·구조 검사는 유지하며 실제 중복 인셋 여부는 직접 확인한다. 이 예외를 임의 병합이나 오류 숨김에 사용하지 않는다.
+
+### Feedback·상단 아이콘 상단40
+
+첫 보이는 일반 흐름 경로의 실제 Feedback·IconContainer·status-*는 첫 Container 상단40px와 spacing/6xl을 검사한다. 이름만으로 알 수 없는 ImageContainer 아이콘 사례는 기획·원형 확인 후 `{firstContainerRole:"top-icon"}` 또는 feedback으로 명시할 수 있다. 일반24·최초 StepIndicator/1depth Tab0·두 번째 이후 상0·BODY padding0·마지막하32는 유지한다. 사진이나 뒤쪽 아이콘은 자동으로40을 적용하지 않는다. 아이콘 의미·렌더는 직접 확인한다.

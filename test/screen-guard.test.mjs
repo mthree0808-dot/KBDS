@@ -460,3 +460,21 @@ test('approved inset override is scoped to a direct Container with a reason',()=
   assert.equal(check(s,contract).errors.length,0);s.items.find(n=>n.id==='c3').paddingLeft=0;assert.ok(codes(s,contract).includes('BODY_CONTAINER_INSET'));
   delete contract.containerInsetOverrides[0].reason;assert.ok(codes(s,contract).includes('CONTRACT'));
 });
+test('first Feedback or top icon uses Container top40 with its spacing token',()=>{
+  for(const name of ['Feedback','IconContainer','status-success']){
+    const s=containerPage(true),c=s.items.find(n=>n.id==='c1');c.paddingTop=40;c.boundVariables.paddingTop={id:rules.spacing[40]};add(s,component('lead',name,'c1'));
+    assert.equal(check(s).errors.length,0,name);c.paddingTop=24;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+    c.paddingTop=40;delete c.boundVariables.paddingTop;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING_TOKEN'));
+  }
+});
+test('nested icon is detected but later Feedback does not set Container top40',()=>{
+  const s=containerPage(true),c=s.items.find(n=>n.id==='c1');c.paddingTop=40;c.boundVariables.paddingTop={id:rules.spacing[40]};add(s,frames('wrap','Icon Area','c1'),component('icon','IconContainer','wrap'));assert.equal(check(s).errors.length,0);
+  const t=containerPage(true);add(t,component('title','Title / Page','c1'),component('feedback','Feedback','c1'));assert.equal(check(t).errors.length,0);
+  const u=containerPage();add(u,component('feedback','Feedback','c2'));assert.equal(check(u).errors.length,0);
+});
+test('explicit top-icon role covers image components without guessing every image is an icon',()=>{
+  const s=containerPage(true);add(s,component('image','ImageContainer','c1'));assert.equal(check(s).errors.length,0);
+  const c=s.items.find(n=>n.id==='c1');c.paddingTop=40;c.boundVariables.paddingTop={id:rules.spacing[40]};assert.equal(check(s,{firstContainerRole:'top-icon'}).errors.length,0);
+  assert.ok(codes(s,{firstContainerRole:'unknown'}).includes('CONTRACT'));
+  const tab=selectorPage('Tab','1depth');assert.equal(check(tab,{firstContainerRole:'top-icon'}).errors.length,0);
+});
