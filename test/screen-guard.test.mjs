@@ -34,6 +34,18 @@ function textNode(id,value,parentId,extra={}) {
 const add = (s,...items) => {s.items.push(...items);s.total=s.items.length;return s;};
 const check = (s,c={}) => auditScreen(s,c,rules);
 const codes = (s,c={}) => check(s,c).errors.map(e=>e.code);
+test('page Containers inside structural wrappers keep their order and padding ownership',()=>{
+ const s=page();add(s,frames('contents','Contents','body'),frames('c1','Container 1','contents'),component('step','StepIndicator','c1'),
+ frames('c2','Container 2','contents',{paddingLeft:20,paddingRight:20,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]}}}),
+ frames('c3','Container 3','body',{paddingBottom:32,boundVariables:{paddingBottom:{id:rules.spacing[32]}}}),component('notice','Accordion','c3'),textNode('noticeTitle','알려드립니다','notice'));
+ assert.equal(check(s).errors.length,0);
+ assert.deepEqual(check(s).checked.find(n=>n.kind==='body-container-padding').containers,['c1','c2','c3']);
+ s.items.find(n=>n.id==='c3').paddingBottom=0;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+});
+test('Container search never descends into native instances or existing page Containers',()=>{
+ const s=page();add(s,frames('c','Container','body'),component('step','StepIndicator','c'),frames('native','Container','step'),frames('inner','Container 2','c'));
+ const result=check(s);assert.deepEqual(result.checked.find(n=>n.kind==='body-container-padding').containers,['c']);assert.equal(result.errors.length,0);
+});
 function fixedKeyboard(){return snapshot([frames('root','암호입력',null,{height:844,layoutSizingVertical:'FIXED',fills:fill(rules.colors.white)}),component('pop','Popup','root',{layoutSizingVertical:'FILL'}),frames('slot','Slot','pop',{type:'SLOT',layoutSizingVertical:'FILL'}),frames('head','Header','slot'),frames('body','Body','slot',{layoutSizingVertical:'FILL',clipsContent:true}),frames('foot','Footer','slot',{layoutSizingVertical:'HUG'}),component('pad','Item / Pad','foot'),component('home','HomeIndicator','root',{fills:fill(rules.colors.elevated)})]);}
 test('explicit keyboard viewport preserves844 and Fill despite keyboard content',()=>{
  const s=fixedKeyboard(),c={keyboardViewport:'fixed844'};assert.equal(check(s,c).errors.length,0);

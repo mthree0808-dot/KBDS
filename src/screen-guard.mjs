@@ -92,7 +92,17 @@ export function auditScreen(snapshot, contract = {}, rules) {
   };
   for (const body of items.filter(n=>n.type==='FRAME'&&(n.name==='## BODY'||inputPopupBody(n))&&visible(n))) {
     for (const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft']) if (!near(body[field],0)) fail('BODY_PADDING',body,'일반 ## BODY 및 키패드·패턴 Popup Body의 상하좌우 padding은 모두0px입니다');
-    const containers=kids(body).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE'&&/^Container(?: [1-9]\d*)?$/.test(n.name));
+    // A structural wrapper may contain page Containers. Stop at each page
+    // Container; native component internals are never page Containers.
+    const containers=[];
+    function collectContainers(parent) {
+      for(const n of kids(parent)) {
+        if(!visible(n)||n.layoutPositioning==='ABSOLUTE'||n.type!=='FRAME')continue;
+        if(/^Container(?: [1-9]\d*)?$/.test(n.name))containers.push(n);
+        else collectContainers(n);
+      }
+    }
+    collectContainers(body);
     function leadingUi(container) {
       let current=container;const seen=new Set();
       while(current?.type==='FRAME'&&!seen.has(current.id)) {

@@ -96,6 +96,8 @@ Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth T
 
 ### Container 구조 보존 계약
 
+페이지 Container 검사는 BODY 직계뿐 아니라 기존 구조용 FRAME 래퍼 아래까지 순서대로 탐색한다. 페이지 Container를 만나면 그 하위 탐색을 멈추며 INSTANCE 안에는 진입하지 않는다. `Contents` 아래 Container와 BODY 직계 Container가 함께 있어도 실제 첫·마지막을 기준으로 판정한다. 네이티브 StepIndicator 내부의 동명 Container는 페이지 여백 편집 대상이 아니다.
+
 `checks`에 `{path:["## BODY"],kind:"children",value:["Container 1","Container 2"]}`와 각 Container의 실제 직계 자식 이름 목록을 추가한다. 보이는 일반 흐름 자식의 수·이름·순서를 검사해 병합·중간 래퍼 추가를 차단한다. 원래 구조는 자동 추정하지 않으므로 수정 전 계층 또는 사용자 복원 지시를 계약으로 제공한다.
 
 승인된 전폭/자체 인셋과 기본20 판정이 다를 때만 `containerInsetOverrides:[{path:["## BODY","Container 2"],value:0,reason:"2067:2030 승인: native Tab2 내부20·본문350 중앙/자체인셋 보존"}]`로 실제 경로를 명시한다. 값0/20·비어 있지 않은 근거·BODY 직계 Container만 허용한다. 다른 패딩/토큰·서체·구조 검사는 유지하며 실제 중복 인셋 여부는 직접 확인한다. 이 예외를 임의 병합이나 오류 숨김에 사용하지 않는다.
