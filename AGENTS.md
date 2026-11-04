@@ -30,6 +30,7 @@
 - Segment·Chip은 후속 콘텐츠와 실제 Vertical·Fill/Hug·AUTO 복합 그룹으로 묶고 실제 구성으로 명명한다. Tab은 이 그룹핑 의무에서 제외한다. 기존 조합별 간격과 전폭 외부0px·본문 래퍼20px는 유지한다.
 - PDF: `Body > Title Area`와 `Body > body`는 각각 `background/neutral/light-gray` Fill을 연결·노출한다. 흰색 아트보드·PDF Document와 구분한다. BG 변수 key, Paint visible/opacity, 레이어 노출과 렌더까지 확인한다.
 - CTA: Label 문구는 원형 가로 Hug / WIDTH_AND_HEIGHT를 유지한다. 고정폭 49px 등으로 덮어쓰지 않는다.
+- 더미 Image Area는 삭제 예정152:2214 링크 대신 `knowledge/dummy-image.json`과 `knowledge/assets/dummy-service-illustration.png`로 재현한다. 실제 native ImageContainer·저장 그래픽/CROP, 상하40, 편집 가능한 Pretendard SemiBold21 라벨·빨강40% Fill·흰색2px OUTSIDE·중앙 배치를 보존한다. 라벨을 이미지로 합치거나 빈 기본 이미지로 대체하지 않는다.
 - 서체: 판정 단위는 실제 Text다. 숫자·숫자 서식만 있으면 Pretendard, 문자와 섞인 한 Text는 KBFG Text다. 하이픈이 있는 전화번호도 숫자다. 더미 라벨은 편집 가능한 Pretendard SemiBold를 보존한다.
 - 반복 항목은 실제 `[명칭] Group`으로 묶는다. Text·TextList 혼합은 각각 묶고 `Text / TextList Group`, 그 위 제목은 `Title / Contents`로 재판정한다. 구조 변경 후 영향을 받는 부모도 검사한다. 원형 내부 레이어를 일괄 재명명하지 않는다.
 - Title / Section 뒤16px(바텀시트 텍스트12px 예외), Title / TextList Group 간24px, Tab→Infobox / Card16px, 일반 Tab 후24px 등 해당 조합의 최신 간격을 구분한다. 숫자 값과 spacing 토큰을 같이 검사한다.

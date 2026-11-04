@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-04.6",
+  "version": "2026-11-04.7",
   "source": "docs/sources/designer-ui-rules.md",
   "colors": {
     "white": "f90471c40d02473a064c0edcaa006d4f8d251b9d",
@@ -18,5 +18,23 @@
     "24": "fb23d20e74566ea2a3280e9e3ca48e40122b6d95",
     "32": "840e7bd3a0d91d1161f8dcbd3c3299310e014cac",
     "40": "5bc593ee6f05df006566535e37f5fce0ed3a085b"
+  },
+  "dummyImage": {
+    "componentKey": "a680e6cb6e2aa701a6c19e00aadf45b42d947ec4",
+    "imageHash": "b1f2e8f30a4712713e5005c50b82808ca63b2cfb",
+    "fontFamilyVariableKey": "6df184c7178de2fefb24f1c7673bb5bfb99eea9b",
+    "fontSize": 21,
+    "imageTransform": [
+      [
+        1.9662922620773315,
+        0,
+        -0.48314616084098816
+      ],
+      [
+        0,
+        1.1417688131332397,
+        -0.08393318206071854
+      ]
+    ]
   }
 }

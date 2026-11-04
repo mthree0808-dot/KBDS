@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {execFileSync, spawnSync} from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -504,4 +505,30 @@ test('single input Popup Container also has no bottom while two Containers keep 
   const s=inputPopup();s.items=s.items.filter(n=>n.id!=='c2');s.total=s.items.length;assert.equal(check(s).errors.length,0);
   const c=s.items.find(n=>n.id==='c1');c.paddingBottom=32;c.boundVariables.paddingBottom={id:rules.spacing[32]};assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
   assert.equal(check(inputPopup()).errors.length,0);
+});
+
+function approvedDummy() {
+  const spec=rules.dummyImage;
+  const s=page();
+  add(s,frames('area','Image Area','body',{width:350,height:255,layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',paddingTop:40,paddingBottom:40,boundVariables:{paddingTop:{id:rules.spacing[40]},paddingBottom:{id:rules.spacing[40]}}}),
+    component('image','ImageContainer','area',{width:350,height:175,component:{key:spec.componentKey},componentProperties:{ratio:{value:'2:1'}},layoutSizingHorizontal:'FILL',layoutSizingVertical:'FIXED',fills:[{type:'IMAGE',imageHash:spec.imageHash,scaleMode:'CROP',visible:true,opacity:1,scalingFactor:0.5,imageTransform:spec.imageTransform,filters:{exposure:0}}]}),
+    textNode('dummy','더미이미지','area',{name:'더미이미지',x:130,y:113,width:91,height:29,layoutPositioning:'ABSOLUTE',constraints:{horizontal:'CENTER',vertical:'CENTER'},textAutoResize:'WIDTH_AND_HEIGHT',textAlignHorizontal:'CENTER',boundVariables:{fontFamily:[{id:spec.fontFamilyVariableKey}]},segments:[{fontName:{family:'Pretendard',style:'SemiBold'},fontSize:21,lineHeight:{unit:'PERCENT',value:140},letterSpacing:{unit:'PERCENT',value:0},boundVariables:{fontFamily:{id:spec.fontFamilyVariableKey}}}],fills:[{type:'SOLID',visible:true,opacity:0.4,color:{r:1,g:0,b:0}}],strokes:[{type:'SOLID',visible:true,opacity:1,color:{r:1,g:1,b:1}}],strokeWeight:2,strokeAlign:'OUTSIDE'}));
+  s.variables.push({id:spec.fontFamilyVariableKey,key:spec.fontFamilyVariableKey});return s;
+}
+test('approved dummy survives source deletion through saved PNG and portable settings',()=>{
+  const s=approvedDummy();assert.equal(check(s).errors.length,0);
+  const spec=JSON.parse(fs.readFileSync(new URL('../knowledge/dummy-image.json',import.meta.url),'utf8'));
+  const bytes=fs.readFileSync(new URL('../knowledge/'+spec.asset.path,import.meta.url));
+  assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');
+  assert.equal(createHash('sha256').update(bytes).digest('hex'),spec.asset.sha256);
+  assert.equal(createHash('sha1').update(bytes).digest('hex'),rules.dummyImage.imageHash);
+  assert.equal(spec.label.fontSize,21);assert.equal(spec.asset.imageHash,rules.dummyImage.imageHash);
+});
+test('dummy rejects empty native artwork and changed crop despite correct component key',()=>{
+  const s=approvedDummy(),im=s.items.find(n=>n.id==='image');im.fills=[];assert.ok(codes(s).includes('DUMMY_IMAGE_PAINT'));
+  const t=approvedDummy();t.items.find(n=>n.id==='image').fills[0].imageTransform=[[1,0,0],[0,1,0]];assert.ok(codes(t).includes('DUMMY_IMAGE_PAINT'));
+});
+test('dummy rejects black 20px label missing outline or center constraints',()=>{
+  const s=approvedDummy(),t=s.items.find(n=>n.id==='dummy');t.segments[0].fontSize=20;t.fills[0].color={r:0,g:0,b:0};t.strokes=[];t.constraints.horizontal='MIN';
+  for(const code of ['DUMMY_LABEL_FONT','DUMMY_LABEL_PAINT','DUMMY_LABEL_POSITION'])assert.ok(codes(s).includes(code));
 });

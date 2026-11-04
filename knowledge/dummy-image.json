@@ -1,0 +1,148 @@
+{
+  "version": "2026-11-04",
+  "source": {
+    "fileKey": "VDNcua4WHKOtBMyerxWqdv",
+    "nodeId": "152:2214",
+    "imageAreaId": "152:2225",
+    "deletable": true
+  },
+  "asset": {
+    "path": "assets/dummy-service-illustration.png",
+    "width": 727,
+    "height": 626,
+    "sha256": "6ab927335c5dbd55a5a55c1ca22f13f590b80423712897cf328536bcc11a3653",
+    "imageHash": "b1f2e8f30a4712713e5005c50b82808ca63b2cfb"
+  },
+  "area": {
+    "name": "Image Area",
+    "layoutMode": "VERTICAL",
+    "horizontal": "FILL",
+    "vertical": "HUG",
+    "position": "AUTO",
+    "widthAtReference": 350,
+    "heightAtReference": 255,
+    "padding": [
+      40,
+      0,
+      40,
+      0
+    ],
+    "paddingTokenKey": "5bc593ee6f05df006566535e37f5fce0ed3a085b",
+    "gap": 0,
+    "fills": [],
+    "strokes": []
+  },
+  "image": {
+    "name": "ImageContainer",
+    "componentKey": "a680e6cb6e2aa701a6c19e00aadf45b42d947ec4",
+    "ratio": "2:1",
+    "horizontal": "FILL",
+    "vertical": "FIXED",
+    "position": "AUTO",
+    "sizeAtReference": [
+      350,
+      175
+    ],
+    "fills": [
+      {
+        "type": "IMAGE",
+        "visible": true,
+        "opacity": 1,
+        "blendMode": "NORMAL",
+        "scaleMode": "CROP",
+        "scalingFactor": 0.5,
+        "filters": {
+          "exposure": 0,
+          "contrast": 0,
+          "saturation": 0,
+          "temperature": 0,
+          "tint": 0,
+          "highlights": 0,
+          "shadows": 0
+        },
+        "imageTransform": [
+          [
+            1.9662922620773315,
+            0,
+            -0.48314616084098816
+          ],
+          [
+            0,
+            1.1417688131332397,
+            -0.08393318206071854
+          ]
+        ],
+        "imageHash": "b1f2e8f30a4712713e5005c50b82808ca63b2cfb"
+      }
+    ],
+    "strokes": []
+  },
+  "label": {
+    "name": "더미이미지",
+    "type": "TEXT",
+    "characters": "더미이미지",
+    "position": "ABSOLUTE",
+    "sizeAtReference": [
+      91,
+      29
+    ],
+    "positionAtReference": [
+      130,
+      113
+    ],
+    "constraints": {
+      "horizontal": "CENTER",
+      "vertical": "CENTER"
+    },
+    "fontName": {
+      "family": "Pretendard",
+      "style": "SemiBold"
+    },
+    "fontFamilyVariableKey": "6df184c7178de2fefb24f1c7673bb5bfb99eea9b",
+    "fontSize": 21,
+    "lineHeight": {
+      "unit": "PERCENT",
+      "value": 140
+    },
+    "letterSpacing": {
+      "unit": "PERCENT",
+      "value": 0
+    },
+    "textAutoResize": "WIDTH_AND_HEIGHT",
+    "textAlignHorizontal": "CENTER",
+    "textAlignVertical": "TOP",
+    "fills": [
+      {
+        "type": "SOLID",
+        "visible": true,
+        "opacity": 0.4,
+        "blendMode": "NORMAL",
+        "color": {
+          "r": 1,
+          "g": 0,
+          "b": 0
+        }
+      }
+    ],
+    "strokes": [
+      {
+        "type": "SOLID",
+        "visible": true,
+        "opacity": 1,
+        "blendMode": "NORMAL",
+        "color": {
+          "r": 1,
+          "g": 1,
+          "b": 1
+        }
+      }
+    ],
+    "strokeWeight": 2,
+    "strokeAlign": "OUTSIDE",
+    "effects": []
+  },
+  "externalGaps": {
+    "precedingTitlePage": 0,
+    "followingContent": 24
+  }
+}

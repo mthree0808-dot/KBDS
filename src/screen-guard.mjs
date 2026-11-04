@@ -252,6 +252,31 @@ export function auditScreen(snapshot, contract = {}, rules) {
       if (segments.some(s => !s.textStyleId && !s.boundVariables?.fontFamily)) fail('FONT_BINDING', n, '텍스트 스타일 또는 fontFamily 변수 연결 필요');
     }
   }
+  // Approved dummy artwork is portable: its PNG SHA-1 is Figma's imageHash.
+  // Real content images without the editable dummy label are outside this rule.
+  for (const area of items.filter(n => n.name === 'Image Area' && visible(n))) {
+    const labels = items.filter(n => n.type === 'TEXT' && n.characters === '더미이미지' && visible(n) && within(n, a => a.id === area.id));
+    if (!labels.length) continue;
+    const spec = rules.dummyImage;
+    const label = labels[0], image = kids(area).find(n => n.type === 'INSTANCE' && n.name === 'ImageContainer');
+    if (!spec) {fail('DUMMY_RULES', area, '최신 더미이미지 독립 명세가 필요합니다'); continue;}
+    if (labels.length !== 1 || label.parentId !== area.id || !image || kids(area).length !== 2) fail('DUMMY_STRUCTURE', area, 'Image Area 직계에 native ImageContainer와 편집 가능한 더미이미지 TEXT만 필요합니다');
+    if (area.layoutMode !== 'VERTICAL' || area.layoutSizingHorizontal !== 'FILL' || area.layoutSizingVertical !== 'HUG' || area.layoutPositioning === 'ABSOLUTE' || !near(area.itemSpacing,0) || !near(area.paddingTop,40) || !near(area.paddingBottom,40) || !near(area.paddingLeft,0) || !near(area.paddingRight,0) || (area.fills ?? []).length || (area.strokes ?? []).length) fail('DUMMY_AREA', area, 'Image Area는 Vertical Fill/Hug AUTO·padding40/0/40/0·gap0·배경/선 없음입니다');
+    for (const field of ['paddingTop','paddingBottom']) if (token(area.boundVariables?.[field]) !== rules.spacing[40]) fail('DUMMY_PADDING_TOKEN', area, 'Image Area 상하40 spacing/6xl 연결 필요');
+    if (image) {
+      if (image.component?.key !== spec.componentKey || image.componentProperties?.ratio?.value !== '2:1' || image.layoutSizingHorizontal !== 'FILL' || image.layoutSizingVertical !== 'FIXED' || image.layoutPositioning === 'ABSOLUTE' || !near(image.width,area.width) || !near(image.height,image.width/2) || !near(area.height,image.height+80)) fail('DUMMY_IMAGE_LAYOUT', image, '최신 ImageContainer ratio2:1 Fill/Fixed와 Image Area 크기를 보존합니다');
+      const p = image.fills?.[0];
+      const matrixOk = Array.isArray(p?.imageTransform) && p.imageTransform.length === 2 && p.imageTransform.every((row,i) => row.length === 3 && row.every((v,j) => near(v,spec.imageTransform[i][j])));
+      if (image.fills?.length !== 1 || p?.type !== 'IMAGE' || p.imageHash !== spec.imageHash || p.scaleMode !== 'CROP' || p.visible === false || !near(p.opacity ?? 1,1) || !near(p.scalingFactor,0.5) || !matrixOk || Object.values(p.filters ?? {}).some(v => !near(v,0))) fail('DUMMY_IMAGE_PAINT', image, '저장 원본 PNG·CROP·승인 imageTransform/scalingFactor를 보존합니다');
+    }
+    const segments = label.segments ?? [];
+    const familyAlias = label.boundVariables?.fontFamily;
+    if (!segments.length || segments.some(s => s.fontName?.family !== 'Pretendard' || s.fontName?.style !== 'SemiBold' || !near(s.fontSize,spec.fontSize) || s.lineHeight?.unit !== 'PERCENT' || !near(s.lineHeight.value,140) || !near(s.letterSpacing?.value,0)) || token(Array.isArray(familyAlias)?familyAlias[0]:familyAlias) !== spec.fontFamilyVariableKey) fail('DUMMY_LABEL_FONT', label, '더미 라벨은 Pretendard SemiBold21·행간140%·자간0·원본 fontFamily 변수입니다');
+    const f=label.fills?.[0], st=label.strokes?.[0];
+    if (label.fills?.length !== 1 || f?.type !== 'SOLID' || f.visible === false || !near(f.opacity,0.4) || !near(f.color?.r,1) || !near(f.color?.g,0) || !near(f.color?.b,0) || label.strokes?.length !== 1 || st?.type !== 'SOLID' || st.visible === false || !near(st.opacity ?? 1,1) || !near(st.color?.r,1) || !near(st.color?.g,1) || !near(st.color?.b,1) || !near(label.strokeWeight,2) || label.strokeAlign !== 'OUTSIDE') fail('DUMMY_LABEL_PAINT', label, '더미 라벨 빨강40% Fill·흰색2px OUTSIDE Stroke 필요');
+    if (label.layoutPositioning !== 'ABSOLUTE' || label.constraints?.horizontal !== 'CENTER' || label.constraints?.vertical !== 'CENTER' || label.textAutoResize !== 'WIDTH_AND_HEIGHT' || label.textAlignHorizontal !== 'CENTER' || Math.abs(label.x-(area.width-label.width)/2)>1 || Math.abs(label.y-(area.height-label.height)/2)>1) fail('DUMMY_LABEL_POSITION', label, '편집 가능한 더미 라벨은 ABSOLUTE·CENTER constraints·중앙 배치입니다');
+    checked.push({kind:'approved-dummy-image',nodeId:area.id});
+  }
   // Check authored groups; leave native component internals intact. Editable
   // Slot content is included, since these frames are assembled by the designer.
   function authored(n) {
