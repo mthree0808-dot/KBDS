@@ -72,6 +72,15 @@ export function auditScreen(snapshot, contract = {}, rules) {
   if (reachable.size !== items.length) fail('SNAPSHOT_TREE', root, '루트와 연결되지 않은 노드 또는 순환 계층이 있습니다');
   if (errors.length) return {status: 'BLOCKED', errors, checked, ruleVersion: rules?.version};
   const roots = kids(root);
+  const insetOverrides=contract.containerInsetOverrides??[];
+  if(!Array.isArray(insetOverrides))fail('CONTRACT',root,'containerInsetOverrides는 승인 경로·값·근거 배열입니다');
+  const approvedInsets=new Map();
+  for(const rule of Array.isArray(insetOverrides)?insetOverrides:[]){
+    if(!Array.isArray(rule.path)||!rule.path.length||rule.path.some(p=>typeof p!=='string')||![0,20].includes(rule.value)||typeof rule.reason!=='string'||!rule.reason.trim()){fail('CONTRACT',root,'Container 인셋 예외에는 실제 path, value0/20, 승인 reason이 필요합니다');continue;}
+    const n=one(rule.path);
+    if(n&&(!/^Container(?: [1-9]\d*)?$/.test(n.name)||map.get(n.parentId)?.name!=='## BODY'))fail('CONTRACT',n,'인셋 예외는 BODY 직계 Container만 지정합니다');
+    else if(n)approvedInsets.set(n.id,rule.value);
+  }
   // Literal ## BODY wrappers follow the current page rule, including when
   // nested in a legacy template. Native Popup Body / component Slot padding
   // is a different scope and is not rewritten by this rule.
@@ -91,7 +100,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
       if (n.type!=='FRAME'||n.layoutMode!=='VERTICAL') fail('BODY_CONTAINER_LAYOUT',n,'BODY의 Container는 실제 Vertical Auto Layout 프레임입니다');
       const fullWidth=items.some(c=>visible(c)&&within(c,a=>a.id===n.id)&&(c.name==='StepIndicator'||c.name==='Infobox / FullWidth'||c.name==='알려드립니다'||c.name==='Tab'&&c.componentProperties?.variant?.value==='1depth'||c.type==='INSTANCE'&&c.name==='Accordion'&&items.some(t=>t.type==='TEXT'&&t.characters?.trim()==='알려드립니다'&&within(t,a=>a.id===c.id))));
       for(const field of ['paddingLeft','paddingRight']) {
-        const value=fullWidth?0:20;
+        const value=approvedInsets.get(n.id)??(fullWidth?0:20);
         if(!near(n[field],value)) fail('BODY_CONTAINER_INSET',n,`${fullWidth?'전폭':'일반'} Container의 ${field}=${value}px 필요`);
         if(value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
       }
@@ -325,6 +334,9 @@ export function auditScreen(snapshot, contract = {}, rules) {
       if (n.componentProperties?.[rule.property]?.value !== rule.value) fail('PROPERTY', n, `${rule.property} 공개 옵션 불일치`);
     } else if (rule.kind === 'layout' && typeof rule.field === 'string' && Object.hasOwn(rule, 'value')) {
       if (n[rule.field] !== rule.value) fail('LAYOUT', n, `${rule.field} 불일치`);
+    } else if(rule.kind==='children'&&Array.isArray(rule.value)&&rule.value.every(v=>typeof v==='string')){
+      const names=kids(n).filter(c=>visible(c)&&c.layoutPositioning!=='ABSOLUTE').map(c=>c.name);
+      if(JSON.stringify(names)!==JSON.stringify(rule.value))fail('CHILDREN',n,'승인된 직계 자식의 수·이름·순서와 다릅니다');
     } else fail('CONTRACT', n, '지원하지 않거나 값이 빠진 검사입니다');
   }
   return {status: errors.length ? 'BLOCKED' : 'STRUCTURE_OK_REQUIRES_VISUAL_REVIEW', ruleVersion: rules.version,

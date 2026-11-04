@@ -69,7 +69,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 }
 ```
 
-지원 kind: `fill(tokenKey, visible)`, `gap(value)`, `text(value)`, `instance(key)`, `property(property, value)`, `layout(field, value)`. 문자열은 기획 원문 그대로 비교한다. unsupported kind·값 누락·경로 미확인은 실패다. 반복 이름 때문에 경로가 중복되면 제작에서 구분 가능한 적절한 래퍼를 사용하거나 현재 스냅샷과 전용 검사를 사용하며 원형 내부를 임의로 재명명하지 않는다.
+지원 kind: `fill(tokenKey, visible)`, `gap(value)`, `text(value)`, `instance(key)`, `property(property, value)`, `layout(field, value)`, `children(value: 직계 자식 이름 배열)`. 문자열은 기획 원문 그대로 비교한다. unsupported kind·값 누락·경로 미확인은 실패다. 반복 이름 때문에 경로가 중복되면 제작에서 구분 가능한 적절한 래퍼를 사용하거나 현재 스냅샷과 전용 검사를 사용하며 원형 내부를 임의로 재명명하지 않는다.
 
 ## 유지보수와 검증
 
@@ -88,3 +88,9 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 ### 첫 UI와 Tab 그룹핑 의무 삭제 (2026-11-04)
 
 Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth Tab 시작을 식별하며 상단0px 예외를 계속 검사한다. Tab과 후속 콘텐츠의 그룹·부모 명칭은 검사하지 않으며, 상하위 탭의 동일 Container 강제 검사(TOP_TAB_SCOPE)도 삭제했다. Segment·Chip의 그룹핑과 BODY/Container 패딩 검사는 유지한다. 같은 부모에서 Tab 다음 실제 UI가 Infobox / Card인 경우16px, 그 외24px 간격 검사는 유지한다. 서로 다른 부모 사이의 실제 Tab→콘텐츠 경계 간격은 직접 확인한다. 그룹이 없다는 이유로 새 래퍼를 강제하지 않으며 기존 그룹의 자동 해제도 요구하지 않는다.
+
+### Container 구조 보존 계약
+
+`checks`에 `{path:["## BODY"],kind:"children",value:["Container 1","Container 2"]}`와 각 Container의 실제 직계 자식 이름 목록을 추가한다. 보이는 일반 흐름 자식의 수·이름·순서를 검사해 병합·중간 래퍼 추가를 차단한다. 원래 구조는 자동 추정하지 않으므로 수정 전 계층 또는 사용자 복원 지시를 계약으로 제공한다.
+
+승인된 전폭/자체 인셋과 기본20 판정이 다를 때만 `containerInsetOverrides:[{path:["## BODY","Container 2"],value:0,reason:"2067:2030 승인: native Tab2 내부20·본문350 중앙/자체인셋 보존"}]`로 실제 경로를 명시한다. 값0/20·비어 있지 않은 근거·BODY 직계 Container만 허용한다. 다른 패딩/토큰·서체·구조 검사는 유지하며 실제 중복 인셋 여부는 직접 확인한다. 이 예외를 임의 병합이나 오류 숨김에 사용하지 않는다.

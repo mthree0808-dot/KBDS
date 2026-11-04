@@ -1,5 +1,9 @@
 # 작업 실행 절차
 
+## 레이어 정리 시 구조 보존 (2026-11-04)
+
+기존 Container 수·부모·순서·직계 자식을 기록하고 요청 범위만 편집한다. Tab 그룹핑 삭제 후 Container 병합·Infobox / Contents 재포장을 하지 않는다. 승인된 native 내부 인셋은 보존하고 경로별 계약으로 검사한다. `children` 계약으로 병합·중간 래퍼 추가를 검사한다. 이번5개 복원은 원문 「레이어 정리 시 기존 Container 분할 보존」을 따른다.
+
 ## BODY·Container 외곽과 선택 UI 그룹 (2026-11-03 최종)
 
 제작 전에 [현재 독립 명세](sources/designer-ui-rules.md#body-무패딩container-여백선택-ui-복합-그룹-2026-11-03-최종-변경)를 적용한다. 이 문서 아래에 남은 과거 BODY padding24/20/32·상단40/16·전폭 분기와 Tab/Infobox 평탄 배치 문구보다 이 규칙이 우선한다.

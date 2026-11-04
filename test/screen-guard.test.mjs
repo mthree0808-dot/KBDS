@@ -446,3 +446,17 @@ test('upper and lower Tabs may occupy separate Containers after grouping cancell
   add(s,frames('c2','Container 2','body',{paddingBottom:32,paddingLeft:20,paddingRight:20,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},paddingBottom:{id:rules.spacing[32]}}}));
   s.items.find(n=>n.id==='lower').parentId='c2';assert.equal(check(s).errors.length,0);
 });
+
+test('children contract catches Container merging and inserted wrappers',()=>{
+  const s=containerPage(),c={checks:[{path:['## BODY'],kind:'children',value:['Container 1','Container 2','Container 3']}]};
+  assert.equal(check(s,c).errors.length,0);s.items.find(n=>n.id==='c2').parentId='c1';assert.ok(codes(s,c).includes('CHILDREN'));
+  const t=page();add(t,frames('c','Container 1','body'),component('tab','Tab','c'),component('info','Infobox / Card','c'));
+  const k={checks:[{path:['## BODY','Container 1'],kind:'children',value:['Tab','Infobox / Card']}]};
+  assert.ok(!codes(t,k).includes('CHILDREN'));add(t,frames('wrap','Infobox / Contents','c'));t.items.find(n=>n.id==='info').parentId='wrap';assert.ok(codes(t,k).includes('CHILDREN'));
+});
+test('approved inset override is scoped to a direct Container with a reason',()=>{
+  const s=containerPage(),c=s.items.find(n=>n.id==='c2');c.paddingLeft=c.paddingRight=0;
+  const contract={containerInsetOverrides:[{path:['## BODY','Container 2'],value:0,reason:'승인된 native Tab 내부 인셋 보존'}]};
+  assert.equal(check(s,contract).errors.length,0);s.items.find(n=>n.id==='c3').paddingLeft=0;assert.ok(codes(s,contract).includes('BODY_CONTAINER_INSET'));
+  delete contract.containerInsetOverrides[0].reason;assert.ok(codes(s,contract).includes('CONTRACT'));
+});
