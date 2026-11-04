@@ -1,5 +1,17 @@
 # UI Design & Code Generation Rules
 
+## 입력 화면 교정: 제목·약관24 / 숫자 스타일·변수 / 필드 설명12 (2026-11-04)
+
+- **삭제 독립 기준**: [사용자 교정152:3916](https://www.figma.com/design/VDNcua4WHKOtBMyerxWqdv/?node-id=152-3916)과 작업본152:4279의 차이를 실측했다. 참조 삭제 후에는 [재현 설정](../../knowledge/input-field-corrections.json)과 아래 규칙을 사용한다. 마지막 전달152:6777은 확인 당시 조회되지 않아 그 노드의 별도 설정을 추정하지 않았다. 이번 요청은 공유 규칙·검사 갱신이며 교정본/비교본을 임의 수정하거나 삭제하지 않는다.
+- **Title / Page → ConsentGroup =24px(`spacing/3xl`)**: 작업본에서 서로 다른 Container 사이 BODY gap32를 그대로 적용한 것은 오류다. 교정본은 `## BODY > Container 1 > Title / Page, ConsentGroup`의 실제 두 형제로 배치하고 부모 gap24·token key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`를 연결했다. 새 제작 시 이 흐름을 따른다. 기존 구조 정리에서는 Container 수·분할 보존 원칙을 유지하되, 제목/약관이 서로 다른 부모일 때도 **두 컴포넌트의 실제 바깥 경계 간격24px**를 검수한다. Container가 각각 있다는 이유로32px를 통과시키거나 native Title / Page·ConsentGroup 내부 여백을 바꿔 맞추지 않는다.
+- **숫자 서체만 맞으면 통과가 아니다**: 사업자번호(`Item / Input.variant=business-num`)와 휴대폰번호(`cellphone`)의 숫자 값은 최신 라이브러리 **Dynamic/Body/Numeric/2️⃣ md∙16∙Bold**(key `4f0d344ab0612acddd8acedee57db7177f112f8b`)를 적용한다. 이름의 Bold는 실제 **Pretendard SemiBold(600)**다. 기본 모드16px·행간22px·자간0, 확대 모드는 스타일의 동적 변수값을 따른다. 교정본의 변수 연결은 `fontFamily=font-family/numeric`(`3fe2dd8ed05301b57e2eb1396f29d2e68c659193`), `fontWeight=font-weight/semibold`(`77277e8ecef34e50d8989a43dc41f6d8a0ecebc8`), `fontSize=font-size/body/md`(`fd0ac40b0e09f620589f23034b99eb6339fe4029`), `lineHeight=line-height/body/md`(`e9c272c30adca31f471798715bd93e2341ef2f66`), `letterSpacing=letter-spacing/md`(`63a53d9f249d7dee6234a28ada6cb5a1bf303d7d`)다. 실제 Text Style 연결과 다섯 변수 alias를 함께 보존한다.
+- **제작 오류 원인·방지**: 스타일 적용 후 `fontName={family:'Pretendard',style:'Bold'}`를 다시 대입해 스타일ID와 fontWeight 연결을 끊은 것은 제작 오류다. `loadFontAsync → setTextStyleIdAsync → characters` 순서를 사용하고 이후 family/style/size/weight/lineHeight/letterSpacing을 리터럴로 덮어쓰지 않는다. [공통 숫자 입력 helper](../../src/input-numeric.mjs)를 재사용하고 import한 숫자 스타일을 배치 단위로 전달한다. 다른 크기·역할 입력은 해당 최신 숫자 스타일을 선택하며16px를 전역 강제하지 않는다. 숫자 길이·분할·값/placeholder·입력 여부·색상·공개 상태는 **기획과 native 원형**을 유지한다. 교정본의 예시0000을 다른 사업자번호 값에 복사하지 않는다. 별도 Text로 된 구분자 `-`는 native KBFG Text Medium·Fixed16 스타일을 보존하며 숫자 값 Text로 오인하지 않는다.
+- **특정 필드의 설명 TextList는 FooterArea 밖에 둔다**: `InputField` 뒤에 별도 불릿 설명이 오는 이 유형을 native `FooterArea` 안에 넣어 원형 gap8로 처리하지 않는다. 공개 `hasFooter=false`로 해당 별도 설명을 native Footer와 중복하지 않고 다음 실제 구조로 묶는다. 네이티브 검증 오류·count 등 실제 Item / Footer 용도는 별도이며 무조건 삭제하지 않는다.
+  - 설명1개: `InputField / TextList`(Vertical·Fill/Hug·AUTO·padding0·**gap12/spacing/lg**) > `InputField`, 실제 `TextList / Unordered`.
+  - 설명복수: `InputField / TextList Group`(동일 설정·**gap12**) > `InputField`, `TextList Group`(Vertical·Fill/Hug·AUTO·padding0·**gap8/spacing/md**) > 복수의 실제 TextList. 단일 TextList를 Group으로 부르지 않는다.
+  - **필드 단위와 그 내부 설명을 구분**한다. 여러 필드 단위(위 복합 그룹 포함)와 다음 SelectButton 등의 외부 간격은24px다. 서로 다른 단위를 아우르면 교정본처럼 실제 구성에 맞는 `InputField / Contents` 등으로 명명하고, 전체 InputField Group 뒤의 일반 공통 TextList는 기존24px를 유지한다. 구조 변경 후 부모 이름도 재판정한다.
+- **완료 조건**: 제목/약관 실제 경계24와 spacing 변수, 숫자 실제 SemiBold·Text Style·다섯 변수/동적 모드, TextList의 FooterArea 밖 실제 부모·12/8/24 계층을 확인한다. 공통 검사는 이전처럼 fontFamily 하나가 남았다는 이유만으로 깨진 숫자 스타일을 통과시키지 않는다. 문구 길이·줄바꿈·선택 상태·기획 값·향후 variant 동작은 별도 직접 확인한다.
+
 ## 더미이미지 최종 승인 구성 (2026-11-04, 삭제 독립 보존)
 
 - 앞으로 더미이미지 영역은 [사용자 승인 화면152:2214](https://www.figma.com/design/VDNcua4WHKOtBMyerxWqdv/?node-id=152-2214)의 `Image Area` 구성을 사용한다. 이전3478:12649·10580:10543 참조와 임의로 만든 빈 이미지/검은색20px 라벨보다 이 최신 명세가 우선한다. 참조 화면은 삭제해도 된다. 제작은 삭제 예정 노드 조회·복제에 의존하지 않고 아래 독립 명세와 저장 자산으로 재현한다.
@@ -915,7 +927,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
     - `Infobox / Card` 다음 콘텐츠와의 외부 간격은 단수·복수 `TextList`를 포함하여 **`gap: 24px` (`spacing/3xl`)** 적용. 카드 내부 간격과 카드 앞쪽 간격은 별도 규칙을 유지
   - **Input & TextList 조합 패턴**:
     - **InputField Group 다음 일반 TextList 노출**: `InputField Group`과 `TextList`를 그룹핑하고 둘 사이 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)** 적용
-    - **특정 InputField의 부가설명 성격 TextList**: 불릿 리스트 형태로 추가 설명이 들어갈 때는 해당 `InputField`와 `TextList`를 별도로 묶어 그룹핑하고 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+    - **특정 InputField의 부가설명 성격 TextList**: FooterArea 밖에 `InputField / TextList` 또는 `InputField / TextList Group`으로 실제 묶고 **gap12px**를 적용한다. 복수 설명 목록 내부는8px이며 문서 상단 입력 화면 교정을 따른다
     - *(참고: 불릿이 아닌 단순 문장형 부연 설명은 `InputField` 내부의 `hasFooter: True` 및 `Item / Footer / hint`를 사용합니다.)*
   - **TextList (size: 14, depth: 1) 상호 결합 패턴**:
     - `TextList (size: 14, depth: 1)` 및 `TextList` 컴포넌트들이 오토레이아웃으로 함께 묶일 때 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용

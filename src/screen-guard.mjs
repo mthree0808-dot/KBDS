@@ -33,6 +33,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
     return false;
   };
   const vars = new Map((snapshot?.variables ?? []).map(v => [v.id, v]));
+  const styleKeys = new Map((snapshot?.styles ?? []).map(s => [s.id, s.key]));
   const token = alias => vars.get(alias?.id)?.key;
   const near = (a, b) => typeof a === 'number' && Math.abs(a - b) < 0.1;
   function resolve(path, start = root) {
@@ -233,6 +234,31 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if (accordion) for (const [key,value] of Object.entries({type:'solid',variant:'standard',size:'small',expanded:'true'})) if (accordion.componentProperties?.[key]?.value!==value) fail('DIALOG_PHONE_ACCORDION',accordion,`자세히보기 Accordion ${key}=${value} 필요`);
     if (buttons && buttons.layoutPositioning==='ABSOLUTE') fail('DIALOG_PHONE_BUTTONS',buttons,'ButtonGroup은 Dialog 내부 일반 흐름입니다');
   }
+  // Compare actual boundaries even when title and consent have different
+  // Container parents. Do not merge or mutate Containers to satisfy this check.
+  for (const body of items.filter(n => n.type === 'FRAME' && n.name === '## BODY' && visible(n))) {
+    const flow = [];
+    function flatten(n) {
+      for (const c of kids(n).filter(c => visible(c) && c.layoutPositioning !== 'ABSOLUTE')) {
+        if (c.type === 'FRAME') flatten(c); else flow.push(c);
+      }
+    }
+    flatten(body);
+    for (let i=0; i<flow.length-1; i++) {
+      const a=flow[i], b=flow[i+1];
+      if (a.name !== 'Title / Page' || b.name !== 'ConsentGroup') continue;
+      if (a.parentId === b.parentId) spacing(map.get(a.parentId),24);
+      else {
+        const aa=a.absoluteBoundingBox, bb=b.absoluteBoundingBox;
+        if (!aa || !bb) fail('TITLE_CONSENT_MEASURE',b,'분리된 제목/약관의 실제 경계 측정이 필요합니다');
+        else if (!near(bb.y-aa.y-aa.height,24)) fail('TITLE_CONSENT_GAP',b,'Title / Page → ConsentGroup 실제 경계는24px입니다');
+        checked.push({kind:'title-consent-boundary',nodeId:b.id,expected:24});
+      }
+    }
+  }
+  for (const footer of items.filter(n => n.type === 'SLOT' && n.name === 'FooterArea' && visible(n) && within(n,a=>a.type==='INSTANCE'&&a.name==='InputField'))) {
+    if (items.some(n => n.type === 'INSTANCE' && /^TextList(?: \/|$)/.test(n.name) && visible(n) && within(n,a=>a.id===footer.id) && !within(n,a=>a.type==='INSTANCE'&&a.name==='Item / Footer'&&a.componentProperties?.variant?.value==='error'))) fail('INPUT_HINT_FOOTER',footer,'별도 설명 TextList는 InputField FooterArea 밖에서12px로 묶습니다');
+  }
   for (const n of items) {
     if (!visible(n)) continue;
     if (n.type === 'INSTANCE' && !n.component?.key) fail('INSTANCE_KEY', n, '실제 원본 mainComponent key가 없습니다');
@@ -250,6 +276,13 @@ export function auditScreen(snapshot, contract = {}, rules) {
       const segments = n.segments ?? [];
       if (!segments.length || segments.some(s => s.fontName?.family !== family)) fail('FONT_FAMILY', n, `${value}: ${family} 필요`);
       if (segments.some(s => !s.textStyleId && !s.boundVariables?.fontFamily)) fail('FONT_BINDING', n, '텍스트 스타일 또는 fontFamily 변수 연결 필요');
+    }
+    let input = map.get(n.parentId);
+    while (input && !(input.type === 'INSTANCE' && input.name === 'Item / Input')) input=map.get(input.parentId);
+    if (numeric && input && within(input,a=>a.type==='INSTANCE'&&a.name==='InputField') && rules.inputNumeric?.itemVariants.includes(input.componentProperties?.variant?.value)) {
+      const spec=rules.inputNumeric, segments=n.segments??[];
+      if (!segments.length || segments.some(s=>styleKeys.get(s.textStyleId)!==spec.styleKey || s.fontName?.family!=='Pretendard' || s.fontName?.style!=='SemiBold')) fail('INPUT_NUMERIC_STYLE',n,'숫자 입력은 최신 Numeric md 스타일의 실제 Pretendard SemiBold와 Text Style 연결을 보존합니다');
+      if (!segments.length || segments.some(s=>Object.entries(spec.bindings).some(([field,key])=>token(s.boundVariables?.[field])!==key))) fail('INPUT_NUMERIC_BINDINGS',n,'숫자 입력의 fontFamily·fontWeight·fontSize·lineHeight·letterSpacing 변수 연결이 필요합니다');
     }
   }
   // Approved dummy artwork is portable: its PNG SHA-1 is Figma's imageHash.
@@ -321,6 +354,14 @@ export function auditScreen(snapshot, contract = {}, rules) {
     }
     if (n.name === 'ConsentFinal / StickyButton') consentComposite(n);
     if (!cs.length) continue;
+    const hint=cs[1], fieldHint=cs[0]?.type==='INSTANCE'&&cs[0].name==='InputField'&&(hint?.name==='TextList Group'||hint?.type==='INSTANCE'&&stem(hint)==='TextList');
+    if (fieldHint) {
+      const name=hint.name==='TextList Group'?'InputField / TextList Group':'InputField / TextList';
+      if (n.name!==name || cs.length!==2 || n.layoutMode!=='VERTICAL' || n.layoutSizingHorizontal!=='FILL' || n.layoutSizingVertical!=='HUG' || n.layoutPositioning!=='AUTO' || ['paddingTop','paddingRight','paddingBottom','paddingLeft'].some(p=>!near(n[p],0))) fail('INPUT_HINT_GROUP',n,'필드와 설명은 실제 '+name+' Vertical Fill/Hug AUTO padding0 복합 그룹입니다');
+      spacing(n,12);
+      if (hint.name==='TextList Group') spacing(hint,8);
+      if (Object.entries(cs[0].componentProperties??{}).find(([k])=>k.startsWith('hasFooter#'))?.[1]?.value===true) fail('INPUT_HINT_FOOTER',cs[0],'별도 설명과 native FooterArea를 중복하지 않습니다');
+    }
     if (n.name.endsWith(' Group') && !n.name.includes(' / ')) {
       const base = n.name.slice(0, -6);
       if (repeatable.has(base) && (cs.length < 2 || cs.some(c => stem(c) !== base))) fail('GROUP_CONTENTS', n, `${n.name}은 실제 같은 항목의 복수만 포함해야 합니다`);
@@ -333,12 +374,13 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if (n.name === 'Title / TextList Group' && !cs.some(c => c.name === 'TextList Group')) fail('PARENT_NAME', n, '구조 변경 후 부모명을 다시 판정하세요. 복합 콘텐츠는 Title / Contents입니다');
     if (n.name.startsWith('Title / ') && n.name !== 'Title / Contents' && cs.some(c => c.type === 'FRAME' && c.name === n.name)) fail('PARENT_NAME', n, '같은 Title 복합 그룹을 중첩한 상위 부모는 Title / Contents입니다');
     if (cs.some(c => c.name === 'Title / Section' || c.name === 'Title / Element') && cs.some(c => c.name.includes(' / ') && c.name !== 'Title / Section' && c.name !== 'Title / Element' && c.type === 'FRAME') && n.name.startsWith('Title / ') && n.name !== 'Title / Contents') fail('PARENT_NAME', n, '제목과 복합 콘텐츠의 부모명은 Title / Contents입니다');
-    const uniformGap = {'InputField Group': 24, 'Radio Group': 20, 'Checkbox Group': 20};
+    const uniformGap = {'InputField Group': 24, 'InputField / Contents':24, 'Radio Group': 20, 'Checkbox Group': 20};
     if (uniformGap[n.name] !== undefined) spacing(n, uniformGap[n.name]);
     if (cs.length > 1 && cs.every(c => c.name === 'Title / TextList Group')) spacing(n, 24);
     for (let i = 0; i < cs.length - 1; i++) {
       const a = cs[i], b = cs[i + 1]; let gap;
       if (['Title / Section', 'Title / Element'].includes(a.name)) gap = screenType === 'bottom-sheet' && (b.type === 'TEXT' || ['Text', 'Text Group', 'TextList Group'].includes(b.name)) ? 12 : 16;
+      if (a.name==='InputField Group' && (b.name==='TextList Group'||b.type==='INSTANCE'&&stem(b)==='TextList')) gap=24;
       if (screenType==='dialog' && isPhoneGroup(n) && a.name==='Title / Element') gap=4;
       if (a.name === 'Title / Page' && b.name === 'Image Area') gap = 0;
       if (['Image Area', 'ImageContainer', 'Infobox / Card'].includes(a.name)) gap = 24;

@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
+import {applyInputNumericText} from '../src/input-numeric.mjs';
 import {execFileSync, spawnSync} from 'node:child_process';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -531,4 +532,51 @@ test('dummy rejects empty native artwork and changed crop despite correct compon
 test('dummy rejects black 20px label missing outline or center constraints',()=>{
   const s=approvedDummy(),t=s.items.find(n=>n.id==='dummy');t.segments[0].fontSize=20;t.fills[0].color={r:0,g:0,b:0};t.strokes=[];t.constraints.horizontal='MIN';
   for(const code of ['DUMMY_LABEL_FONT','DUMMY_LABEL_PAINT','DUMMY_LABEL_POSITION'])assert.ok(codes(s).includes(code));
+});
+
+function inputNumericFixture(){
+  const spec=rules.inputNumeric,s=containerPage(true);const bindings=Object.fromEntries(Object.entries(spec.bindings).map(([field,key])=>[field,{id:key}]));
+  add(s,component('field','InputField','c1'),component('item','Item / Input','field',{componentProperties:{variant:{value:'business-num'}}}),textNode('number','000','item',{segments:[{fontName:{family:'Pretendard',style:'SemiBold'},fontSize:16,lineHeight:{unit:'PIXELS',value:22},letterSpacing:{unit:'PIXELS',value:0},textStyleId:'numeric-style',boundVariables:bindings}]}));
+  s.styles.push({id:'numeric-style',key:spec.styleKey});s.variables.push(...Object.values(spec.bindings).map(key=>({id:key,key})));return s;
+}
+test('numeric input keeps native SemiBold style and all typography bindings including dynamic mode',()=>{
+  const s=inputNumericFixture();assert.equal(check(s).errors.length,0);const seg=s.items.find(n=>n.id==='number').segments[0];seg.fontSize=22;seg.lineHeight.value=31;assert.equal(check(s).errors.length,0);
+});
+test('literal Bold that leaves only family aliases no longer passes numeric input guard',()=>{
+  const s=inputNumericFixture(),seg=s.items.find(n=>n.id==='number').segments[0];seg.fontName.style='Bold';seg.textStyleId='';delete seg.boundVariables.fontWeight;
+  assert.ok(codes(s).includes('INPUT_NUMERIC_STYLE'));assert.ok(codes(s).includes('INPUT_NUMERIC_BINDINGS'));
+});
+test('each missing numeric typography alias is caught; standalone native separator is preserved',()=>{
+  for(const field of Object.keys(rules.inputNumeric.bindings)){const s=inputNumericFixture();delete s.items.find(n=>n.id==='number').segments[0].boundVariables[field];assert.ok(codes(s).includes('INPUT_NUMERIC_BINDINGS'));}
+  const s=inputNumericFixture();add(s,textNode('dash','-','item',{segments:[{fontName:{family:'KBFG Text',style:'Medium'},textStyleId:'native-dash'}]}));assert.equal(check(s).errors.length,0);
+});
+function fieldHintFixture(multiple=false){
+  const s=containerPage(true);add(s,frames('pair',multiple?'InputField / TextList Group':'InputField / TextList','c1',{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:12,boundVariables:{itemSpacing:{id:rules.spacing[12]}}}),component('field','InputField','pair'));
+  if(multiple)add(s,frames('hints','TextList Group','pair',{itemSpacing:8,boundVariables:{itemSpacing:{id:rules.spacing[8]}}}),component('hint1','TextList / Unordered','hints'),component('hint2','TextList / Unordered','hints'));
+  else add(s,component('hint1','TextList / Unordered','pair'));return s;
+}
+test('field-specific descriptions are outside FooterArea with12 and plural list gap8',()=>{
+  for(const s of [fieldHintFixture(),fieldHintFixture(true)])assert.equal(check(s).errors.length,0);
+  const s=fieldHintFixture();s.items.find(n=>n.id==='pair').itemSpacing=8;assert.ok(codes(s).includes('GAP'));
+  const t=fieldHintFixture();t.items.find(n=>n.id==='pair').name='Contents';assert.ok(codes(t).includes('INPUT_HINT_GROUP'));
+});
+test('TextList in native FooterArea is blocked instead of accepting its native8px gap',()=>{
+  const s=containerPage(true);add(s,component('field','InputField','c1'),frames('footer','FooterArea','field',{type:'SLOT'}),component('hint','TextList / Unordered','footer'));
+  assert.ok(codes(s).includes('INPUT_HINT_FOOTER'));
+});
+test('Title Page and ConsentGroup require24 within one Container and across distinct Containers',()=>{
+  const s=containerPage(true),c=s.items.find(n=>n.id==='c1');c.itemSpacing=24;c.boundVariables.itemSpacing={id:rules.spacing[24]};add(s,component('title','Title / Page','c1'),component('consent','ConsentGroup','c1'));assert.equal(check(s).errors.length,0);c.itemSpacing=32;assert.ok(codes(s).includes('GAP'));
+  const t=containerPage();add(t,component('title','Title / Page','c1',{absoluteBoundingBox:{x:20,y:24,width:350,height:68}}),component('consent','ConsentGroup','c2',{absoluteBoundingBox:{x:20,y:124,width:350,height:169}}));assert.ok(codes(t).includes('TITLE_CONSENT_GAP'));t.items.find(n=>n.id==='consent').absoluteBoundingBox.y=116;assert.equal(check(t).errors.length,0);
+});
+
+test('native validation error Footer remains valid while authored hint is outside',()=>{
+  const s=containerPage(true);add(s,component('field','InputField','c1'),frames('footer','FooterArea','field',{type:'SLOT'}),component('error','Item / Footer','footer',{componentProperties:{variant:{value:'error'}}}),component('hint','TextList / Unordered','error'));
+  assert.equal(check(s).errors.length,0);
+});
+test('numeric helper loads current and target fonts then keeps style, never literal fontName',async()=>{
+  const loaded=new Set();const style={id:'style',key:rules.inputNumeric.styleKey,fontName:{family:'Pretendard',style:'SemiBold'}};let value='';let styleId='';
+  const node={id:'text',type:'TEXT',getStyledTextSegments:()=>[{fontName:{family:'KBFG Text',style:'Bold'}}],async setTextStyleIdAsync(id){assert.ok(loaded.has('KBFG Text Bold'));assert.ok(loaded.has('Pretendard SemiBold'));styleId=id;},set characters(v){assert.equal(styleId,'style');value=v;},set fontName(v){throw new Error('No literal font override');}};
+  const api={async loadFontAsync(f){loaded.add(f.family+' '+f.style);}};
+  assert.equal((await applyInputNumericText(api,node,'010-1234-5678',style)).styleKey,style.key);assert.equal(value,'010-1234-5678');
+  await assert.rejects(applyInputNumericText(api,node,'010입니다',style));
 });

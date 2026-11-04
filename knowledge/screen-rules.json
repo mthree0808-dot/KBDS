@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-04.7",
+  "version": "2026-11-04.8",
   "source": "docs/sources/designer-ui-rules.md",
   "colors": {
     "white": "f90471c40d02473a064c0edcaa006d4f8d251b9d",
@@ -36,5 +36,30 @@
         -0.08393318206071854
       ]
     ]
+  },
+  "inputNumeric": {
+    "itemVariants": [
+      "business-num",
+      "cellphone"
+    ],
+    "styleKey": "4f0d344ab0612acddd8acedee57db7177f112f8b",
+    "styleName": "Dynamic/Body/Numeric/2️⃣ md∙16∙Bold",
+    "defaultFont": {
+      "family": "Pretendard",
+      "style": "SemiBold",
+      "fontSize": 16,
+      "lineHeight": 22,
+      "letterSpacing": 0
+    },
+    "bindings": {
+      "letterSpacing": "63a53d9f249d7dee6234a28ada6cb5a1bf303d7d",
+      "fontSize": "fd0ac40b0e09f620589f23034b99eb6339fe4029",
+      "fontFamily": "3fe2dd8ed05301b57e2eb1396f29d2e68c659193",
+      "lineHeight": "e9c272c30adca31f471798715bd93e2341ef2f66",
+      "fontWeight": "77277e8ecef34e50d8989a43dc41f6d8a0ecebc8"
+    },
+    "keepDynamicModes": true,
+    "standaloneDash": "Keep native KBFG Text Medium Fixed16 style; do not treat a separator-only Text as a numeric value.",
+    "keepPlanningValues": true
   }
 }

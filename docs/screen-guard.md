@@ -49,6 +49,8 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |더미 Image Area|편집 가능한 더미 라벨이 있는 영역의 native ratio2:1·원본 PNG/hash·CROP·패딩40/0/40/0·서체21/SemiBold/변수·빨강40%·흰색2px OUTSIDE·중앙 배치|
 |CTA|BoxButton/TextButton의 Label 문구 가로 Hug·WIDTH_AND_HEIGHT|
 |하단 약관·CTA|Footer 직계 ConsentFinal / StickyButton 존재, 실제 래퍼·인스턴스·순서, gap24, 좌우padding20, AUTO·Fill/Hug; 이름만 바꾸거나 ConsentGroup으로 대체한 경우 차단|
+|숫자 입력 원형|business-num/cellphone의 Numeric md Text Style·실제 SemiBold·다섯 typography alias, 확대 모드 보존|
+|필드 설명·약관 경계|FooterArea 내부 TextList 차단, 외부 InputField / TextList(Group)의12px·목록8px, Title / Page→ConsentGroup 동일 부모24 또는 분리 부모 실제 경계24|
 |서체|실제 Text 단위 숫자/혼용 판정, 전화번호·날짜 구분자, 누락 폰트와 스타일/서체 변수 연결|
 |레이어|실제 반복 그룹, Text/TextList 혼합, 구조에 맞는 부모명, 원형 내부 일괄 변경 방지|
 |간격|InputField Group24, Radio/Checkbox Group20, Section16/바텀시트 텍스트12, Tab→Infobox / Card16, Image Area 후24 등 코드에 명시된 조합과 토큰|
@@ -107,3 +109,7 @@ Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth T
 ### 단일 Container 하단
 
 본문 직계에서 보이는 AUTO 페이지 Container가 하나면 paddingBottom0 및 boundVariables.paddingBottom 미연결을 검사한다. 시작 UI별 상단24/40/0와 좌우 인셋은 유지한다. 복수이면 마지막하32·spacing/5xl을 계속 검사한다. 일반 BODY와 키패드/패턴 Popup Body에 적용하며 Container 병합이나 native 내부 패딩 변경의 근거가 아니다.
+
+### 입력 화면 교정 기준 (2026-11-04)
+
+`knowledge/input-field-corrections.json`은 삭제 가능한 교정 화면의 독립 명세다. 숫자 입력은 `src/input-numeric.mjs` helper에 import한 최신 숫자 스타일을 전달해 적용하며, 스타일 적용 후 fontName/Bold를 다시 덮어쓰지 않는다. 실제 사업자번호·휴대폰 값 Text는 기본 Numeric md SemiBold 및 다섯 변수 연결을 검사하고, 구분자만 있는 Text는 native 스타일을 보존한다. 동적 확대 모드를16px로 고정하지 않는다. 필드 설명 TextList는 FooterArea 밖12px이며 전체 InputField Group 뒤 일반 TextList24px와 구분한다. 제목/약관이 분리된 Container에 있으면 absoluteBoundingBox로 실제 간격을 측정하므로 Container의 gap 값만 보고 통과시키지 않는다. 검사는 조회 전용이며 Container 병합·기획 값 변경을 자동 수행하지 않는다.
