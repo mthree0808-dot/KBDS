@@ -1,5 +1,12 @@
 # UI Design & Code Generation Rules
 
+## 키패드 노출 상태의 고정844 뷰포트 (2026-11-04 사용자 교정)
+
+- **적용 조건**: 암호 입력 등 기본390×844 화면에서 입력 상태로 키패드가 노출된 케이스는 **화면 높이844px·Fixed를 유지**한다. 키패드가 추가되어 본문과 Footer의 합이844를 넘는다는 이유로 루트·Popup·Body를 Hug로 확장하지 않는다. 별도 높이 지시가 없는 같은 유형에 적용하며, 긴 약관/PDF 전체 노출·일반 긴 본문에는 확대 적용하지 않는다.
+- **구조·크기**: 실제 `Popup > Slot > Header / Body / Footer`와 키패드 원형을 유지한다. 루트는390×844 Fixed, Popup·Slot·Body는 남은 영역 Fill, Header·Footer는 Hug·AUTO다. StatusBar44·HomeIndicator34가 루트 AUTO 형제로 놓인 사례에서는 Popup/Slot 높이766, Header56·키패드 Footer294 뒤 Body의 남은 높이416이다. 이 내부 실측값은 원형 크기/상태가 바뀌면 재계산하고 전역 상수로 강제하지 않는다.
+- **키패드에 가려지는 본문**: Body는 뷰포트에 맞춰 clip하고, 현재 입력 필드가 키패드 위에 보이는지 확인한다. 하단 안내가 키패드 표시로 일부 가려지는 것은 전체 문서 노출 유형과 다르다. 내용을 다 보이게 하려고 화면을 늘리거나 본문 서체·간격·키패드를 축소하지 않는다. 원문·오류·입력값·선택 상태와 기존 Container 분할은 유지한다.
+- **삭제 가능한 근거**: [암호 오류·키패드 노출2603:28832](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2603-28832)의 높이를879 Hug로 늘린 제작은844 Fixed로 교정한다. 참조가 삭제돼도 위 조건과 독립 명세를 적용한다. 제작/검수 계약에 `keyboardViewport: "fixed844"`를 명시해 루트844·Fixed와 Popup/Slot/Body Fill·키패드 Footer AUTO를 검사한다. 별도 판정 없이 모든 화면에 이 계약을 적용하지 않는다.
+
 ## Title / DataList Group 다음 박스 UI 간격32 (2026-11-04)
 
 - **적용 조건**: `Title / DataList Group` 다음에 **Infobox Group 또는 Infobox / Card·Solid 등 Infobox, Data Block(그룹), Text Box(그룹), Card / Surface(그룹) 같은 독립 박스 UI**가 이어지면, 두 블록 **바깥 경계 사이 간격은32px (`spacing/5xl`)**다. 연결 key는 `840e7bd3a0d91d1161f8dcbd3c3299310e014cac`다. 단순히 모든 후속 콘텐츠를32로 변경하지 않고 실제 박스 역할을 기준으로 판정한다.

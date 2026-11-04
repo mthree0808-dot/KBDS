@@ -41,6 +41,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |BODY/Container|일반 BODY·키패드/패턴 Popup Body 네 방향padding0, 첫 Container 상단 일반24·Feedback/상단 아이콘40·StepIndicator/1depth Tab 시작0, 단일 하0·하단 변수 해제/복수 마지막하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
 |선택 UI 그룹|Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 부모·명칭·순서. Tab 그룹핑·동일 Container 범위 강제는 삭제|
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
+|고정 키패드 뷰포트|`keyboardViewport: "fixed844"` 계약의390×844 Fixed·Popup/Slot/Body Fill·Body clip·키패드 Footer AUTO/Hug. 입력 필드의 실제 노출은 직접 확인|
 |BG|PDF Title Area·body의 light-gray, 문서·화면 white, 실제 변수 key·Paint 노출·opacity·레이어 노출|
 |HomeIndicator|elevated 변수 연결, Dialog만 배경 Paint 숨김, 기타 화면 노출|
 |오버레이|이전 화면 배경 재현 금지, 바텀시트 AUTO/Absolute 구분, Dialog Area의 중앙 정렬·안전영역 보정|

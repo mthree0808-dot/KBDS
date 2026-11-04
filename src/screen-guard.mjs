@@ -138,10 +138,21 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if (roots.some(n => n.name === 'Popup')) fail('PAGE_POPUP', root, '일반 화면을 Popup으로 감싸지 않습니다');
   }
   const popups = roots.filter(n => n.name === 'Popup');
+  if (contract.keyboardViewport !== undefined && contract.keyboardViewport !== 'fixed844') fail('CONTRACT',root,'keyboardViewport은 fixed844만 지원합니다');
+  if (contract.keyboardViewport === 'fixed844' && (screenType !== 'popup' || popups.length !== 1)) fail('KEYBOARD_VIEWPORT',root,'고정844 키패드 상태는 실제 Popup 하나가 필요합니다');
   for (const popup of popups) {
     const slot = one(['Slot'], popup);
     if (!slot) continue;
     one(['Header'], slot); const body = one(['Body'], slot); one(['Footer'], slot);
+    if (contract.keyboardViewport === 'fixed844') {
+      const spec=rules.keyboardViewport,footer=resolve(['Footer'],slot)[0];
+      if (!near(root.width,spec.width)||!near(root.height,spec.height)||root.layoutSizingVertical!=='FIXED') fail('KEYBOARD_VIEWPORT',root,'키패드 노출 상태는390×844 Fixed입니다. 키패드 때문에 Hug로 확장하지 않습니다');
+      for(const n of [popup,slot,body].filter(Boolean))if(n.layoutSizingVertical!=='FILL')fail('KEYBOARD_LAYOUT',n,'고정844 키패드 Popup·Slot·Body는 남은 높이 Fill입니다');
+      if(body?.clipsContent!==true)fail('KEYBOARD_LAYOUT',body,'키패드 노출 Body는 뷰포트에 맞춰 clip합니다');
+      const pads=items.filter(n=>n.type==='INSTANCE'&&['Keypad','Item / Pad'].includes(n.name)&&visible(n)&&within(n,a=>a.id===footer?.id));
+      if(!footer||footer.layoutPositioning!=='AUTO'||footer.layoutSizingVertical!=='HUG'||!pads.length||pads.some(n=>n.layoutPositioning!=='AUTO'))fail('KEYBOARD_LAYOUT',footer,'Footer는 AUTO·Hug이며 실제 키패드를 AUTO로 포함합니다');
+      checked.push({kind:'keyboard-fixed-viewport',nodeId:root.id,height:spec.height});
+    }
     // A PDF document also identifies the type when its toolbar was omitted.
     const pdf = screenType === 'pdf' || resolve(['Title Area'], body).length || resolve(['body', 'PDF Document'], body).length;
     if (body && pdf) {

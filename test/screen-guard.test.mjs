@@ -34,6 +34,16 @@ function textNode(id,value,parentId,extra={}) {
 const add = (s,...items) => {s.items.push(...items);s.total=s.items.length;return s;};
 const check = (s,c={}) => auditScreen(s,c,rules);
 const codes = (s,c={}) => check(s,c).errors.map(e=>e.code);
+function fixedKeyboard(){return snapshot([frames('root','암호입력',null,{height:844,layoutSizingVertical:'FIXED',fills:fill(rules.colors.white)}),component('pop','Popup','root',{layoutSizingVertical:'FILL'}),frames('slot','Slot','pop',{type:'SLOT',layoutSizingVertical:'FILL'}),frames('head','Header','slot'),frames('body','Body','slot',{layoutSizingVertical:'FILL',clipsContent:true}),frames('foot','Footer','slot',{layoutSizingVertical:'HUG'}),component('pad','Item / Pad','foot'),component('home','HomeIndicator','root',{fills:fill(rules.colors.elevated)})]);}
+test('explicit keyboard viewport preserves844 and Fill despite keyboard content',()=>{
+ const s=fixedKeyboard(),c={keyboardViewport:'fixed844'};assert.equal(check(s,c).errors.length,0);
+ Object.assign(s.items[0],{height:879,layoutSizingVertical:'HUG'});assert.ok(codes(s,c).includes('KEYBOARD_VIEWPORT'));
+ assert.ok(!codes(s).includes('KEYBOARD_VIEWPORT'));
+});
+test('keyboard contract rejects Hug body, unclipped body and absolute keypad',()=>{
+ const s=fixedKeyboard();s.items.find(n=>n.id==='body').layoutSizingVertical='HUG';s.items.find(n=>n.id==='body').clipsContent=false;s.items.find(n=>n.id==='pad').layoutPositioning='ABSOLUTE';
+ assert.equal(check(s,{keyboardViewport:'fixed844'}).errors.filter(e=>e.code==='KEYBOARD_LAYOUT').length,3);
+});
 test('native Card sections in Group are not mistaken for repeated Card surfaces',()=>{
   const s=snapshot([frames('root','Group',null),component('a','Card / Body / Group-C','root'),component('b','Card / Body / Group-C','root')]);
   assert.ok(!codes(s,{screenType:'layout'}).includes('REPEAT_GROUP'));

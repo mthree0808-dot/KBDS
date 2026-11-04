@@ -32,6 +32,7 @@
 - CTA: Label 문구는 원형 가로 Hug / WIDTH_AND_HEIGHT를 유지한다. 고정폭 49px 등으로 덮어쓰지 않는다.
 - 더미 Image Area는 삭제 예정152:2214 링크 대신 `knowledge/dummy-image.json`과 `knowledge/assets/dummy-service-illustration.png`로 재현한다. 실제 native ImageContainer·저장 그래픽/CROP, 상하40, 편집 가능한 Pretendard SemiBold21 라벨·빨강40% Fill·흰색2px OUTSIDE·중앙 배치를 보존한다. 라벨을 이미지로 합치거나 빈 기본 이미지로 대체하지 않는다.
 - 서체: 판정 단위는 실제 Text다. 숫자·숫자 서식만 있으면 Pretendard, 문자와 섞인 한 Text는 KBFG Text다. 하이픈이 있는 전화번호도 숫자다. 더미 라벨은 편집 가능한 Pretendard SemiBold를 보존한다.
+- 기본844 화면의 키패드 노출 상태는 루트390×844 Fixed를 유지하고 Popup·Slot·Body Fill, 키패드 Footer AUTO로 배치한다. 키패드 때문에879 Hug 등으로 늘리지 않는다. 해당 계약은 `keyboardViewport: "fixed844"`이며 긴 약관/PDF 전체 노출과 구분한다.
 - Title / Page→ConsentGroup은 실제 경계24px다. 사업자번호·휴대폰 숫자는 Numeric md 스타일의 실제 SemiBold 및 다섯 typography 변수 연결을 보존하고 스타일 적용 뒤 fontName/Bold를 덮어쓰지 않는다. `src/input-numeric.mjs`를 재사용한다. 특정 필드의 별도 TextList 설명은 FooterArea 밖 `InputField / TextList` 또는 `InputField / TextList Group`으로 묶어12px, 목록 내부8px·필드 단위 사이24px를 적용한다. 상세 독립 명세는 `knowledge/input-field-corrections.json`이다.
 - 반복 항목은 실제 `[명칭] Group`으로 묶는다. Text·TextList 혼합은 각각 묶고 `Text / TextList Group`, 그 위 제목은 `Title / Contents`로 재판정한다. 구조 변경 후 영향을 받는 부모도 검사한다. 원형 내부 레이어를 일괄 재명명하지 않는다.
 - Title / Section 뒤16px(바텀시트 텍스트12px 예외), Title / TextList Group 간24px, Tab→Infobox / Card16px, 일반 Tab 후24px 등 해당 조합의 최신 간격을 구분한다. 숫자 값과 spacing 토큰을 같이 검사한다.
