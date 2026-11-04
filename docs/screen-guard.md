@@ -39,7 +39,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |---|---|
 |스냅샷|전체 수집, 중복 ID, 누락 부모·순환/분리 계층|
 |BODY/Container|BODY 네 방향padding0, 첫 Container 상단 기본24·StepIndicator/1depth Tab 시작0, 마지막 하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
-|선택 UI 그룹|Tab·Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 복합 부모·명칭·순서|
+|선택 UI 그룹|Tab·Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 부모·명칭·순서. Tab + 전체 콘텐츠를 담는 BODY 직계 Container도 허용|
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
 |BG|PDF Title Area·body의 light-gray, 문서·화면 white, 실제 변수 key·Paint 노출·opacity·레이어 노출|
 |HomeIndicator|elevated 변수 연결, Dialog만 배경 Paint 숨김, 기타 화면 노출|
@@ -87,4 +87,4 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 
 ### 첫 UI와 상위 Tab 범위
 
-Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth Tab 시작을 식별하며 상단0px 예외를 검사한다. 본문 맨 앞1depth Tab이 하나이고 하위2depth Tab이 있는 패턴은 같은 Container에 포함되는지 검사한다. 여러 독립 상위 탭의 의미상 제어 범위·일반 콘텐츠/알려드립니다의 독립 여부는 기획으로 직접 확인한다. 원문에 독립 보존한2013:6542의 실제 두 형제 복합 그룹 구조를 따른다.
+Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth Tab 시작을 식별하며 상단0px 예외를 검사한다. 본문 맨 앞1depth Tab이 하나이고 하위2depth Tab이 있는 패턴은 같은 Container에 포함되는지 검사한다. 여러 독립 상위 탭의 의미상 제어 범위·일반 콘텐츠/알려드립니다의 독립 여부는 기획으로 직접 확인한다. 2026-11-04 독립 명세의 두 경우를 따른다. 2013:6542는 Container > Tab + Infobox / Contents로 전체 범위를 묶고, 2059:1068은 Container에 독립 본문이 있어 Tab / Infobox를 별도로 쓴다. 자동 검사는 BODY 직계 Container의 첫 Tab + 하나의 전체 콘텐츠 하위 트리인 두 자식 형태를 허용하며 순서·Vertical/Fill/Hug/AUTO를 계속 검사한다. 별도 형제가 있는 직접 나열은 차단한다. 이름만 바꾼 중첩 Container는 허용하지 않는다. 의미상 제어 범위·독립 본문 여부는 직접 대조하며 모든 Container를 무조건 탭 그룹으로 인정하지 않는다. Tab 다음 복합 콘텐츠의 첫 보이는 일반 흐름 경로가 실제 Infobox / Card일 때16px를 검사하고 그 외는24px다.

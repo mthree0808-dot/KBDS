@@ -367,9 +367,41 @@ test('both Tab depths, Segment and Chip require one actual following-content gro
   for(const [name,variant]of [['Tab','1depth'],['Tab','2depth'],['Segment','basic'],['Chip','single']])assert.equal(check(selectorPage(name,variant)).errors.length,0);
   const s=selectorPage();s.items.find(n=>n.id==='contents').parentId='c1';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
 });
-test('renaming an ungrouped selector and flattening it into Container do not pass',()=>{
+test('renaming a nested selector wrapper to Container does not replace a direct BODY Container',()=>{
   const s=selectorPage();s.items.find(n=>n.id==='selector-group').name='Container';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
   const t=selectorPage();t.items.find(n=>n.id==='selector-group').layoutMode='NONE';assert.ok(codes(t).includes('SELECTOR_CONTENT_GROUP'));
+});
+
+function directTabContainer(){
+  const s=selectorPage('Tab','1depth');
+  s.items=s.items.filter(n=>n.id!=='selector-group');
+  s.items.find(n=>n.id==='selector').parentId='c1';
+  s.items.find(n=>n.id==='contents').parentId='c1';s.total=s.items.length;
+  Object.assign(s.items.find(n=>n.id==='c1'),{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:24,boundVariables:{paddingBottom:{id:rules.spacing[32]},itemSpacing:{id:rules.spacing[24]}}});
+  return s;
+}
+test('direct BODY Container can group a leading Tab and its whole content subtree',()=>{
+  assert.equal(check(directTabContainer()).errors.length,0);
+});
+test('Container with another sibling requires an explicit Tab composite',()=>{
+  const s=directTabContainer();add(s,frames('other','Title / Contents','c1'));
+  assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+});
+test('Container acceptance retains selector order layout and following-content requirements',()=>{
+  for(const change of ['order','layout','sizing','content']){
+    const s=directTabContainer(),c=s.items.find(n=>n.id==='c1');
+    if(change==='order'){const i=s.items.findIndex(n=>n.id==='contents');s.items.unshift(s.items.splice(i,1)[0]);}
+    if(change==='layout')c.layoutMode='NONE';
+    if(change==='sizing')c.layoutSizingVertical='FIXED';
+    if(change==='content')s.items.find(n=>n.id==='contents').parentId='body';
+    assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'),change);
+  }
+});
+test('Tab to composite beginning with inset Infobox Card uses16 rather than24',()=>{
+  const s=directTabContainer(),c=s.items.find(n=>n.id==='c1');c.itemSpacing=16;c.boundVariables.itemSpacing={id:rules.spacing[16]};
+  s.items.find(n=>n.id==='contents').name='Infobox / Contents';
+  add(s,frames('inset-info','Infobox','contents'),component('info','Infobox / Card','inset-info'),frames('remaining','Contents','contents'));
+  assert.equal(check(s).errors.length,0);c.itemSpacing=24;assert.ok(codes(s).includes('GAP'));
 });
 test('notices are full-width even when their Accordion is inside a wrapper',()=>{
   const s=containerPage();const c=s.items.find(n=>n.id==='c3');c.paddingLeft=c.paddingRight=0;

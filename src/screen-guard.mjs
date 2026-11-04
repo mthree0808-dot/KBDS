@@ -281,7 +281,12 @@ export function auditScreen(snapshot, contract = {}, rules) {
     const cs = kids(n).filter(c => visible(c) && c.layoutPositioning !== 'ABSOLUTE');
     for (const selector of cs.filter(selectorName)) {
       const prefix=selectorName(selector);
-      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||!n.name.startsWith(`${prefix} / `)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'Tab·Segment·Chip은 후속 콘텐츠와 실제 Vertical / Fill·Hug / AUTO 복합 그룹으로 묶고 구조에 맞게 명명합니다');
+      // A direct BODY Container can itself express the Tab's complete scope.
+      // Only the unambiguous Tab + one content subtree shape is inferred here;
+      // other direct siblings need their own explicitly named composite.
+      const parent=map.get(n.parentId);
+      const tabContainer=prefix==='Tab'&&/^Container(?: [1-9]\d*)?$/.test(n.name)&&parent?.type==='FRAME'&&parent.name==='## BODY'&&cs.length===2;
+      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||!(n.name.startsWith(`${prefix} / `)||tabContainer)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'선택 UI와 후속 콘텐츠를 실제 Vertical / Fill·Hug / AUTO로 묶습니다. Tab과 전체 콘텐츠를 담은 BODY 직계 Container도 허용하며, 다른 형제가 있으면 별도 Tab / … 그룹을 사용합니다');
     }
     if (n.name === 'ConsentFinal / StickyButton') consentComposite(n);
     if (!cs.length) continue;
@@ -308,9 +313,9 @@ export function auditScreen(snapshot, contract = {}, rules) {
       if (['Image Area', 'ImageContainer', 'Infobox / Card'].includes(a.name)) gap = 24;
       if (a.name === 'Chip / Basic') gap = b.name === 'Feedback' ? 24 : 8;
       if (a.name === 'Tab') {
-        const content=kids(b).filter(c=>visible(c)&&c.layoutPositioning!=='ABSOLUTE');
-        const insetInfobox=b.type==='FRAME'&&b.name==='Infobox'&&content.length===1&&content[0].type==='INSTANCE'&&content[0].name==='Infobox / Card';
-        gap=b.name==='Infobox / Card'||insetInfobox?16:24;
+        let first=b;const seen=new Set();
+        while(first?.type==='FRAME'&&!seen.has(first.id)){seen.add(first.id);first=kids(first).find(c=>visible(c)&&c.layoutPositioning!=='ABSOLUTE');}
+        gap=first?.type==='INSTANCE'&&first.name==='Infobox / Card'?16:24;
       }
       if (a.name === 'Feedback') gap = 40;
       if (a.name === 'Infobox / Solid' && ['InputField', 'InputField Group', 'Feedback'].includes(b.name)) gap = 24;

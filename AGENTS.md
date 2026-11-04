@@ -24,8 +24,8 @@
 ## 누락을 막는 핵심 확인
 
 - `## BODY`는 padding0이다. 일반 Container 좌우20px·전폭 UI 외부 래퍼 좌우0px, 첫 Container 상단 기본24px(맨 앞이 StepIndicator/1depth Tab이면0)·마지막 하32px(단일에도 적용)를 적용한다. 과거 BODY 패딩·상단40/16 예외보다 새 규칙을 우선하며 Popup Body·BottomSheet Slot·PDF·원형 내부는 구분한다.
-- 상위 Tab이 하위 탭·목록까지 제어하면 같은 Container 안에 Tab / Infobox와 Tab / Data Block Group 등 전체를 포함한다. 상위 Tab만 앞 Container에 두고 하위 내용을 다음 Container로 분리하지 않는다.
-- Tab(1depth·2depth)·Segment·Chip은 후속 콘텐츠와 실제 Vertical·Fill/Hug·AUTO 복합 그룹으로 묶는다. `Tab / Contents` 등 실제 구성으로 명명하고 기존 조합별 gap을 유지한다. 전폭 UI와 일반 본문이 섞이면 외부 좌우0px·본문 래퍼20px로 분리한다.
+- 상위 Tab이 하위 탭·목록까지 제어하면 같은 Container 안에 전체를 포함한다. Container가 Tab + 전체 콘텐츠를 이미 묶으면 별도 Tab / … 래퍼를 중복 추가하지 않는다. 독립 본문도 형제로 있으면 탭 범위만 Tab / Infobox 등으로 따로 묶는다. 상위 Tab만 앞 Container에 두고 하위 내용을 다음 Container로 분리하지 않는다.
+- Tab(1depth·2depth)·Segment·Chip은 후속 콘텐츠와 실제 Vertical·Fill/Hug·AUTO 복합 그룹으로 묶는다. Container가 Tab 그룹핑을 충족하는 예외를 적용하고, 별도 그룹은 `Tab / Contents` 등 실제 구성으로 명명하며 기존 조합별 gap을 유지한다. 전폭 UI와 일반 본문이 섞이면 외부 좌우0px·본문 래퍼20px로 분리한다.
 - PDF: `Body > Title Area`와 `Body > body`는 각각 `background/neutral/light-gray` Fill을 연결·노출한다. 흰색 아트보드·PDF Document와 구분한다. BG 변수 key, Paint visible/opacity, 레이어 노출과 렌더까지 확인한다.
 - CTA: Label 문구는 원형 가로 Hug / WIDTH_AND_HEIGHT를 유지한다. 고정폭 49px 등으로 덮어쓰지 않는다.
 - 서체: 판정 단위는 실제 Text다. 숫자·숫자 서식만 있으면 Pretendard, 문자와 섞인 한 Text는 KBFG Text다. 하이픈이 있는 전화번호도 숫자다. 더미 라벨은 편집 가능한 Pretendard SemiBold를 보존한다.
