@@ -38,7 +38,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |항목|자동 검사|
 |---|---|
 |스냅샷|전체 수집, 중복 ID, 누락 부모·순환/분리 계층|
-|BODY/Container|BODY 네 방향padding0, 첫 Container 상단 일반24·Feedback/상단 아이콘40·StepIndicator/1depth Tab 시작0, 마지막 하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
+|BODY/Container|일반 BODY·키패드/패턴 Popup Body 네 방향padding0, 첫 Container 상단 일반24·Feedback/상단 아이콘40·StepIndicator/1depth Tab 시작0, 마지막 하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
 |선택 UI 그룹|Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 부모·명칭·순서. Tab 그룹핑·동일 Container 범위 강제는 삭제|
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
 |BG|PDF Title Area·body의 light-gray, 문서·화면 white, 실제 변수 key·Paint 노출·opacity·레이어 노출|
@@ -98,3 +98,7 @@ Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth T
 ### Feedback·상단 아이콘 상단40
 
 첫 보이는 일반 흐름 경로의 실제 Feedback·IconContainer·status-*는 첫 Container 상단40px와 spacing/6xl을 검사한다. 이름만으로 알 수 없는 ImageContainer 아이콘 사례는 기획·원형 확인 후 `{firstContainerRole:"top-icon"}` 또는 feedback으로 명시할 수 있다. 일반24·최초 StepIndicator/1depth Tab0·두 번째 이후 상0·BODY padding0·마지막하32는 유지한다. 사진이나 뒤쪽 아이콘은 자동으로40을 적용하지 않는다. 아이콘 의미·렌더는 직접 확인한다.
+
+### 키패드·패턴 Popup Body
+
+실제 Popup > Slot > Body와 같은 Popup 안의 Keypad·Pattern·Centerinput / Pattern 인스턴스를 식별하면 본문 padding0·Container 시작 UI별 상24/40/0·좌우20·마지막하32 및 토큰을 검사한다. PDF·다른 Popup Body에는 이 분기를 적용하지 않는다. 승인5054:2599처럼 Body0/첫 Container24를 따르고 겉보기 위치가 같은 Body24/Container0도 실패 처리한다. 원문·입력 상태·원형 내부 패딩·전체 높이·실제 경계는 직접 대조한다.

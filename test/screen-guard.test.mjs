@@ -478,3 +478,15 @@ test('explicit top-icon role covers image components without guessing every imag
   assert.ok(codes(s,{firstContainerRole:'unknown'}).includes('CONTRACT'));
   const tab=selectorPage('Tab','1depth');assert.equal(check(tab,{firstContainerRole:'top-icon'}).errors.length,0);
 });
+function inputPopup(kind='Keypad'){
+  const s=snapshot([frames('root','화면ID_입력',null,{fills:fill(rules.colors.white)}),component('pop','Popup','root'),frames('slot','Slot','pop',{type:'SLOT'}),frames('header','Header','slot'),frames('body','Body','slot'),frames('footer','Footer','slot'),component('home','HomeIndicator','footer',{fills:fill(rules.colors.elevated)})]);
+  add(s,frames('c1','Container 1','body',{paddingTop:24,paddingLeft:20,paddingRight:20,boundVariables:{paddingTop:{id:rules.spacing[24]},paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]}}}),component('title','Title / Page','c1'),frames('c2','Container 2','body',{paddingLeft:20,paddingRight:20,paddingBottom:32,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},paddingBottom:{id:rules.spacing[32]}}}),component('input',kind,'footer'));
+  return s;
+}
+test('keypad and pattern Popup Body own no padding while their Containers own24/20/32',()=>{
+  for(const kind of ['Keypad','Pattern','Centerinput / Pattern']){const s=inputPopup(kind);assert.equal(check(s).errors.length,0,kind);s.items.find(n=>n.id==='body').paddingTop=24;s.items.find(n=>n.id==='c1').paddingTop=0;assert.ok(codes(s).includes('BODY_PADDING'));assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));}
+});
+test('input Popup padding migration preserves token checks without applying to PDF',()=>{
+  const s=inputPopup();delete s.items.find(n=>n.id==='c1').boundVariables.paddingTop;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING_TOKEN'));
+  const t=pdf();t.items.find(n=>n.id==='body').paddingTop=24;assert.equal(check(t).errors.length,0);
+});

@@ -2,7 +2,7 @@
 
 ## BODY 무패딩·Container 여백·선택 UI 복합 그룹 (2026-11-03 최종 변경)
 
-- **적용 범위·우선순위**: 앞으로 실제 이름이 `## BODY`인 본문 영역은 **상·우·하·좌 padding 모두0px**다. 아래에 남아 있는 일반·완료·Feedback·키패드·약관·링크 리스트의 종전 BODY padding24/20/32, 상단40/16 또는 전폭 여부에 따른 BODY 패딩 분기는 이 규칙으로 대체한다. `gap`과 패딩은 구분하며, 컴포넌트 조합별 기존 외부 간격은 유지한다. Popup의 `Body`/PDF `body`·`PDF Document`, BottomSheet의 Slot, 컴포넌트 내부 padding은 이번 `## BODY` 외곽 규칙과 다른 범위다.
+- **적용 범위·우선순위**: 앞으로 실제 이름이 `## BODY`인 본문 영역은 **상·우·하·좌 padding 모두0px**다. 아래에 남아 있는 일반·완료·Feedback·키패드·약관·링크 리스트의 종전 BODY padding24/20/32, 상단40/16 또는 전폭 여부에 따른 BODY 패딩 분기는 이 규칙으로 대체한다. `gap`과 패딩은 구분하며, 컴포넌트 조합별 기존 외부 간격은 유지한다. 키패드·패턴 Popup의 `Body`에도 아래 무패딩·Container 소유 규칙을 적용한다(2026-11-04 교정). PDF 및 다른 유형의 Popup `Body`/PDF `body`·`PDF Document`, BottomSheet Slot, native 내부 padding은 별도 범위다.
 - **기본 Container**: `## BODY`의 실제 본문을 담는 `Container`/`Container 1, 2…`는 Vertical Auto Layout·Fill/Hug·AUTO로 구성하고 **좌우padding20px(`spacing/2xl`)**을 적용한다. BODY 자체와 중복 적용하지 않는다. Container가 하나면 순번 없는 `Container`이고, 복수일 때는 기존 번호 규칙을 유지한다.
 - **상하 여백 (2026-11-04 최신 교정)**: BODY 직계에서 보이는 Container 순서를 기준으로 **첫 Container padding-top은 기본24px(`spacing/3xl`), 피드백 또는 상단 아이콘으로 시작하는 화면은40px(`spacing/6xl`)**, **마지막 Container padding-bottom은32px(`spacing/5xl`)**다. 단, **첫 Container의 맨 앞 UI가 StepIndicator 또는 Tab(1depth)이면 그 Container의 padding-top은0px**로 적용한다. `Tab / Infobox`·`Tab / Contents` 같은 구조용 프레임 안에 시작 UI가 있어도 동일한 예외다. 첫 번째 보이는 일반 흐름의 자식 경로를 따라 판정하며, 뒤쪽에 해당 UI가 있다는 이유만으로 상단24px를 없애지 않는다. Tab(2depth)·Segment·Chip·Infobox만으로는 이0px 예외를 추정하지 않는다. 중간 Container 외곽 상하 패딩은0이고, Container가 하나면 일반 상24·하32, 피드백/상단 아이콘 시작 상40·하32, StepIndicator/1depth Tab 시작 **상0·하32**다. BODY 자체는 계속 네 방향0px다.
 - **전폭 UI**: StepIndicator, Tab(1depth), 알려드립니다 등 전폭 UI를 담는 **외부 Container·복합 래퍼는 좌우padding0px**로 배치한다. Infobox / FullWidth와 화면 전폭 Divider 등도 같은 전폭 경계를 보존한다. 전폭 UI와 일반 본문이 한 Container에 함께 있으면 외부 Container는 좌우0, 일반 본문을 실제 역할에 맞는 내부 Auto Layout으로 묶어 그 래퍼에만 좌우20px을 준다. 네이티브 컴포넌트 내부의 Title Area·Slot 등 고유 패딩을 외부 여백과 혼동해 일괄0으로 변경하지 않는다. Data Block 내부 Divider처럼 콘텐츠 폭만 채우는 요소는 전폭 요소로 추정하지 않는다.
@@ -12,6 +12,29 @@
 - **Tab 간격은 유지**: Tab→Infobox / Card16px(`spacing/xl`), Tab→일반 콘텐츠24px(`spacing/3xl`) 등 조합별 기존 간격은 삭제하지 않는다. 그룹핑 유무나 부모 이름에 따라 간격을 바꾸지 않으며, 서로 다른 부모로 배치된 경우 실제 보이는 경계와 변수 연결을 직접 확인한다. 인포박스→다음 콘텐츠24px, Data Block Group 내부12px와 Chip / Basic→일반8px·Feedback24px도 기존 규칙대로 적용한다.
 
 완료 전에 BODY·Container 패딩과 토큰, 유지되는 간격·일반 반복/혼합 레이어 규칙을 확인한다. Tab에 대해서는 후속 콘텐츠 그룹 존재·부모 명칭·같은 Container 제어 범위를 완료 조건으로 삼지 않는다.
+
+## 키패드·패턴 Popup의 Body 무패딩과 Container 여백 (2026-11-04 독립 보존)
+
+- **제작 오류**: 5047:1927에서 일반 BODY 무패딩 규칙을 Popup Body의 예외로 해석해 Body 상단24px·첫 Container 상단0으로 남긴 것은 잘못이다. [사용자 수정5054:2599](https://www.figma.com/design/yojs1BhPrWxLmDDrpg1ihD/?node-id=5054-2599)처럼 **Popup > Slot > Body의 네 방향 padding0, 첫 Container 상단24px**로 적용한다. 단순히 겉보기 위치가 같다는 이유로 다른 레이어에 여백을 주지 않는다. 아래 독립 명세를 보존하므로 참조 삭제 후에도 적용한다.
+
+```text
+화면 (가로390 / 세로는 기존 Hug 유지)
+├─ StatusBar Area (기존 최상단 Absolute / 높이44)
+│  └─ StatusBar (원형 유지)
+└─ Popup (실제 원형 / Fill·Hug)
+   └─ Slot (Vertical / padding0 / gap0)
+      ├─ Header > AppBar (sub / hasTitle:true / 이전 제목 유지)
+      ├─ Body (Vertical / Fill·Hug / padding0 / gap32)
+      │  ├─ Container 1 (24·20·0·20 / gap24)
+      │  │  └─ Title / TextList Group > Title / Page, TextList Group
+      │  └─ Container 2 (0·20·32·20 / gap16)
+      │     ├─ Title / Section
+      │     └─ Centerinput / Password (원형 tile·입력 상태 유지)
+      └─ Footer > Keypad(security / AUTO), HomeIndicator(AUTO / 배경 노출)
+```
+
+- **수치와 적용 범위**:24px는 spacing/3xl, 좌우20px는 spacing/2xl, 마지막 하단32px는 spacing/5xl을 연결한다. 기준에서는 Body 높이404, 첫 Container190, 둘째182이며 Body gap32는 유지된다. 화면862·Popup818 높이는 실제 콘텐츠에 따른 기존 Hug 결과이지 다른 화면에 강제할 고정값이 아니다. StatusBar 안전영역44와 Body 콘텐츠 여백24도 구분한다. 피드백/상단 아이콘40 및 최초 StepIndicator/1depth Tab0 등 별도 시작 유형은 해당 최신 규칙을 따른다.
+- **최소 수정·검수**: Body의24를 제거하고 첫 Container에 같은24를 옮긴다. Container 수·분할·순서, Header/Body/Footer 이름, 원문·폰트·입력/키패드 상태·원형 내부 패딩·Footer 배치를 보존한다. 본문의 실제 상단 경계·전체 높이가 이전과 같은지 확인한다. 다른 일반 Popup·PDF·BottomSheet에 이 입력 화면 규칙을 일괄 적용하지 않는다.
 
 ## 피드백·상단 아이콘 화면 첫 Container 상단40 (2026-11-04 독립 보존)
 
@@ -407,7 +430,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 
 ### 키패드·패턴 입력 화면의 Popup 및 AppBar 제목 (2026-10-23 사용자 확정)
 - 앞으로 **키패드 입력 화면과 패턴을 그리는 화면은 원본 `Popup` 컴포넌트 틀**로 제작합니다. 이 유형은 일반 화면의 최상위 3단 구조보다 본 최신 사용자 지시를 우선합니다. 기존 인증 화면 모두를 Popup으로 확대하는 규칙은 아닙니다.
-- 구조는 `StatusBar`(최상단 Absolute) + `Popup > Slot > Header / Body / Footer`이며, 기존 본문·입력 컴포넌트·키패드·패턴의 원형 연결과 속성·문구·배치를 유지합니다. 키패드 화면 Body의 padding-top 24px 규칙도 유지합니다.
+- 구조는 `StatusBar`(최상단 Absolute) + `Popup > Slot > Header / Body / Footer`이며, 기존 본문·입력 컴포넌트·키패드·패턴의 원형 연결과 속성·문구·배치를 유지합니다. 키패드·패턴 Popup의 Body 패딩은0, 첫 Container 상단24px를 적용합니다. 종전 Body 자체 상단24px는 2026-11-04 사용자 교정으로 철회합니다.
 - **AppBar는 `variant: sub`, `hasTitle: true`**로 설정하고 KB 로고를 노출하지 않습니다. [승인 기준 2380:12952](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2380-12952)처럼 AppBar의 **`Label` Auto Layout 안 `타이틀`**에 이전 화면에서 쓰던 실제 AppBar 제목을 적용합니다. 기준의 제목은 `KB국민인증서 발급`이며 다른 흐름에 이 문구를 고정 복사하지 않습니다.
 - 이전 화면의 AppBar 제목을 그대로 이어받고, 아트보드명·페이지 ID·본문 입력 안내를 제목으로 대신하지 않습니다. 원형 Title Text Style·서체·변수·Label 구조를 유지하며, 기존 hasTitle false는 이 유형에서 최신 true 지시로 교정합니다. 닫기 버튼과 기획의 입력 상태도 보존합니다.
 
@@ -422,8 +445,8 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 - **`Image Area` 또는 단독 `ImageContainer` 다음 콘텐츠와의 기본 외부 gap은 24px (`spacing/3xl`)**입니다. 후속 콘텐츠 종류와 무관하게 적용하고 일반 BODY gap 32px보다 우선합니다. 사용자가 별도로 명시한 간격이 있으면 해당 지시를 따릅니다.
 - Image Area로 감싼 구성은 **Image Area의 바깥 경계부터** 다음 콘텐츠까지 24px, ImageContainer 단독 구성은 **ImageContainer의 바깥 경계부터** 다음 콘텐츠까지 24px를 적용합니다. 이미지 내부와 래퍼 외부에 각각 24px를 중복 적용하거나 빈 프레임·추가 padding으로 간격을 늘리지 않습니다. 기존 Image Area 내부 패딩·이미지 크기·Title / Page → Image Area gap 0px는 유지하며, 승인된 Image Area 전체를 빈 ImageContainer로 대체하라는 뜻은 아닙니다.
 
-### 키패드 화면 BODY 상단 패딩 (2026-11-03 외곽 규칙으로 대체)
-- 실제 `## BODY`인 경우 padding0, 첫 Container 상단24px로 적용한다. 종전 BODY 자체 상단24px 지시는 철회한다. Popup 내부 `Body`와 Keypad 원형 내부 패딩은 해당 별도 규격을 따른다.
+### 키패드 화면 본문 상단 패딩 (2026-11-04 교정)
+- 일반 ## BODY와 키패드·패턴 Popup의 Body 모두 padding0이다. 상단24px는 첫 Container가 소유한다. Keypad 원형 내부 패딩은 그대로 유지하고 PDF 등 다른 Popup Body에 이 예외를 확대하지 않는다.
 
 ### Infobox 후속 간격·선택 그룹 간격·임의 강조 금지 (2026-10-21 사용자 최종 교정)
 - **Infobox / Card 다음 콘텐츠**: 콘텐츠 종류와 무관하게 바로 다음 콘텐츠와의 외부 간격은 **24px (`spacing/3xl`)**로 적용합니다. 각각을 감싼 Container 사이에도 같은 실제 간격을 적용하며 BODY 기본 32px 및 종전 Infobox / Card → TextList 12px보다 우선합니다. 카드 내부 Slot·TextList 간격이나 카드 앞쪽 Title·InputField와의 간격은 이 규칙으로 변경하지 않습니다. 빈 프레임·중복 padding으로 간격을 더하지 않습니다.

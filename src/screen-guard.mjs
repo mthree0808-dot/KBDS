@@ -82,11 +82,15 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if(n&&(!/^Container(?: [1-9]\d*)?$/.test(n.name)||map.get(n.parentId)?.name!=='## BODY'))fail('CONTRACT',n,'인셋 예외는 BODY 직계 Container만 지정합니다');
     else if(n)approvedInsets.set(n.id,rule.value);
   }
-  // Literal ## BODY wrappers follow the current page rule, including when
-  // nested in a legacy template. Native Popup Body / component Slot padding
-  // is a different scope and is not rewritten by this rule.
-  for (const body of items.filter(n=>n.type==='FRAME'&&n.name==='## BODY'&&visible(n))) {
-    for (const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft']) if (!near(body[field],0)) fail('BODY_PADDING',body,'## BODY의 상하좌우 padding은 모두0px입니다');
+  // Keypad/pattern Popup Body uses the same outside-padding ownership as
+  // literal ## BODY; PDF and other native Popup bodies remain separate.
+  const inputPopupBody=n=>{
+    if(n.type!=='FRAME'||n.name!=='Body')return false;
+    const slot=map.get(n.parentId),popup=map.get(slot?.parentId);
+    return slot?.type==='SLOT'&&popup?.type==='INSTANCE'&&popup.name==='Popup'&&items.some(c=>c.type==='INSTANCE'&&['Keypad','Pattern','Centerinput / Pattern'].includes(c.name)&&visible(c)&&within(c,a=>a.id===popup.id));
+  };
+  for (const body of items.filter(n=>n.type==='FRAME'&&(n.name==='## BODY'||inputPopupBody(n))&&visible(n))) {
+    for (const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft']) if (!near(body[field],0)) fail('BODY_PADDING',body,'일반 ## BODY 및 키패드·패턴 Popup Body의 상하좌우 padding은 모두0px입니다');
     const containers=kids(body).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE'&&/^Container(?: [1-9]\d*)?$/.test(n.name));
     function leadingUi(container) {
       let current=container;const seen=new Set();
