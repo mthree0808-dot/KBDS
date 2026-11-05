@@ -48,20 +48,21 @@
 
 - **적용 범위·우선순위**: 앞으로 실제 이름이 `## BODY`인 본문 영역은 **상·우·하·좌 padding 모두0px**다. 아래에 남아 있는 일반·완료·Feedback·키패드·약관·링크 리스트의 종전 BODY padding24/20/32, 상단40/16 또는 전폭 여부에 따른 BODY 패딩 분기는 이 규칙으로 대체한다. `gap`과 패딩은 구분하며, 컴포넌트 조합별 기존 외부 간격은 유지한다. 키패드·패턴 Popup의 `Body`에도 아래 무패딩·Container 소유 규칙을 적용한다(2026-11-04 교정). PDF 및 다른 유형의 Popup `Body`/PDF `body`·`PDF Document`, BottomSheet Slot, native 내부 padding은 별도 범위다.
 - **기본 Container**: `## BODY`의 실제 본문을 담는 `Container`/`Container 1, 2…`는 Vertical Auto Layout·Fill/Hug·AUTO로 구성하고 **좌우padding20px(`spacing/2xl`)**을 적용한다. BODY 자체와 중복 적용하지 않는다. Container가 하나면 순번 없는 `Container`이고, 복수일 때는 기존 번호 규칙을 유지한다.
-- **상하 여백 (2026-11-04 최신 교정)**: BODY 직계에서 보이는 Container 순서를 기준으로 **첫 Container padding-top은 기본24px(`spacing/3xl`), 피드백 또는 상단 아이콘으로 시작하는 화면은40px(`spacing/6xl`)**, **Container가2개 이상일 때만 마지막 padding-bottom32px(`spacing/5xl`)**를 적용한다. 단일 Container는 padding-bottom0이며 변수 연결도 제거한다. 단, **첫 Container의 맨 앞 UI가 StepIndicator 또는 Tab(1depth)이면 그 Container의 padding-top은0px**로 적용한다. `Tab / Infobox`·`Tab / Contents` 같은 구조용 프레임 안에 시작 UI가 있어도 동일한 예외다. 첫 번째 보이는 일반 흐름의 자식 경로를 따라 판정하며, 뒤쪽에 해당 UI가 있다는 이유만으로 상단24px를 없애지 않는다. Tab(2depth)·Segment·Chip·Infobox만으로는 이0px 예외를 추정하지 않는다. 중간 Container 외곽 상하 패딩은0이고, Container가 하나면 일반 상24·하0, 피드백/상단 아이콘 상40·하0, StepIndicator/1depth Tab 시작 **상0·하0**다. BODY 자체는 계속 네 방향0px다.
+- **상하 여백 (2026-11-05 최신 교정)**: BODY 직계에서 보이는 Container 순서를 기준으로 **첫 Container padding-top은 기본24px(`spacing/3xl`), 피드백 또는 상단 아이콘으로 시작하는 화면은40px(`spacing/6xl`)**, **단일·복수 모두 마지막 Container padding-bottom32px(`spacing/5xl`)**를 적용한다. 단일도 콘텐츠 증가에 대비해32px를 선적용한다. 단, **첫 Container의 맨 앞 UI가 StepIndicator 또는 Tab(1depth)이면 그 Container의 padding-top은0px**로 적용한다. `Tab / Infobox`·`Tab / Contents` 같은 구조용 프레임 안에 시작 UI가 있어도 동일한 예외다. 첫 번째 보이는 일반 흐름의 자식 경로를 따라 판정하며, 뒤쪽에 해당 UI가 있다는 이유만으로 상단24px를 없애지 않는다. Tab(2depth)·Segment·Chip·Infobox만으로는 이0px 예외를 추정하지 않는다. 중간 Container 외곽 상하 패딩은0이고, Container가 하나면 일반 상24·하32, 피드백/상단 아이콘 상40·하32, StepIndicator/1depth Tab 시작 **상0·하32**다. BODY 자체는 계속 네 방향0px다.
 - **전폭 UI**: StepIndicator, Tab(1depth), 알려드립니다 등 전폭 UI를 담는 **외부 Container·복합 래퍼는 좌우padding0px**로 배치한다. Infobox / FullWidth와 화면 전폭 Divider 등도 같은 전폭 경계를 보존한다. 전폭 UI와 일반 본문이 한 Container에 함께 있으면 외부 Container는 좌우0, 일반 본문을 실제 역할에 맞는 내부 Auto Layout으로 묶어 그 래퍼에만 좌우20px을 준다. 네이티브 컴포넌트 내부의 Title Area·Slot 등 고유 패딩을 외부 여백과 혼동해 일괄0으로 변경하지 않는다. Data Block 내부 Divider처럼 콘텐츠 폭만 채우는 요소는 전폭 요소로 추정하지 않는다.
 - **Tab 후속 콘텐츠 그룹핑 의무 삭제 (2026-11-04 최신 변경)**: Tab(1depth·2depth)과 다음 콘텐츠를 반드시 같은 Auto Layout/Container로 묶도록 한 규칙을 삭제한다. `Tab / Infobox`, `Tab / Contents`, `Tab / Data Block Group` 등 별도 복합 그룹도 강제하지 않는다. 상위1depth Tab과 하위2depth Tab·목록을 반드시 같은 Container 안에 넣도록 한 제어 범위 검사도 이 그룹핑 의무와 함께 삭제한다. 기존 그룹은 필요에 따라 유지할 수 있으며 자동 해제·평탄화를 요구하지 않는다.
 - **이전 사례의 효력**: 2013:6542와2059:1068을 근거로 만든 Container 충족/별도 그룹 필수 판정 및 그 의무 계층도는 더 이상 실행 규칙이 아니다. 화면 삭제 후 이 예전 규칙을 다시 적용하거나 공통 검사로 강제하지 않는다. 이번 요청은 MD·검사 기준 갱신이며 기존 Figma 화면의 그룹 해제 요청이 아니다.
-- **유지되는 규칙**: Segment·Chip은 후속 콘텐츠와 실제 Vertical Auto Layout·Fill/Hug·AUTO 복합 그룹으로 묶고 실제 구성에 맞춰 명명한다. BODY padding0, 일반 Container 좌우20·전폭 외곽0, 첫 Container 상단 일반24·피드백/상단 아이콘40·StepIndicator/1depth Tab 시작0, 하단은 단일0·복수의 마지막32로 적용한다. 기존 컴포넌트 연결·variant·선택 상태·원형 내부 패딩을 보존한다.
+- **유지되는 규칙**: Segment·Chip은 후속 콘텐츠와 실제 Vertical Auto Layout·Fill/Hug·AUTO 복합 그룹으로 묶고 실제 구성에 맞춰 명명한다. BODY padding0, 일반 Container 좌우20·전폭 외곽0, 첫 Container 상단 일반24·피드백/상단 아이콘40·StepIndicator/1depth Tab 시작0, 하단은 단일·복수 모두 마지막32로 적용한다. 기존 컴포넌트 연결·variant·선택 상태·원형 내부 패딩을 보존한다.
 - **Tab 간격은 유지**: Tab→Infobox / Card16px(`spacing/xl`), Tab→일반 콘텐츠24px(`spacing/3xl`) 등 조합별 기존 간격은 삭제하지 않는다. 그룹핑 유무나 부모 이름에 따라 간격을 바꾸지 않으며, 서로 다른 부모로 배치된 경우 실제 보이는 경계와 변수 연결을 직접 확인한다. 인포박스→다음 콘텐츠24px, Data Block Group 내부12px와 Chip / Basic→일반8px·Feedback24px도 기존 규칙대로 적용한다.
 
 완료 전에 BODY·Container 패딩과 토큰, 유지되는 간격·일반 반복/혼합 레이어 규칙을 확인한다. Tab에 대해서는 후속 콘텐츠 그룹 존재·부모 명칭·같은 Container 제어 범위를 완료 조건으로 삼지 않는다.
 
-## 단일 Container 하단 패딩 미지정 (2026-11-04 최신 교정)
+## 단일 Container도 하단32px 선적용 (2026-11-05 최신 변경)
 
-- 본문에서 보이는 일반 흐름의 페이지 Container가 **하나**이면 상단만 시작 UI별 값(일반24·Feedback/상단 아이콘40·최초 StepIndicator/1depth Tab0)으로 적용한다. **padding-bottom은0, 연결된 spacing 변수도 해제**한다. 좌우20 또는 승인된 전폭0, 내부 컴포넌트 패딩과 후속 간격은 유지한다. CSS식 “미지정”은 Figma에서 하단0·변수 미연결로 기록한다.
-- Container가 **2개 이상**이면 첫 Container 상단과 마지막 하단32px 규칙을 유지한다. 하단을 없애기 위해 Container를 합치거나 개수를 바꾸지 않는다. 판정은 ## BODY(및 키패드·패턴 Popup Body) 직계의 보이는 AUTO 페이지 Container 개수이며, Feedback·Card 등 내부 래퍼 수로 판단하지 않는다. PDF·다른 Popup·BottomSheet 원형 내부 패딩에 확대하지 않는다.
-- 참조5047:1968의 `## BODY > Container > Feedback`은 단일이므로 **40/20/0/20**이다. 앞서 기록한40/20/32/20은 이 최신 교정으로 대체한다. 화면 삭제 후에도 같은 규칙을 적용한다. 이번 요청은 공유 MD·검사 갱신이며 Figma 화면의 일괄 수정 요청은 아니다.
+- **최신 기준**: 본문 페이지 Container가 하나여도 **padding-bottom32px와 spacing/5xl(key `840e7bd3a0d91d1161f8dcbd3c3299310e014cac`)을 미리 적용**한다. 현재 콘텐츠가844px 이내여도 동일하며, 나중에 콘텐츠가 늘어 스크롤되는 경우를 대비한다. 실제 화면 높이를844px 초과한 뒤에만 적용하는 조건부 규칙이 아니다. 종전 단일 하단0·변수 해제 규칙은 철회한다.
+- **독립 구조 명세**: `화면 > ## BODY(padding0) > Container(padding-bottom32) > 실제 콘텐츠`를 유지한다. 첫 Container 상단은 일반24·Feedback/상단 아이콘40·최초 StepIndicator/1depth Tab0, 좌우는 일반20·전폭 외곽0과 본문 자체 인셋 규칙을 그대로 따른다. Container가 복수이면 마지막만 하단32, 앞선 Container 하단0이다. 일반 BODY와 기존 동일 규칙을 적용하던 키패드·패턴 Popup Body에 적용하며, PDF·다른 Popup Body·BottomSheet Slot·native 내부 패딩은 별도다. Container 개수·부모·순서·전체 화면 높이 정책을 바꾸는 근거가 아니다.
+- **삭제 가능한 승인 사례**: `bDKgQrkt0oHMJ1EbPUQTp8 / 3456:3137`의 기준 화면은390×844이고, `## BODY > Container`가 하나다. Container는 StepIndicator로 시작해 상0·좌우0·하32이며, 뒤 `Infobox / Contents`가 본문 좌우20을 소유한다. 이 예시의 문구·UI를 다른 화면에 복사하지 않는다. 링크가 삭제돼도 이 수치·계층·토큰·적용 조건으로 재현한다. 피드백 단일 Container도40/20/32/20으로 적용한다.
+- **검사**: 화면이844px 이내·초과인 경우 모두 하단32와 변수 연결을 검사한다. BODY0, 시작 유형별 상단·좌우 인셋, 기존 분할과 실제 콘텐츠 비가림도 확인한다. 이번 요청은 공유 MD·공통 검사 갱신이며 기존 화면의 일괄 수정 요청은 아니다.
 
 ## 키패드·패턴 Popup의 Body 무패딩과 Container 여백 (2026-11-04 독립 보존)
 
@@ -83,14 +84,14 @@
       └─ Footer > Keypad(security / AUTO), HomeIndicator(AUTO / 배경 노출)
 ```
 
-- **수치와 적용 범위**:24px는 spacing/3xl, 좌우20px는 spacing/2xl, 복수일 때 마지막 하단32px는 spacing/5xl을 연결한다. 단일 Container의 하단은0·토큰 해제다. 기준에서는 Body 높이404, 첫 Container190, 둘째182이며 Body gap32는 유지된다. 화면862·Popup818 높이는 실제 콘텐츠에 따른 기존 Hug 결과이지 다른 화면에 강제할 고정값이 아니다. StatusBar 안전영역44와 Body 콘텐츠 여백24도 구분한다. 피드백/상단 아이콘40 및 최초 StepIndicator/1depth Tab0 등 별도 시작 유형은 해당 최신 규칙을 따른다.
+- **수치와 적용 범위**:24px는 spacing/3xl, 좌우20px는 spacing/2xl, 단일·복수 모두 마지막 하단32px는 spacing/5xl을 연결한다. 단일 Container도 하단32·spacing/5xl을 연결한다. 기준에서는 Body 높이404, 첫 Container190, 둘째182이며 Body gap32는 유지된다. 화면862·Popup818 높이는 실제 콘텐츠에 따른 기존 Hug 결과이지 다른 화면에 강제할 고정값이 아니다. StatusBar 안전영역44와 Body 콘텐츠 여백24도 구분한다. 피드백/상단 아이콘40 및 최초 StepIndicator/1depth Tab0 등 별도 시작 유형은 해당 최신 규칙을 따른다.
 - **최소 수정·검수**: Body의24를 제거하고 첫 Container에 같은24를 옮긴다. Container 수·분할·순서, Header/Body/Footer 이름, 원문·폰트·입력/키패드 상태·원형 내부 패딩·Footer 배치를 보존한다. 본문의 실제 상단 경계·전체 높이가 이전과 같은지 확인한다. 다른 일반 Popup·PDF·BottomSheet에 이 입력 화면 규칙을 일괄 적용하지 않는다.
 
 ## 피드백·상단 아이콘 화면 첫 Container 상단40 (2026-11-04 독립 보존)
 
 - **조건·우선순위**: 완료·실패·안내 등의 Feedback으로 시작하거나, 본문 상단에 아이콘을 먼저 배치하는 화면은 **첫 Container padding-top40px**, `spacing/6xl`(key `5bc593ee6f05df006566535e37f5fce0ed3a085b`)을 적용한다. 일반 첫 Container24px보다 우선한다. StepIndicator/1depth Tab이 실제 최초 UI인0px 예외는 유지한다. Header의 아이콘·본문 뒤쪽 아이콘·하위 Container의 Feedback만으로40을 적용하지 않는다.
-- **적용 계층**: `## BODY` 자체는 계속 네 방향0이다. `## BODY > 첫 Container > Feedback` 또는 첫 Container의 구조용 래퍼 안에서 시작하는 아이콘에 적용하며 중복 BODY padding-top40이나 빈 프레임을 추가하지 않는다. 기본 좌우20·기존 분할·후속 콘텐츠 간격을 유지하고, 복수일 때만 마지막 Container 하단32를 적용한다. 단일 피드백 Container의 padding은 **40/20/0/20**이며 하단 변수는 연결하지 않는다.
-- **삭제 가능한 승인 근거**: 사고신고 파일의5047:1958은 성공 아이콘+‘인증이 완료되었습니다’,5047:1968은 실패 아이콘+‘발급에 실패했습니다’와 설명 블록을 가진 실제 Feedback(varient:large)이다. 각각 `## BODY > Container > Feedback`, HEADER/BODY/FOOTER 분할을 유지하고 상단40을 적용하고, 2026-11-04 최신 단일 Container 교정에 따라 하단은0·토큰 해제로 적용한다. 문구·아이콘·variant·본문 순서를 이 예시로 전역 복제하지 않는다. 두 화면이 삭제돼도 위 조건과 수치·토큰을 적용한다.
+- **적용 계층**: `## BODY` 자체는 계속 네 방향0이다. `## BODY > 첫 Container > Feedback` 또는 첫 Container의 구조용 래퍼 안에서 시작하는 아이콘에 적용하며 중복 BODY padding-top40이나 빈 프레임을 추가하지 않는다. 기본 좌우20·기존 분할·후속 콘텐츠 간격을 유지하고, 단일·복수 모두 마지막 Container 하단32를 적용한다. 단일 피드백 Container의 padding은 **40/20/32/20**이며 하단 spacing/5xl을 연결한다.
+- **삭제 가능한 승인 근거**: 사고신고 파일의5047:1958은 성공 아이콘+‘인증이 완료되었습니다’,5047:1968은 실패 아이콘+‘발급에 실패했습니다’와 설명 블록을 가진 실제 Feedback(varient:large)이다. 각각 `## BODY > Container > Feedback`, HEADER/BODY/FOOTER 분할을 유지하고 상단40을 적용하고, 2026-11-05 최신 단일 Container 변경에 따라 하단32·spacing/5xl로 적용한다. 문구·아이콘·variant·본문 순서를 이 예시로 전역 복제하지 않는다. 두 화면이 삭제돼도 위 조건과 수치·토큰을 적용한다.
 - **자동 검사 범위**: 첫 보이는 일반 흐름 경로의 실제 Feedback·IconContainer·status-* 인스턴스는40으로 식별한다. ImageContainer 등 의미가 이름만으로 불명확한 아이콘 사례는 실제 기획·원형을 확인한 뒤 `firstContainerRole:"top-icon"` 계약으로 명시한다. 모든 Image Area/사진을 아이콘으로 추정하지 않는다. 렌더와 실제 경계도 확인하고 변경 없는 항목을 반복 검사하지 않는다.
 
 ## 레이어 정리 시 기존 Container 분할 보존 (2026-11-04 제작 오류 교정)
@@ -628,7 +629,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
    - **Auto Layout 속성 (기본 및 예외)**: Flow: **Vertical**, **`gap: 32px` (`5xl` 토큰)**
      - **컴포넌트 조합 간격 우선 적용**: `StepIndicator` 직후 및 `Infobox / Solid` 다음 `InputField` 사이에는 **`gap: 24px` (`3xl` 토큰)**을 적용합니다. 각 컴포넌트를 감싼 `Container` 또는 `Container [순번]` 사이에도 동일하게 적용하며, 해당 구간에서는 기본 `gap: 32px`보다 우선합니다. (상세 규칙: 섹션 3 및 7-C)
      - **링크 리스트 전용 화면 예외**: 링크 리스트만 열거되는 화면의 경우 `## BODY`의 간격을 Auto Layout **`gap: 0px`**로 적용합니다.
-   - **패딩 (2026-11-03 최종 변경)**: `## BODY`는 상하좌우0px다. 일반 Container 좌우20px·전폭 Container 좌우0px, 첫 Container 상단은 일반24px·피드백/상단 아이콘40px·StepIndicator/1depth Tab 시작0px, Container가 복수일 때 마지막 하단32px를 적용한다. 단일이면 시작 UI별 상24/40/0만 적용하고 하단은0·토큰 해제다. 일반 본문과 전폭 UI가 섞이면 전폭 외부 래퍼0px + 본문 내부 래퍼20px로 나눈다. 상세는 문서 상단 「BODY 무패딩·Container 여백·선택 UI 복합 그룹」을 따른다.
+   - **패딩 (2026-11-03 최종 변경)**: `## BODY`는 상하좌우0px다. 일반 Container 좌우20px·전폭 Container 좌우0px, 첫 Container 상단은 일반24px·피드백/상단 아이콘40px·StepIndicator/1depth Tab 시작0px, 단일·복수 모두 마지막 Container 하단32px를 적용한다. 단일도 시작 UI별 상24/40/0과 하단32·spacing/5xl을 적용한다. 일반 본문과 전폭 UI가 섞이면 전폭 외부 래퍼0px + 본문 내부 래퍼20px로 나눈다. 상세는 문서 상단 「BODY 무패딩·Container 여백·선택 UI 복합 그룹」을 따른다.
    - **선택 UI**: Tab의 후속 콘텐츠 그룹핑은 의무가 아니다. Segment·Chip의 기존 복합 Auto Layout 그룹핑, 조합별 간격·원형 동작은 유지한다.
    - **'알려드립니다' 컨테이너 분할 필수 원칙**: `## BODY` 내에 '알려드립니다'가 위치할 경우, 다른 상단 요소들과 결합하지 않고 반드시 독립된 **`Container [순번]`으로 그룹핑하여 분할**합니다.
    - 높이 속성은 위 콘텐츠 양 규칙(Fill 또는 Hug)을 준수
@@ -1227,7 +1228,7 @@ Container 2 (Vertical, gap12)
 ---
 
 ### B. ## BODY 기본 간격 구조
-- **최신 외곽 패딩**: BODY 상하좌우0px. 일반 Container 좌우20px, 전폭 UI를 담는 Container·외부 래퍼 좌우0px. 첫 Container 상단은 일반24px, 피드백/상단 아이콘40px, StepIndicator/1depth Tab 시작0px다. 복수 Container일 때만 마지막 하단32px를 적용한다. 단일 Container는 하단0·토큰 해제다. 종전 BODY 자체 padding과 상단16 등 외곽 예외는 이 규칙으로 대체하며, 피드백/상단 아이콘40은 첫 Container에 적용한다.
+- **최신 외곽 패딩**: BODY 상하좌우0px. 일반 Container 좌우20px, 전폭 UI를 담는 Container·외부 래퍼 좌우0px. 첫 Container 상단은 일반24px, 피드백/상단 아이콘40px, StepIndicator/1depth Tab 시작0px다. 단일·복수 모두 마지막 Container 하단32px·spacing/5xl을 적용한다. 종전 BODY 자체 padding과 상단16 등 외곽 예외는 이 규칙으로 대체하며, 피드백/상단 아이콘40은 첫 Container에 적용한다.
 - **선택 UI와 본문**: Tab의 후속 콘텐츠 그룹핑 의무는 삭제했다. Segment·Chip은 후속 콘텐츠와 실제 복합 Auto Layout으로 묶는다. 전폭 외부0px·본문 래퍼 좌우20px 등 기존 여백은 유지한다.
 - **`## BODY` 내부 컴포넌트/Container 간 간격**: Auto Layout **`gap: 32px` (`5xl`)** 기본 적용 (단, 링크 리스트 전용 화면은 **`gap: 0px`** 적용)
   - **24px 우선 적용 구간**: `StepIndicator`(또는 이를 감싼 Container) 직후 및 `Infobox / Solid` 다음 `InputField`(또는 이를 감싼 Container) 사이에는 **`gap: 24px` (`3xl`)**을 적용합니다. 해당 구간을 구분해 기본 32px 간격과 혼용합니다. (상세 규칙: 섹션 3 및 7-C)

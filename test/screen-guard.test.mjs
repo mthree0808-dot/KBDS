@@ -43,7 +43,7 @@ test('page Containers inside structural wrappers keep their order and padding ow
  s.items.find(n=>n.id==='c3').paddingBottom=0;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
 });
 test('Container search never descends into native instances or existing page Containers',()=>{
- const s=page();add(s,frames('c','Container','body'),component('step','StepIndicator','c'),frames('native','Container','step'),frames('inner','Container 2','c'));
+ const s=page();add(s,frames('c','Container','body',{paddingBottom:32,boundVariables:{paddingBottom:{id:rules.spacing[32]}}}),component('step','StepIndicator','c'),frames('native','Container','step'),frames('inner','Container 2','c'));
  const result=check(s);assert.deepEqual(result.checked.find(n=>n.kind==='body-container-padding').containers,['c']);assert.equal(result.errors.length,0);
 });
 function fixedKeyboard(){return snapshot([frames('root','암호입력',null,{height:844,layoutSizingVertical:'FIXED',fills:fill(rules.colors.white)}),component('pop','Popup','root',{layoutSizingVertical:'FILL'}),frames('slot','Slot','pop',{type:'SLOT',layoutSizingVertical:'FILL'}),frames('head','Header','slot'),frames('body','Body','slot',{layoutSizingVertical:'FILL',clipsContent:true}),frames('foot','Footer','slot',{layoutSizingVertical:'HUG'}),component('pad','Item / Pad','foot'),component('home','HomeIndicator','root',{fills:fill(rules.colors.elevated)})]);}
@@ -363,10 +363,10 @@ function containerPage(single=false) {
   const s=page();
   const padding=(top,bottom)=>({paddingTop:top,paddingBottom:bottom,paddingLeft:20,paddingRight:20,
     boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},...(top?{paddingTop:{id:rules.spacing[top]}}:{}),...(bottom?{paddingBottom:{id:rules.spacing[bottom]}}:{})}});
-  if(single)return add(s,frames('c1','Container','body',padding(24,0)));
+  if(single)return add(s,frames('c1','Container','body',padding(24,32)));
   return add(s,frames('c1','Container 1','body',padding(24,0)),frames('c2','Container 2','body',padding(0,0)),frames('c3','Container 3','body',padding(0,32)));
 }
-test('BODY owns no padding; single Container has no bottom while multiple end with32',()=>{
+test('BODY owns no padding; single and multiple Containers end with32',()=>{
   for(const s of [containerPage(),containerPage(true)])assert.equal(check(s).errors.length,0);
   for(const field of ['paddingTop','paddingRight','paddingBottom','paddingLeft']){
     const s=containerPage();s.items.find(n=>n.id==='body')[field]=20;assert.ok(codes(s).includes('BODY_PADDING'));
@@ -407,7 +407,7 @@ function directTabContainer(){
   s.items=s.items.filter(n=>n.id!=='selector-group');
   s.items.find(n=>n.id==='selector').parentId='c1';
   s.items.find(n=>n.id==='contents').parentId='c1';s.total=s.items.length;
-  Object.assign(s.items.find(n=>n.id==='c1'),{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}});
+  Object.assign(s.items.find(n=>n.id==='c1'),{layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:24,boundVariables:{...s.items.find(n=>n.id==='c1').boundVariables,itemSpacing:{id:rules.spacing[24]}}});
   return s;
 }
 test('direct BODY Container can group a leading Tab and its whole content subtree',()=>{
@@ -521,19 +521,25 @@ test('input Popup padding migration preserves token checks without applying to P
   const t=pdf();t.items.find(n=>n.id==='body').paddingTop=24;assert.equal(check(t).errors.length,0);
 });
 
-test('single ordinary Feedback and first-depth Tab Containers have bottom0 without token',()=>{
-  const ordinary=containerPage(true),feedback=containerPage(true),tab=selectorPage('Tab','1depth');
-  const c=feedback.items.find(n=>n.id==='c1');c.paddingTop=40;c.boundVariables.paddingTop={id:rules.spacing[40]};add(feedback,component('feedback','Feedback','c1'));
-  for(const s of [ordinary,feedback,tab]){
-    assert.equal(check(s).errors.length,0);
-    const container=s.items.find(n=>n.id==='c1');container.paddingBottom=32;container.boundVariables.paddingBottom={id:rules.spacing[32]};assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
-    container.paddingBottom=0;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING_TOKEN'));delete container.boundVariables.paddingBottom;assert.equal(check(s).errors.length,0);
+test('single ordinary Feedback and first-depth Tab Containers reserve32 below844 and after overflow',()=>{
+  for(const height of [844,1200]){
+    const ordinary=containerPage(true),feedback=containerPage(true),tab=selectorPage('Tab','1depth');
+    const c=feedback.items.find(n=>n.id==='c1');c.paddingTop=40;c.boundVariables.paddingTop={id:rules.spacing[40]};add(feedback,component('feedback','Feedback','c1'));
+    for(const s of [ordinary,feedback,tab]){
+      s.items[0].height=height;assert.equal(check(s).errors.length,0);
+      const container=s.items.find(n=>n.id==='c1');container.paddingBottom=0;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+      container.paddingBottom=32;delete container.boundVariables.paddingBottom;assert.ok(codes(s).includes('BODY_CONTAINER_PADDING_TOKEN'));
+      container.boundVariables.paddingBottom={id:rules.spacing[32]};assert.equal(check(s).errors.length,0);
+    }
   }
 });
-test('single input Popup Container also has no bottom while two Containers keep last32',()=>{
-  const s=inputPopup();s.items=s.items.filter(n=>n.id!=='c2');s.total=s.items.length;assert.equal(check(s).errors.length,0);
-  const c=s.items.find(n=>n.id==='c1');c.paddingBottom=32;c.boundVariables.paddingBottom={id:rules.spacing[32]};assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
-  assert.equal(check(inputPopup()).errors.length,0);
+test('single input Popup Container reserves32 while multiple Containers keep only last32',()=>{
+  for(const kind of ['Keypad','Pattern','Centerinput / Pattern']){
+    const s=inputPopup(kind);s.items=s.items.filter(n=>n.id!=='c2');s.total=s.items.length;
+    const c=s.items.find(n=>n.id==='c1');assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+    c.paddingBottom=32;c.boundVariables.paddingBottom={id:rules.spacing[32]};assert.equal(check(s).errors.length,0);
+    assert.equal(check(inputPopup(kind)).errors.length,0);
+  }
 });
 
 function approvedDummy() {
@@ -627,7 +633,7 @@ test('data to box rejects24 and missing32 token, ordinary non-box content stays 
   const t=dataBoxFixture('Contents');const p=t.items.find(n=>n.id==='c1');p.itemSpacing=24;p.boundVariables.itemSpacing={id:rules.spacing[24]};assert.equal(check(t).errors.length,0);
 });
 test('data and box in different Containers still measure actual32 rather than container gap alone',()=>{
-  const s=dataBoxFixture();const first=s.items.find(n=>n.id==='c1');first.name='Container 1';add(s,frames('c2','Container 2','body',{paddingLeft:20,paddingRight:20,paddingBottom:32,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},paddingBottom:{id:rules.spacing[32]}}}));
+  const s=dataBoxFixture();const first=s.items.find(n=>n.id==='c1');first.name='Container 1';first.paddingBottom=0;delete first.boundVariables.paddingBottom;add(s,frames('c2','Container 2','body',{paddingLeft:20,paddingRight:20,paddingBottom:32,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]},paddingBottom:{id:rules.spacing[32]}}}));
   Object.assign(s.items.find(n=>n.id==='data-title'),{absoluteBoundingBox:{x:20,y:24,width:350,height:100}});Object.assign(s.items.find(n=>n.id==='box'),{parentId:'c2',absoluteBoundingBox:{x:20,y:148,width:350,height:100}});
   assert.ok(codes(s).includes('DATA_BOX_GAP'));s.items.find(n=>n.id==='box').absoluteBoundingBox.y=156;assert.equal(check(s).errors.length,0);
 });

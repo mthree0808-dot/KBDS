@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-04.11",
+  "version": "2026-11-05.1",
   "keyboardViewport": {"width":390,"height":844},
   "source": "docs/sources/designer-ui-rules.md",
   "colors": {
@@ -63,5 +63,6 @@
     "standaloneDash": "Keep native KBFG Text Medium Fixed16 style; do not treat a separator-only Text as a numeric value.",
     "keepPlanningValues": true
   },
-  "titleDataListToBoxGap": 32
+  "titleDataListToBoxGap": 32,
+  "bodyContainerLastBottom": 32
 }

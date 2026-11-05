@@ -38,7 +38,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |항목|자동 검사|
 |---|---|
 |스냅샷|전체 수집, 중복 ID, 누락 부모·순환/분리 계층|
-|BODY/Container|일반 BODY·키패드/패턴 Popup Body 네 방향padding0, 첫 Container 상단 일반24·Feedback/상단 아이콘40·StepIndicator/1depth Tab 시작0, 단일 하0·하단 변수 해제/복수 마지막하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
+|BODY/Container|일반 BODY·키패드/패턴 Popup Body 네 방향padding0, 첫 Container 상단 일반24·Feedback/상단 아이콘40·StepIndicator/1depth Tab 시작0, 단일·복수 모두 마지막하32 및 토큰, 일반 좌우20/StepIndicator·1depth Tab·알려드립니다 등 식별 가능한 전폭 외곽0|
 |선택 UI 그룹|Segment·Chip과 후속 콘텐츠의 실제 Vertical·Fill/Hug·AUTO 부모·명칭·순서. Tab 그룹핑·동일 Container 범위 강제는 삭제|
 |화면 구조|일반 직계 3단, Popup Slot의 Header/Body/Footer, PDF 툴바·뷰포트·문서|
 |고정 키패드 뷰포트|`keyboardViewport: "fixed844"` 계약의390×844 Fixed·Popup/Slot/Body Fill·Body clip·키패드 Footer AUTO/Hug. 입력 필드의 실제 노출은 직접 확인|
@@ -104,15 +104,15 @@ Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth T
 
 ### Feedback·상단 아이콘 상단40
 
-첫 보이는 일반 흐름 경로의 실제 Feedback·IconContainer·status-*는 첫 Container 상단40px와 spacing/6xl을 검사한다. 이름만으로 알 수 없는 ImageContainer 아이콘 사례는 기획·원형 확인 후 `{firstContainerRole:"top-icon"}` 또는 feedback으로 명시할 수 있다. 일반24·최초 StepIndicator/1depth Tab0·두 번째 이후 상0·BODY padding0·단일하0/복수 마지막하32를 적용한다. 사진이나 뒤쪽 아이콘은 자동으로40을 적용하지 않는다. 아이콘 의미·렌더는 직접 확인한다.
+첫 보이는 일반 흐름 경로의 실제 Feedback·IconContainer·status-*는 첫 Container 상단40px와 spacing/6xl을 검사한다. 이름만으로 알 수 없는 ImageContainer 아이콘 사례는 기획·원형 확인 후 `{firstContainerRole:"top-icon"}` 또는 feedback으로 명시할 수 있다. 일반24·최초 StepIndicator/1depth Tab0·두 번째 이후 상0·BODY padding0·단일·복수 모두 마지막하32를 적용한다. 사진이나 뒤쪽 아이콘은 자동으로40을 적용하지 않는다. 아이콘 의미·렌더는 직접 확인한다.
 
 ### 키패드·패턴 Popup Body
 
-실제 Popup > Slot > Body와 같은 Popup 안의 Keypad·Pattern·Centerinput / Pattern 인스턴스를 식별하면 본문 padding0·Container 시작 UI별 상24/40/0·좌우20·단일하0/복수 마지막하32 및 토큰을 검사한다. PDF·다른 Popup Body에는 이 분기를 적용하지 않는다. 승인5054:2599처럼 Body0/첫 Container24를 따르고 겉보기 위치가 같은 Body24/Container0도 실패 처리한다. 원문·입력 상태·원형 내부 패딩·전체 높이·실제 경계는 직접 대조한다.
+실제 Popup > Slot > Body와 같은 Popup 안의 Keypad·Pattern·Centerinput / Pattern 인스턴스를 식별하면 본문 padding0·Container 시작 UI별 상24/40/0·좌우20·단일·복수 모두 마지막하32 및 토큰을 검사한다. PDF·다른 Popup Body에는 이 분기를 적용하지 않는다. 승인5054:2599처럼 Body0/첫 Container24를 따르고 겉보기 위치가 같은 Body24/Container0도 실패 처리한다. 원문·입력 상태·원형 내부 패딩·전체 높이·실제 경계는 직접 대조한다.
 
 ### 단일 Container 하단
 
-본문 직계에서 보이는 AUTO 페이지 Container가 하나면 paddingBottom0 및 boundVariables.paddingBottom 미연결을 검사한다. 시작 UI별 상단24/40/0와 좌우 인셋은 유지한다. 복수이면 마지막하32·spacing/5xl을 계속 검사한다. 일반 BODY와 키패드/패턴 Popup Body에 적용하며 Container 병합이나 native 내부 패딩 변경의 근거가 아니다.
+화면이844px 이내여도 단일 Container의 paddingBottom32와 spacing/5xl 연결을 검사한다. 콘텐츠가844px을 초과해도 동일하다. 종전 단일0·변수 해제 검사는 철회한다. 시작 UI별 상단24/40/0와 좌우 인셋은 유지한다. 복수이면 마지막만하32·spacing/5xl을 검사한다. 일반 BODY와 키패드/패턴 Popup Body에 적용하며 Container 병합이나 native 내부 패딩 변경의 근거가 아니다.
 
 ### 입력 화면 교정 기준 (2026-11-04)
 
