@@ -646,3 +646,10 @@ test('approved Sorting Group keeps native controls in order and12 token without 
  s.items.find(n=>n.id==='sort').layoutMode='VERTICAL';s.items.find(n=>n.id==='sort').itemSpacing=24;assert.ok(codes(s).includes('GAP'));
  s.items.find(n=>n.id==='query').name='TextButton';assert.ok(codes(s).includes('SORTING_GROUP'));assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
 });
+
+test('Checkbox Group accepts native CheckBox spelling and wrapper names without renaming components',()=>{
+ for(const name of ['Checkbox Group','CheckBox Group']){const s=page();add(s,frames('checks',name,'body',{itemSpacing:20,boundVariables:{itemSpacing:{id:rules.spacing[20]}}}),frames('check1','CheckBox','checks'),component('native1','CheckBox','check1'),frames('check2','CheckBox','checks'),component('native2','CheckBox','check2'));assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='checks').itemSpacing=16;assert.ok(codes(s).includes('GAP'));}
+});
+test('input sections separated by a real Divider use Contents with24, rather than a homogeneous Group',()=>{
+ const s=page();add(s,frames('sections','InputField / Contents','body',{itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}}),frames('part1','InputField','sections'),component('field1','InputField','part1'),component('divider','Divider / Horizontal','sections'),frames('part2','InputField','sections'),component('field2','InputField','part2'));assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='sections').name='InputField Group';assert.ok(codes(s).includes('GROUP_CONTENTS'));s.items.find(n=>n.id==='sections').name='InputField / Contents';s.items.find(n=>n.id==='sections').itemSpacing=16;assert.ok(codes(s).includes('GAP'));
+});

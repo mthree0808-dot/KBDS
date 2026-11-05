@@ -121,3 +121,7 @@ Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth T
 ### 기존 조회 컨트롤 Sorting Group 지원 (2026-11-05)
 
 상세 MD의 기존 Sorting Group 규칙을 공통 검사에도 적용한다. 실제 native SegmentedControl → InputField → BoxButton의 세 자식 순서, Vertical·Fill/Hug·AUTO 및 gap12·spacing/lg를 검사한다. 이 정확한 조합에서만 Sorting Group 명칭을 허용하며, 이름만 바꾸거나 임의 Segment/Chip 조합의 검사를 우회하지 않는다.
+
+### 기존 CheckBox·구분선 입력 조합 판정 보완 (2026-11-05)
+
+Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명 래퍼의 반복으로 판정하고20px을 검사한다. native 이름을 바꾸지 않는다. 두 InputField 섹션 사이에 실제 Divider / Horizontal이 있는 세 요소 조합은 기존 복합 명명 공식에 따라 InputField / Contents·gap24로 검사하며, 동종 항목만 담는 InputField Group으로 오판하지 않는다. 다른 구성에는 이 예외를 적용하지 않는다.

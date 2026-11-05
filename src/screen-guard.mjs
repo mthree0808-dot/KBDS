@@ -341,7 +341,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
     }
     return true;
   }
-  const stem = n => n.type === 'TEXT' ? 'Text' : n.type === 'INSTANCE' ? n.name.split(' / ')[0] : n.name;
+  const stem = n => {const name=n.type === 'TEXT' ? 'Text' : n.type === 'INSTANCE' ? n.name.split(' / ')[0] : n.name;return name==='CheckBox'?'Checkbox':name;};
   const repeatable = new Set(['Text', 'TextList', 'InputField', 'DataList', 'Card', 'Data Block', 'Radio', 'Checkbox', 'List', 'Accordion']);
   const boxUi=n=>n?.type==='INSTANCE'&&(/^(Infobox)(?: \/|$)/.test(n.name)||n.name==='Card / Surface')||n?.type==='FRAME'&&['Infobox Group','Data Block','Data Block Group','Text Box','Text Box Group','Card Group'].includes(n.name);
   // Preserve the data group and box group as whole UI units across Container
@@ -405,19 +405,19 @@ export function auditScreen(snapshot, contract = {}, rules) {
       if (Object.entries(cs[0].componentProperties??{}).find(([k])=>k.startsWith('hasFooter#'))?.[1]?.value===true) fail('INPUT_HINT_FOOTER',cs[0],'별도 설명과 native FooterArea를 중복하지 않습니다');
     }
     if (n.name.endsWith(' Group') && !n.name.includes(' / ')) {
-      const base = n.name.slice(0, -6);
+      const rawBase = n.name.slice(0, -6),base=rawBase==='CheckBox'?'Checkbox':rawBase;
       if (repeatable.has(base) && (cs.length < 2 || cs.some(c => stem(c) !== base))) fail('GROUP_CONTENTS', n, `${n.name}은 실제 같은 항목의 복수만 포함해야 합니다`);
     }
     for (const base of repeatable) {
       // Native Card section instances are parts of one card, not repeated cards.
       const repeated = cs.filter(c => (c.type === 'TEXT' || c.type === 'INSTANCE' || c.type === 'FRAME') && stem(c) === base && !(base === 'Card' && c.type === 'INSTANCE' && /^Card \/ (Body|Header|Footer)(?: \/|$)/.test(c.name)));
-      if (repeated.length > 1 && n.name !== `${base} Group`) fail('REPEAT_GROUP', n, `반복 ${base} ${repeated.length}개를 실제 ${base} Group으로 묶어야 합니다`);
+      if (repeated.length > 1 && n.name !== `${base} Group` && !(base==='Checkbox'&&n.name==='CheckBox Group') && !(base==='InputField'&&n.name==='InputField / Contents'&&cs.length===3&&stem(cs[0])==='InputField'&&cs[1].type==='INSTANCE'&&cs[1].name==='Divider / Horizontal'&&stem(cs[2])==='InputField')) fail('REPEAT_GROUP', n, `반복 ${base} ${repeated.length}개를 실제 ${base} Group으로 묶어야 합니다`);
     }
     if (cs.some(c => stem(c) === 'Text') && cs.some(c => c.name === 'TextList Group') && n.name !== 'Text / TextList Group') fail('MIXED_GROUP_NAME', n, 'Text와 TextList Group의 부모명은 Text / TextList Group입니다');
     if (n.name === 'Title / TextList Group' && !cs.some(c => c.name === 'TextList Group')) fail('PARENT_NAME', n, '구조 변경 후 부모명을 다시 판정하세요. 복합 콘텐츠는 Title / Contents입니다');
     if (n.name.startsWith('Title / ') && n.name !== 'Title / Contents' && cs.some(c => c.type === 'FRAME' && c.name === n.name)) fail('PARENT_NAME', n, '같은 Title 복합 그룹을 중첩한 상위 부모는 Title / Contents입니다');
     if (cs.some(c => c.name === 'Title / Section' || c.name === 'Title / Element') && cs.some(c => c.name.includes(' / ') && c.name !== 'Title / Section' && c.name !== 'Title / Element' && c.type === 'FRAME') && n.name.startsWith('Title / ') && n.name !== 'Title / Contents') fail('PARENT_NAME', n, '제목과 복합 콘텐츠의 부모명은 Title / Contents입니다');
-    const uniformGap = {'InputField Group': 24, 'InputField / Contents':24, 'Radio Group': 20, 'Checkbox Group': 20};
+    const uniformGap = {'InputField Group': 24, 'InputField / Contents':24, 'Radio Group': 20, 'Checkbox Group': 20, 'CheckBox Group':20};
     if (uniformGap[n.name] !== undefined) spacing(n, uniformGap[n.name]);
     if (cs.length > 1 && cs.every(c => c.name === 'Title / TextList Group')) spacing(n, 24);
     for (let i = 0; i < cs.length - 1; i++) {
