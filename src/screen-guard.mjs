@@ -385,9 +385,14 @@ export function auditScreen(snapshot, contract = {}, rules) {
   }
   for (const n of items.filter(n => n.type === 'FRAME' && authored(n) && visible(n))) {
     const cs = kids(n).filter(c => visible(c) && c.layoutPositioning !== 'ABSOLUTE');
+    const sortingGroup=n.name==='Sorting Group'&&cs.length===3&&cs.every(c=>c.type==='INSTANCE')&&selectorName(cs[0])==='SegmentedControl'&&cs[1].name==='InputField'&&cs[2].name==='BoxButton';
+    if(n.name==='Sorting Group'){
+      if(!sortingGroup)fail('SORTING_GROUP',n,'Sorting Group은 SegmentedControl·InputField·BoxButton 순서의 실제 조회 컨트롤 조합입니다');
+      spacing(n,12);
+    }
     for (const selector of cs.filter(c=>selectorName(c)&&selectorName(c)!=='Tab')) {
       const prefix=selectorName(selector);
-      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||!n.name.startsWith(`${prefix} / `)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'Segment·Chip은 후속 콘텐츠와 실제 Vertical / Fill·Hug / AUTO 복합 그룹으로 묶고 구조에 맞게 명명합니다');
+      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||(!n.name.startsWith(`${prefix} / `)&&!sortingGroup)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'Segment·Chip은 후속 콘텐츠와 실제 Vertical / Fill·Hug / AUTO 복합 그룹으로 묶고 구조에 맞게 명명합니다');
     }
     if (n.name === 'ConsentFinal / StickyButton') consentComposite(n);
     if (!cs.length) continue;

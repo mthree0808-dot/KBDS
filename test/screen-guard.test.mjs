@@ -637,3 +637,12 @@ test('data and box in different Containers still measure actual32 rather than co
   Object.assign(s.items.find(n=>n.id==='data-title'),{absoluteBoundingBox:{x:20,y:24,width:350,height:100}});Object.assign(s.items.find(n=>n.id==='box'),{parentId:'c2',absoluteBoundingBox:{x:20,y:148,width:350,height:100}});
   assert.ok(codes(s).includes('DATA_BOX_GAP'));s.items.find(n=>n.id==='box').absoluteBoundingBox.y=156;assert.equal(check(s).errors.length,0);
 });
+
+test('approved Sorting Group keeps native controls in order and12 token without losing selector layout checks',()=>{
+ const s=page(),layout={layoutMode:'VERTICAL',layoutPositioning:'AUTO',layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:12,boundVariables:{itemSpacing:{id:rules.spacing[12]}}};
+ add(s,frames('sort','Sorting Group','body',layout),component('period','SegmentedControl','sort'),component('range','InputField','sort'),component('query','BoxButton','sort'));
+ assert.equal(check(s).errors.length,0);
+ s.items.find(n=>n.id==='sort').layoutMode='HORIZONTAL';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+ s.items.find(n=>n.id==='sort').layoutMode='VERTICAL';s.items.find(n=>n.id==='sort').itemSpacing=24;assert.ok(codes(s).includes('GAP'));
+ s.items.find(n=>n.id==='query').name='TextButton';assert.ok(codes(s).includes('SORTING_GROUP'));assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+});
