@@ -1,5 +1,34 @@
 # UI Design & Code Generation Rules
 
+## 선택 바텀시트: 두 번째 기본 선택·List48px Fixed (2026-11-09 사용자 재확정)
+
+- 적용 대상은 체크마크로 현재 선택을 표시하는 일반 List형 선택 바텀시트와 계좌 선택형이다.
+- 기획에 초기 선택 항목·선택 순서가 명시되어 있으면 해당 지시를 우선한다. 별도 지정이 없으면 화면에서 위에서 두 번째 List를 기본 선택한다. 안내용 List도 실제 노출 순서에 포함하고 항목을 재정렬하거나 데이터 항목만 다시 세지 않는다.
+- 선택 List의 공개 속성은 `hasSuffix: True`, 하위 `Slot-Suffix > Item / Suffix`의 `variant: checkMark`다. 일반 단일 선택의 나머지 List는 `hasSuffix: False`다. 명시된 복수 선택은 기획을 따른다. 항목이 하나뿐이면 존재하지 않는 두 번째 항목을 만들거나 첫 번째를 임의 선택하지 않는다.
+- 체크마크 표시 여부와 관계없이 모든 해당 List를 **높이48px·세로Fixed (`layoutSizingVertical: FIXED`)**로 통일한다. Hug 또는 최소 높이48px만으로 대체하지 않는다. 원형 내부·서체·변수·문구·순서·구분선·아이콘·외부 간격은 보존한다.
+- 도움말·이용 방법 안내·이동 화살표 목록 등의 별도 패턴에는 기본 선택·48px 고정을 확대 적용하지 않는다.
+- 이 규칙은 2026-11-05의 기본 선택 삭제·List Hug 지시를 대체한다. 이번 요청은 MD·공통 검사 갱신이며 기존 Figma 화면의 일괄 수정 요청은 아니다.
+
+## 체크박스·라디오 배치 간격 (2026-11-05 사용자 최종 교체)
+
+일반 폼에서 Checkbox와 Radio를 각각 열거할 때 아래 값을 공통 적용한다. 종전 「Radio/Checkbox Group 전체20px, Title / Element→그룹16px」 규칙은 이 명세로 교체한다. 아래 구조·수치·토큰이 기준이므로 참조 화면을 삭제해도 재현할 수 있다.
+
+|적용 경계|값|연결 토큰|
+|---|---:|---|
+|Title / Element → Checkbox Group 또는 Radio Group|8px|spacing/md|
+|선택 항목 사이 세로 간격 / Grid 행 간격|8px|spacing/md|
+|선택 항목 사이 가로 간격 / Grid 열 간격|16px|spacing/xl|
+|독립적인 제목+선택 그룹·InputField 등 폼 단위 사이|24px|spacing/3xl|
+
+- **구조**: `Title / Checkbox Group > Title / Element, Checkbox Group > CheckBox…`, `Title / Radio Group > Title / Element, Radio Group > Radio…`처럼 실제 종류와 반복 구조로 명명한다. 기존 `CheckBox Group` 표기는 호환하되 체크박스 목록을 `Radio Group`이나 `Check Group`으로 복사하지 않는다. native CheckBox·Radio의 이름·내부 아이콘/Label 간격은 바꾸지 않는다.
+- **배치 분기**: 참조의 3열×1행, 1열×3행, 2열×2행 모두 Grid 행8px·열16px다. 항목 수·문구 길이는 기획대로 유지하며 모든 목록에 같은 열 수를 강제하지 않는다. Vertical은 itemSpacing8, Horizontal은 itemSpacing16, Horizontal·WRAP은 itemSpacing16·counterAxisSpacing8로 같은 실제 간격을 재현한다. 줄바꿈 그룹은 가로Fill·세로Hug를 유지해 화면 밖 잘림을 방지한다.
+- **Grid 필드 주의**: `gridRowGap:8`, `gridColumnGap:16`에 각 변수를 연결한다. Grid에 남아 있는 `itemSpacing:24` 또는 `counterAxisSpacing:0`는 실제 행·열 간격이 아니므로 복제·검수 기준으로 쓰지 않는다. 1행/1열도 두 Grid 필드와 토큰을 설정한다.
+- **독립 실측 예시**: 콘텐츠 폭350px에서 3열은 각106px와 열간16px, 2열은 각167px와 열간16px다. 한 항목 높이24px인 3행은 y=0/32/64, 전체높이88px이며 2행은 높이56px다. 제목 높이20px 뒤8px로 선택 그룹이 y=28에 시작한다. 이 예시 폭·높이를 모든 화면/긴 문구에 고정하지 않는다.
+- **토큰 key**: spacing/md8=`05c59452624fbed61e5be4c26c8a03c54be6dcad`, spacing/xl16=`dd4b6787bca3ceba45b9b41a16963083cacea533`, spacing/3xl24=`fb23d20e74566ea2a3280e9e3ca48e40122b6d95`.
+- **적용 범위 구분**: 개별 컴포넌트 원형 내부, 단일 CheckBox 래퍼gap0, CheckSub의 들여쓰기·gap20, ConsentGroup/약관 depth 목록 원형, SelectButton·Card 선택 패턴은 별도 규칙이다. Title / Section 뒤16px 및 바텀시트 텍스트12px도 이 규칙으로 바꾸지 않는다. 참조의 과거 BODY padding을 가져오지 않고 최신 BODY0·Container 패딩 소유 규칙을 유지한다.
+- **완료 검사**: 실제 항목 종류에 맞는 그룹명, 제목→그룹8px, 행8px·열16px, 각 필드의 토큰 연결과 실제 경계 간격을 검사한다. native 내부를 검사 통과용으로 변경하지 않는다.
+- 삭제 예정 근거: [인풋필드·체크박스·라디오 조합273:8211](https://www.figma.com/design/VDNcua4WHKOtBMyerxWqdv/?node-id=273-8211). Grid6개에서 동일한 행8px·열16px 토큰 연결을 확인했다. 화면 수정·삭제는 이번 요청에 포함되지 않는다.
+
 ## 단순 수정의 속도와 공통 개선 반영 (2026-11-04)
 
 - **Container 조회 범위**: `## BODY > Contents > Container 1 / Container 2`와 형제 `Container 3`처럼 기존 구조용 래퍼가 있으면 그 아래 페이지 Container까지 순서대로 검사하고 부모·분할을 보존한다. 페이지 Container를 찾으면 그 내부는 별도 페이지 Container로 세지 않으며, 네이티브 인스턴스 안의 동명 `Container`는 조회·패딩 수정 대상에서 제외한다. 검사기가 직계 자식만 읽는다는 이유로 기존 래퍼를 제거하거나 잘못된 상단·하단 패딩을 적용하지 않는다.
@@ -41,6 +70,7 @@
 - **구조**: `Image Area`(FRAME) 아래 `ImageContainer`(실제 INSTANCE)와 `더미이미지`(TEXT)가 직접 배치된다. Image Area는 Vertical·Fill/Hug·AUTO, padding **40/0/40/0**, gap0, Fill/Stroke 없음이다. 상하40은 `spacing/6xl` key `5bc593ee6f05df006566535e37f5fce0ed3a085b`에 연결한다. 콘텐츠 폭350px이면 전체350×255px다.
 - **ImageContainer**: 최신 MO 라이브러리에서 ratio=`2:1` 인스턴스를 직접 import한다(확인 key `a680e6cb6e2aa701a6c19e00aadf45b42d947ec4`). Fill/Fixed·AUTO, 폭350 기준350×175px이다. 저장 PNG를 Image Fill로 넣고 **CROP**, opacity1·visible=true·NORMAL, scalingFactor0.5, 모든 filter0을 유지한다. imageTransform은 `[[1.9662922620773315,0,-0.48314616084098816],[0,1.1417688131332397,-0.08393318206071854]]`다. FIT/FILL이나 기본 빈 이미지로 대체하지 않는다. 다른 작업 파일에는 저장 PNG를 업로드한 뒤 재현 설정의 크롭을 적용하며, 원본 라이브러리는 수정하지 않는다.
 - **라벨**: `더미이미지` 문구는 편집 가능한 **Pretendard SemiBold 21px**, 행간140%·자간0%·가운데 정렬·textAutoResize=`WIDTH_AND_HEIGHT`로 유지한다. fontFamily는 `type/font-family` key `6df184c7178de2fefb24f1c7673bb5bfb99eea9b`(값 Pretendard)에 연결한다. 라벨 자체 opacity1, **빨강 RGB(255,0,0) Fill opacity40%**, **흰색 Stroke2px / OUTSIDE / opacity100%**, 효과 없음이다. 이 색·외곽선은 승인된 더미 라벨만의 명시적 예외이며 일반 텍스트/토큰 규칙에 확대하지 않는다. ABSOLUTE·가로/세로 CENTER constraints로 Image Area 중앙에 둔다. 기준350×255에서 라벨 약91×29px, x130/y113이며 폭이 달라지면 중앙을 재계산한다. 20px·검정 Fill·외곽선 없음으로 바꾸거나 SVG/벡터/이미지로 평탄화하지 않는다.
+- **현재 라이브러리 변수 호환(2026-11-05)**: 위 fontFamily key `6df184c7178de2fefb24f1c7673bb5bfb99eea9b`가 게시 라이브러리에서 조회되지 않으면, 현재 `font-family/numeric` key `3fe2dd8ed05301b57e2eb1396f29d2e68c659193`를 직접 import하여 사용한다. 두 모드 값이 모두 Pretendard임을 확인한 호환 경로이며, 실제 라벨의 Pretendard SemiBold21·행간140%·자간0·색상·외곽선·편집 가능성은 그대로 검사한다. 라벨 문구를 숫자로 간주하거나 새 변수를 만드는 규칙이 아니다.
 - **외부 흐름**: Title / Page→Image Area gap0, Image Area 바깥 경계→후속 콘텐츠 gap24px는 유지한다. Image Area 내부 상하40과 별개다. 실제 콘텐츠 이미지가 명시된 경우까지 이 더미 그래픽으로 덮어쓰지 않는다.
 - **필수 확인**: 실제 Image Fill 원본/hash·크롭, native ratio2:1 연결, 편집 가능한21px 라벨·fontFamily 변수·빨강40%/흰색2px·중앙 배치를 함께 확인한다. 공통 검사에서 식별된 더미 Image Area의 구조·수치·토큰·원본/hash·라벨 설정을 검사하고 실제 그래픽과 잘림·위치는 렌더로 확인한다. 다른 사용자는 최신 저장소를 동기화해 이 MD와 자산/JSON을 함께 사용한다.
 
@@ -501,7 +531,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 
 ### Infobox 후속 간격·선택 그룹 간격·임의 강조 금지 (2026-10-21 사용자 최종 교정)
 - **Infobox / Card 다음 콘텐츠**: 콘텐츠 종류와 무관하게 바로 다음 콘텐츠와의 외부 간격은 **24px (`spacing/3xl`)**로 적용합니다. 각각을 감싼 Container 사이에도 같은 실제 간격을 적용하며 BODY 기본 32px 및 종전 Infobox / Card → TextList 12px보다 우선합니다. 카드 내부 Slot·TextList 간격이나 카드 앞쪽 Title·InputField와의 간격은 이 규칙으로 변경하지 않습니다. 빈 프레임·중복 padding으로 간격을 더하지 않습니다.
-- **선택 그룹 내부 간격**: `Radio Group`과 `Checkbox Group`(기존 표기 `CheckBox Group` 포함)의 반복 항목 사이 gap은 **20px (`spacing/2xl`)**입니다. Horizontal·Vertical 모두 적용하고 Grid는 행·열 gap 모두 20px로 설정합니다. 개별 Radio·CheckBox 원형 내부 간격, 단일 CheckBox 래퍼 gap 0, Title / Element와 그룹 사이 gap 16px는 별도 규칙을 유지합니다.
+- **선택 그룹 내부 간격 (2026-11-05 교체)**: `Radio Group`·`Checkbox Group`(`CheckBox Group`)은 항목 간 세로(행)8px (`spacing/md`), 가로(열)16px (`spacing/xl`), `Title / Element`→선택 그룹8px (`spacing/md`)을 적용합니다. 종전20px 일괄 규칙은 폐기하며 상세는 상단 「체크박스·라디오 배치 간격」을 따릅니다. 원형 내부와 CheckSub·약관 목록은 별도 유지합니다.
 - **기획에 없는 문장 내 강조·링크 추가 금지**: 메뉴명·대괄호·다른 화면을 언급하는 문장이라는 이유만으로 Bold/Medium, 강조색, 밑줄, hyperlink·이동 동작을 추가하지 않습니다. 기획 또는 사용자 지시에 명시된 구간에만 해당 강조·링크 규칙을 적용합니다. `[고객정보조회(개인정보열람)]`처럼 기획에 강조·링크가 없는 구간은 주변 일반 본문과 동일한 원본 Text Style·Weight·색상을 유지합니다. 링크 스타일 규칙은 이미 링크로 확정된 구간의 표현 방법이며, 링크 여부를 임의 판정하는 근거가 아닙니다.
 - **기획에 있는 강조는 반드시 반영 — 동일 크기 Medium (2026-10-21 최종 명확화)**: 위 금지 규칙은 기획의 강조·링크를 생략하라는 뜻이 아닙니다. 기획에 표시된 강조 구간과 링크는 보존하며, 본문 강조 굵기는 **현재와 동일한 텍스트 크기·계열의 `medium` 변수에 연결된 원본 Medium Text Style로만** 변경합니다. 기획에서 Bold로 표현했더라도 강조 의도를 동일 크기 Medium으로 매핑하고 Bold·Semibold·크기 확대·고정 fontWeight 값으로 대신하지 않습니다. 예: 14 Light → 14 Medium, 16 Light → 16 Medium. 굵기만 강조된 경우 색상·밑줄·링크를 덧붙이지 않고, 색상·밑줄·링크는 각각 기획에 명시된 표현만 따릅니다. 실제 링크 구간의 굵기도 Medium 기준을 우선합니다. 제목·CTA 등 DS 컴포넌트의 원형 Weight 전체를 일괄 Medium으로 바꾸는 규칙은 아닙니다.
 
@@ -658,15 +688,13 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
   - **오토레이아웃 간격 및 패딩**:
     - `List`들을 감싸는 `Container 1`의 Auto Layout **`gap: 8px` (`md` 토큰)**을 적용합니다.
     - `Container` 내에 삽입되는 `List` 컴포넌트 자체의 **좌우 패딩(padding-left, padding-right)은 `0px`**으로 설정합니다.
-  - **체크 활성화 상태 및 기본 선택 우선순위 (2026-10-21 사용자 확정)**:
-    - [계좌번호 선택 기준 2230:10109](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2230-10109)의 [BottomSheet 2230:10111](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2230-10111)처럼, 항목을 선택하고 체크마크로 현재 선택을 표시하는 List형 바텀시트에 적용합니다. 계좌 선택 전용 패턴에도 같은 선택 우선순위를 적용합니다.
-    - **기획에 초기 선택 항목이나 선택할 항목의 순서가 별도로 명시되어 있으면 그 항목을 최우선**으로 적용합니다. 별도 지정이 없으면 **화면에서 위에서 두 번째 `List`**를 기본 선택으로 표시합니다. `눌러서 선택` 같은 안내 항목도 실제 List로 노출되면 첫 번째 항목으로 세며, 항목을 재정렬하거나 실제 데이터 항목만 다시 세지 않습니다.
-    - 선택한 `List`의 공개 속성을 **`hasSuffix: True`**, 하위 **`Slot-Suffix > Item / Suffix`의 공개 속성을 `variant: checkMark`**로 설정합니다. 우측 프로퍼티 패널에서도 해당 원본 인스턴스와 속성이 유지되어야 합니다.
-    - 일반 단일 선택에서는 나머지 `List`의 `hasSuffix: False`를 유지합니다. 원본 기획의 복수 선택 상태가 명시된 경우에는 그 상태를 따릅니다. 항목 문구·순서·컴포넌트 연결과 아래의 48px 높이 규칙을 보존합니다.
-  - **체크마크 노출 여부에 따른 높이 통일 (2026-10-20 사용자 확정)**:
-    - 셀렉트 바텀시트의 `List`는 체크마크가 노출되거나 비노출이어도 **모두 높이 48px / 세로 Fixed**(`layoutSizingVertical: FIXED`)로 설정합니다. 체크마크 비노출 시 원형의 Hug 높이 46px로 줄어드는 동작은 허용하지 않습니다.
-    - `hasSuffix`로 체크마크 노출 여부만 제어하고, 선택 상태 변경 전후에도 List 높이 48px와 항목 위치를 유지합니다. 실제 List 인스턴스·내부 계층·서체·변수 연결은 보존합니다.
-    - 이 규칙은 체크마크로 선택 상태를 표시하는 셀렉트 바텀시트 List에 적용하며, 아이콘·부연 문구를 포함한 도움말/이용 방법 선택 List의 높이까지 일괄 48px로 변경하지 않습니다.
+  - **기본 선택 및 우선순위 (2026-11-09 재확정)**:
+    - 기획에 명시된 초기 선택 항목·선택 순서를 우선합니다. 별도 지정이 없으면 실제 노출 순서의 **두 번째 List**를 기본 선택합니다. 안내 항목도 실제 List라면 순서에 포함합니다.
+    - 선택 List는 **`hasSuffix: True`**, `Slot-Suffix > Item / Suffix`는 **`variant: checkMark`**로 설정합니다. 일반 단일 선택의 나머지 항목은 `hasSuffix: False`입니다. 명시된 복수 선택 상태는 기획을 따릅니다.
+  - **List 높이 (2026-11-09 재확정)**:
+    - 체크마크 노출·비노출 모두 **높이48px·세로Fixed (`layoutSizingVertical: FIXED`)**입니다. 종전 Hug 규칙을 대체합니다.
+    - List 원형 내부·서체·변수 연결과 문구·순서·구분선·아이콘·부연 문구를 보존합니다. 높이와 목록 외부 gap·Slot 패딩은 구분합니다.
+    - 별도 정의된 도움말·이동형 List 패턴에는 기본 선택·48px 고정을 일괄 적용하지 않습니다.
   - **데이터 매핑**: 기획서에 명시된 리스트 항목 텍스트를 `List` 컴포넌트에 순차적으로 1:1 매핑합니다.
 - **도움말·이용 방법 선택 바텀시트 (2026-10-19 사용자 승인, 위 일반 선택형보다 우선)**:
   - [인증번호 입력 도움말 기획](https://www.figma.com/design/CdyCQv4aFslTl7MGoQxmU9/?node-id=4469-44517)과 같은 이용 방법 선택 화면은 [추가 본인 인증 기준 185:14891](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=185-14891)처럼 **테두리 카드 없이 `List` 인스턴스**로 구성합니다.
@@ -790,8 +818,8 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 #### 4. 체크박스 및 라디오 컴포넌트 규칙
 - **CheckBox**: 항상 오토레이아웃 프레임 **`CheckBox`** (Auto Layout **`gap: 0px`**)로 감쌉니다. (종속 하위 항목은 **`CheckSub`** 유지)
-- **Radio**: **`Radio` 컴포넌트는 개별 오토레이아웃으로 감싸지 않고 컴포넌트 원형 그대로 열거**하며, 이들을 감싸는 상위 **`Radio Group`의 내부 간격은 Auto Layout `gap: 20px` (`2xl` 토큰)**을 적용합니다.
-- **선택 그룹 공통**: `Radio Group`과 `Checkbox Group`(`CheckBox Group`)의 반복 항목 gap은 **20px (`spacing/2xl`)**이며 Grid는 행·열 gap 모두 20px입니다. 개별 컴포넌트 원형 내부 간격과 단일 CheckBox 래퍼 gap 0은 유지합니다.
+- **Radio**: 개별 `Radio`를 추가 래퍼로 감싸지 않고 `Radio Group`에 원형 그대로 열거합니다. 세로 간격8px·가로 간격16px를 적용합니다.
+- **선택 그룹 공통**: `Radio Group`·`Checkbox Group`(`CheckBox Group`)은 항목 간 세로(행)8px (`spacing/md`), 가로(열)16px (`spacing/xl`), `Title / Element`→선택 그룹8px (`spacing/md`)입니다. Grid는 `gridRowGap:8`, `gridColumnGap:16`과 각각의 spacing 토큰을 사용합니다. 원형 내부·단일 CheckBox 래퍼 gap0은 유지합니다.
 
 #### 5. 타이틀과 일반 텍스트 결합 규칙
 - **일반 텍스트 공통 래핑 (2026-10-19 사용자 교정)**: 타이틀과의 결합 여부와 관계없이, Slot·Container에 배치하는 일반 본문은 **`Text`**라는 Vertical Auto Layout 프레임으로 감쌉니다. gap과 padding은 0, 가로 Fill·세로 Hug로 설정하고 내부 텍스트도 가로 Fill·세로 Hug 및 자동 높이로 구성합니다. 바텀시트의 단일 본문 블록은 **`Slot > Container > Text > Content`** 구조를 적용합니다. `Content`는 편집 가능한 텍스트 레이어이며, 일반 텍스트를 Container의 직계 자식으로 두지 않습니다. 기존 DS 컴포넌트 내부의 원형 계층과 불릿 TextList 사용 규칙은 유지합니다.
@@ -955,9 +983,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - **TextList (size: 14, depth: 1) 상호 결합 패턴**:
     - `TextList (size: 14, depth: 1)` 및 `TextList` 컴포넌트들이 오토레이아웃으로 함께 묶일 때 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
   - **Title / Element + Radio Group / CheckBox Group 조합 패턴**:
-    - **Title / Element와 Radio Group 사이 간격**: Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
-    - **Radio Group 내부 구조**: `Radio` 컴포넌트는 오토레이아웃으로 감싸지 않고 원형 그대로 열거하며, 내부 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
-    - **Checkbox Group 내부 구조**: `Checkbox Group`(`CheckBox Group`)의 항목 간 Auto Layout **`gap: 20px` (`spacing/2xl`)** 적용. 개별 CheckBox 원형 내부와 단일 래퍼 gap 0은 유지
+    - **Title / Element와 Radio/Checkbox Group 사이 간격**: **8px (`spacing/md`)**
+    - **Radio Group 내부 구조**: 원형 Radio를 그대로 열거하고 세로8px·가로16px, Grid 행8px·열16px 적용
+    - **Checkbox Group 내부 구조**: 원형 CheckBox를 열거하고 세로8px·가로16px, Grid 행8px·열16px 적용. 원형 내부·단일 래퍼 gap0은 유지
     - **CheckBox 그리드 레이아웃**:
       - Flow: **`grid`** (기획서에 따라 `3*1`, `2*auto` 등 설정)
       - 간격: **`gap between columns: 20px` (`2xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
@@ -1052,7 +1080,7 @@ Container 2 (gap 12px)
 | `description` | 그룹에 직접 노출되는 설명. 원형 14px Light, padding-bottom 12px를 유지하고 별도 Text·Infobox로 임의 치환하지 않음 |
 | `textList` | 약관 그룹 하단 부가 안내. 원형 Divider 래퍼 상하 8px, Container 상하 12px, Slot-TextList gap 8px 및 실제 TextList / Unordered size 14 유지 |
 
-- **Grid 분기**: Slot-Depth-3의 체크 목록은 참조처럼 GridContainer Vertical / gap 0입니다. Slot-Depth-4는 짧은 항목에 GridContainer GRID / 2열 균등 FLEX / 행 Hug / 행·열 gap 0을 사용하며, 4항목은 2×2, 2항목은 1×2입니다. 행 수는 기획 항목 수에 맞추고 긴 항목은 대응 참조의 줄바꿈·배치를 유지합니다. 이름이 GridContainer라도 실제 flow를 확인합니다. 일반 Radio Group·Checkbox Group의 gap 20px를 이 원형 Slot 목록에 덮어쓰지 않습니다.
+- **Grid 분기**: Slot-Depth-3의 체크 목록은 참조처럼 GridContainer Vertical / gap 0입니다. Slot-Depth-4는 짧은 항목에 GridContainer GRID / 2열 균등 FLEX / 행 Hug / 행·열 gap 0을 사용하며, 4항목은 2×2, 2항목은 1×2입니다. 행 수는 기획 항목 수에 맞추고 긴 항목은 대응 참조의 줄바꿈·배치를 유지합니다. 이름이 GridContainer라도 실제 flow를 확인합니다. 일반 Radio Group·Checkbox Group의 행8px·열16px를 이 원형 Slot 목록에 덮어쓰지 않습니다.
 - 원형 내부 padding으로 들여쓰기를 구현하므로 예전 `Depth 3 padding 4px 20px 12px`·Consent Area padding-left 20px·수동 Outline Container를 추가하여 중복 들여쓰기하지 않습니다. 그룹 내부 gap 0, 그룹 간 gap 12px, BODY gap 24px를 구분합니다.
 
 ### C. 약관 BottomSheet와 TextList 확인형
@@ -1103,7 +1131,7 @@ Container 2 (Vertical, gap12)
 
 **컨트롤·상태**: 1d Prefix는 check-large, 2d/3d는 check-small이다. 4d는 다중 안내수단이면 check-small, 상호 배타적인 추가/차단이면 radio다. 모든4d를 Radio·SelectButton 등 한 타입으로 통일하지 않는다. native Item / Box·Item / Radio의 checked·disabled·indeterminate·invalid와 Prefix/Suffix 연결을 유지한다. 사례 B의 일부 선택 예시는 카카오톡 하위 “개인정보 제3자 제공 동의” 체크와 “추가” 라디오 선택, 계열사 하위 “광고성 정보 수신 동의”와 안내수단4개 선택이다. 상위1d/2d의 미선택과 하위 일부 선택을 구분하고 전체선택으로 임의 보정하지 않는다. 이 상태를 신규 기획에 강제하지 않으며 실제 기획의 초기값·활성 조건을 따른다. 상세 이동이 있는1d/2d는 Suffix pageIndicator, 펼쳐진3d-group은 up을 사용하고, 실제 동작이 없는 항목에는 Suffix를 추가하지 않는다.
 
-**간격·서체**: 1d는 KBFG Text16 Bold·상하padding16·gap8, 2d는16 Medium·상하padding12·gap8이다. 3d-group 제목은16 Light·Top 상하padding12, 4d-group 제목은14 Light·Top 상하padding6이다. 두 group 바깥 padding은 **0/0/12/32px**, 내부 gap0이다. 3d/4d 항목은14 Light·상하padding4·gap8이다. 4d Grid는2열 균등FLEX·행Hug·행/열gap0이며4항목=2행,2항목=1행이다. 일반 Radio/Checkbox Group gap20을 원형에 덮어쓰지 않는다. 4/6/8/12/16/24/32px는 각각 `spacing/xs/sm/md/lg/xl/3xl/5xl`을 연결한다. 긴 문구는 원형 Label·Fill/Hug로 높이가 늘어나도록 하며 폰트 축소·고정높이·말줄임으로 맞추지 않는다.
+**간격·서체**: 1d는 KBFG Text16 Bold·상하padding16·gap8, 2d는16 Medium·상하padding12·gap8이다. 3d-group 제목은16 Light·Top 상하padding12, 4d-group 제목은14 Light·Top 상하padding6이다. 두 group 바깥 padding은 **0/0/12/32px**, 내부 gap0이다. 3d/4d 항목은14 Light·상하padding4·gap8이다. 4d Grid는2열 균등FLEX·행Hug·행/열gap0이며4항목=2행,2항목=1행이다. 일반 Radio/Checkbox Group 행8px·열16px을 원형에 덮어쓰지 않는다. 4/6/8/12/16/24/32px는 각각 `spacing/xs/sm/md/lg/xl/3xl/5xl`을 연결한다. 긴 문구는 원형 Label·Fill/Hug로 높이가 늘어나도록 하며 폰트 축소·고정높이·말줄임으로 맞추지 않는다.
 
 **삭제 후 라이브러리 탐색 근거**(2026-11-02 확인): ConsentGroup key `3e734ffbcf9495c4b93f0cf5ecaf1c2b368c2063`; Item / Consent는1d `6496a1d3f06ba209cd782b2c11083e895e14c609`,2d `a74ee42ace75cc01015fc5a1fbf2ae23fdb24287`,3d-group `d6538a2ef603acb50d5dbecfcf4638bafa990b20`,3d `6b4292485405d45ac581450fde1049e17f086f54`,4d-group `abee473e01d486c0b794a8a17357381a84751e0d`,4d `d97b6bd74b0eb3f3a6e8b18800cc28a8152bbd47`,textList `c5125fd24a5180ae3ed2cdaef685b7895208fb48`다. Text Style 탐색 기준은16Bold `c0b7c927f31310c8297f679419d5a38377fc74db`,16Medium `1c8368513c856adb717a8f46922bc5f4a800bb66`,16Light `161acb8a632b6627494a8a2b575e49ed8a12f3a6`,14Light `b9f5d92dffa67d9779e50c32f2c9f732a727fe8a`다. key는 탐색 근거이며 최신 원형 확인·스타일/변수 연결을 대체하지 않는다. 과거 사례 내부 node ID로 새 인스턴스를 탐색하지 않는다.
 
@@ -1242,9 +1270,9 @@ Container 2 (Vertical, gap12)
 - **`Title / Section`과 `Input Group` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
 - **`Title / Section` 우측 버튼 조합 (`Container Title`)**: Flow `horizontal`, Auto Layout **`gap: 8px` (`md`)**, Alignment `align left`
 - **`Title / Section` 또는 `Title / Element` + 일반 텍스트 결합**: 일반 텍스트는 **`Text (gap: 0px)`** 오토레이아웃으로 감싸서 결합
-- **`Title / Element`와 `Radio Group` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
-- **`Radio Group` 내부 간격**: Auto Layout **`gap: 20px` (`2xl`)** 적용 (내부 `Radio`는 개별 오토레이아웃 없이 컴포넌트 원형 그대로 배치)
-- **`Checkbox Group` (`CheckBox Group`) 내부 간격**: Auto Layout **`gap: 20px` (`2xl`)** 적용. Grid의 행·열 gap도 모두 20px이며 개별 CheckBox 원형 내부 간격은 보존
+- **`Title / Element`와 `Radio Group`·`Checkbox Group` 사이 간격**: **8px (`spacing/md`)**
+- **`Radio Group` 내부 간격**: 세로8px·가로16px, Grid 행8px·열16px. 개별 Radio는 추가 오토레이아웃 없이 원형 그대로 배치
+- **`Checkbox Group` (`CheckBox Group`) 내부 간격**: 세로8px·가로16px, Grid 행8px·열16px. 원형 내부 간격은 보존
 - **`Title / Section`과 `SelectButton` (Description 노출 시) 사이 간격**: 내부 Auto Layout **`gap: 24px` (`3xl`)** 적용
 - **`Title / Section`과 `Infobox / Card` 사이 간격**: 내부 Auto Layout **`gap: 16px` (`xl`)** 적용
 - **`Infobox / Card` 다음 콘텐츠와의 외부 간격**: `TextList`를 포함해 **`gap: 24px` (`3xl`)** 적용. 카드 내부 Slot/TextList 간격과 구분
@@ -1291,7 +1319,7 @@ Container 2 (Vertical, gap12)
   - Divider(10px) 포함 Container 내부 Auto Layout **`gap: 0px`** 적용
 - **Card / Surface 및 Data Block 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
 - **선택형 바텀시트 List 간 간격**: `Container 1` 내부 Auto Layout **`gap: 8px` (`md`)** 적용 (List 자체 좌우 패딩: 0px)
-- **셀렉트 바텀시트 List 높이**: 체크마크 노출·비노출 모두 **48px / 세로 Fixed**. 비노출 시 46px Hug로 축소하지 않습니다. 항목 간 gap과 List 자체 높이를 별도로 검수합니다.
+- **셀렉트 바텀시트 List 높이**: 체크마크 노출·비노출 모두 **48px·세로Fixed**. 기획의 선택 지정이 없으면 두 번째 List를 hasSuffix true·checkMark로 설정합니다(2026-11-09 재확정).
 - **알려드립니다 컨텐츠 Container 내부 간격**: Divider(10px, tertiary)와 Accordion 사이 Auto Layout **`gap: 0px`** 적용
 
 #### TextList 사이즈 및 그룹 간격 규칙
@@ -1387,8 +1415,8 @@ Container 2 (Vertical, gap12)
    - **컴포넌트 원형 명칭은 절대로 변경하지 않으며, 와이어프레임 상 볼드 여부와 무관하게 디자인 시스템의 Title 컴포넌트(`Title / Page`, `Title / Section`, `Title / Element`) 원형 스타일을 우선시하여 적용합니다.**
    - `Title / Page` 다음에 디스크립션이 오는 경우 하위 `Description` 레이어의 가시성을 활성화합니다.
    - `Title / Section` 또는 `Title / Element`에 일반 텍스트가 결합될 시 일반 텍스트를 **`Text (gap: 0px)`** 오토레이아웃으로 감싸서 계층을 구성합니다. 단, **일반 본문에서 `Title / Section` 다음에 단일 항목의 `TextList / Unordered`가 올 경우 불릿이 유지된 컴포넌트 그대로 정의**합니다.
-   - `Title / Element`와 `Radio Group`은 `gap: 16px`, `Radio Group` 내부의 `Radio`는 개별 오토레이아웃 없이 컴포넌트 그대로 열거하며 `gap: 20px`를 적용합니다.
-   - `Checkbox Group`(`CheckBox Group`) 내부 반복 항목도 gap 20px이며 Grid의 행·열 gap 모두 spacing/2xl=20px를 적용합니다. 개별 Radio·CheckBox 내부 간격과 단일 CheckBox 래퍼 gap 0은 변경하지 않습니다.
+   - `Title / Element`→Radio/Checkbox Group8px, 그룹 내부 세로8px·가로16px와 각각의 토큰을 검사합니다. Radio는 원형 그대로 열거합니다.
+   - Grid 행8px·열16px를 실제 Grid 필드로 검사합니다. 개별 Radio·CheckBox 내부 간격과 단일 CheckBox 래퍼 gap0은 변경하지 않습니다.
    - `Title / Section` 우측 버튼 조합은 `Container Title (horizontal, gap: 8px, align left)`로 오토레이아웃 그룹핑합니다.
    - 텍스트 강조 시 같은 폰트 크기 내 `medium` 변수를 쓰고 `positive`, `negative`, `blue`, `red`, `primary` 토큰 규칙을 준수합니다. (단, `Table / Cell` 내 텍스트 컬러 지정 시에는 Weight를 `medium`으로 올리지 않고 `light`를 유지)
    - 바로가기 버튼 외 아이콘 결합 버튼은 `TextButton`의 `hasPrefix: True` 설정, 아이콘 없는 버튼형 텍스트는 `hasPrefix/hasSuffix: False`, `underline: True`로 적용합니다.

@@ -21,7 +21,7 @@ export async function collect(figma, config) {
   const offset = config.offset ?? 0;
   const limit = config.limit ?? 10;
   const items = [];
-  const fields = ['x','y','width','height','layoutMode','layoutWrap','itemSpacing','counterAxisSpacing',
+  const fields = ['x','y','width','height','layoutMode','layoutWrap','itemSpacing','counterAxisSpacing','gridRowGap','gridColumnGap','gridRowCount','gridColumnCount',
     'paddingTop','paddingRight','paddingBottom','paddingLeft','primaryAxisAlignItems','counterAxisAlignItems',
     'primaryAxisSizingMode','counterAxisSizingMode','layoutSizingHorizontal','layoutSizingVertical',
     'layoutPositioning','clipsContent','cornerRadius','topLeftRadius','topRightRadius','bottomLeftRadius','bottomRightRadius',

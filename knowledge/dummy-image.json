@@ -139,7 +139,10 @@
     ],
     "strokeWeight": 2,
     "strokeAlign": "OUTSIDE",
-    "effects": []
+    "effects": [],
+    "compatibleFontFamilyVariableKeys": [
+      "3fe2dd8ed05301b57e2eb1396f29d2e68c659193"
+    ]
   },
   "externalGaps": {
     "precedingTitlePage": 0,

@@ -648,8 +648,65 @@ test('approved Sorting Group keeps native controls in order and12 token without 
 });
 
 test('Checkbox Group accepts native CheckBox spelling and wrapper names without renaming components',()=>{
- for(const name of ['Checkbox Group','CheckBox Group']){const s=page();add(s,frames('checks',name,'body',{itemSpacing:20,boundVariables:{itemSpacing:{id:rules.spacing[20]}}}),frames('check1','CheckBox','checks'),component('native1','CheckBox','check1'),frames('check2','CheckBox','checks'),component('native2','CheckBox','check2'));assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='checks').itemSpacing=16;assert.ok(codes(s).includes('GAP'));}
+ for(const name of ['Checkbox Group','CheckBox Group']){const s=page();add(s,frames('checks',name,'body',{itemSpacing:8,boundVariables:{itemSpacing:{id:rules.spacing[8]}}}),frames('check1','CheckBox','checks'),component('native1','CheckBox','check1'),frames('check2','CheckBox','checks'),component('native2','CheckBox','check2'));assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='checks').itemSpacing=16;assert.ok(codes(s).includes('GAP'));}
 });
 test('input sections separated by a real Divider use Contents with24, rather than a homogeneous Group',()=>{
  const s=page();add(s,frames('sections','InputField / Contents','body',{itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}}),frames('part1','InputField','sections'),component('field1','InputField','part1'),component('divider','Divider / Horizontal','sections'),frames('part2','InputField','sections'),component('field2','InputField','part2'));assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='sections').name='InputField Group';assert.ok(codes(s).includes('GROUP_CONTENTS'));s.items.find(n=>n.id==='sections').name='InputField / Contents';s.items.find(n=>n.id==='sections').itemSpacing=16;assert.ok(codes(s).includes('GAP'));
+});
+
+test('dummy label accepts current published Pretendard alias while retaining actual typography checks',()=>{
+ const s=approvedDummy(),n=s.items.find(n=>n.id==='dummy'),k='3fe2dd8ed05301b57e2eb1396f29d2e68c659193';
+ s.variables.push({id:k,key:k});n.boundVariables.fontFamily=[{id:k}];n.segments[0].boundVariables.fontFamily={id:k};
+ assert.ok(!codes(s).includes('DUMMY_LABEL_FONT'));n.segments[0].fontName.family='KBFG Text';assert.ok(codes(s).includes('DUMMY_LABEL_FONT'));
+ });
+
+test('section heading with trailing IconButton uses the documented horizontal8px combination',()=>{
+ const s=page();add(s,frames('r','Title / IconButton','body',{layoutMode:'HORIZONTAL',itemSpacing:8,boundVariables:{itemSpacing:{id:rules.spacing[8]}}}),component('t','Title / Section','r'),component('i','IconButton','r'));assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='r').itemSpacing=16;assert.ok(codes(s).includes('GAP'));
+});
+
+test('wrapped Checkbox Group cannot become horizontal Hug and crop following options',()=>{
+ const s=page();add(s,frames('g','Checkbox Group','body',{layoutMode:'HORIZONTAL',layoutWrap:'WRAP',layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:16,counterAxisSpacing:8,boundVariables:{itemSpacing:{id:rules.spacing[16]},counterAxisSpacing:{id:rules.spacing[8]}}}),component('a','CheckBox','g'),component('b','CheckBox','g'));assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='g').layoutSizingHorizontal='HUG';assert.ok(codes(s).includes('CHECKBOX_WRAP_LAYOUT'));
+});
+
+test('choice Grid uses actual row8/column16 fields and tokens, not stale itemSpacing24',()=>{
+ for(const [name,kind] of [['Radio Group','Radio'],['Checkbox Group','CheckBox'],['CheckBox Group','CheckBox']]){
+  for(const [rows,columns] of [[1,3],[3,1],[2,2]]){
+   const s=page();add(s,frames('g',name,'body',{layoutMode:'GRID',gridRowCount:rows,gridColumnCount:columns,gridRowGap:8,gridColumnGap:16,itemSpacing:24,counterAxisSpacing:0,boundVariables:{gridRowGap:{id:rules.spacing[8]},gridColumnGap:{id:rules.spacing[16]}}}),component('a',kind,'g'),component('b',kind,'g'));
+   assert.equal(check(s).errors.length,0);
+   const g=s.items.find(n=>n.id==='g');g.gridRowGap=20;g.gridColumnGap=20;
+   assert.equal(check(s).errors.filter(e=>e.code==='CHOICE_GAP').length,2);
+   g.gridRowGap=8;g.gridColumnGap=16;g.boundVariables={};
+   assert.equal(check(s).errors.filter(e=>e.code==='CHOICE_GAP_TOKEN').length,2);
+  }
+ }
+});
+test('choice headings use Element8 while ordinary Section remains16',()=>{
+ for(const [name,kind] of [['Radio Group','Radio'],['Checkbox Group','CheckBox']]){
+  const s=page();add(s,frames('unit','Title / '+name,'body',{itemSpacing:8,boundVariables:{itemSpacing:{id:rules.spacing[8]}}}),component('title','Title / Element','unit'),frames('g',name,'unit',{itemSpacing:8,boundVariables:{itemSpacing:{id:rules.spacing[8]}}}),component('a',kind,'g'),component('b',kind,'g'));
+  assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='unit').itemSpacing=16;assert.ok(codes(s).includes('GAP'));
+  s.items.find(n=>n.id==='title').name='Title / Section';s.items.find(n=>n.id==='unit').boundVariables.itemSpacing.id=rules.spacing[16];assert.equal(check(s).errors.length,0);
+ }
+});
+test('wrapped choice groups require vertical row8 token as well as horizontal16',()=>{
+ const s=page();add(s,frames('g','Radio Group','body',{layoutMode:'HORIZONTAL',layoutWrap:'WRAP',itemSpacing:16,counterAxisSpacing:8,boundVariables:{itemSpacing:{id:rules.spacing[16]},counterAxisSpacing:{id:rules.spacing[8]}}}),component('a','Radio','g'),component('b','Radio','g'));
+ assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='g').counterAxisSpacing=20;assert.ok(codes(s).includes('CHOICE_GAP'));
+ s.items.find(n=>n.id==='g').counterAxisSpacing=8;delete s.items.find(n=>n.id==='g').boundVariables.counterAxisSpacing;assert.ok(codes(s).includes('CHOICE_GAP_TOKEN'));
+});
+
+function choiceSheet(){
+ const s=snapshot([frames('root','선택',null,{height:844,fills:fill(rules.colors.white)}),frames('dim','Dimmed','root',{layoutPositioning:'ABSOLUTE'}),component('sheet','BottomSheet','root'),component('home','HomeIndicator','root',{fills:fill(rules.colors.elevated)}),frames('group','List Group','sheet')]);
+ for(let i=0;i<3;i++){add(s,component('l'+i,'List','group',{height:48,layoutSizingVertical:'FIXED',componentProperties:{'hasSuffix#actual':{value:i===1}}}),component('suffix'+i,'Item / Suffix','l'+i,{visible:i===1,componentProperties:{variant:{value:'checkMark'}}}));}return s;
+}
+function choose(s,indices){for(let i=0;i<3;i++){s.items.find(n=>n.id==='l'+i).componentProperties['hasSuffix#actual'].value=indices.includes(i);s.items.find(n=>n.id==='suffix'+i).visible=indices.includes(i);}}
+test('selection Lists require48 Fixed for both selected and unselected items',()=>{
+ const s=choiceSheet();assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='l0').height=46;assert.ok(codes(s).includes('SHEET_LIST_FIXED48'));s.items.find(n=>n.id==='l0').height=48;s.items.find(n=>n.id==='l1').layoutSizingVertical='HUG';assert.ok(codes(s).includes('SHEET_LIST_FIXED48'));
+});
+test('second visible List is the default and requires actual visible checkMark',()=>{
+ const s=choiceSheet();choose(s,[0]);assert.ok(codes(s).includes('SHEET_LIST_SELECTION'));choose(s,[1]);s.items.find(n=>n.id==='suffix1').componentProperties.variant.value='pageIndicator';assert.ok(codes(s,{sheetListPattern:'selection'}).includes('SHEET_LIST_CHECKMARK'));s.items.find(n=>n.id==='suffix1').componentProperties.variant.value='icon';assert.ok(codes(s).includes('SHEET_LIST_CHECKMARK'));
+});
+test('planning selection overrides default including multiple or explicitly none',()=>{
+ for(const indices of [[0],[0,2],[]]){const s=choiceSheet();choose(s,indices);assert.equal(check(s,{sheetListSelectedIndices:indices}).errors.length,0);}assert.ok(codes(choiceSheet(),{sheetListSelectedIndices:[3]}).includes('CONTRACT'));
+});
+test('navigation and help patterns do not inherit default selection or fixed48',()=>{
+ const s=choiceSheet();choose(s,[]);for(const n of s.items.filter(n=>n.name==='List')){n.layoutSizingVertical='HUG';n.height=70;}assert.equal(check(s,{sheetListPattern:'navigation'}).errors.length,0);
 });

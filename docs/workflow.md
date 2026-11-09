@@ -320,7 +320,7 @@ Popup > Slot 내부 3단 영역은 `Header`, `Body`, `Footer`로 명명합니다
 1. 약관 상세(PDF)인지 일반 약관 동의·BottomSheet·TextList 확인형인지 먼저 나눕니다. 원문§2.G와§4의 사용자 승인7개 참조를 현재 라이브러리에서 직접 조회합니다. Templates(작성중) 페이지에 있어도 이번에 지정된 참조는 적용합니다. 과거 제작본을 원형으로 복제하지 않습니다.
 2. PDF 상세는31888:30615의 Popup을 import하고 Slot 안 3단 레이어명은 Header/Body/Footer로 유지하고, 이전에 ## HEADER/## BODY/## FOOTER로 변경한 경우 Header/Body/Footer로 원복합니다. StatusBar는 아트보드 직계Auto44px, Popup은Fill, Pagination은 아트보드 직계Absolute입니다. BODY·body Fill 및Footer Absolute를 유지하고 일반 화면3단 구조나 키패드의StatusBar Absolute 규칙을 덮어쓰지 않습니다. 라이브러리 원본은 수정하지 않습니다.
 3. 약관 동의는31061:78124/78179/78292/78209 중 기획에 맞는 경우를 선택하고 ConsentGroup과 Item / Consent를 현재 원형에서 import합니다. 뎁스는1d·2d·3d-group·3d·4d-group·4d, 직접 설명은description, 부가 목록은textList로 매핑합니다. 구형 Consent solid/basic·Depth 프레임·수동 Outline Container는 새 구성에서 사용하지 않습니다. 실제 Slot/Slot-Depth-3/Slot-Depth-4/Slot-TextList 안에 항목을 배치하고 native Prefix/Suffix의 체크·라디오·화살표·가시성 연결을 유지합니다.
-4. 일반 동의 BODY는padding24/20/32/20·gap24, 반복 ConsentGroup은gap12, 원형 내부 Slot은gap0·하단padding8을 대조합니다. 3d-group/4d-group의 들여쓰기32px와하단12px를 추가 래퍼로 중복하지 않습니다. GridContainer는3d의Vertical 또는4d의2열FLEX/행Hug/행·열gap0 분기를 기획에 맞게 사용합니다. 일반 Radio/Checkbox Group gap20은 이 원형 목록에 일괄 적용하지 않습니다.
+4. 일반 동의 BODY는padding24/20/32/20·gap24, 반복 ConsentGroup은gap12, 원형 내부 Slot은gap0·하단padding8을 대조합니다. 3d-group/4d-group의 들여쓰기32px와하단12px를 추가 래퍼로 중복하지 않습니다. GridContainer는3d의Vertical 또는4d의2열FLEX/행Hug/행·열gap0 분기를 기획에 맞게 사용합니다. 일반 Radio/Checkbox Group 행8px·열16px은 이 원형 목록에 일괄 적용하지 않습니다.
 5. BottomSheet는31061:78333을 기준으로Slot padding0/20/20/20·gap20, 안내문→ConsentGroup 목록(gap12), elevated StickyButton·외부HomeIndicator를 검수합니다. TextList 확인형은31061:78354를 기준으로Title/Section→TextListGroup gap16, size16목록 gap8, 별도ConsentFinal(outline)을 사용합니다. 그룹 하단textList variant의목록은size14입니다. 하위 항목이 있으면 Slot 첫 Divider 래퍼와 secondary/1px 선·하단12px를 반드시 유지하고 더미 제거 후 구조 누락을 검사합니다. 78151은 현재 1d 단일 항목이므로 하위 목록 유형과 구분합니다.
 6. 문구·개수·순서·선택/미선택·펼침·hasSubLabel/hasSuffix를 적용하고 현재 라이브러리의실제 key·Slot 계층·변수·서체·크기 모드·공개 속성 전환을 대조합니다. 제목의과거22px 대신v0.95 Default24px Medium/행간34px 원형을 유지합니다. 긴 문구의줄바꿈과가독성을 검수하고 참조의고정 항목 수·높이를 강제하지 않습니다.
 
@@ -394,7 +394,7 @@ Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Gro
 
 2026-10-21 강조 보존·Medium 매핑: 기획에 있는 강조 구간과 링크는 누락하지 않고 반영합니다. 본문 강조 굵기는 동일 텍스트 크기·계열의 Medium 스타일과 연결된 medium 변수로만 매핑하며 Bold·Semibold·크기 확대·고정 fontWeight로 대신하지 않습니다. 링크 굵기도 종전 Bold 대신 Medium을 적용합니다. 굵기·색상·밑줄·링크 유무를 각각 대조하여, 굵기만 강조된 구간에 다른 표현을 추가하지 않습니다. 기획에 없는 표현의 추가 금지와 기획에 있는 표현의 보존을 함께 지킵니다.
 
-2026-10-21 간격·인라인 표현 계획: Infobox / Card 다음 콘텐츠의 외부 gap은 종류와 관계없이 spacing/3xl=24px로 계획합니다. 카드 내부 간격 및 카드 앞쪽 간격은 보존하며 종전 Card → TextList 12px를 재사용하지 않습니다. Radio Group과 Checkbox Group(CheckBox Group)의 반복 항목 gap은 spacing/2xl=20px이고 Grid 행·열도 모두 20px입니다. 개별 컴포넌트 내부·단일 CheckBox 래퍼 gap 0·Title / Element ↔ 그룹 gap 16px는 별도 유지합니다. 메뉴명·대괄호만으로 강조·링크를 추정하지 않고 기획 또는 사용자 지시의 명시 구간에만 적용합니다. 링크 판별과 링크 스타일 적용을 분리합니다.
+2026-10-21 간격·인라인 표현 계획: Infobox / Card 다음 콘텐츠의 외부 gap은 종류와 관계없이 spacing/3xl=24px로 계획합니다. 카드 내부 간격 및 카드 앞쪽 간격은 보존하며 종전 Card → TextList 12px를 재사용하지 않습니다. Radio/Checkbox 그룹은 2026-11-05 교체 규칙에 따라 제목→그룹8px, 항목 세로8px·가로16px(Grid 행8·열16)와 spacing 토큰을 적용합니다. 개별 원형 내부·단일 CheckBox 래퍼 gap0은 유지합니다. 메뉴명·대괄호만으로 강조·링크를 추정하지 않고 기획 또는 사용자 지시의 명시 구간에만 적용합니다. 링크 판별과 링크 스타일 적용을 분리합니다.
 
 2026-10-21 화면 유형과 루트 구조를 먼저 판별합니다. 일반 화면은 `2025:6834`처럼 아트보드 직계 `## HEADER` / `## BODY` / `## FOOTER`를 기본으로 계획하고, 기획의 페이지 형태 또는 사용자 명시 지시로 풀팝업임이 확인될 때만 Popup 템플릿을 선택합니다. iOS·인증/PIN·X 버튼·기존 제작본의 Popup 사용만으로 분류하지 않습니다. 사용자 교정 대상 `2027:732`를 일반 인증 화면의 복제 원형으로 재사용하지 않습니다. 템플릿을 복제하기 전에 예정 유형과 실제 루트 계층을 대조합니다.
 
@@ -418,9 +418,9 @@ Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Gro
 
 2026-10-20 TextButton 최종 교정: 인풋 조합 및 박스 아래에 별도 배치하는 TextButton은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:7407`의 `2025:7417`처럼 variant secondary로 계획·제작·검수합니다. 종전 인풋 조합의 primary 지정은 철회합니다. 크기·간격·정렬은 각 승인 패턴을 유지하며, InputField 내부 버튼과 독립 CTA에는 일괄 적용하지 않습니다.
 
-2026-10-21 항목 선택 바텀시트 기본 선택: 기획에 명시된 초기 선택 항목·선택할 항목의 순서를 먼저 확인합니다. 지정이 없으면 화면에서 위에서 두 번째 List를 기본 선택으로 계획하며, 안내 List도 노출 순서에 포함하고 재정렬하지 않습니다. 기준은 `2230:10109 / 2230:10111`입니다. 선택 List의 hasSuffix true와 Slot-Suffix > Item / Suffix의 variant checkMark를 공개 속성으로 적용하고, 일반 단일 선택의 나머지는 hasSuffix false로 둡니다. 기획에 복수 선택이 명시되면 해당 상태를 따릅니다. 검수 시 실제 체크마크 위치·원본 인스턴스·프로퍼티 패널 편집 연결과 체크 유무 모두 48px / Fixed인지 확인합니다. 계좌 선택 전용 패턴에도 같은 선택 우선순위를 적용합니다.
+2026-11-09 선택 바텀시트 재확정: 기획에 별도 선택 항목이 명시되면 우선하고, 미지정이면 노출 순서상 두 번째 List를 기본 선택한다. 선택 List는 hasSuffix=true·Item / Suffix variant=checkMark, 나머지는 hasSuffix=false다. 선택 여부와 관계없이 List 높이는48px·세로Fixed다. 문구·순서·구분선·아이콘 등은 기획을 보존한다. 도움말·이동형 등 별도 패턴에 일괄 적용하지 않는다.
 
-2026-10-20 승인 규칙: 체크마크로 선택 상태를 표시하는 셀렉트 바텀시트의 List는 체크마크 노출 여부와 관계없이 높이 48px / 세로 Fixed로 계획·제작·검수합니다. 비노출 상태의 원형 Hug 높이 46px를 그대로 사용하지 않으며, 선택 전후의 List 높이와 항목 위치가 동일한지 확인합니다. 도움말·이용 방법 선택 List의 별도 높이에는 일괄 적용하지 않습니다.
+2026-11-09 높이 재확정: 일반 선택형 List는 체크마크 노출·비노출 모두48px·세로Fixed다. 원형·폰트·변수를 유지하고 외부 간격·Slot 패딩으로 높이를 보정하지 않는다.
 
 2026-10-19 승인 패턴: InputField 뒤 보조 이동 버튼은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:6834`의 `InputField / Button Area`(gap 12px)와 우측 정렬 Button Area / TextButton secondary·small·suffix true·underline false를 매핑합니다. 도움말·이용 방법 선택 바텀시트는 `KFlklMvGmg0MXGfAXvpprn / 185:14891`의 테두리 없는 List 패턴을 적용하고, 목록 gap 0·List padding 12/0·기본 Item / Prefix(bgIcon)·Suffix pageIndicator를 확인합니다. 기획 본문이 있으면 Text로 보존하고 목록과 gap 16px로 배치합니다. 아이콘은 작업자가 직접 지정하므로 기본 인스턴스만 두며, 전체 Card 패턴이나 일반 선택 바텀시트의 gap 8px를 이 경우에 적용하지 않습니다. 상세 수치와 키는 원문 및 실측 디자인 규칙을 따릅니다.
 
@@ -480,7 +480,7 @@ node src/cli.mjs build runs/task-001/plan.json runs/task-001/reference.json runs
 
 2026-10-21 강조 검수: 기획의 강조·링크 구간이 모두 반영됐는지와 임의 추가가 없는지를 함께 확인합니다. 강조 전후 텍스트 크기·계열이 동일하고 해당 구간의 Medium Text Style key·medium 변수 alias가 연결돼 있는지 검사합니다. 본문 강조가 Bold·Semibold·고정 fontWeight·크기 확대이면 FAIL입니다. 굵기만 있는 강조에는 색상·밑줄·링크를 추가하지 않으며, DS 제목·CTA의 원형 Weight는 별도로 보존합니다.
 
-2026-10-21 간격·임의 강조 검수: Infobox / Card 바깥의 다음 콘텐츠 경계 간격이 24px인지 확인하고 카드 내부 gap과 합산하지 않습니다. Radio Group 및 Checkbox Group의 실제 항목 gap 20px와 Grid 행·열 20px를 확인하며 개별 원형 내부까지 변경하지 않습니다. 기획과 대조해 문장 구간별 Text Style·Weight·색상·밑줄·hyperlink 및 이동 동작을 검사합니다. 기획에 없는 메뉴명 강조·링크 외형이 있으면 FAIL이며, `[고객정보조회(개인정보열람)]`처럼 URL 없는 Bold·밑줄도 허용 근거가 되지 않습니다. 문서 반영과 실제 화면 수정 여부를 구분하여 보고합니다.
+2026-10-21 간격·임의 강조 검수: Infobox / Card 바깥의 다음 콘텐츠 경계 간격이 24px인지 확인하고 카드 내부 gap과 합산하지 않습니다. Radio/Checkbox 그룹의 제목→그룹8px·항목 세로8px·가로16px(Grid 행8·열16)와 토큰을 확인하며 개별 원형 내부까지 변경하지 않습니다. 기획과 대조해 문장 구간별 Text Style·Weight·색상·밑줄·hyperlink 및 이동 동작을 검사합니다. 기획에 없는 메뉴명 강조·링크 외형이 있으면 FAIL이며, `[고객정보조회(개인정보열람)]`처럼 URL 없는 Bold·밑줄도 허용 근거가 되지 않습니다. 문서 반영과 실제 화면 수정 여부를 구분하여 보고합니다.
 
 2026-10-21 D03 루트 계층 검수: 일반 화면의 실제 직계 자식이 `## HEADER`, `## BODY`, `## FOOTER`이고 모두 Vertical Auto Layout인지, StatusBar가 HEADER 안에 있는지 확인합니다. 일반 화면에 `Popup > Slot > Header / Body / Footer`가 남으면 외형이 같아도 FAIL입니다. 풀팝업은 제작 전에 확인한 명시 근거와 Popup 계층을 대조하며, 화면 유형 미확인을 Popup 사용 근거로 처리하지 않습니다. 문서 갱신과 실제 화면 구조 수정은 별도로 완료 보고합니다.
 

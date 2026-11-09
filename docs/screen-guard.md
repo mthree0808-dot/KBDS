@@ -55,7 +55,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |서체|실제 Text 단위 숫자/혼용 판정, 전화번호·날짜 구분자, 누락 폰트와 스타일/서체 변수 연결|
 |레이어|실제 반복 그룹, Text/TextList 혼합, 구조에 맞는 부모명, 원형 내부 일괄 변경 방지|
 |데이터 그룹 다음 박스|Title / DataList Group→Infobox(그룹)·Data Block(그룹)·Text Box(그룹)·Card/Surface(그룹)의 외부32px 및 토큰, 분리 Container의 실제 경계|
-|간격|InputField Group24, Radio/Checkbox Group20, Section16/바텀시트 텍스트12, Tab→Infobox / Card16, Image Area 후24 등 코드에 명시된 조합과 토큰|
+|간격|InputField Group24, Radio/Checkbox 그룹 제목8·세로8/가로16, Section16/바텀시트 텍스트12, Tab→Infobox / Card16, Image Area 후24 등 코드에 명시된 조합과 토큰|
 |기획별 요구|contract에 명시한 원문·component key·공개 옵션·배치 속성·추가 Fill·gap|
 
 모든 MD 문장이나 모든 조합을 자동 판정하는 도구는 아니다. 기획 원문과 실제 컴포넌트 선택의 타당성, 아이콘 의미, 임의 override가 향후 variant 전환에 미치는 영향, 잘림·겹침·위계·자연 줄바꿈은 직접 원본/시각/전환 검수가 필요하다. 실제 폰트 누락은 네이티브 StatusBar 내부라도 오류로 보고하며, 원형 문제를 통과시키기 위해 무시하지 않는다. 숫자·기호만인 정적 장식은 문자/숫자 서체 자동 판정에서 제외한다. 검사기는 임의로 레이어를 이동하거나 원본을 수정하지 않는다.
@@ -124,4 +124,17 @@ Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth T
 
 ### 기존 CheckBox·구분선 입력 조합 판정 보완 (2026-11-05)
 
-Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명 래퍼의 반복으로 판정하고20px을 검사한다. native 이름을 바꾸지 않는다. 두 InputField 섹션 사이에 실제 Divider / Horizontal이 있는 세 요소 조합은 기존 복합 명명 공식에 따라 InputField / Contents·gap24로 검사하며, 동종 항목만 담는 InputField Group으로 오판하지 않는다. 다른 구성에는 이 예외를 적용하지 않는다.
+Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명 래퍼의 반복으로 판정한다. 2026-11-05 교체 규칙에 따라 제목→그룹8px, 세로8px·가로16px(Grid 행8·열16)와 해당 필드의 토큰을 검사한다. native 이름을 바꾸지 않는다. 두 InputField 섹션 사이에 실제 Divider / Horizontal이 있는 세 요소 조합은 기존 복합 명명 공식에 따라 InputField / Contents·gap24로 검사하며, 동종 항목만 담는 InputField Group으로 오판하지 않는다. 다른 구성에는 이 예외를 적용하지 않는다.
+
+## 가로 선택 그룹과 제목 아이콘 조합 교정(2026-11-05)
+
+- 기존 MD의 `Title / Section` 우측 버튼 조합은 `Title / IconButton` Horizontal에서8px·spacing/md로 검사한다. 일반 Section 후속16px와 구분한다.
+- `Checkbox Group`/`CheckBox Group`을 Horizontal·WRAP으로 바꿀 때 가로 Fill·세로 Hug를 다시 설정한다. 방향 변경으로 가로 Hug가 되어 뒤 항목이 화면 밖으로 펼쳐지는 상태는 `CHECKBOX_WRAP_LAYOUT` 오류다. 항목 개수·실제 줄바꿈·잘림은 화면으로도 확인한다.
+
+### Checkbox·Radio 배치 간격 교체 (2026-11-05)
+
+일반 선택 그룹은 Vertical itemSpacing8, Horizontal itemSpacing16, Horizontal·WRAP의 counterAxisSpacing8, Grid gridRowGap8/gridColumnGap16 및 각 spacing/md·xl 연결을 검사한다. Grid의 비활성 itemSpacing은 판정하지 않는다. Title / Element→선택 그룹8px 예외를 일반 제목16px보다 우선하며 native 내부·약관 depth·CheckSub에는 확대 적용하지 않는다. 독립 폼 단위24px는 실제 경로의 contract.checks로 지정한다.
+
+### 선택 바텀시트 기본 선택·48px Fixed 복원 (2026-11-09)
+
+일반 선택 List는 체크 유무 모두 높이48px·세로Fixed(`SHEET_LIST_FIXED48`)를 검사한다. 기획에서 명시한 선택이 있으면 contract의 `sheetListSelectedIndices`에0-based 인덱스 배열로 지정한다(첫 번째=[0], 첫째·셋째=[0,2], 명시적 미선택=[]). 지정이 없으면 두 번째 List(인덱스1)를 기본 선택하며 hasSuffix와 노출된 Item / Suffix checkMark를 검사한다. 안내 List도 실제 노출 순서에 포함한다. 항목 하나뿐이면 임의 선택하지 않는다. 이동형 pageIndicator 목록은 이 검사에서 제외하며 도움말·이동형 전용 패턴은 확인 후 `sheetListPattern:"navigation"`으로 명시한다. 이 분기는 일반 선택 목록의 오류를 우회하기 위한 용도가 아니다. 문구·구분선·아이콘·기획의 선택 지정 여부와 시각적 외형은 직접 대조한다.

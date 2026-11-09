@@ -391,7 +391,7 @@ ConsentGroup 자체는 fill/stroke가 없고 내부 Container가 좌우20px·rad
 
 ## Infobox 후속 24px·선택 그룹 20px·임의 인라인 링크 교정 (2026-10-21)
 
-사용자 확정: Infobox / Card 다음 콘텐츠와의 외부 간격은 spacing/3xl=24px(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)입니다. 단수·복수 TextList 등 콘텐츠 종류에 관계없이 적용하고 카드 내부 Slot·TextList 간격이나 카드 앞쪽 간격과 구분합니다. 종전 Card → TextList 12px보다 이 최신 규칙을 우선합니다. Radio Group 및 Checkbox Group(CheckBox Group)의 항목 gap은 spacing/2xl=20px(key `5491ce4ce8c48cc4a679f8cedc426cb96bb9a141`)이며 Grid 행·열 모두 20px입니다. 개별 컴포넌트 내부와 단일 CheckBox 래퍼 gap 0은 유지합니다.
+사용자 확정: Infobox / Card 다음 콘텐츠와의 외부 간격은 spacing/3xl=24px(key `fb23d20e74566ea2a3280e9e3ca48e40122b6d95`)입니다. 단수·복수 TextList 등 콘텐츠 종류에 관계없이 적용하고 카드 내부 Slot·TextList 간격이나 카드 앞쪽 간격과 구분합니다. 종전 Card → TextList 12px보다 이 최신 규칙을 우선합니다. Radio/Checkbox 그룹은 2026-11-05 교체 규칙인 제목→그룹8px, 항목 세로8px·가로16px(Grid 행8·열16)와 각각의 spacing/md·xl 토큰을 적용합니다. 개별 컴포넌트 내부와 단일 CheckBox 래퍼 gap 0은 유지합니다.
 
 조회한 [통지방법 변경 1151:257](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=1151-257)의 Radio Group `1152:648`은 gap 16px였습니다. 인포박스 문장 `I1152:572;902:52528;1152:610;1026:36811`에서 `[고객정보조회(개인정보열람)]` 구간만 14 Bold(`b0999af182e5ce7eb9ea259cac7dfb02a47f9920`) / text/neutral/secondary / UNDERLINE이며 주변은 14 Light(`b9f5d92dffa67d9779e50c32f2c9f732a727fe8a`) / text/neutral/tertiary / 밑줄 없음이었습니다. 해당 구간의 실제 hyperlink 값은 null이므로 URL이 연결된 링크라고 보고하지 않습니다.
 
@@ -403,13 +403,9 @@ ConsentGroup 자체는 fill/stroke가 없고 내부 Container가 좌우20px·rad
 
 일반 화면에 풀팝업 제작 규칙을 적용하고 루트 계층 검수에서 걸러내지 못한 오류입니다. 일반 화면은 최상위 3단 구조가 기본이며, Popup은 기획의 페이지 형태 또는 사용자 명시 지시에서 풀팝업임이 확인된 경우에만 사용합니다. iOS·인증/PIN·닫기(X) 버튼·기존 제작본의 Popup은 분류 근거가 아닙니다. 템플릿 재사용 전 화면 유형과 계층을 확인하고 완료 전 실제 직계 자식·Vertical Auto Layout·StatusBar의 HEADER 소속을 검사합니다. 이 기록은 사용자 승인 규칙과 기존 구조 관측의 문서화이며, 해당 화면을 수정했다는 의미는 아닙니다.
 
-## 항목 선택 바텀시트 기본 체크마크 (2026-10-21)
+## 항목 선택 바텀시트 — 기본 선택 복원 (2026-11-09)
 
-사용자 확정: [계좌번호 선택 2230:10109](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2230-10109), BottomSheet `2230:10111`을 기준으로 합니다. 체크마크로 선택을 표시하는 List형 바텀시트에서는 **기획에서 지정한 초기 선택 항목·선택 순서가 우선**이며, 별도 지정이 없으면 **화면에서 위에서 두 번째 List**를 기본 선택으로 표시합니다. `눌러서 선택`처럼 안내 문구인 List도 노출 순서에 포함하고, 실제 데이터 항목만 세거나 순서를 바꾸지 않습니다.
-
-선택 List의 `hasSuffix: true`와 `Slot-Suffix > Item / Suffix`의 `variant: checkMark`를 원본 공개 속성으로 설정합니다. 일반 단일 선택의 다른 항목은 `hasSuffix: false`입니다. 기획에 복수 선택이 명시되면 그 상태를 보존합니다. 체크 노출·비노출 모두 List 높이 48px / 세로 Fixed를 유지하며 문구·순서·서체·변수·우측 프로퍼티 패널 편집 연결을 보존합니다. 계좌 선택 전용 패턴에도 이 선택 우선순위를 적용합니다.
-
-참조 화면은 조회 시점에 이미 두 번째 List만 hasSuffix true / Item / Suffix checkMark였으며, 5개 List가 모두 높이 48px / Fixed였습니다. 이번 규칙 반영을 위해 해당 화면을 다시 수정하지 않았습니다.
+기획에 별도 선택 항목이 명시되면 우선하고, 미지정이면 노출 순서상 두 번째 List를 기본 선택한다. 선택 List는 hasSuffix=true·Item / Suffix variant=checkMark, 나머지는 hasSuffix=false다. 선택 여부와 관계없이 List 높이는48px·세로Fixed다. 문구·순서·구분선·아이콘 등은 기획을 보존한다. 도움말·이동형 등 별도 패턴에 일괄 적용하지 않는다.
 
 ## Chip 직후 콘텐츠 간격 — 사용자 확정 (2026-10-21)
 
@@ -490,9 +486,9 @@ DataList 원형 key는 `689423c84906f367c21aa49c4bc1f8315ed8afa1`, 속성은 spl
 
 박스 내부 라벨·값 쌍이 하나일 때 이 구조를 재사용합니다. 여러 항목을 담은 단일 박스는 이 예외에 해당하지 않으며 기존 DataList Group을 유지합니다. 완료 화면의 별도 Title / DataList Group 패턴도 일괄 변경하지 않습니다.
 
-## 셀렉트 바텀시트 List 높이 통일 (2026-10-20)
+## 셀렉트 바텀시트 List 높이 —48px Fixed (2026-11-09)
 
-사용자 확정: 체크마크가 보이는 List는 48px, 보이지 않는 List는 46px로 달라지던 상태를 **모두 48px / 세로 Fixed**(`layoutSizingVertical: FIXED`)로 통일합니다. `hasSuffix`는 체크마크 노출만 제어하고 비노출 상태에서도 높이를 유지합니다. 선택 전후 항목 위치와 목록 높이가 달라지지 않는지 검수합니다. 실제 List 인스턴스와 내부 계층·서체·변수 연결은 보존하며, 아이콘과 부연 문구가 있는 도움말/이용 방법 선택 List의 별도 높이에는 일괄 적용하지 않습니다.
+체크마크 노출·비노출 모두48px·세로Fixed를 적용한다. Hug로 두거나 최소 높이48px만 적용하지 않는다. 원형 내부·텍스트 스타일·변수 연결 및 항목별 기획 내용은 보존한다. 도움말·이동형 등 전용 List 패턴은 해당 규칙을 유지한다.
 
 ## InputField 보조 버튼·도움말 선택 목록 승인 (2026-10-19)
 

@@ -195,6 +195,23 @@ export function auditScreen(snapshot, contract = {}, rules) {
     for (const n of roots) if (visible(n) && !allowed.has(n.name)) fail('OVERLAY_BACKGROUND', n, 'Dimmed 아래에 이전 화면을 재현하지 않습니다');
   }
   if (screenType === 'bottom-sheet') {
+    const lists=items.filter(n=>n.type==='INSTANCE'&&n.name==='List'&&visible(n)&&within(n,a=>a.type==='INSTANCE'&&a.name==='BottomSheet'));
+    const suffixes=n=>items.filter(c=>c.type==='INSTANCE'&&c.name==='Item / Suffix'&&within(c,a=>a.id===n.id));
+    const navigation=contract.sheetListPattern==='navigation'||contract.sheetListPattern!=='selection'&&lists.some(n=>suffixes(n).some(c=>visible(c)&&c.componentProperties?.variant?.value==='pageIndicator'));
+    if(contract.sheetListPattern!==undefined&&!['selection','navigation'].includes(contract.sheetListPattern))fail('CONTRACT',root,'sheetListPattern은 selection 또는 navigation입니다');
+    if(lists.length&&!navigation){
+      for(const n of lists){
+        if(n.layoutSizingVertical!==rules.bottomSheetList.layoutSizingVertical||!near(n.height,rules.bottomSheetList.height))fail('SHEET_LIST_FIXED48',n,'선택 바텀시트 List는 체크 유무 모두48px·세로Fixed입니다');
+        checked.push({kind:'sheet-list-sizing',nodeId:n.id,expected:'FIXED',height:48});
+      }
+      const explicit=contract.sheetListSelectedIndices, selected=explicit??(lists.length>rules.bottomSheetList.defaultSelectedIndex?[rules.bottomSheetList.defaultSelectedIndex]:[]);
+      if(!Array.isArray(selected)||selected.some(i=>!Number.isInteger(i)||i<0||i>=lists.length)||new Set(selected).size!==selected.length)fail('CONTRACT',root,'sheetListSelectedIndices는 기획에 명시된 선택 항목의 유효한0-based 인덱스 배열입니다');
+      else lists.forEach((n,i)=>{
+        const chosen=selected.includes(i),prop=Object.entries(n.componentProperties??{}).find(([k])=>k.split('#')[0]==='hasSuffix')?.[1]?.value;
+        if(prop!==chosen)fail('SHEET_LIST_SELECTION',n,'기획 지정 선택 우선·미지정 두 번째 List 선택과 hasSuffix가 일치해야 합니다');
+        if(chosen&&!suffixes(n).some(c=>visible(c)&&c.componentProperties?.variant?.value==='checkMark'))fail('SHEET_LIST_CHECKMARK',n,'선택 List의 Item / Suffix는 노출된 checkMark여야 합니다');
+      });
+    }
     for (const n of roots.filter(n => ['BottomSheet', 'HomeIndicator', 'Keypad'].includes(n.name))) if (n.layoutPositioning !== 'AUTO') fail('SHEET_FLOW', n, 'BottomSheet·HomeIndicator·Keypad는 AUTO 흐름이어야 합니다');
     for (const n of roots.filter(n => ['Dimmed', 'StatusBar'].includes(n.name))) if (n.layoutPositioning !== 'ABSOLUTE') fail('SHEET_OVERLAY', n, 'Dimmed·StatusBar만 Absolute로 배치합니다');
   }
@@ -324,7 +341,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
     }
     const segments = label.segments ?? [];
     const familyAlias = label.boundVariables?.fontFamily;
-    if (!segments.length || segments.some(s => s.fontName?.family !== 'Pretendard' || s.fontName?.style !== 'SemiBold' || !near(s.fontSize,spec.fontSize) || s.lineHeight?.unit !== 'PERCENT' || !near(s.lineHeight.value,140) || !near(s.letterSpacing?.value,0)) || token(Array.isArray(familyAlias)?familyAlias[0]:familyAlias) !== spec.fontFamilyVariableKey) fail('DUMMY_LABEL_FONT', label, '더미 라벨은 Pretendard SemiBold21·행간140%·자간0·원본 fontFamily 변수입니다');
+    if (!segments.length || segments.some(s => s.fontName?.family !== 'Pretendard' || s.fontName?.style !== 'SemiBold' || !near(s.fontSize,spec.fontSize) || s.lineHeight?.unit !== 'PERCENT' || !near(s.lineHeight.value,140) || !near(s.letterSpacing?.value,0)) || ![spec.fontFamilyVariableKey,...(spec.compatibleFontFamilyVariableKeys??[])].includes(token(Array.isArray(familyAlias)?familyAlias[0]:familyAlias))) fail('DUMMY_LABEL_FONT', label, '더미 라벨은 Pretendard SemiBold21·행간140%·자간0·원본 fontFamily 변수입니다');
     const f=label.fills?.[0], st=label.strokes?.[0];
     if (label.fills?.length !== 1 || f?.type !== 'SOLID' || f.visible === false || !near(f.opacity,0.4) || !near(f.color?.r,1) || !near(f.color?.g,0) || !near(f.color?.b,0) || label.strokes?.length !== 1 || st?.type !== 'SOLID' || st.visible === false || !near(st.opacity ?? 1,1) || !near(st.color?.r,1) || !near(st.color?.g,1) || !near(st.color?.b,1) || !near(label.strokeWeight,2) || label.strokeAlign !== 'OUTSIDE') fail('DUMMY_LABEL_PAINT', label, '더미 라벨 빨강40% Fill·흰색2px OUTSIDE Stroke 필요');
     if (label.layoutPositioning !== 'ABSOLUTE' || label.constraints?.horizontal !== 'CENTER' || label.constraints?.vertical !== 'CENTER' || label.textAutoResize !== 'WIDTH_AND_HEIGHT' || label.textAlignHorizontal !== 'CENTER' || Math.abs(label.x-(area.width-label.width)/2)>1 || Math.abs(label.y-(area.height-label.height)/2)>1) fail('DUMMY_LABEL_POSITION', label, '편집 가능한 더미 라벨은 ABSOLUTE·CENTER constraints·중앙 배치입니다');
@@ -417,12 +434,27 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if (n.name === 'Title / TextList Group' && !cs.some(c => c.name === 'TextList Group')) fail('PARENT_NAME', n, '구조 변경 후 부모명을 다시 판정하세요. 복합 콘텐츠는 Title / Contents입니다');
     if (n.name.startsWith('Title / ') && n.name !== 'Title / Contents' && cs.some(c => c.type === 'FRAME' && c.name === n.name)) fail('PARENT_NAME', n, '같은 Title 복합 그룹을 중첩한 상위 부모는 Title / Contents입니다');
     if (cs.some(c => c.name === 'Title / Section' || c.name === 'Title / Element') && cs.some(c => c.name.includes(' / ') && c.name !== 'Title / Section' && c.name !== 'Title / Element' && c.type === 'FRAME') && n.name.startsWith('Title / ') && n.name !== 'Title / Contents') fail('PARENT_NAME', n, '제목과 복합 콘텐츠의 부모명은 Title / Contents입니다');
-    const uniformGap = {'InputField Group': 24, 'InputField / Contents':24, 'Radio Group': 20, 'Checkbox Group': 20, 'CheckBox Group':20};
+    const uniformGap = {'InputField Group': 24, 'InputField / Contents':24};
     if (uniformGap[n.name] !== undefined) spacing(n, uniformGap[n.name]);
+    if (['Radio Group','Checkbox Group','CheckBox Group'].includes(n.name)) {
+      const g=rules.choiceGroupSpacing;
+      const fieldGap=(field,expected)=>{
+        if(!near(n[field],expected))fail('CHOICE_GAP',n,`${field}: ${expected}px 필요, 실제 ${n[field]}`);
+        if(token(n.boundVariables?.[field])!==rules.spacing[expected])fail('CHOICE_GAP_TOKEN',n,`${field}: ${expected}px spacing 토큰 불일치`);
+        checked.push({kind:'choice-gap',nodeId:n.id,field,expected});
+      };
+      if(n.layoutMode==='GRID'){fieldGap('gridRowGap',g.row);fieldGap('gridColumnGap',g.column);}
+      else if(n.layoutMode==='VERTICAL')spacing(n,g.row);
+      else if(n.layoutMode==='HORIZONTAL'){spacing(n,g.column);if(n.layoutWrap==='WRAP')fieldGap('counterAxisSpacing',g.row);}
+      else fail('CHOICE_LAYOUT',n,'선택 그룹은 실제 Auto Layout/Grid로 배치합니다');
+    }
+    if (['Checkbox Group','CheckBox Group'].includes(n.name) && n.layoutMode==='HORIZONTAL' && n.layoutWrap==='WRAP' && (n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG')) fail('CHECKBOX_WRAP_LAYOUT',n,'줄바꿈 Checkbox Group은 가로 Fill·세로 Hug로 제한 폭 안에 전체 항목을 노출합니다');
     if (cs.length > 1 && cs.every(c => c.name === 'Title / TextList Group')) spacing(n, 24);
     for (let i = 0; i < cs.length - 1; i++) {
       const a = cs[i], b = cs[i + 1]; let gap;
       if (['Title / Section', 'Title / Element'].includes(a.name)) gap = screenType === 'bottom-sheet' && (b.type === 'TEXT' || ['Text', 'Text Group', 'TextList Group'].includes(b.name)) ? 12 : 16;
+      if (a.name==='Title / Element' && ['Radio Group','Checkbox Group','CheckBox Group'].includes(b.name)) gap=rules.choiceGroupSpacing.titleElement;
+      if (a.name==='Title / Section' && b.name==='IconButton' && n.name==='Title / IconButton' && n.layoutMode==='HORIZONTAL') gap=8;
       if (a.name==='InputField Group' && (b.name==='TextList Group'||b.type==='INSTANCE'&&stem(b)==='TextList')) gap=24;
       if (screenType==='dialog' && isPhoneGroup(n) && a.name==='Title / Element') gap=4;
       if (a.name === 'Title / Page' && b.name === 'Image Area') gap = 0;
