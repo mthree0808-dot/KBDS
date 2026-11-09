@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-09.1",
+  "version": "2026-11-09.2",
   "keyboardViewport": {
     "width": 390,
     "height": 844
@@ -82,5 +82,10 @@
     "height": 48,
     "selectionSource": "wireframe-then-second",
     "defaultSelectedIndex": 1
+  },
+  "cardSlot": {
+    "unusedStructure": "visible-false-not-delete",
+    "dataListGroupComponent": "Card / Body / Group-C",
+    "dataListVariant": "dataList"
   }
 }

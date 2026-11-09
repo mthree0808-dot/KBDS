@@ -1,5 +1,64 @@
 # UI Design & Code Generation Rules
 
+## Card Slot 구조 보존 및 DataList 조합 (2026-11-09 사용자 확정)
+
+### 불필요한 구조는 삭제하지 않고 숨김
+
+- 최신 라이브러리의 실제 `Card / Surface` 인스턴스를 가져온 후 **Slot의 원형 구조를 보존**한다. 화면에서 쓰지 않는 Header·Body·Footer·Logo·Groups·Group·Affix 등의 구조는 삭제하지 않고 해당 레이어의 눈을 꺼서 숨긴다(`visible: false`).
+- Slot 자식을 전부 remove한 뒤 필요한 것만 다시 만들거나, 사용하지 않는 Group을 지워 계층을 단순화하거나, 원형 그룹 이름을 임의로 바꾸지 않는다. 숨김은 투명도0·빈 텍스트·크기0·화면 밖 이동으로 대신하지 않는다.
+- 실제 사용하는 상위 경로와 하위 콘텐츠만 노출한다. 숨겨진 부모 때문에 필요한 DataList나 버튼까지 안 보이지 않는지 확인한다. 원형의 컴포넌트 연결·공개 옵션·패딩·간격·Hug/Fill을 유지한다.
+- 먼저 가져온 **해당 variant의 실제 Slot 구조**와 이름·타입·순서·부모·동명 Group 개수를 기록하고, 편집 후 숨겨진 구조까지 포함해 비교한다. 모든 Card variant에 같은 자식 수를 강제하지 않는다. 과거 예시에서 일부 구조가 이미 생략돼 있어도 새 제작에서 삭제하는 근거로 삼지 않는다.
+
+확인한 기본 원형6130:116723의 구조는 다음과 같다. 다른 variant는 현재 원형을 다시 확인한다.
+
+```text
+Card / Surface
+├─ Slot
+│  ├─ Header
+│  ├─ Body
+│  │  ├─ Logo
+│  │  └─ Groups
+│  │     ├─ Group
+│  │     ├─ Group
+│  │     ├─ Group
+│  │     └─ Group
+│  ├─ Footer
+│  └─ Card / Header / Affix (기본 숨김)
+└─ Card / Header / Affix (원형 위치·옵션 유지)
+```
+
+위 구조의 눈 상태는 실제 기획에 맞춰 조절한다. 표시 예시25563:70592·6323:178819의 라벨·제목·메뉴·버튼·선택 상태를 모든 화면의 기본 콘텐츠로 복제하지 않는다. Affix의 Body 배치가 필요한 기존 승인 패턴에서도 원형의 미사용 구조를 제거하지 않고 필요한 Affix만 한 개 노출한다.
+
+### Card 안의 DataList는 Group-C 사용
+
+Card 내부에서 DataList를 배치할 때 **실제 `Card / Body / Group-C`의 `variant: dataList`**를 사용하고 그 안의 Slot에 실제 DataList를 넣는다.
+
+```text
+Card / Surface
+└─ Slot
+   └─ Body
+      └─ Groups
+         └─ Group
+            ├─ Card / Body / Group-C (variant: dataList)
+            │  └─ Slot
+            │     └─ DataList
+            ├─ Card / Body / Group-C (variant: dataList)
+            │  └─ Slot
+            │     └─ DataList
+            └─ Card / Body / Group-C (variant: dataList)
+               └─ Slot
+                  └─ DataList
+```
+
+- 이 계층도는 **노출되는 DataList 경로만** 나타낸다. 앞 절의 미사용 Header·Logo·다른 Group·Footer 등을 실제로 삭제하라는 뜻이 아니다.
+- 확인한6323:178819처럼 복수 행은 Group 안에 Group-C를 행별로 열거하고 각각의 Slot에 DataList를 배치한다. 단일 행도 Group-C를 생략하지 않는다. Card Slot·Body·Groups에 DataList/DataList Group을 직접 배치해 Group-C를 우회하지 않는다.
+- Group-C의 dataList 원형을 사용하고, 이름만 같은 수동 프레임으로 대체하거나 detach하지 않는다. 확인한 원형 key는 `332ba87f5776e3391dec71ef4a011547c85ac1d8`이며 이후 최신 라이브러리 확인을 대체하지 않는다.
+- 참조의 첫 두 DataList는 hasDivider true, 마지막은 false였다. 행의 원문·개수·순서·구분선 유무·공개 옵션은 실제 기획과 원형 조합에 맞춘다. Data Block의 hasDivider false 규칙을 Card에 일괄 상속하지 않는다.
+- **적용 범위는 Card / Surface 내부**다. 독립 `Data Block > DataList Group > DataList` 및 단일 `Data Block > DataList`, Text Box의 역할·구조는 기존 규칙을 유지한다. DataList를 쓴다는 이유로 Data Block을 Card로 변경하지 않는다.
+- 완료 시 숨김 포함 원형 구조 보존, 노출 DataList의 Group-C(dataList)·Slot 경유, 실제 컴포넌트 연결과 필요한 콘텐츠 노출을 대조한다. 삭제 방지는 편집 전 기준 구조와 비교해야 하며, 기준 없이 이름만 보는 검사로 삭제 여부를 보장했다고 말하지 않는다.
+
+참조: 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 [기본 원형6130:116723](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6130-116723), [조합25563:70592](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=25563-70592), [DataList 조합6323:178819](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6323-178819). 이번 요청은 규칙 갱신이며 라이브러리 및 기존 작업 화면은 수정하지 않는다.
+
 ## 선택 바텀시트: 두 번째 기본 선택·List48px Fixed (2026-11-09 사용자 재확정)
 
 - 적용 대상은 체크마크로 현재 선택을 표시하는 일반 List형 선택 바텀시트와 계좌 선택형이다.
@@ -901,6 +960,8 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 #### 1. 액션 포함형 카드: `Card / Surface`
 
+- **2026-11-09 우선 규칙**: Slot의 미사용 구조는 삭제하지 않고 눈만 끈다. Card 내부 DataList는 실제 `Card / Body / Group-C(variant: dataList) > Slot > DataList`로 배치한다. 상세는 상단 「Card Slot 구조 보존 및 DataList 조합」을 따른다.
+
 - **라디오 선택형 Card의 Affix Body 배치 (2026-10-28 사용자 확정)**:
   - 승인 참조는 [추가 본인 인증 방법 선택 552:13664](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=552-13664)입니다. 설명을 포함한 Card 자체를 라디오로 선택하는 유형에는 실제 `Card / Surface`와 원형 `Card / Header / Affix (variant: radio)`를 사용합니다. 사용자가 지정한 이 패턴을 GridButton이나 별도 일반 Radio로 임의 대체하지 않습니다. 입력 폼의 SelectButton 규칙과 다른 유형입니다.
   - 노출 구조는 **`Card / Surface > Slot > Body > Groups + Card / Header / Affix > Item / Radio`**입니다. 숨겨진 Absolute Affix를 카드 위에 띄워 쓰지 않고 **Body 안의 일반 Auto Layout 흐름으로 배치하고 노출합니다(`layoutPositioning: AUTO`, `visible: true`)**. 컴포넌트 원형 명칭은 Body 안에서도 변경하지 않습니다.
@@ -1333,7 +1394,7 @@ Container 2 (Vertical, gap12)
 
 - 승인 참조: [3105:17567](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3105-17567), 적용 화면 [3176:21254](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3176-21254).
 - 암호화된 증명서 발급 완료에서 열람비밀번호 안내가 있으면 **Large Feedback의 안내문과 비밀번호 데이터를 분리**한다. `Title+error_text > Text`에는 “발급받은 증명서를 확인할 수 있어요. / 확인 시 아래 열람비밀번호를 확인해주세요.” 안내만 둔다. 개인·사업자의 비밀번호 규칙을 이 Text에 이어 붙이지 않는다.
-- Feedback 내부의 원형 `Card / Surface(type: lightGray, variant: basic)`를 노출하고 `Slot > DataList Group > DataList` 두 줄로 `개인 / 생년월일 6자리`, `사업자 / 사업자번호 10자리`를 표시한다. 실제 항목·값은 기획을 우선한다. 원형 카드 padding20px·radius16px·회색 무테를 유지한다. 이 지정 Feedback 내부 Card는 일반 Data Block의 아웃라인 규칙으로 임의 변환하지 않는다.
+- Feedback 내부의 원형 `Card / Surface(type: lightGray, variant: basic)`를 노출하고 `Slot > Body > Groups > Group` 아래 행별 `Card / Body / Group-C(variant: dataList) > Slot > DataList` 두 줄로 `개인 / 생년월일 6자리`, `사업자 / 사업자번호 10자리`를 표시한다. 실제 항목·값은 기획을 우선한다. 원형 카드 padding20px·radius16px·회색 무테를 유지한다. 이 지정 Feedback 내부 Card는 일반 Data Block의 아웃라인 규칙으로 임의 변환하지 않는다.
 - DataList는 `layout: split, size: 14, hasDivider: false`, 목록 gap12px(`spacing/lg`), Label Hug·Data Fill/우측 정렬이다. 불필요한 suffix·tooltip은 숨기고 원형 KBFG Text 스타일·변수를 보존한다. “생년월일 6자리”처럼 문자와 숫자가 하나의 Text에 섞이면 전체 KBFG Text를 쓴다.
 - `증명서 보기`는 **Card Slot 안에 넣지 않고**, Feedback의 형제 `Slot-buttonGroup`에 `BoxButton(variant: tertiary, size: medium)`으로 둔다. Label/버튼명은 원형 Hug를 유지한다. 순서는 **아이콘 → 제목·안내문 → 비밀번호 카드 → 증명서 보기**이며 Feedback Large의 원형 간격을 따른다.
 - 실제 공개 속성 `hasErrorCode`가 이 Card의 가시성을 제어하므로 이 패턴에서는 `true`로 설정한다. 속성 이름만 보고 오류 코드 문자열을 넣거나 카드를 숨기지 않는다. `hasSubText`, `hasButton`도 true다. 후속 증명서 데이터는 기존 D19의 상단 primary Divider·16px/12px 간격을 유지한다.

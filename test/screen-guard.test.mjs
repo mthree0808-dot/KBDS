@@ -710,3 +710,26 @@ test('planning selection overrides default including multiple or explicitly none
 test('navigation and help patterns do not inherit default selection or fixed48',()=>{
  const s=choiceSheet();choose(s,[]);for(const n of s.items.filter(n=>n.name==='List')){n.layoutSizingVertical='HUG';n.height=70;}assert.equal(check(s,{sheetListPattern:'navigation'}).errors.length,0);
 });
+
+function dataCard(valid=true){
+ const s=page();add(s,component('card','Card / Surface','body'),frames('slot','Slot','card',{type:'SLOT'}),frames('header','Header','slot',{visible:false}),frames('cb','Body','slot'),frames('logo','Logo','cb',{visible:false}),frames('groups','Groups','cb'),frames('group','Group','groups'),frames('footer','Footer','slot',{visible:false}));
+ if(valid)add(s,component('gc','Card / Body / Group-C','group',{componentProperties:{variant:{value:'dataList'}}}),frames('gcslot','Slot','gc',{type:'SLOT'}));
+ add(s,component('data','DataList',valid?'gcslot':'group'));return s;
+}
+function cardBaseline(){return {cardSlotBaselines:[{path:['## BODY','Card / Surface','Slot'],children:[{name:'Header',type:'FRAME'},{name:'Body',type:'FRAME',children:[{name:'Logo',type:'FRAME'},{name:'Groups',type:'FRAME',children:[{name:'Group',type:'FRAME'}]}]},{name:'Footer',type:'FRAME'}]}]};}
+test('Card DataList requires native Group-C dataList and its Slot; standalone Data Block stays independent',()=>{
+ const s=dataCard();assert.equal(check(s).errors.length,0);assert.ok(codes(dataCard(false)).includes('CARD_DATALIST_GROUP_C'));
+ s.items.find(n=>n.id==='gc').componentProperties.variant.value='textList';assert.ok(codes(s).includes('CARD_DATALIST_GROUP_C'));
+ s.items.find(n=>n.id==='gc').type='FRAME';assert.ok(codes(s).includes('CARD_DATALIST_GROUP_C'));
+ const outside=page();add(outside,frames('block','Data Block','body'),component('d','DataList','block'));assert.equal(check(outside).errors.length,0);
+});
+test('Card structure baseline accepts eye-hidden original frames and detects deletion or reparenting',()=>{
+ const c=cardBaseline(),s=dataCard();assert.equal(check(s,c).errors.length,0);
+ s.items=s.items.filter(n=>n.id!=='footer');s.total=s.items.length;assert.ok(codes(s,c).includes('CARD_SLOT_STRUCTURE'));
+ const moved=dataCard();moved.items.find(n=>n.id==='logo').parentId='groups';assert.ok(codes(moved,c).includes('CARD_SLOT_STRUCTURE'));
+ const renamed=dataCard();renamed.items.find(n=>n.id==='header').name='Other';assert.ok(codes(renamed,c).includes('CARD_SLOT_STRUCTURE'));
+});
+test('Card baseline counts repeated same-name Groups including hidden unused ones',()=>{
+ const s=dataCard(),c=cardBaseline();add(s,frames('g2','Group','groups',{visible:false}));c.cardSlotBaselines[0].children[1].children[1].children.push({name:'Group',type:'FRAME'});assert.equal(check(s,c).errors.length,0);
+ s.items=s.items.filter(n=>n.id!=='g2');s.total=s.items.length;assert.ok(codes(s,c).includes('CARD_SLOT_STRUCTURE'));
+});

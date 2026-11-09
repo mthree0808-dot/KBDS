@@ -138,3 +138,9 @@ Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명
 ### 선택 바텀시트 기본 선택·48px Fixed 복원 (2026-11-09)
 
 일반 선택 List는 체크 유무 모두 높이48px·세로Fixed(`SHEET_LIST_FIXED48`)를 검사한다. 기획에서 명시한 선택이 있으면 contract의 `sheetListSelectedIndices`에0-based 인덱스 배열로 지정한다(첫 번째=[0], 첫째·셋째=[0,2], 명시적 미선택=[]). 지정이 없으면 두 번째 List(인덱스1)를 기본 선택하며 hasSuffix와 노출된 Item / Suffix checkMark를 검사한다. 안내 List도 실제 노출 순서에 포함한다. 항목 하나뿐이면 임의 선택하지 않는다. 이동형 pageIndicator 목록은 이 검사에서 제외하며 도움말·이동형 전용 패턴은 확인 후 `sheetListPattern:"navigation"`으로 명시한다. 이 분기는 일반 선택 목록의 오류를 우회하기 위한 용도가 아니다. 문구·구분선·아이콘·기획의 선택 지정 여부와 시각적 외형은 직접 대조한다.
+
+### Card Slot 구조 보존 및 Group-C DataList (2026-11-09)
+
+편집 가능한 Card / Surface 내부의 노출 DataList는 실제 `Card / Body / Group-C(variant:dataList) > Slot` 아래인지 자동 검사한다(`CARD_DATALIST_GROUP_C`). Card 밖 Data Block·Text Box와 숨겨진 미사용 원형은 이 검사를 적용하지 않는다. immutable 상위 컴포넌트 내부를 검사 통과용으로 detach하지 않는다.
+
+삭제·재명명·재부모화·순서 변경 방지는 `contract.cardSlotBaselines`에 편집 전 원형 Slot의 구조를 기록해 검사한다(`CARD_SLOT_STRUCTURE`). 각 원소는 `{path:[실제 Card Slot까지의 이름 경로],children:[{name,type,children?:[...]},...]}`다. FRAME·SLOT은 숨김 포함 재귀 기록하고 native INSTANCE는 이름·타입까지 기록한다. 동명 Group도 개수대로 배열에 남긴다. 검사는 숨긴 노드도 존재 여부를 확인하므로 visible=false는 허용하고, 삭제·누락·다른 부모 이동은 차단한다. 콘텐츠 추가는 허용하며 원형 구조의 존재와 상대 순서를 보존한다. 새로운 파일·variant마다 실제 원형에서 기준을 수집하고, 기준이 없는 스냅샷만으로 과거 삭제 여부를 판정했다고 말하지 않는다. 기획별 노출·폰트·시각 결과는 직접 확인한다.

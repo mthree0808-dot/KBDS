@@ -358,6 +358,31 @@ export function auditScreen(snapshot, contract = {}, rules) {
     }
     return true;
   }
+  for(const n of items.filter(n=>n.type==='INSTANCE'&&n.name==='DataList'&&visible(n))){
+    let p=map.get(n.parentId),card=null,group=null;
+    while(p){if(!group&&p.type==='INSTANCE'&&p.name===rules.cardSlot.dataListGroupComponent)group=p;if(p.type==='INSTANCE'&&p.name==='Card / Surface'){card=p;break;}p=map.get(p.parentId);}
+    if(!card||!authored(card))continue;
+    if(!group||group.componentProperties?.variant?.value!==rules.cardSlot.dataListVariant||!within(n,a=>a.type==='SLOT'&&map.get(a.parentId)?.id===group.id))fail('CARD_DATALIST_GROUP_C',n,'Card 내부 DataList는 실제 Group-C(variant:dataList)의 Slot 안에 배치합니다');
+    checked.push({kind:'card-datalist-group-c',nodeId:n.id,cardId:card.id});
+  }
+  const baselines=contract.cardSlotBaselines??[];
+  if(!Array.isArray(baselines))fail('CONTRACT',root,'cardSlotBaselines는 편집 전 Card Slot 구조 배열입니다');
+  function preserveCardChildren(parent,specs){
+    if(!Array.isArray(specs)){fail('CONTRACT',parent,'보존 children은 이름·타입·선택적 children 배열입니다');return;}
+    const actual=kids(parent);let cursor=0;
+    for(const spec of specs){
+      if(!spec||typeof spec.name!=='string'||typeof spec.type!=='string'){fail('CONTRACT',parent,'보존 구조의 name·type이 필요합니다');continue;}
+      const i=actual.findIndex((n,index)=>index>=cursor&&n.name===spec.name&&n.type===spec.type);
+      if(i<0){fail('CARD_SLOT_STRUCTURE',parent,`원형 구조 ${spec.name}(${spec.type}) 삭제·재명명·재부모화·순서 변경: 삭제하지 않고 눈을 끕니다`);continue;}
+      cursor=i+1;if(spec.children!==undefined)preserveCardChildren(actual[i],spec.children);
+    }
+  }
+  for(const baseline of Array.isArray(baselines)?baselines:[]){
+    if(!baseline||!Array.isArray(baseline.path)||!baseline.path.length||baseline.path.some(p=>typeof p!=='string')){fail('CONTRACT',root,'cardSlotBaselines에는 정확한 Slot path가 필요합니다');continue;}
+    const slot=one(baseline.path);if(!slot)continue;
+    if(slot.type!=='SLOT'||slot.name!=='Slot'||map.get(slot.parentId)?.type!=='INSTANCE'||map.get(slot.parentId)?.name!=='Card / Surface'){fail('CONTRACT',slot,'보존 기준은 실제 Card / Surface 직계 Slot입니다');continue;}
+    preserveCardChildren(slot,baseline.children);checked.push({kind:'card-slot-structure',nodeId:slot.id,includesHidden:true});
+  }
   const stem = n => {const name=n.type === 'TEXT' ? 'Text' : n.type === 'INSTANCE' ? n.name.split(' / ')[0] : n.name;return name==='CheckBox'?'Checkbox':name;};
   const repeatable = new Set(['Text', 'TextList', 'InputField', 'DataList', 'Card', 'Data Block', 'Radio', 'Checkbox', 'List', 'Accordion']);
   const boxUi=n=>n?.type==='INSTANCE'&&(/^(Infobox)(?: \/|$)/.test(n.name)||n.name==='Card / Surface')||n?.type==='FRAME'&&['Infobox Group','Data Block','Data Block Group','Text Box','Text Box Group','Card Group'].includes(n.name);

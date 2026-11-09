@@ -37,6 +37,7 @@
 - Title / Page→ConsentGroup은 실제 경계24px다. 사업자번호·휴대폰 숫자는 Numeric md 스타일의 실제 SemiBold 및 다섯 typography 변수 연결을 보존하고 스타일 적용 뒤 fontName/Bold를 덮어쓰지 않는다. `src/input-numeric.mjs`를 재사용한다. 특정 필드의 별도 TextList 설명은 FooterArea 밖 `InputField / TextList` 또는 `InputField / TextList Group`으로 묶어12px, 목록 내부8px·필드 단위 사이24px를 적용한다. 상세 독립 명세는 `knowledge/input-field-corrections.json`이다.
 - Checkbox/Radio 일반 선택 그룹은 Title / Element→그룹8px·항목 세로8px/가로16px(Grid 행8/열16)와 spacing/md·xl을 적용한다. 종전20px 일괄 규칙은 폐기하며 native 내부·ConsentGroup·CheckSub 규칙은 구분한다. 상세는 원문의 「체크박스·라디오 배치 간격」을 따른다.
 - 선택 List형 바텀시트는 기획에 명시된 선택 항목이 우선이며, 미지정이면 두 번째 List를 hasSuffix true·Item / Suffix checkMark로 설정한다. 체크 유무 모두 높이48px·세로Fixed를 적용한다(2026-11-09 재확정). 도움말·이동형 등 전용 패턴은 구분하고 문구·순서·구분선·아이콘은 기획대로 보존한다.
+- Card / Surface의 Slot 구조는 미사용이어도 삭제하지 않고 눈만 끈다. 해당 variant의 편집 전 구조를 숨김 포함 보존·대조한다. Card 내부 DataList는 실제 Card / Body / Group-C(variant: dataList) > Slot > DataList로 배치하며 독립 Data Block·Text Box에는 확대하지 않는다. 상세 원문의 「Card Slot 구조 보존 및 DataList 조합」을 따른다.
 - 반복 항목은 실제 `[명칭] Group`으로 묶는다. Text·TextList 혼합은 각각 묶고 `Text / TextList Group`, 그 위 제목은 `Title / Contents`로 재판정한다. 구조 변경 후 영향을 받는 부모도 검사한다. 원형 내부 레이어를 일괄 재명명하지 않는다.
 - Title / Section 뒤16px(바텀시트 텍스트12px 예외), Title / TextList Group 간24px, Tab→Infobox / Card16px, 일반 Tab 후24px 등 해당 조합의 최신 간격을 구분한다. 숫자 값과 spacing 토큰을 같이 검사한다.
 - Title / DataList Group 다음에 Infobox Group 등 독립 박스 UI가 오면 외부 간격32px·spacing/5xl을 적용한다. 데이터/박스 내부 간격·패딩과 분리하며 참조173:3046 삭제 후에도 상세 MD의 독립 명세를 따른다.

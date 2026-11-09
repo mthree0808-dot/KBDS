@@ -1,5 +1,9 @@
 # 디자이너 규칙의 적용과 검수
 
+## Card Slot 보존·Group-C DataList (2026-11-09)
+
+Card / Surface의 Slot 원형 구조(Header·Body·Footer·Logo·Groups·Group·Affix 등)는 미사용이어도 삭제하지 않고 visible=false로 숨긴다. 실제 variant의 편집 전 구조·동명 Group 개수·순서·부모를 기록하고 숨김 포함 비교한다. Card 내부 DataList는 반드시 실제 Card / Body / Group-C(variant:dataList) > Slot > DataList로 구성하며 복수 행은 Group-C를 행별 열거한다. 독립 Data Block·Text Box의 구조는 변경하지 않는다. 상세 원문: `docs/sources/designer-ui-rules.md`의 동일 절.
+
 ## 공통 오류 Dialog 최종 틀 (2026-11-03)
 
 [독립 보존 명세](sources/designer-ui-rules.md#공통-오류대표전화자세히보기-dialog-최종-틀-2026-11-03-독립-보존)를 적용합니다. Dialog Area Fill/Fill·중앙 정렬·상단34px(HomeIndicator 높이) 보정과 HomeIndicator AUTO, Dialog Fixed320/Hug, Slot > Item Group(gap8) + 대표전화 Title / Text(gap4)의 gap16, Dialog > Slot/Accordion/ButtonGroup의 gap20을 구분합니다. 번호는 Pretendard SemiBold16/primary·링크 없음, Accordion solid/standard/small/expanded true입니다. 참조4029:1355의 삭제에 의존하지 않고 문구·번호·응답코드는 실제 기획대로 적용하며 다른 단순 Dialog에 블록을 임의 추가하지 않습니다.
@@ -220,7 +224,7 @@
 
 - 승인 참조: [3105:17567](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3105-17567), 적용 화면 [3176:21254](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3176-21254).
 - 암호화된 증명서 발급 완료에서 열람비밀번호 안내가 있으면 **Large Feedback의 안내문과 비밀번호 데이터를 분리**한다. `Title+error_text > Text`에는 “발급받은 증명서를 확인할 수 있어요. / 확인 시 아래 열람비밀번호를 확인해주세요.” 안내만 둔다. 개인·사업자의 비밀번호 규칙을 이 Text에 이어 붙이지 않는다.
-- Feedback 내부의 원형 `Card / Surface(type: lightGray, variant: basic)`를 노출하고 `Slot > DataList Group > DataList` 두 줄로 `개인 / 생년월일 6자리`, `사업자 / 사업자번호 10자리`를 표시한다. 실제 항목·값은 기획을 우선한다. 원형 카드 padding20px·radius16px·회색 무테를 유지한다. 이 지정 Feedback 내부 Card는 일반 Data Block의 아웃라인 규칙으로 임의 변환하지 않는다.
+- Feedback 내부의 원형 `Card / Surface(type: lightGray, variant: basic)`를 노출하고 `Slot > Body > Groups > Group` 아래 행별 `Card / Body / Group-C(variant: dataList) > Slot > DataList` 두 줄로 `개인 / 생년월일 6자리`, `사업자 / 사업자번호 10자리`를 표시한다. 실제 항목·값은 기획을 우선한다. 원형 카드 padding20px·radius16px·회색 무테를 유지한다. 이 지정 Feedback 내부 Card는 일반 Data Block의 아웃라인 규칙으로 임의 변환하지 않는다.
 - DataList는 `layout: split, size: 14, hasDivider: false`, 목록 gap12px(`spacing/lg`), Label Hug·Data Fill/우측 정렬이다. 불필요한 suffix·tooltip은 숨기고 원형 KBFG Text 스타일·변수를 보존한다. “생년월일 6자리”처럼 문자와 숫자가 하나의 Text에 섞이면 전체 KBFG Text를 쓴다.
 - `증명서 보기`는 **Card Slot 안에 넣지 않고**, Feedback의 형제 `Slot-buttonGroup`에 `BoxButton(variant: tertiary, size: medium)`으로 둔다. Label/버튼명은 원형 Hug를 유지한다. 순서는 **아이콘 → 제목·안내문 → 비밀번호 카드 → 증명서 보기**이며 Feedback Large의 원형 간격을 따른다.
 - 실제 공개 속성 `hasErrorCode`가 이 Card의 가시성을 제어하므로 이 패턴에서는 `true`로 설정한다. 속성 이름만 보고 오류 코드 문자열을 넣거나 카드를 숨기지 않는다. `hasSubText`, `hasButton`도 true다. 후속 증명서 데이터는 기존 D19의 상단 primary Divider·16px/12px 간격을 유지한다.
