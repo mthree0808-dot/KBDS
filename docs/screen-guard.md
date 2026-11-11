@@ -144,3 +144,11 @@ Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명
 편집 가능한 Card / Surface 내부의 노출 DataList는 실제 `Card / Body / Group-C(variant:dataList) > Slot` 아래인지 자동 검사한다(`CARD_DATALIST_GROUP_C`). Card 밖 Data Block·Text Box와 숨겨진 미사용 원형은 이 검사를 적용하지 않는다. immutable 상위 컴포넌트 내부를 검사 통과용으로 detach하지 않는다.
 
 삭제·재명명·재부모화·순서 변경 방지는 `contract.cardSlotBaselines`에 편집 전 원형 Slot의 구조를 기록해 검사한다(`CARD_SLOT_STRUCTURE`). 각 원소는 `{path:[실제 Card Slot까지의 이름 경로],children:[{name,type,children?:[...]},...]}`다. FRAME·SLOT은 숨김 포함 재귀 기록하고 native INSTANCE는 이름·타입까지 기록한다. 동명 Group도 개수대로 배열에 남긴다. 검사는 숨긴 노드도 존재 여부를 확인하므로 visible=false는 허용하고, 삭제·누락·다른 부모 이동은 차단한다. 콘텐츠 추가는 허용하며 원형 구조의 존재와 상대 순서를 보존한다. 새로운 파일·variant마다 실제 원형에서 기준을 수집하고, 기준이 없는 스냅샷만으로 과거 삭제 여부를 판정했다고 말하지 않는다. 기획별 노출·폰트·시각 결과는 직접 확인한다.
+
+
+### 방향 변경·시스템바·어노테이션 검사 (2026-11-11)
+
+- `TITLE_BUTTON_SIZING`: 편집 가능한 `Title / TextButton` 가로 래퍼의 Fill/Hug를 검사한다. `CONTENT_WRAPPER_HEIGHT`: 편집 가능한 Horizontal 콘텐츠 래퍼에서 보이는 AUTO 자식이 부모의 실제 y/height 경계를 넘는지 검사한다. native 내부·숨김·Absolute 장식은 제외하며 모든 디자인의 겹침을 자동 판정하는 검사는 아니다.
+- `SYSTEM_BAR_OS`: 존재하는 StatusBar의 `variant:iOS / mode:light`, HomeIndicator의 `os:iOS` 공개 속성을 검사한다. 사용자에게 Android 작업 지시를 받은 경우에만 `contract.systemBarOS:"Android"`를 명시한다(StatusBar Android, HomeIndicator AOS). 폰트 오류를 우회하기 위한 옵션이 아니다. 시스템 폰트 가용성·native 높이/안전영역·외형은 직접 확인한다. 시스템바 자체의 필수 존재는 해당 화면의 경로 계약으로 검사한다.
+- `UNREVIEWED_ANNOTATION`: collector가 `annotations`를 수집하며 보이는 노드의 미확인 주석을 차단한다. 업무상 필요한 기존 주석은 `contract.annotationAllowlist:[{path:[실제 이름 경로],labels:[정확한 labelMarkdown 또는 label],reason:"유지 근거"}]`로 특정한다. 경로·내용이 바뀌면 다시 확인하며 주석 전체를 포괄 허용하지 않는다. 숨김 노드의 주석·유입 출처는 별도 대조한다. 검사는 주석을 자동 삭제하지 않는다.
+- 알려드립니다의 대응 승인 Prefix 크기·Slot/Title Area 패딩 등은 실제 경로의 `contract.checks`와 직접 대조로 확인한다. 위 자동 검사와 기존 공통 검사 통과만으로 승인 템플릿 전체 일치·원문·시각 검수가 완료됐다고 보고하지 않는다.

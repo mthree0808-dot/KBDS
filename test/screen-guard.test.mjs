@@ -10,7 +10,8 @@ import {auditScreen, screenRules as rules, screenAuditScript, guardBuildScript} 
 
 const frames = (id, name, parentId, extra = {}) => ({id, name, parentId, type:'FRAME', visible:true, opacity:1,
   layoutMode:'VERTICAL', layoutPositioning:'AUTO', width:390, height:40, itemSpacing:0, paddingTop:0,paddingRight:0,paddingBottom:0,paddingLeft:0, fills:[], ...extra});
-const component = (id,name,parentId,extra={}) => frames(id,name,parentId,{type:'INSTANCE',component:{key:`key-${name}`},...extra});
+const component = (id,name,parentId,extra={}) => frames(id,name,parentId,{type:'INSTANCE',component:{key:`key-${name}`},
+  ...(name==='HomeIndicator'?{componentProperties:{os:{value:'iOS'}}}:name==='StatusBar'?{componentProperties:{variant:{value:'iOS'},mode:{value:'light'}}}:{}),...extra});
 const fill = key => [{type:'SOLID',visible:true,opacity:1,color:{r:1,g:1,b:1},boundVariables:{color:{type:'VARIABLE_ALIAS',id:key}}}];
 function snapshot(items) {
   return {fileKey:'Target',pageId:'page',rootId:'root',complete:true,total:items.length,items,
@@ -34,6 +35,30 @@ function textNode(id,value,parentId,extra={}) {
 const add = (s,...items) => {s.items.push(...items);s.total=s.items.length;return s;};
 const check = (s,c={}) => auditScreen(s,c,rules);
 const codes = (s,c={}) => check(s,c).errors.map(e=>e.code);
+test('system bars reject Android fallback, mixed OS and missing public properties',()=>{
+ const s=add(page(),component('status','StatusBar','head'));assert.equal(check(s).errors.length,0);
+ s.items.find(n=>n.id==='status').componentProperties.variant.value='Android';assert.ok(codes(s).includes('SYSTEM_BAR_OS'));
+ s.items.find(n=>n.id==='home').componentProperties.os.value='AOS';assert.ok(!codes(s,{systemBarOS:'Android'}).includes('SYSTEM_BAR_OS'));
+ delete s.items.find(n=>n.id==='home').componentProperties;assert.ok(codes(s).includes('SYSTEM_BAR_OS'));
+ assert.ok(codes(s,{systemBarOS:'arbitrary'}).includes('CONTRACT'));
+});
+test('Title / TextButton direction change cannot leave a 1px Fixed wrapper',()=>{
+ const s=add(page(),frames('row','Title / TextButton','body',{layoutMode:'HORIZONTAL',height:1,layoutSizingHorizontal:'FILL',layoutSizingVertical:'FIXED',itemSpacing:16,boundVariables:{itemSpacing:{id:rules.spacing[16]}}}),component('title','Title / Section','row',{y:-10.5,height:22}),component('button','TextButton','row',{y:-9.5,height:20}));
+ assert.ok(codes(s).includes('TITLE_BUTTON_SIZING'));assert.ok(codes(s).includes('CONTENT_WRAPPER_HEIGHT'));
+ Object.assign(s.items.find(n=>n.id==='row'),{height:22,layoutSizingVertical:'HUG'});s.items.find(n=>n.id==='title').y=0;s.items.find(n=>n.id==='button').y=1;
+ assert.equal(check(s).errors.length,0);
+});
+test('wrapper bounds ignore hidden and absolute decoration and native component internals',()=>{
+ const s=add(page(),frames('row','Title / TextButton','body',{layoutMode:'HORIZONTAL',height:22,layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG'}),component('title','Title / Section','row',{y:0,height:22}),frames('hidden','Decoration','row',{visible:false,y:-20}),frames('abs','Decoration','row',{layoutPositioning:'ABSOLUTE',y:-20}),component('native','Native','body'),frames('inner','Title / TextButton','native',{layoutMode:'HORIZONTAL',height:1}),frames('nativechild','Child','inner',{y:-20}));
+ assert.equal(check(s).errors.length,0);
+});
+test('annotations require exact content and a documented path-specific preservation reason',()=>{
+ const s=add(page(),textNode('note','취소','head',{annotations:[{label:'버전 메모',labelMarkdown:'**버전 메모**'}]}));
+ assert.ok(codes(s).includes('UNREVIEWED_ANNOTATION'));
+ const c={annotationAllowlist:[{path:['## HEADER','Content'],labels:['**버전 메모**'],reason:'요청된 인수인계 주석'}]};assert.equal(check(s,c).errors.length,0);
+ c.annotationAllowlist[0].labels=['다른 내용'];assert.ok(codes(s,c).includes('UNREVIEWED_ANNOTATION'));
+ c.annotationAllowlist[0].reason='';assert.ok(codes(s,c).includes('CONTRACT'));
+});
 test('page Containers inside structural wrappers keep their order and padding ownership',()=>{
  const s=page();add(s,frames('contents','Contents','body'),frames('c1','Container 1','contents'),component('step','StepIndicator','c1'),
  frames('c2','Container 2','contents',{paddingLeft:20,paddingRight:20,boundVariables:{paddingLeft:{id:rules.spacing[20]},paddingRight:{id:rules.spacing[20]}}}),

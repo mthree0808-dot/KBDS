@@ -140,6 +140,23 @@ export function auditScreen(snapshot, contract = {}, rules) {
   if (contract.dialogPattern!==undefined && contract.dialogPattern!=='phone-details') fail('CONTRACT',root,'지원하지 않는 dialogPattern입니다');
   if (!['page', 'popup', 'pdf', 'dialog', 'bottom-sheet', 'layout'].includes(screenType)) fail('SCREEN_TYPE', root, '화면 유형을 판정할 수 없습니다. screenType을 명시하세요');
   if (screenType !== 'layout' && screenType) paint(root, rules.colors.white);
+  const systemOS=contract.systemBarOS??'iOS';
+  if(!['iOS','Android'].includes(systemOS))fail('CONTRACT',root,'systemBarOS는 사용자 지정이 있을 때만 iOS 또는 Android로 명시합니다');
+  if(screenType!=='layout')for(const n of items.filter(n=>n.type==='INSTANCE'&&visible(n)&&['StatusBar','HomeIndicator'].includes(n.name))){
+    const p=n.componentProperties??{},expected=n.name==='StatusBar'?systemOS:systemOS==='Android'?'AOS':'iOS';
+    if((n.name==='StatusBar'?p.variant?.value:p.os?.value)!==expected||n.name==='StatusBar'&&p.mode?.value!=='light')fail('SYSTEM_BAR_OS',n,'StatusBar iOS/light·HomeIndicator iOS를 유지합니다. 폰트 오류로 OS를 대체하지 않습니다');
+    checked.push({kind:'system-bar-os',nodeId:n.id,expected});
+  }
+  const notes=contract.annotationAllowlist??[],allowedNotes=new Map();
+  if(!Array.isArray(notes))fail('CONTRACT',root,'annotationAllowlist는 실제 경로·labels·유지 근거 배열입니다');
+  for(const note of Array.isArray(notes)?notes:[]){
+    if(!note||!Array.isArray(note.path)||!note.path.length||note.path.some(x=>typeof x!=='string')||!Array.isArray(note.labels)||!note.labels.length||note.labels.some(x=>typeof x!=='string'||!x.trim())||typeof note.reason!=='string'||!note.reason.trim()){fail('CONTRACT',root,'어노테이션 유지에는 실제 path, 정확한 labels, reason이 필요합니다');continue;}
+    const n=one(note.path);if(n)allowedNotes.set(n.id,new Set(note.labels));
+  }
+  for(const n of items.filter(n=>visible(n)&&(n.annotations??[]).length)){
+    if(n.annotations.some(a=>!allowedNotes.get(n.id)?.has(a.labelMarkdown??a.label??'')))fail('UNREVIEWED_ANNOTATION',n,'사용자 주석과 버전 메모를 구분하고 미확인 어노테이션을 정리합니다');
+    checked.push({kind:'annotations',nodeId:n.id,count:n.annotations.length});
+  }
   if (screenType === 'page') {
     one(['## HEADER']); one(['## BODY']);
     const footers = roots.filter(n => ['## FOOTER', 'Footer'].includes(n.name));
@@ -357,6 +374,12 @@ export function auditScreen(snapshot, contract = {}, rules) {
       p = map.get(p.parentId);
     }
     return true;
+  }
+  for(const n of items.filter(n=>n.type==='FRAME'&&visible(n)&&authored(n)&&n.layoutMode==='HORIZONTAL')){
+    const content=kids(n).filter(c=>visible(c)&&c.layoutPositioning!=='ABSOLUTE');
+    if(!content.length)continue;
+    if(n.name==='Title / TextButton'&&(n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'))fail('TITLE_BUTTON_SIZING',n,'Title / TextButton은 Horizontal Fill/Hug이며 방향 변경 후 sizing을 재설정합니다');
+    if(content.some(c=>typeof c.y==='number'&&typeof c.height==='number'&&(c.y<-.1||c.y+c.height>n.height+.1)))fail('CONTENT_WRAPPER_HEIGHT',n,'콘텐츠 자식이 부모 높이 밖으로 넘칩니다. 초기화용1px Fixed 높이를 남기지 않습니다');
   }
   for(const n of items.filter(n=>n.type==='INSTANCE'&&n.name==='DataList'&&visible(n))){
     let p=map.get(n.parentId),card=null,group=null;

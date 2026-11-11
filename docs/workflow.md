@@ -1,5 +1,9 @@
 # 작업 실행 절차
 
+## 제작 코드 재사용과 완료 판정 교정 (2026-11-11)
+
+[독립 명세](sources/designer-ui-rules.md#제작-코드-재사용과-완료-판정-교정-2026-11-11)를 적용한다. 임시 우회 코드의 재사용을 중단하고 방향 변경 후 sizing·자식 경계를 확인한다. iOS 시스템바를 유지하고 폰트 오류로 OS를 바꾸지 않는다. 어노테이션의 유지 근거와 알려드립니다의 대응 승인 규격을 실제 속성·최종 화면에서 대조한다. 자동검사 통과만으로 전체 검수 완료라고 보고하지 않는다.
+
 ## Card Slot 보존·Group-C DataList (2026-11-09)
 
 Card / Surface의 Slot 원형 구조(Header·Body·Footer·Logo·Groups·Group·Affix 등)는 미사용이어도 삭제하지 않고 visible=false로 숨긴다. 실제 variant의 편집 전 구조·동명 Group 개수·순서·부모를 기록하고 숨김 포함 비교한다. Card 내부 DataList는 반드시 실제 Card / Body / Group-C(variant:dataList) > Slot > DataList로 구성하며 복수 행은 Group-C를 행별 열거한다. 독립 Data Block·Text Box의 구조는 변경하지 않는다. 상세 원문: `docs/sources/designer-ui-rules.md`의 동일 절.
