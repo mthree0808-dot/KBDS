@@ -676,13 +676,22 @@ test('data and box in different Containers still measure actual32 rather than co
   assert.ok(codes(s).includes('DATA_BOX_GAP'));s.items.find(n=>n.id==='box').absoluteBoundingBox.y=156;assert.equal(check(s).errors.length,0);
 });
 
-test('approved Sorting Group keeps native controls in order and12 token without losing selector layout checks',()=>{
+function queryControlsFixture(){
  const s=page(),layout={layoutMode:'VERTICAL',layoutPositioning:'AUTO',layoutSizingHorizontal:'FILL',layoutSizingVertical:'HUG',itemSpacing:12,boundVariables:{itemSpacing:{id:rules.spacing[12]}}};
- add(s,frames('sort','Sorting Group','body',layout),component('period','SegmentedControl','sort'),component('range','InputField','sort'),component('query','BoxButton','sort'));
- assert.equal(check(s).errors.length,0);
+ add(s,frames('form','InputField / Contents','body',{...layout,itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}}),component('account','InputField','form'),frames('sort','SegmentedControl / Contents','form',layout),component('period','SegmentedControl','sort'),component('range','InputField','sort'),component('query','BoxButton','sort'));return s;
+}
+test('query controls and compound parent use actual Contents names with12/24 tokens',()=>{
+ const s=queryControlsFixture();assert.equal(check(s).errors.length,0);
  s.items.find(n=>n.id==='sort').layoutMode='HORIZONTAL';assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
  s.items.find(n=>n.id==='sort').layoutMode='VERTICAL';s.items.find(n=>n.id==='sort').itemSpacing=24;assert.ok(codes(s).includes('GAP'));
- s.items.find(n=>n.id==='query').name='TextButton';assert.ok(codes(s).includes('SORTING_GROUP'));assert.ok(codes(s).includes('SELECTOR_CONTENT_GROUP'));
+ s.items.find(n=>n.id==='sort').itemSpacing=12;s.items.find(n=>n.id==='form').itemSpacing=12;assert.ok(codes(s).includes('GAP'));
+});
+test('former Sorting Group exception and mechanically joined parent names are blocked',()=>{
+ const s=queryControlsFixture();s.items.find(n=>n.id==='sort').name='Sorting Group';s.items.find(n=>n.id==='form').name='InputField / Sorting Group';
+ for(const code of ['DEPRECATED_GROUP_NAME','CONTENTS_NAME','COMPLEX_PARENT_NAME'])assert.ok(codes(s).includes(code),code);
+ s.items.find(n=>n.id==='sort').name='SegmentedControl / Contents';assert.ok(codes(s).includes('COMPLEX_PARENT_NAME'));
+ s.items.find(n=>n.id==='form').name='InputField / SegmentedControl / Contents';assert.ok(codes(s).includes('COMPLEX_PARENT_NAME'));
+ s.items.find(n=>n.id==='form').name='InputField / Contents';assert.equal(check(s).errors.length,0);
 });
 
 test('Checkbox Group accepts native CheckBox spelling and wrapper names without renaming components',()=>{

@@ -26,6 +26,7 @@
 
 ## 누락을 막는 핵심 확인
 
+- 복합 부모명은 실제 구성에서 계산한다. 조회기간 SegmentedControl + InputField + BoxButton은 `SegmentedControl / Contents`(gap12), 앞선 InputField까지 아우르는 부모는 `InputField / Contents`(gap24)다. 과거 `Sorting Group` 특례는 폐기한다. 자식의 복합 이름을 그대로 이어 붙이지 않으며, 하위 구조/이름 변경 후 상위 부모까지 재판정한다.
 - 레이어 정리는 기존 Container 수·부모·순서·분할을 기록하고 보존한다. Tab 그룹핑 삭제를 근거로 병합·Infobox / Contents 재포장하지 않는다. 허용 범위만 편집하고 직계 자식 계약으로 임의 병합·래퍼 추가를 차단한다. 승인된 전폭/자체 인셋은 경로별 근거로 검사하며 통과를 위해 구조·native 내부 패딩을 바꾸지 않는다.
 
 - `## BODY`는 padding0이다. 일반 Container 좌우20px·전폭 UI 외부 래퍼 좌우0px, 첫 Container 상단 일반24px·Feedback/상단 아이콘40px(맨 앞이 StepIndicator/1depth Tab이면0)를 적용한다. 단일 Container도 콘텐츠 증가에 대비해 하단32px·spacing/5xl을 선적용한다. 복수일 때는 마지막만 하32px다. 과거 BODY 자체 패딩·상단16 예외보다 새 규칙을 우선하며 키패드·패턴 Popup Body도 padding0·첫 Container 상단24이며, PDF/다른 Popup Body·BottomSheet Slot·원형 내부는 구분한다.

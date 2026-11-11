@@ -1,5 +1,24 @@
 # UI Design & Code Generation Rules
 
+## 실제 하위 구성에 따른 복합 부모명 (2026-11-11 사용자 교정)
+
+기존 복합 명명 공식을 제작과 검사에 동일하게 적용한다. 과거 조회 컨트롤의 `Sorting Group` 특례는 폐기하며 아래 구조를 우선한다. 승인5199:6388의 Container 2와 교정 대상5206:48의 차이는 부모 두 곳의 명칭이며, 해당 수정에서 기존 계층·순서·패딩·간격·컴포넌트는 유지한다.
+
+```text
+Container 2
+└─ InputField / Contents (Vertical / Fill·Hug / gap24)
+   ├─ InputField — 출금계좌번호
+   └─ SegmentedControl / Contents (Vertical / Fill·Hug / gap12)
+      ├─ SegmentedControl — 조회기간
+      ├─ InputField — 날짜 범위
+      └─ BoxButton — 조회
+```
+
+- 세 종류 이상의 콘텐츠를 묶는 부모는 `[첫 구성의 대표 명칭] / Contents`다. 목적만 표현하는 Sorting Group 같은 별칭으로 일반 공식을 우회하지 않는다.
+- 직계 자식이 두 개라도 둘째가 서로 다른 종류를 묶은 복합 콘텐츠라면 상위 부모는 `[첫 구성의 대표 명칭] / Contents`로 재판정한다. 이 사례의 `InputField / Sorting Group`, `InputField / SegmentedControl / Contents`는 오답이다. 자식 이름을 문자열처럼 이어 붙이지 않는다.
+- 같은 종류의 단순 반복은 기존 `[명칭] Group`을 유지한다. TextList Group 같은 동종 목록·단수 래퍼를 모두 Contents로 바꾸지 않고, 페이지 Container 수·순서·분할과 native 내부 이름도 유지한다.
+- 제작 시 실제 직계 자식의 종류·복합 여부로 이름을 정하고, 구조나 하위 이름을 바꾸면 영향을 받는 상위 부모까지 다시 계산한다. 자동검사도 이 구조에서 두 부모명과12/24px·토큰을 함께 검사한다. 기존 오류 이름을 정상으로 받아들이던 테스트는 교정된 구조와 오류 재현 사례로 교체한다.
+
 ## 단일 화면 제작 절차 단축과 시스템 폰트 예외 (2026-11-11 사용자 확정)
 
 기획 확인·도구 대기·제작·필수 검수를 포함해 단일 화면3분 이내를 목표로 한다. 시간 보장이나 검수 생략을 뜻하지 않는다. 다음은 이번 조회 과다·매번 재조립·기본 문구 잔존에 대한 실행 교정이며 새 채팅 전환 등 철회된 별도 절차를 복원하지 않는다.
@@ -916,9 +935,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **타이틀 관련 레이아웃 규칙**:
   - **Title / Page 직후 Description 노출 시**: `Title / Page` 하위 레이어 중 **`Description`** 레이어의 가시성(눈 아이콘)을 활성화하여 사용합니다.
   - **Title / Section 우측에 버튼이 위치할 때**: 두 요소를 오토레이아웃으로 그룹핑하고 레이어명을 **`Container Title`** (Flow: **`horizontal`**, Auto Layout **`gap: 8px` (`md`)**, Alignment: **`align left`**)로 설정합니다.
-- **조회 컨트롤 및 Sorting Group 패턴**:
+- **조회 컨트롤 복합 패턴**:
   - `SegmentedControl (조회기간)` + `InputField` + `BoxButton (size: medium, variant: secondary)`이 함께 그룹핑될 때:
-    - 오토레이아웃 레이어명: **`Sorting Group`**
+    - 오토레이아웃 레이어명: **`SegmentedControl / Contents`**
     - 간격: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
 - **안내 문구 컴포넌트 분기 매핑 규칙**:
   - **Card / Surface 다음에 안내성 문구가 노출될 때**: **`Infobox / Basic`** 컴포넌트로 매핑하여 배치합니다.
@@ -1365,7 +1384,7 @@ Container 2 (Vertical, gap12)
 - **`InputField`, `SelectButton` 등과 하단 `Infobox / Card` 사이 간격**: Auto Layout **`gap: 20px` (`2xl`)** 적용
 - **버튼 영역 (`Button Area`) 속성**: Auto Layout **`gap: 0px`**, 필요에 따라 **`align center`**, **`align right`** 적용
 - **입력 폼 하단 항목추가 버튼 (`Button Area` 또는 `BoxButton`)과 상단 항목 간격**: Auto Layout **`gap: 24px` (`3xl`)** 적용
-- **조회 컨트롤 그룹 (`Sorting Group`) 내부 간격**: Auto Layout **`gap: 12px` (`lg`)** 적용
+- **조회 컨트롤 그룹 (`SegmentedControl / Contents`) 내부 간격**: Auto Layout **`gap: 12px` (`lg`)** 적용
 - **`TextList (size: 14, depth: 1)` + `TextList` 결합 간격**: 내부 Auto Layout **`gap: 8px` (`md`)** 적용
 - **`Table Group` 내부 간격**: Auto Layout **`gap: 1px` (`3xs` 토큰)** 적용
 - **`TextList Group` 내부 간격 (복수 TextList 결합 시)**: 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
@@ -1508,7 +1527,7 @@ Container 2 (Vertical, gap12)
    - 안내 문구는 위치에 따라 `Card / Surface` 다음은 `Infobox / Basic`, 입력 폼 내는 `Infobox / Solid (size: medium)`, 인풋 하단 배치는 `gap: 20px`의 `Infobox / Card`로 매핑합니다.
    - `Infobox / Card`의 단일 항목은 불릿을 생략하고 `Dynamic/Body/xs∙14∙Light`, `text/neutral/tertiary`로 적용합니다.
    - 본문 내 버튼 요소 및 더보기(`Pagination / Basic`)는 **`Button Area` (gap: 0px, align center/right)** 오토레이아웃 프레임으로 배치합니다.
-   - 조회 컨트롤 그룹은 `Sorting Group (gap: 12px)`으로 묶습니다.
+   - 조회 컨트롤 그룹은 `SegmentedControl / Contents (gap: 12px)`으로 묶습니다.
    - `CheckBox`는 `CheckBox (gap: 0)` 및 하위 `CheckSub (gap: 20px, padding: 16px 0 12px / 마지막 16px 0 0)`으로 감쌉니다.
    - 단독 컴포넌트(`StepIndicator`, `Tab` 등)라도 반드시 `Container [순번]`으로 감싸며, Figma 기본 10px gap은 0으로 제거합니다.
    - `InputField` 필수/안내 설정:

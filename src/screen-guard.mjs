@@ -455,14 +455,20 @@ export function auditScreen(snapshot, contract = {}, rules) {
   }
   for (const n of items.filter(n => n.type === 'FRAME' && authored(n) && visible(n))) {
     const cs = kids(n).filter(c => visible(c) && c.layoutPositioning !== 'ABSOLUTE');
-    const sortingGroup=n.name==='Sorting Group'&&cs.length===3&&cs.every(c=>c.type==='INSTANCE')&&selectorName(cs[0])==='SegmentedControl'&&cs[1].name==='InputField'&&cs[2].name==='BoxButton';
-    if(n.name==='Sorting Group'){
-      if(!sortingGroup)fail('SORTING_GROUP',n,'Sorting Group은 SegmentedControl·InputField·BoxButton 순서의 실제 조회 컨트롤 조합입니다');
+    const queryControls=cs.length===3&&cs.every(c=>c.type==='INSTANCE')&&selectorName(cs[0])==='SegmentedControl'&&cs[1].name==='InputField'&&cs[2].name==='BoxButton';
+    if(n.name==='Sorting Group')fail('DEPRECATED_GROUP_NAME',n,'Sorting Group 특례는 폐기됐습니다. 실제 구성으로 복합 부모명을 판정합니다');
+    if(queryControls){
+      if(n.name!=='SegmentedControl / Contents')fail('CONTENTS_NAME',n,'세 조회 컨트롤의 부모명은 SegmentedControl / Contents입니다');
       spacing(n,12);
+    }
+    const second=cs[1],nested=second?.type==='FRAME'?kids(second).filter(c=>visible(c)&&c.layoutPositioning!=='ABSOLUTE'):[];
+    if(cs.length===2&&cs[0].type==='INSTANCE'&&nested.length>=2&&new Set(nested.map(stem)).size>1&&n.name.includes(' / ')){
+      const expected=stem(cs[0])+' / Contents';
+      if(n.name!==expected)fail('COMPLEX_PARENT_NAME',n,'복합 콘텐츠를 포함하는 상위 부모명은 '+expected+'입니다. 자식 이름을 그대로 이어 붙이지 않습니다');
     }
     for (const selector of cs.filter(c=>selectorName(c)&&selectorName(c)!=='Tab')) {
       const prefix=selectorName(selector);
-      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||(!n.name.startsWith(`${prefix} / `)&&!sortingGroup)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'Segment·Chip은 후속 콘텐츠와 실제 Vertical / Fill·Hug / AUTO 복합 그룹으로 묶고 구조에 맞게 명명합니다');
+      if (n.layoutMode!=='VERTICAL'||n.layoutPositioning!=='AUTO'||n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG'||!n.name.startsWith(`${prefix} / `)||cs[0]?.id!==selector.id||cs.length<2) fail('SELECTOR_CONTENT_GROUP',selector,'Segment·Chip은 후속 콘텐츠와 실제 Vertical / Fill·Hug / AUTO 복합 그룹으로 묶고 구조에 맞게 명명합니다');
     }
     if (n.name === 'ConsentFinal / StickyButton') consentComposite(n);
     if (!cs.length) continue;

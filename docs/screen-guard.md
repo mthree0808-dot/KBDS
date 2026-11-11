@@ -118,9 +118,9 @@ Container의 첫 보이는 일반 흐름 경로를 따라 StepIndicator/1depth T
 
 `knowledge/input-field-corrections.json`은 삭제 가능한 교정 화면의 독립 명세다. 숫자 입력은 `src/input-numeric.mjs` helper에 import한 최신 숫자 스타일을 전달해 적용하며, 스타일 적용 후 fontName/Bold를 다시 덮어쓰지 않는다. 실제 사업자번호·휴대폰 값 Text는 기본 Numeric md SemiBold 및 다섯 변수 연결을 검사하고, 구분자만 있는 Text는 native 스타일을 보존한다. 동적 확대 모드를16px로 고정하지 않는다. 필드 설명 TextList는 FooterArea 밖12px이며 전체 InputField Group 뒤 일반 TextList24px와 구분한다. 제목/약관이 분리된 Container에 있으면 absoluteBoundingBox로 실제 간격을 측정하므로 Container의 gap 값만 보고 통과시키지 않는다. 검사는 조회 전용이며 Container 병합·기획 값 변경을 자동 수행하지 않는다.
 
-### 기존 조회 컨트롤 Sorting Group 지원 (2026-11-05)
+### 조회 컨트롤 복합 부모명 교정 (2026-11-11)
 
-상세 MD의 기존 Sorting Group 규칙을 공통 검사에도 적용한다. 실제 native SegmentedControl → InputField → BoxButton의 세 자식 순서, Vertical·Fill/Hug·AUTO 및 gap12·spacing/lg를 검사한다. 이 정확한 조합에서만 Sorting Group 명칭을 허용하며, 이름만 바꾸거나 임의 Segment/Chip 조합의 검사를 우회하지 않는다.
+과거 Sorting Group 허용 특례를 폐기한다. 실제 native SegmentedControl → InputField → BoxButton 조합은 SegmentedControl / Contents라는 부모명과 Vertical·Fill/Hug·AUTO·gap12/spacing/lg를 검사한다(CONTENTS_NAME). 앞선 InputField와 이 복합 콘텐츠를 묶는 상위 부모는 InputField / Contents·gap24/spacing/3xl이다(COMPLEX_PARENT_NAME). Sorting Group은 DEPRECATED_GROUP_NAME으로 차단한다. 같은 종류의 단순 반복 그룹과 페이지 Container, native 내부는 재명명 대상이 아니다.
 
 ### 기존 CheckBox·구분선 입력 조합 판정 보완 (2026-11-05)
 
