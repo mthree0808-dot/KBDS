@@ -77,7 +77,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
         if (before.name==='TextList Group') spacing(before,rules.notice.listGap);
         else if (/^TextList/.test(before.name)&&siblings.filter(n=>/^TextList/.test(n.name)).length>1) fail('NOTICE_LIST_GROUP',parent,'복수 TextList는 TextList Group으로 묶습니다');
       }
-      for (const button of items.filter(n=>n.name==='TextButton'&&visible(n)&&within(n,a=>a.id===area.id))) if(button.componentProperties?.size?.value!==rules.notice.buttonSize) fail('NOTICE_BUTTON_SIZE',button,'알려드립니다 TextButton size small 필요');
+      for (const button of items.filter(n=>n.name==='TextButton'&&visible(n)&&within(n,a=>a.id===area.id))) if(button.componentProperties?.size?.value!==rules.notice.buttonSize) fail('NOTICE_BUTTON_SIZE',button,'알려드립니다 TextButton size xsmall 필요');
     }
   }
   if (!rules?.version || !rules?.colors || !rules?.spacing) fail('RULES', root, '공통 규칙 파일이 없거나 불완전합니다');

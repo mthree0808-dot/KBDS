@@ -47,7 +47,7 @@
 - Popup 내부는 Header/Body/Footer다. 일반 화면은 직계 ## HEADER/## BODY/## FOOTER를 기본으로 하며 사용자 승인 Footer 예외를 따른다. 하단 약관은 `Footer > ConsentFinal / StickyButton` 안에 `ConsentFinal` 래퍼(좌우20px) > 실제 ConsentFinal 인스턴스, 실제 StickyButton을 순서대로 배치한다. 그룹은 Vertical·Fill/Hug·AUTO·padding0·gap24이며 원문 「하단 고정 약관과 CTA의 복합 그룹」을 따른다. 참조4023:518에서는 이 그룹만 기준으로 삼고 다른 영역·문구·선택/버튼 상태는 기획대로 적용한다.
 - 공통 오류·대표전화·응답코드 Dialog는 원문 「공통 오류·대표전화·자세히보기 Dialog 최종 틀」을 따른다. Dialog Area Fill/Fill·중앙 정렬·상단 HomeIndicator 높이 보정, 실제 Dialog Fixed320/Hug, Item Group(8)과 대표전화 Title / Text(4)의 Slot 간격16, Dialog 형제 간격20, 번호 Pretendard SemiBold16/primary, 펼친 solid/small Accordion을 적용한다. 승인 화면4029:1355 삭제 후에도 독립 명세를 쓰며 예시 문구·코드를 전역 복사하지 않는다.
 - HomeIndicator elevated Fill은 Dialog에서만 숨기고 다른 화면에서는 노출한다. 바텀시트는 Dimmed·StatusBar만 Absolute, BottomSheet·HomeIndicator는 AUTO다. 오버레이 뒤의 이전 화면을 재현하지 않는다.
-- 알려드립니다는 항상 펼친다. solid-info-circle은 icon/neutral/secondary, TextList Group 내부8px·하단 Button Area까지12px, 우측 TextButton secondary/small을 적용한다. 긴 약관 전체 노출과 고정 PDF 뷰어는 별도 유형으로 구분하고 상세 MD의 높이·Pagination·Footer 규칙을 따른다.
+- 알려드립니다는 항상 펼친다. solid-info-circle은 icon/neutral/secondary, TextList Group 내부8px·하단 Button Area까지12px, 우측 TextButton secondary/xsmall을 적용한다. 긴 약관 전체 노출과 고정 PDF 뷰어는 별도 유형으로 구분하고 상세 MD의 높이·Pagination·Footer 규칙을 따른다.
 - 긴 약관 PDF의 마지막 콘텐츠와 Footer는 실제 간격0px로 붙인다. PDF Document 하단 패딩은 Footer 높이−body 하단 패딩으로 계산하며 레이아웃에 포함된 내부 하단 테두리도 차감한다(테두리 없음114px, INSIDE1px 포함113px). 이전146px·추가32px 공백을 복제하지 않고 마지막 문구의 비가림도 확인한다.
 
 ## 규칙 변경 시 유지보수
