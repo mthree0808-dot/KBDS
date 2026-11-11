@@ -35,6 +35,19 @@ function textNode(id,value,parentId,extra={}) {
 const add = (s,...items) => {s.items.push(...items);s.total=s.items.length;return s;};
 const check = (s,c={}) => auditScreen(s,c,rules);
 const codes = (s,c={}) => check(s,c).errors.map(e=>e.code);
+test('native iOS SF Pro Text Semibold warning is accepted without replacing the component',()=>{
+ const spec=rules.nativeStatusBarFontException,s=add(page(),component('status','StatusBar','head',{component:{key:spec.componentKey}}),textNode('clock','9:41','status',{hasMissingFont:true,segments:[{characters:'9:41',fontName:{family:spec.fontFamily,style:spec.fontStyle},textStyleId:''}]}));
+ assert.equal(check(s).errors.length,0);assert.ok(check(s).checked.some(x=>x.kind==='accepted-native-status-font'&&x.nodeId==='clock'));
+ s.items.find(x=>x.id==='status').component.key='unverified-status';assert.ok(codes(s).includes('MISSING_FONT'));
+});
+test('StatusBar font exception cannot hide body, AppBar, unknown or other font failures',()=>{
+ const spec=rules.nativeStatusBarFontException;
+ for(const [parent,font,style]of [['body',spec.fontFamily,spec.fontStyle],['app',spec.fontFamily,spec.fontStyle],['status','KBFG Text','Medium'],['status',spec.fontFamily,'Regular']]){
+  const s=add(page(),component('status','StatusBar','head',{component:{key:spec.componentKey}}),component('app','AppBar','head'),textNode('missing','9:41',parent,{hasMissingFont:true,segments:[{characters:'9:41',fontName:{family:font,style},textStyleId:''}]}));
+  assert.ok(codes(s).includes('MISSING_FONT'),parent+'/'+font+'/'+style);
+ }
+ const s=add(page(),component('status','StatusBar','head',{component:{key:spec.componentKey}}),textNode('missing','9:41','status',{hasMissingFont:true,segments:[]}));assert.ok(codes(s).includes('MISSING_FONT'));
+});
 test('system bars reject Android fallback, mixed OS and missing public properties',()=>{
  const s=add(page(),component('status','StatusBar','head'));assert.equal(check(s).errors.length,0);
  s.items.find(n=>n.id==='status').componentProperties.variant.value='Android';assert.ok(codes(s).includes('SYSTEM_BAR_OS'));

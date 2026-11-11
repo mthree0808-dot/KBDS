@@ -1,5 +1,10 @@
 {
-  "version": "2026-11-11.1",
+  "version": "2026-11-11.2",
+  "nativeStatusBarFontException": {
+    "componentKey": "92e535778a9a168cb544987a2c071b053940aff4",
+    "fontFamily": "SF Pro Text",
+    "fontStyle": "Semibold"
+  },
   "keyboardViewport": {
     "width": 390,
     "height": 844

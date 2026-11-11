@@ -317,7 +317,12 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if (!visible(n)) continue;
     if (n.type === 'INSTANCE' && !n.component?.key) fail('INSTANCE_KEY', n, '실제 원본 mainComponent key가 없습니다');
     if (n.type !== 'TEXT') continue;
-    if (n.hasMissingFont) fail('MISSING_FONT', n, '누락 폰트가 있습니다');
+    if (n.hasMissingFont) {
+      const spec=rules.nativeStatusBarFontException,segments=n.segments??[];
+      const accepted=spec&&segments.length>0&&segments.every(s=>s.fontName?.family===spec.fontFamily&&s.fontName?.style===spec.fontStyle)&&within(n,p=>p.type==='INSTANCE'&&p.name==='StatusBar'&&p.component?.key===spec.componentKey&&p.componentProperties?.variant?.value==='iOS'&&p.componentProperties?.mode?.value==='light');
+      if(accepted)checked.push({kind:'accepted-native-status-font',nodeId:n.id,componentKey:spec.componentKey});
+      else fail('MISSING_FONT', n, '누락 폰트가 있습니다');
+    }
     const parent = map.get(n.parentId);
     if (parent?.name === 'Label' && n.name === '버튼명' && within(parent, p => p.type === 'INSTANCE' && ['BoxButton', 'TextButton'].includes(p.name))) {
       if (n.layoutSizingHorizontal !== 'HUG' || n.textAutoResize !== 'WIDTH_AND_HEIGHT') fail('CTA_HUG', n, 'Label 문구는 원형 가로 Hug / WIDTH_AND_HEIGHT여야 합니다');

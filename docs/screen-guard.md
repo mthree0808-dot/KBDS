@@ -58,7 +58,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |간격|InputField Group24, Radio/Checkbox 그룹 제목8·세로8/가로16, Section16/바텀시트 텍스트12, Tab→Infobox / Card16, Image Area 후24 등 코드에 명시된 조합과 토큰|
 |기획별 요구|contract에 명시한 원문·component key·공개 옵션·배치 속성·추가 Fill·gap|
 
-모든 MD 문장이나 모든 조합을 자동 판정하는 도구는 아니다. 기획 원문과 실제 컴포넌트 선택의 타당성, 아이콘 의미, 임의 override가 향후 variant 전환에 미치는 영향, 잘림·겹침·위계·자연 줄바꿈은 직접 원본/시각/전환 검수가 필요하다. 실제 폰트 누락은 네이티브 StatusBar 내부라도 오류로 보고하며, 원형 문제를 통과시키기 위해 무시하지 않는다. 숫자·기호만인 정적 장식은 문자/숫자 서체 자동 판정에서 제외한다. 검사기는 임의로 레이어를 이동하거나 원본을 수정하지 않는다.
+모든 MD 문장이나 모든 조합을 자동 판정하는 도구는 아니다. 기획 원문과 실제 컴포넌트 선택의 타당성, 아이콘 의미, 임의 override가 향후 variant 전환에 미치는 영향, 잘림·겹침·위계·자연 줄바꿈은 직접 원본/시각/전환 검수가 필요하다. 실제 폰트 누락은 원칙적으로 오류다. 다만2026-11-11 사용자 확정에 따라 확인된 원형 iOS StatusBar 내부의 SF Pro Text Semibold 누락만 완료 차단에서 제외한다. 본문·숫자·AppBar·다른 서체 누락은 계속 차단한다. 숫자·기호만인 정적 장식은 문자/숫자 서체 자동 판정에서 제외한다. 검사기는 임의로 레이어를 이동하거나 원본을 수정하지 않는다.
 
 ## 작업별 명세
 
@@ -149,6 +149,11 @@ Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명
 ### 방향 변경·시스템바·어노테이션 검사 (2026-11-11)
 
 - `TITLE_BUTTON_SIZING`: 편집 가능한 `Title / TextButton` 가로 래퍼의 Fill/Hug를 검사한다. `CONTENT_WRAPPER_HEIGHT`: 편집 가능한 Horizontal 콘텐츠 래퍼에서 보이는 AUTO 자식이 부모의 실제 y/height 경계를 넘는지 검사한다. native 내부·숨김·Absolute 장식은 제외하며 모든 디자인의 겹침을 자동 판정하는 검사는 아니다.
-- `SYSTEM_BAR_OS`: 존재하는 StatusBar의 `variant:iOS / mode:light`, HomeIndicator의 `os:iOS` 공개 속성을 검사한다. 사용자에게 Android 작업 지시를 받은 경우에만 `contract.systemBarOS:"Android"`를 명시한다(StatusBar Android, HomeIndicator AOS). 폰트 오류를 우회하기 위한 옵션이 아니다. 시스템 폰트 가용성·native 높이/안전영역·외형은 직접 확인한다. 시스템바 자체의 필수 존재는 해당 화면의 경로 계약으로 검사한다.
+- `SYSTEM_BAR_OS`: 존재하는 StatusBar의 `variant:iOS / mode:light`, HomeIndicator의 `os:iOS` 공개 속성을 검사한다. 사용자에게 Android 작업 지시를 받은 경우에만 `contract.systemBarOS:"Android"`를 명시한다(StatusBar Android, HomeIndicator AOS). 폰트 오류를 우회하기 위한 옵션이 아니다. 사용자 확정 SF Pro Text Semibold 예외는 별도 폰트 설치·재로딩 없이 원형을 유지한다. native 높이/안전영역·외형은 직접 확인한다. 시스템바 자체의 필수 존재는 해당 화면의 경로 계약으로 검사한다.
 - `UNREVIEWED_ANNOTATION`: collector가 `annotations`를 수집하며 보이는 노드의 미확인 주석을 차단한다. 업무상 필요한 기존 주석은 `contract.annotationAllowlist:[{path:[실제 이름 경로],labels:[정확한 labelMarkdown 또는 label],reason:"유지 근거"}]`로 특정한다. 경로·내용이 바뀌면 다시 확인하며 주석 전체를 포괄 허용하지 않는다. 숨김 노드의 주석·유입 출처는 별도 대조한다. 검사는 주석을 자동 삭제하지 않는다.
 - 알려드립니다의 대응 승인 Prefix 크기·Slot/Title Area 패딩 등은 실제 경로의 `contract.checks`와 직접 대조로 확인한다. 위 자동 검사와 기존 공통 검사 통과만으로 승인 템플릿 전체 일치·원문·시각 검수가 완료됐다고 보고하지 않는다.
+
+
+### iOS StatusBar 원형 폰트 경고 예외 (2026-11-11 사용자 확정)
+
+`knowledge/screen-rules.json.nativeStatusBarFontException`의 원본 component key·iOS/light 공개 속성·실제 Text segment의 SF Pro Text/Semibold가 함께 일치할 때만 `MISSING_FONT` 차단을 제외하고 `accepted-native-status-font` 근거를 남긴다. 이 한 건은 화면 완료를 막지 않는다. 이름만 StatusBar인 수동/다른 원형, 본문·숫자·AppBar 텍스트, 다른 폰트/스타일, 확인할 segment가 없는 경우는 기존 누락 폰트 검사를 유지한다. 원형 폰트 교체·OS 변경·시스템 폰트 업로드를 요구하지 않는다. 해당 화면의 다른 필수 검사는 유지한다.
