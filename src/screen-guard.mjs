@@ -63,6 +63,23 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if (expected && token(n.boundVariables?.itemSpacing) !== rules.spacing[expected]) fail('GAP_TOKEN', n, `gap ${expected}px의 spacing 토큰 연결 누락/불일치`);
     checked.push({kind: 'gap', nodeId: n.id, expected});
   }
+  for (const ac of items.filter(n=>n.type==='INSTANCE'&&n.name==='Accordion'&&visible(n))) {
+    if (!items.some(t=>t.type==='TEXT'&&t.characters?.trim()==='알려드립니다'&&within(t,a=>a.id===ac.id))) continue;
+    for (const icon of items.filter(n=>n.name==='solid-info-circle'&&visible(n)&&within(n,a=>a.id===ac.id))) {
+      const vectors=items.filter(n=>visible(n)&&within(n,a=>a.id===icon.id)&&n.fills?.some(p=>p.type==='SOLID'));
+      if (!vectors.length) fail('NOTICE_ICON',icon,'알려드립니다 아이콘 Fill 필요');
+      for (const vector of vectors) paint(vector,rules.notice.iconColor);
+    }
+    for (const area of items.filter(n=>n.name==='Button Area'&&visible(n)&&within(n,a=>a.id===ac.id))) {
+      const parent=map.get(area.parentId), siblings=kids(parent).filter(visible), at=siblings.indexOf(area), before=siblings[at-1];
+      if (before) {
+        spacing(parent,rules.notice.buttonGap);
+        if (before.name==='TextList Group') spacing(before,rules.notice.listGap);
+        else if (/^TextList/.test(before.name)&&siblings.filter(n=>/^TextList/.test(n.name)).length>1) fail('NOTICE_LIST_GROUP',parent,'복수 TextList는 TextList Group으로 묶습니다');
+      }
+      for (const button of items.filter(n=>n.name==='TextButton'&&visible(n)&&within(n,a=>a.id===area.id))) if(button.componentProperties?.size?.value!==rules.notice.buttonSize) fail('NOTICE_BUTTON_SIZE',button,'알려드립니다 TextButton size small 필요');
+    }
+  }
   if (!rules?.version || !rules?.colors || !rules?.spacing) fail('RULES', root, '공통 규칙 파일이 없거나 불완전합니다');
   if (!root || snapshot?.complete !== true || snapshot.total !== items.length || new Set(items.map(n => n.id)).size !== items.length) fail('SNAPSHOT', root, '완전한 현재 화면 스냅샷 필요');
   for (const n of items) if (typeof n.name !== 'string' || typeof n.type !== 'string') fail('SNAPSHOT_NODE', n, '노드 name·type 누락');

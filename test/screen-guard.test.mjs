@@ -780,3 +780,11 @@ test('Card baseline counts repeated same-name Groups including hidden unused one
  const s=dataCard(),c=cardBaseline();add(s,frames('g2','Group','groups',{visible:false}));c.cardSlotBaselines[0].children[1].children[1].children.push({name:'Group',type:'FRAME'});assert.equal(check(s,c).errors.length,0);
  s.items=s.items.filter(n=>n.id!=='g2');s.total=s.items.length;assert.ok(codes(s,c).includes('CARD_SLOT_STRUCTURE'));
 });
+test('notice uses secondary icon and 12px button boundary with small TextButton',()=>{
+ const s=add(page(),component('ac','Accordion','body'),textNode('heading','알려드립니다','ac'),component('icon','solid-info-circle','ac'),frames('vector','Vector','icon',{type:'VECTOR',fills:fill(rules.notice.iconColor)}),frames('slot','Slot-contents','ac',{itemSpacing:12,boundVariables:{itemSpacing:{id:rules.spacing[12]}}}),frames('list','TextList Group','slot',{itemSpacing:8,boundVariables:{itemSpacing:{id:rules.spacing[8]}}}),frames('ba','Button Area','slot'),component('tb','TextButton','ba',{componentProperties:{size:{value:'small'}}}));
+ s.variables.push({id:rules.notice.iconColor,key:rules.notice.iconColor});
+ assert.equal(codes(s).includes('NOTICE_BUTTON_SIZE'),false);assert.equal(codes(s).includes('BG_TOKEN'),false);assert.equal(codes(s).includes('GAP'),false);
+ s.items.find(n=>n.id==='vector').fills=fill(rules.colors.primary);assert.ok(codes(s).includes('BG_TOKEN'));
+ s.items.find(n=>n.id==='slot').itemSpacing=8;assert.ok(codes(s).includes('GAP'));
+ s.items.find(n=>n.id==='tb').componentProperties.size.value='medium';assert.ok(codes(s).includes('NOTICE_BUTTON_SIZE'));
+});

@@ -1488,6 +1488,8 @@ Container 2 (Vertical, gap12)
   - Accordion Property: `type: basic`, `variant: standard`, `size: medium`, **`width: fill`**, **`hasDivider: false`** (오토레이아웃 감싸기 해제)
   - **Divider 숨김**: Accordion 내부의 divider는 항상 숨김 처리
   - **최종 승인 기준 (2026-10-20)**: `2075:2064` 하단처럼 `hasPrefix: true` + `solid-info-circle`, `expanded: true`, 본문 TextList size 14 / Slot-contents gap 8px를 적용합니다. 외부 10px Divider와 내부 Divider 비노출을 구분합니다.
+  - **아이콘·본문·버튼 최종 기준 (2026-11-11)**: `solid-info-circle`의 Vector Fill은 `icon/neutral/secondary`(key `a4f21a3df17c7c591e78cfe160ccb895c3644489`)를 연결하고 노출합니다. primary 컬러로 덮어쓰지 않습니다. 참조5224:7783 삭제 후에도 이 토큰을 사용합니다.
+  - 본문 TextList가 복수면 `TextList Group`(Vertical / Fill·Hug / AUTO / gap **8px**, `spacing/md`)으로 묶습니다. 그 아래 `Button Area`가 있으면 두 형제 사이 **12px**(`spacing/lg`)을 적용합니다. Slot 전체 gap8로 버튼 경계를 처리하지 않습니다. `Button Area` 내 TextButton은 **variant secondary / size small**, 우측 정렬이며 문구·아이콘·밑줄은 해당 기획을 따릅니다.
   - 그룹핑 간격: Auto Layout **`gap: 0px`**
 
 ---

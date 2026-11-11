@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-11.3",
+  "version": "2026-11-11.4",
   "nativeStatusBarFontException": {
     "componentKey": "92e535778a9a168cb544987a2c071b053940aff4",
     "fontFamily": "SF Pro Text",
@@ -92,5 +92,11 @@
     "unusedStructure": "visible-false-not-delete",
     "dataListGroupComponent": "Card / Body / Group-C",
     "dataListVariant": "dataList"
+  },
+  "notice": {
+    "iconColor": "a4f21a3df17c7c591e78cfe160ccb895c3644489",
+    "buttonGap": 12,
+    "listGap": 8,
+    "buttonSize": "small"
   }
 }
