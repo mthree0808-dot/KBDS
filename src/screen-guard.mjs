@@ -102,7 +102,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
   for(const rule of Array.isArray(insetOverrides)?insetOverrides:[]){
     if(!Array.isArray(rule.path)||!rule.path.length||rule.path.some(p=>typeof p!=='string')||![0,20].includes(rule.value)||typeof rule.reason!=='string'||!rule.reason.trim()){fail('CONTRACT',root,'Container 인셋 예외에는 실제 path, value0/20, 승인 reason이 필요합니다');continue;}
     const n=one(rule.path);
-    if(n&&(!/^Container(?: [1-9]\d*)?$/.test(n.name)||map.get(n.parentId)?.name!=='## BODY'))fail('CONTRACT',n,'인셋 예외는 BODY 직계 Container만 지정합니다');
+    if(n&&(!/^Container(?: [1-9]\d*)?$/.test(n.name)||!(map.get(n.parentId)?.name==='## BODY'||map.get(n.parentId)?.name==='Container Group'&&map.get(map.get(n.parentId)?.parentId)?.name==='## BODY')))fail('CONTRACT',n,'인셋 예외는 BODY 직계 또는 간격 분리용 Container Group 하위 Container만 지정합니다');
     else if(n)approvedInsets.set(n.id,rule.value);
   }
   // Keypad/pattern Popup Body uses the same outside-padding ownership as

@@ -804,3 +804,9 @@ test('leading FullWidth Infobox reserves no outer top padding, including nested 
   c.paddingTop=24;c.boundVariables.paddingTop={id:rules.spacing[24]};assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
  }
 });
+test('approved insets can follow a Container Group that separates different external gaps',()=>{
+ const s=containerPage();const c=s.items.find(n=>n.id==='c1');c.paddingLeft=c.paddingRight=0;
+ s.items.splice(s.items.indexOf(c),0,frames('cg','Container Group','body'));s.total=s.items.length;c.parentId='cg';
+ const contract={containerInsetOverrides:[{path:['## BODY','Container Group',c.name],value:0,reason:'전폭 UI 외곽과 후속 알려드립니다의 독립 간격'}]};
+ assert.equal(check(s,contract).errors.length,0);
+});
