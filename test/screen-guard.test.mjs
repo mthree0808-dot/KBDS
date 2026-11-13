@@ -795,3 +795,12 @@ test('phone prefix sheet requires GridButton rather than List',()=>{
  assert.equal(codes(s).includes('PHONE_PREFIX_GRID'),false);
  add(s,component('list','List','sheet'));assert.ok(codes(s).includes('PHONE_PREFIX_LIST'));
 });
+test('leading FullWidth Infobox reserves no outer top padding, including nested wrappers',()=>{
+ for(const nested of [false,true]){
+  const s=containerPage(),c=s.items.find(n=>n.id==='c1');c.paddingLeft=c.paddingRight=c.paddingTop=0;delete c.boundVariables.paddingTop;
+  if(nested)add(s,frames('wrap','Contents','c1'));
+  add(s,component('info','Infobox / FullWidth',nested?'wrap':'c1'));
+  assert.equal(check(s).errors.length,0);
+  c.paddingTop=24;c.boundVariables.paddingTop={id:rules.spacing[24]};assert.ok(codes(s).includes('BODY_CONTAINER_PADDING'));
+ }
+});

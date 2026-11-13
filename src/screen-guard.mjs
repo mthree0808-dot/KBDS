@@ -143,7 +143,7 @@ export function auditScreen(snapshot, contract = {}, rules) {
         if(value&&token(n.boundVariables?.[field])!==rules.spacing[value]) fail('BODY_CONTAINER_PADDING_TOKEN',n,`${field}: ${value}px spacing 토큰 필요`);
       }
       const lead=leadingUi(n);
-      const beginsFlush=lead?.type==='INSTANCE'&&(lead.name==='StepIndicator'||lead.name==='Tab'&&lead.componentProperties?.variant?.value==='1depth');
+      const beginsFlush=lead?.type==='INSTANCE'&&(lead.name==='Infobox / FullWidth'||lead.name==='StepIndicator'||lead.name==='Tab'&&lead.componentProperties?.variant?.value==='1depth');
       const beginsFeedbackOrIcon=lead?.type==='INSTANCE'&&(['Feedback','IconContainer'].includes(lead.name)||/^status-/.test(lead.name))||['feedback','top-icon'].includes(contract.firstContainerRole);
       const top=index===0?(beginsFlush?0:beginsFeedbackOrIcon?40:24):0;
       const bottom=index===containers.length-1?rules.bodyContainerLastBottom:0;
