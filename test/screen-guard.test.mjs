@@ -788,3 +788,10 @@ test('notice uses secondary icon and 12px button boundary with xsmall TextButton
  s.items.find(n=>n.id==='slot').itemSpacing=8;assert.ok(codes(s).includes('GAP'));
  s.items.find(n=>n.id==='tb').componentProperties.size.value='medium';assert.ok(codes(s).includes('NOTICE_BUTTON_SIZE'));
 });
+test('phone prefix sheet requires GridButton rather than List',()=>{
+ const s=add(page(),component('sheet','BottomSheet','body'),textNode('title','자택전화번호 앞자리','sheet'));
+ assert.ok(codes(s).includes('PHONE_PREFIX_GRID'));
+ add(s,component('grid','GridButton','sheet',{componentProperties:{type:{value:'grid'},variant:{value:'primary'}}}));
+ assert.equal(codes(s).includes('PHONE_PREFIX_GRID'),false);
+ add(s,component('list','List','sheet'));assert.ok(codes(s).includes('PHONE_PREFIX_LIST'));
+});

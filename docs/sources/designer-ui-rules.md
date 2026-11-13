@@ -1585,3 +1585,11 @@ Container 2 (Vertical, gap12)
    - 일반 본문 `TextList`는 `gap: 12px` (`lg`), 바텀시트 일반 `List`는 `gap: 8px` (`md`), 계좌 선택 `List`는 `gap: 4px` (`xs`)으로 그룹핑합니다.
    - `Table Group`은 `gap: 1px` (`3xs`), 복수 `TextList / Unordered`는 `TextList Group (gap: 8px)`으로 구조화합니다.
 5. **토큰 기반 간격 검증**: 섹션 7에 정의된 간격 규칙(0px, `3xs`, `md`, `lg`, `xl`, `2xl`, `3xl`, `5xl`, `6xl`, `7xl`, `8xl` 등)이 오토레이아웃의 gap 및 Body padding에 올바르게 매핑되었는지 최종 확인 후 결과물을 출력합니다.
+
+## 전화번호 앞자리 선택 GridButton (2026-11-13)
+
+- 휴대폰 앞자리 선택과 자택전화 지역번호 선택은 List형 대신 최신 MO `GridButton(variant: primary, type: grid)` 인스턴스를 사용한다. 일반 선택 List 바텀시트의 두 번째 기본 선택 규칙을 이 패턴에 적용하지 않는다. 기존/기획 선택값과 항목·순서를 유지한다.
+- 승인3507:7252의 독립 명세: `BottomSheet > Slot > Container > GridButton > Slot > Grid > Item / Vertical`이며 Grid는3열 균등폭·행/열 gap8px(spacing/md), 높이 Hug. 폭350px에서 각 항목 폭은(350−16)/3, 높이52px(Hug). 마지막 행은 남은 항목만 배치한다.
+- Item / Vertical은 variant primary, selected는 실제 선택 상태, disabled/pressed false, hasIcon/hasSubLabel false. 숫자 라벨은 `Dynamic/Body/Numeric/2️⃣ xs∙14∙SemiBold`(key `3dac8340ea77d93f17bd05b66ebfd2e45c62ef73`)와 변수 연결을 보존한다.
+- GridButton key `e48a66fa51b31fd8e86b1703a35f07c07e3373e0`, 미선택 Item key `291367f54029e6b11c4ca9550c83816ca72bffe1`, 선택은 공개 selected 옵션을 사용한다. 원본 참조 삭제 시에도 명세를 사용하되 컴포넌트는 최신 라이브러리에서 import한다.
+- BottomSheet는 hasStickyButton false·hasScrollDim false, Header 제목·닫기 노출/handle 비노출. Slot 좌우20px·하단20px, Container padding0. Grid와 Slot·Container·BottomSheet 높이는 Hug로 연결해 모든 항목을 노출한다. 화면390×844 Fixed, Dimmed/StatusBar만 Absolute, BottomSheet/HomeIndicator AUTO, HomeIndicator elevated Fill 노출을 유지한다.

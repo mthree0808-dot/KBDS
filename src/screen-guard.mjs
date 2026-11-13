@@ -80,6 +80,11 @@ export function auditScreen(snapshot, contract = {}, rules) {
       for (const button of items.filter(n=>n.name==='TextButton'&&visible(n)&&within(n,a=>a.id===area.id))) if(button.componentProperties?.size?.value!==rules.notice.buttonSize) fail('NOTICE_BUTTON_SIZE',button,'알려드립니다 TextButton size xsmall 필요');
     }
   }
+  const phonePrefixSheet=items.some(n=>n.type==='INSTANCE'&&n.name==='BottomSheet')&&items.some(n=>n.type==='TEXT'&&visible(n)&&/^(휴대폰번호 선택|(?:휴대폰|자택전화)번호 앞자리)$/.test(n.characters?.trim()));
+  if(phonePrefixSheet){
+    if(!items.some(n=>n.type==='INSTANCE'&&n.name==='GridButton'&&visible(n)&&n.componentProperties?.type?.value==='grid'&&n.componentProperties?.variant?.value==='primary')) fail('PHONE_PREFIX_GRID',root,'전화번호 앞자리는 primary/grid GridButton을 사용합니다');
+    for(const n of items.filter(n=>n.type==='INSTANCE'&&n.name==='List'&&visible(n))) fail('PHONE_PREFIX_LIST',n,'전화번호 앞자리 선택은 List가 아닌 GridButton입니다');
+  }
   if (!rules?.version || !rules?.colors || !rules?.spacing) fail('RULES', root, '공통 규칙 파일이 없거나 불완전합니다');
   if (!root || snapshot?.complete !== true || snapshot.total !== items.length || new Set(items.map(n => n.id)).size !== items.length) fail('SNAPSHOT', root, '완전한 현재 화면 스냅샷 필요');
   for (const n of items) if (typeof n.name !== 'string' || typeof n.type !== 'string') fail('SNAPSHOT_NODE', n, '노드 name·type 누락');
