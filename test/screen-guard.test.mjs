@@ -823,3 +823,13 @@ test('enabled Feedback button uses secondary while external CTA is independent',
  const s=add(page(),component('f','Feedback','body',{componentProperties:{hasButton:{value:true}}}),frames('slot','Slot-buttonGroup','f',{type:'SLOT'}),component('button','BoxButton','slot',{componentProperties:{variant:{value:'secondary'}}}),component('cta','BoxButton','foot',{componentProperties:{variant:{value:'primary'}}}));
  assert.equal(codes(s).includes('FEEDBACK_BUTTON_VARIANT'),false);s.items.find(n=>n.id==='button').componentProperties.variant.value='tertiary';assert.ok(codes(s).includes('FEEDBACK_BUTTON_VARIANT'));s.items.find(n=>n.id==='f').componentProperties.hasButton.value=false;assert.equal(codes(s).includes('FEEDBACK_BUTTON_VARIANT'),false);
 });
+test('Feedback with no intervening data uses24 before notice instead of40',()=>{
+ const s=add(page(),component('feedback','Feedback','body',{absoluteBoundingBox:{x:20,y:100,width:350,height:200}}),frames('notice','Container 2','body'),component('ac','Accordion','notice',{absoluteBoundingBox:{x:0,y:324,width:390,height:100}}),textNode('title','알려드립니다','ac'));
+ assert.equal(codes(s).includes('NOTICE_EXTERNAL_GAP'),false);
+ s.items.find(n=>n.id==='ac').absoluteBoundingBox.y=340;assert.ok(codes(s).includes('NOTICE_EXTERNAL_GAP'));
+});
+test('Dialog detail Accordion also requires fullTouchArea true',()=>{
+ const s=finalPhoneDialog(),a=s.items.find(n=>n.id==='accordion');assert.equal(check(s).errors.length,0);
+ a.componentProperties.fullTouchArea.value=false;assert.ok(codes(s).includes('ACCORDION_FULL_TOUCH'));
+ a.componentProperties.fullTouchArea.value=true;assert.equal(check(s).errors.length,0);
+});

@@ -3,7 +3,8 @@
 ## 알려드립니다·Accordion·Feedback 버튼 최신 규칙 (2026-11-17)
 
 - **알려드립니다 상단 Divider 제거**: 알려드립니다 앞에 별도 `Divider / Horizontal`을 배치하지 않는다. 독립 Container 안에는 실제 Accordion을 직접 배치하며, Accordion 내부 `hasDivider: false`도 유지한다. 상단 콘텐츠의 바깥 경계에서 알려드립니다 Accordion의 바깥 경계까지 **24px(`spacing/3xl`)**를 적용한다. 종전 외부10px Divider 및 앞32px 규칙을 대체한다. 다른 콘텐츠용 Divider를 일괄 제거하지 않는다.
-- **모든 Accordion**: 알려드립니다를 포함해 용도·variant·펼침 상태에 관계없이 공개 BOOLEAN 속성 **`fullTouchArea: true`**를 설정한다. 문구·순서·내부 구조·variant·선택 상태는 유지한다. 알려드립니다의 `expanded: true`, 아이콘 secondary, TextList14/목록gap8, 하단 Button Area까지12px 및 TextButton secondary/xsmall 규칙은 유지한다.
+- **중간 데이터 영역이 없는 완료·Feedback 화면**: Feedback 뒤에 DataList·Data Block·Card·Table 등 데이터 영역 없이 알려드립니다가 바로 이어지면, 상단 Feedback 콘텐츠 블록의 바깥 경계에서 알려드립니다 Accordion의 바깥 경계까지 **24px(`spacing/3xl`)**로 설정한다. Feedback → 일반 후속 데이터의40px 규칙을 이 구간에 적용하지 않는다. 외부 Divider·빈 데이터 래퍼·간격용 빈 프레임을 추가하지 않는다. Feedback 내부 버튼은 Feedback 블록에 포함하며 그 블록 하단을 기준으로 측정한다.
+- **모든 Accordion**: 알려드립니다를 포함해 용도·variant·펼침 상태에 관계없이 공개 BOOLEAN 속성 **`fullTouchArea: true`**를 설정한다. **Dialog 내부 Accordion(오류 상세·응답코드·자세히보기 포함)도 동일하며 예외가 아니다.** Dialog의 Slot·대표전화·버튼 구조 및 펼침 상태는 각각의 규칙을 유지한다. 문구·순서·내부 구조·variant·선택 상태는 유지한다. 알려드립니다의 `expanded: true`, 아이콘 secondary, TextList14/목록gap8, 하단 Button Area까지12px 및 TextButton secondary/xsmall 규칙은 유지한다.
 - **Feedback 내부 버튼**: Feedback에서 **`hasButton: true`**이면 해당 Feedback의 버튼 슬롯 안 `BoxButton`은 **`variant: secondary`**로 적용한다. ‘증명서 보기’도 동일하다. 버튼 문구·size·아이콘·disabled/pressed·Hug/Fill 및 나머지 Feedback 속성은 원래 요구대로 유지한다. Feedback 바깥 CTA나 Card 내부 버튼으로 확대하지 않는다.
 - 화면 링크에 의존하지 않고 위 조건·계층·수치·공개 속성으로 적용·검수한다. 이 절이 과거 패턴 기록의 상충 지시보다 우선한다.
 
