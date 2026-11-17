@@ -64,7 +64,16 @@ export function auditScreen(snapshot, contract = {}, rules) {
     checked.push({kind: 'gap', nodeId: n.id, expected});
   }
   for (const ac of items.filter(n=>n.type==='INSTANCE'&&n.name==='Accordion'&&visible(n))) {
+    const touch=Object.entries(ac.componentProperties??{}).find(([k])=>k.split('#')[0]==='fullTouchArea')?.[1];
+    if(touch?.value!==true)fail('ACCORDION_FULL_TOUCH',ac,'모든 Accordion은 fullTouchArea true입니다');
     if (!items.some(t=>t.type==='TEXT'&&t.characters?.trim()==='알려드립니다'&&within(t,a=>a.id===ac.id))) continue;
+    const flow=kids(map.get(ac.parentId)).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE');
+    const previous=flow[flow.indexOf(ac)-1];
+    if(previous?.name==='Divider / Horizontal')fail('NOTICE_EXTERNAL_DIVIDER',previous,'알려드립니다 앞 외부 Divider를 제거합니다');
+    let cursor=ac,prev=previous;
+    while(!prev&&map.has(cursor.parentId)){cursor=map.get(cursor.parentId);const sib=kids(map.get(cursor.parentId)).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE');prev=sib[sib.indexOf(cursor)-1];}
+    const top=ac.absoluteBoundingBox?.y,bottom=prev?.absoluteBoundingBox;
+    if(typeof top==='number'&&bottom&&previous?.name!=='Divider / Horizontal'&&!near(top-bottom.y-bottom.height,rules.notice.externalGap))fail('NOTICE_EXTERNAL_GAP',ac,'알려드립니다 앞 실제 간격24px 필요');
     for (const icon of items.filter(n=>n.name==='solid-info-circle'&&visible(n)&&within(n,a=>a.id===ac.id))) {
       const vectors=items.filter(n=>visible(n)&&within(n,a=>a.id===icon.id)&&n.fills?.some(p=>p.type==='SOLID'));
       if (!vectors.length) fail('NOTICE_ICON',icon,'알려드립니다 아이콘 Fill 필요');
@@ -79,6 +88,10 @@ export function auditScreen(snapshot, contract = {}, rules) {
       }
       for (const button of items.filter(n=>n.name==='TextButton'&&visible(n)&&within(n,a=>a.id===area.id))) if(button.componentProperties?.size?.value!==rules.notice.buttonSize) fail('NOTICE_BUTTON_SIZE',button,'알려드립니다 TextButton size xsmall 필요');
     }
+  }
+  for(const f of items.filter(n=>n.type==='INSTANCE'&&n.name==='Feedback'&&visible(n))){
+    const enabled=Object.entries(f.componentProperties??{}).find(([k])=>k.split('#')[0]==='hasButton')?.[1]?.value;
+    if(enabled===true)for(const b of items.filter(n=>n.type==='INSTANCE'&&n.name==='BoxButton'&&visible(n)&&within(n,a=>a.type==='SLOT'&&map.get(a.parentId)?.id===f.id)))if(b.componentProperties?.variant?.value!==rules.feedbackButtonVariant)fail('FEEDBACK_BUTTON_VARIANT',b,'Feedback hasButton true의 BoxButton은 secondary입니다');
   }
   const phonePrefixSheet=items.some(n=>n.type==='INSTANCE'&&n.name==='BottomSheet')&&items.some(n=>n.type==='TEXT'&&visible(n)&&/^(휴대폰번호 선택|(?:휴대폰|자택전화)번호 앞자리)$/.test(n.characters?.trim()));
   if(phonePrefixSheet){
