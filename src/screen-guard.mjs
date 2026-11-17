@@ -64,8 +64,6 @@ export function auditScreen(snapshot, contract = {}, rules) {
     checked.push({kind: 'gap', nodeId: n.id, expected});
   }
   for (const ac of items.filter(n=>n.type==='INSTANCE'&&n.name==='Accordion'&&visible(n))) {
-    const touch=Object.entries(ac.componentProperties??{}).find(([k])=>k.split('#')[0]==='fullTouchArea')?.[1];
-    if(touch?.value!==true)fail('ACCORDION_FULL_TOUCH',ac,'모든 Accordion은 fullTouchArea true입니다');
     if (!items.some(t=>t.type==='TEXT'&&t.characters?.trim()==='알려드립니다'&&within(t,a=>a.id===ac.id))) continue;
     const flow=kids(map.get(ac.parentId)).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE');
     const previous=flow[flow.indexOf(ac)-1];

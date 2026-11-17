@@ -11,7 +11,7 @@ import {auditScreen, screenRules as rules, screenAuditScript, guardBuildScript} 
 const frames = (id, name, parentId, extra = {}) => ({id, name, parentId, type:'FRAME', visible:true, opacity:1,
   layoutMode:'VERTICAL', layoutPositioning:'AUTO', width:390, height:40, itemSpacing:0, paddingTop:0,paddingRight:0,paddingBottom:0,paddingLeft:0, fills:[], ...extra});
 const component = (id,name,parentId,extra={}) => {const n=frames(id,name,parentId,{type:'INSTANCE',component:{key:`key-${name}`},
-  ...(name==='HomeIndicator'?{componentProperties:{os:{value:'iOS'}}}:name==='StatusBar'?{componentProperties:{variant:{value:'iOS'},mode:{value:'light'}}}:{}),...extra});if(name==='Accordion')n.componentProperties={fullTouchArea:{value:true},...n.componentProperties};return n;};
+  ...(name==='HomeIndicator'?{componentProperties:{os:{value:'iOS'}}}:name==='StatusBar'?{componentProperties:{variant:{value:'iOS'},mode:{value:'light'}}}:{}),...extra});return n;};
 const fill = key => [{type:'SOLID',visible:true,opacity:1,color:{r:1,g:1,b:1},boundVariables:{color:{type:'VARIABLE_ALIAS',id:key}}}];
 function snapshot(items) {
   return {fileKey:'Target',pageId:'page',rootId:'root',complete:true,total:items.length,items,
@@ -811,9 +811,6 @@ test('approved insets can follow a Container Group that separates different exte
  assert.equal(check(s,contract).errors.length,0);
 });
 
-test('all Accordion instances require fullTouchArea true',()=>{
- const s=add(page(),component('ac','Accordion','body'));assert.equal(codes(s).includes('ACCORDION_FULL_TOUCH'),false);s.items.find(n=>n.id==='ac').componentProperties.fullTouchArea.value=false;assert.ok(codes(s).includes('ACCORDION_FULL_TOUCH'));
-});
 test('notice rejects external Divider and requires actual 24px boundary',()=>{
  const s=add(page(),frames('before','Contents','body',{absoluteBoundingBox:{x:0,y:0,width:390,height:100}}),frames('notice','Container 2','body'),component('ac','Accordion','notice',{absoluteBoundingBox:{x:0,y:124,width:390,height:100}}),textNode('title','알려드립니다','ac'));
  assert.equal(codes(s).includes('NOTICE_EXTERNAL_GAP'),false);s.items.find(n=>n.id==='ac').absoluteBoundingBox.y=132;assert.ok(codes(s).includes('NOTICE_EXTERNAL_GAP'));
@@ -828,8 +825,10 @@ test('Feedback with no intervening data uses24 before notice instead of40',()=>{
  assert.equal(codes(s).includes('NOTICE_EXTERNAL_GAP'),false);
  s.items.find(n=>n.id==='ac').absoluteBoundingBox.y=340;assert.ok(codes(s).includes('NOTICE_EXTERNAL_GAP'));
 });
-test('Dialog detail Accordion also requires fullTouchArea true',()=>{
- const s=finalPhoneDialog(),a=s.items.find(n=>n.id==='accordion');assert.equal(check(s).errors.length,0);
- a.componentProperties.fullTouchArea.value=false;assert.ok(codes(s).includes('ACCORDION_FULL_TOUCH'));
- a.componentProperties.fullTouchArea.value=true;assert.equal(check(s).errors.length,0);
+
+test('Accordion fullTouchArea is not globally forced in page or Dialog',()=>{
+ for(const s of [add(page(),component('ac','Accordion','body')),finalPhoneDialog()]){
+  const a=s.items.find(n=>n.name==='Accordion');
+  for(const value of [undefined,false,true]){if(value===undefined)delete a.componentProperties?.fullTouchArea;else a.componentProperties={...a.componentProperties,fullTouchArea:{value}};assert.equal(check(s).errors.length,0);}
+ }
 });

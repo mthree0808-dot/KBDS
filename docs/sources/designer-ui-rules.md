@@ -4,7 +4,7 @@
 
 - **알려드립니다 상단 Divider 제거**: 알려드립니다 앞에 별도 `Divider / Horizontal`을 배치하지 않는다. 독립 Container 안에는 실제 Accordion을 직접 배치하며, Accordion 내부 `hasDivider: false`도 유지한다. 상단 콘텐츠의 바깥 경계에서 알려드립니다 Accordion의 바깥 경계까지 **24px(`spacing/3xl`)**를 적용한다. 종전 외부10px Divider 및 앞32px 규칙을 대체한다. 다른 콘텐츠용 Divider를 일괄 제거하지 않는다.
 - **중간 데이터 영역이 없는 완료·Feedback 화면**: Feedback 뒤에 DataList·Data Block·Card·Table 등 데이터 영역 없이 알려드립니다가 바로 이어지면, 상단 Feedback 콘텐츠 블록의 바깥 경계에서 알려드립니다 Accordion의 바깥 경계까지 **24px(`spacing/3xl`)**로 설정한다. Feedback → 일반 후속 데이터의40px 규칙을 이 구간에 적용하지 않는다. 외부 Divider·빈 데이터 래퍼·간격용 빈 프레임을 추가하지 않는다. Feedback 내부 버튼은 Feedback 블록에 포함하며 그 블록 하단을 기준으로 측정한다.
-- **모든 Accordion**: 알려드립니다를 포함해 용도·variant·펼침 상태에 관계없이 공개 BOOLEAN 속성 **`fullTouchArea: true`**를 설정한다. **Dialog 내부 Accordion(오류 상세·응답코드·자세히보기 포함)도 동일하며 예외가 아니다.** Dialog의 Slot·대표전화·버튼 구조 및 펼침 상태는 각각의 규칙을 유지한다. 문구·순서·내부 구조·variant·선택 상태는 유지한다. 알려드립니다의 `expanded: true`, 아이콘 secondary, TextList14/목록gap8, 하단 Button Area까지12px 및 TextButton secondary/xsmall 규칙은 유지한다.
+- **Accordion fullTouchArea 공통 강제 철회 (2026-11-17)**: 알려드립니다·Dialog를 포함해 `fullTouchArea`를 일괄 true 또는 false로 덮어쓰지 않는다. 해당 컴포넌트 원형·기획·개별 사용자 설정을 유지한다. 알려드립니다의 펼침·아이콘·목록·버튼 규칙은 유지한다.
 - **Feedback 내부 버튼**: Feedback에서 **`hasButton: true`**이면 해당 Feedback의 버튼 슬롯 안 `BoxButton`은 **`variant: secondary`**로 적용한다. ‘증명서 보기’도 동일하다. 버튼 문구·size·아이콘·disabled/pressed·Hug/Fill 및 나머지 Feedback 속성은 원래 요구대로 유지한다. Feedback 바깥 CTA나 Card 내부 버튼으로 확대하지 않는다.
 - 화면 링크에 의존하지 않고 위 조건·계층·수치·공개 속성으로 적용·검수한다. 이 절이 과거 패턴 기록의 상충 지시보다 우선한다.
 
@@ -383,7 +383,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 - **계층별 간격·폭**: BODY는 padding0/0/32/0, gap32px(`spacing/5xl`)입니다. Container 1은 전폭·padding0·gap24px(`spacing/3xl`)이며, StepIndicator → Title / Contents 사이24px를 적용합니다. Title / Contents는 좌우padding20px·gap24px이고 내부 콘텐츠 폭은350px입니다. 이 패턴의 TextList Group 내부 두 항목 사이는12px(`spacing/lg`), TextList Group → Button Area 사이는12px입니다. Container 1 → 알려드립니다 Container 2 사이는 최신 규칙에 따라24px입니다. 각 부모의 실제 itemSpacing·padding과 실질 경계를 대조합니다.
 - **제목의 실제 스타일·줄바꿈**: Title / Page라는 이름이나 component key 일치만으로 통과하지 않습니다. 이 승인 화면의 제목은 KBFG Text Medium22px·행간31px, 원본 Text Style key `a4d970f16ce5404c28e6e948667b88b96aa5cbec` 기준입니다. “부모님의 고객확인(CDD/EDD)정보를” 뒤에서 줄바꿈하여 “등록해주세요”를 두 번째 줄에 배치합니다. 최신 라이브러리의 대응 Text Style·변수 연결로 매핑하고 fontSize/fontWeight 직접 덮어쓰기로 외형만 맞추지 않습니다. 승인본의 제목을 임의24px로 바꾸거나 “정보를” 앞에서 개행하지 않습니다. 이22px 지정을 모든 Title / Page에 일괄 적용하지 않습니다.
 - **바로가기 공개 옵션**: 이 패턴의 “고객확인제도(CDD/EDD) 바로가기”는 우측 정렬의 실제 `TextButton(variant: secondary, size: xsmall, underline: false, hasPrefix: false, hasSuffix: true)`와 우측 chevron을 사용합니다. 컬러는 secondary로 적용하며 종전 primary 지정은 폐기합니다(2026-10-30 사용자 재교정). 크기 xsmall·밑줄 비노출 등 이 패턴의 지정 옵션은 유지하며, 본문 독립 서비스 버튼의 일반 secondary/small 규칙보다 이 사용자 지정 예외가 우선합니다. 승인본 텍스트는12px Medium이며 버튼과 Label 문구는 Hug를 유지합니다. size 이름이나 화면상 색상만 추정하지 않고 실제 componentProperties와 텍스트 스타일을 확인합니다.
-- **알려드립니다·푸터 옵션**: 알려드립니다는 외부 Divider 없이 Accordion(hasDivider:false, expanded:true, fullTouchArea:true), TextList14·항목gap8px 구조를 유지합니다. 승인본의 정보 Prefix는20px이며 임의24px로 확대하지 않습니다. 하단은 `StickyButton(variant: elevated, hasScrollDim: false)` + HomeIndicator로 구성합니다. white 원형의 기본 ScrollDim28px를 남겨 푸터 높이126px로 만들지 않습니다. 이 패턴의 StickyButton64px + HomeIndicator34px = FOOTER98px를 대조하고 HomeIndicator의 배경 Fill 노출·원형 높이·AUTO 및 CTA Label Hug를 보존합니다.
+- **알려드립니다·푸터 옵션**: 알려드립니다는 외부 Divider 없이 Accordion(hasDivider:false, expanded:true), TextList14·항목gap8px 구조를 유지합니다. 승인본의 정보 Prefix는20px이며 임의24px로 확대하지 않습니다. 하단은 `StickyButton(variant: elevated, hasScrollDim: false)` + HomeIndicator로 구성합니다. white 원형의 기본 ScrollDim28px를 남겨 푸터 높이126px로 만들지 않습니다. 이 패턴의 StickyButton64px + HomeIndicator34px = FOOTER98px를 대조하고 HomeIndicator의 배경 Fill 노출·원형 높이·AUTO 및 CTA Label Hug를 보존합니다.
 - **완료 판정 강화**: 제작 전 `기획 노드의 표현/역할 → 승인 근거 → 요구 속성 → 실제 결과 노드`를 대응시키고, 제작 후 ① 두 불릿 원문·개수·컴포넌트, ② 복합 부모/자식 구조·명칭, ③ 24/12/32px의 적용 계층·실측·토큰, ④ 제목 크기/굵기/스타일/변수·줄바꿈, ⑤ TextButton variant/size/밑줄/아이콘·Hug, ⑥ StickyButton variant/ScrollDim·푸터 높이·HomeIndicator Fill을 승인본과 직접 대조합니다. placeholder 없음·텍스트 일치·같은 key·전체 스크린샷 중 일부만 검사하고 “검수 완료”로 보고하지 않습니다. 불일치는 수정 후 해당 범위와 부모를 재검사합니다. 기본 제작 스크립트·캐시의 값은 이번 요구값과 다르면 교정하며, 3분 목표를 위해 이 대조를 생략하지 않습니다.
 - 이번 변경은 공유 MD의 제작·검수 기준 갱신입니다. MD 갱신만으로 기존 Figma 화면을 수정했다고 보고하지 않습니다.
 
@@ -471,7 +471,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 
 - 승인 참조는 [원천징수영수증 계좌 없음 3272:24337](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3272-24337)입니다. **StepIndicator 아래에 Infobox / Solid, 그 아래에 Feedback이 이어지는 흐름에서는 두 구간의 외부 Auto Layout gap을 모두24px(`spacing/3xl`)로 적용합니다.** StepIndicator → Infobox / Solid와 Infobox / Solid → Feedback 각각에 적용하며 일반 BODY/인포박스 후속 간격32px를 상속하지 않습니다.
 - 컴포넌트가 Container 또는 별도 래퍼로 묶여 있어도 해당 두 블록을 직접 배치하는 부모의 itemSpacing에24px 토큰을 연결합니다. Empty State 규칙에 따라 `Feedback` Auto Layout이 실제 Feedback 인스턴스를 감싸는 경우 **Infobox / Solid → Feedback 래퍼 사이 gap이24px**이며, 래퍼 내부의 상하24px 패딩은 별도 계층입니다. 승인된 데이터 없음 패딩을 외부 gap과 혼동해 삭제하거나, 외부 gap24px를 만들려고 패딩·빈 프레임으로 대신하지 않습니다.
-- 적용 범위는 위 조합의 두 구간입니다. Feedback 뒤 후속 콘텐츠의 외부 gap40px, 알려드립니다의 외부 Divider 없는 Accordion(hasDivider:false, fullTouchArea:true) 구조, 원형 내부 간격·서체·아이콘 및 사용자 편집 상태는 유지합니다. 이 사례를 모든 Infobox나 모든 Feedback 앞뒤 간격의 일괄24px 변경으로 확대하지 않습니다.
+- 적용 범위는 위 조합의 두 구간입니다. Feedback 뒤 후속 콘텐츠의 외부 gap40px, 알려드립니다의 외부 Divider 없는 Accordion(hasDivider:false) 구조, 원형 내부 간격·서체·아이콘 및 사용자 편집 상태는 유지합니다. 이 사례를 모든 Infobox나 모든 Feedback 앞뒤 간격의 일괄24px 변경으로 확대하지 않습니다.
 - 완료 검수에서 부모 itemSpacing과 `spacing/3xl` 연결, StepIndicator→후속 블록24px 및 Infobox→Feedback(해당 래퍼)24px를 실측하고, 외부 gap과 Empty State 내부 패딩을 구분합니다. 기존 사용자 수정 구조가 이미24px이면 유지하고 관련 없는 레이어를 재구성하지 않습니다.
 
 ## 대표전화가 포함된 Dialog의 구조·서체·간격 (2026-10-28, 2026-11-03 갱신)
@@ -1128,9 +1128,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
     - `Infobox / Card`, `Card`, 알려드립니다 외부의 일반 본문에 쓰이는 `TextList`가 여러 개 열거될 경우, 오토레이아웃으로 그룹핑하고 **기본 `gap: 12px` (`lg` 토큰)**을 적용합니다.
   - **Form 내 Accordion 배치**: 폼 형태로 열거되는 도중 위치하는 `Accordion`은 오토레이아웃을 적용하여 `Container [순번]`으로 명명합니다. (복수 열거 시 `Accordion Group`)
   - **하단 "알려드립니다" 공통 패턴 및 상태 규칙**:
-    - `Container` 또는 `Container [순번]` 내부에 외부 Divider 없이 `Accordion (type: basic, variant: standard, size: medium, hasDivider: false, fullTouchArea: true)`을 직접 배치합니다.
+    - `Container` 또는 `Container [순번]` 내부에 외부 Divider 없이 `Accordion (type: basic, variant: standard, size: medium, hasDivider: false)`을 직접 배치합니다.
     - **독립 컨테이너 분할 필수**: '알려드립니다'는 다른 본문 요소와 합치지 않고 반드시 **독립된 `Container [순번]`으로 그룹핑하여 분할**합니다.
-    - **하단 구성 최신 기준 (2026-11-17)**: 외부 Divider 없이 Accordion을 직접 배치합니다. 상단 콘텐츠와 실제 간격24px, fullTouchArea true를 적용합니다.
+    - **하단 구성 최신 기준 (2026-11-17)**: 외부 Divider 없이 Accordion을 직접 배치합니다. 상단 콘텐츠와 실제 간격24px를 적용합니다.
     - **Accordion 속성**: `type: basic`, `variant: standard`, `size: medium`, `hasPrefix: true`, Prefix의 아이콘은 **`solid-info-circle`**, `hasDivider: false`, **`expanded: true`로 항상 펼칩니다. 기획·원형의 기본값이 접힘이어도 이 상태를 우선 적용합니다.** 원형 제목·화살표·슬롯 계층을 유지합니다. 본문 `TextList / Unordered`는 size 14, Slot-contents gap 8px를 유지하며 불릿을 일반 텍스트로 바꾸지 않습니다.
     - **내부 Divider 숨김**: 알려드립니다 내부에 위치하는 Accordion은 **`hasDivider: false`를 적용하며, Accordion 내부의 divider는 항상 숨김(비노출)** 처리합니다.
     - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**로 설정합니다.
@@ -1577,7 +1577,7 @@ Container 2 (Vertical, gap12)
      - Card 피드백형: Card `padding: 48px 0`, `radius: 16px`, 테두리/배경 매핑
    - **완료 화면**: `Container 1`의 `Feedback` 다음에 `Container 2`를 배치합니다. Container 2는 `Title / DataList Group`들을 **gap 32px**로 열거하며, 각 그룹은 `Title` + `DataList Group`의 **gap 16px** 구조입니다. Title은 Vertical Auto Layout으로 `Title / Element` + `Divider / Horizontal (thickness: 1px, variant: primary, length: full)`을 **gap 12px**로 묶고, DataList Group은 `DataList (layout: split, size: 14, hasDivider: false)`를 **gap 12px**로 묶습니다. Container와 하위 그룹의 패딩은 0이며, BODY 패딩과 40px 간격을 중복 적용하지 않습니다.
    - `Title / Page` → `Image Area` gap 0px, `Image Area` 또는 단독 `ImageContainer` → 후속 콘텐츠 기본 외부 gap 24px를 검수합니다. 래퍼가 있으면 Image Area 바깥 경계부터 측정하고 내부·외부 gap 중복이 없는지 확인합니다. 승인 참조 `10580:10543`처럼 Image Area padding 40px 0, 내부 이미지 ratio 2:1 / Fill·Fixed(폭 350px 기준 350×175px), 전체 영역 높이 255px와 **원본 더미 그래픽·“더미이미지” 라벨의 실제 포함 여부**를 확인합니다. 빈 이미지 영역만 배치하거나 라벨이 편집 가능한 Pretendard TEXT 대신 SVG·벡터·이미지인 경우 실패입니다.
-   - 하단 알려드립니다는 외부 Divider 없이 Accordion(width: fill, hasDivider: false, fullTouchArea: true)을 독립 Container에 직접 배치하고 상단 콘텐츠와24px, expanded true를 적용합니다.
+   - 하단 알려드립니다는 외부 Divider 없이 Accordion(width: fill, hasDivider: false)을 독립 Container에 직접 배치하고 상단 콘텐츠와24px, expanded true를 적용합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
    - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. 정보성 데이터 박스 자체는 단일·복수 모두 `Data Block`, 설명·안내 박스 자체는 단일·복수 모두 `Text Box`로 명명합니다. Group 내부 반복 자식에 순번을 붙이지 않으며 페이지 Container의 순번 규칙과 구분합니다.
    - **레이어 및 그룹 네이밍 (한글 사용 절대 금지)**:
