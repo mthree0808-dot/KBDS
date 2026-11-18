@@ -157,3 +157,7 @@ Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명
 ### iOS StatusBar 원형 폰트 경고 예외 (2026-11-11 사용자 확정)
 
 `knowledge/screen-rules.json.nativeStatusBarFontException`의 원본 component key·iOS/light 공개 속성·실제 Text segment의 SF Pro Text/Semibold가 함께 일치할 때만 `MISSING_FONT` 차단을 제외하고 `accepted-native-status-font` 근거를 남긴다. 이 한 건은 화면 완료를 막지 않는다. 이름만 StatusBar인 수동/다른 원형, 본문·숫자·AppBar 텍스트, 다른 폰트/스타일, 확인할 segment가 없는 경우는 기존 누락 폰트 검사를 유지한다. 원형 폰트 교체·OS 변경·시스템 폰트 업로드를 요구하지 않는다. 해당 화면의 다른 필수 검사는 유지한다.
+
+### 알려드립니다 제목·구획 간격 (2026-11-18)
+
+실제 제목이 ‘알려드립니다’인 Accordion의 조상을 기준으로 Element→본문8px, 반복 Title / TextList Group(단일 목록 조합 포함) 사이20px와 해당 spacing 토큰을 검사한다. 일반 본문 Element→콘텐츠16px·반복 그룹24px와 일반 Accordion에는 알려드립니다 예외를 적용하지 않는다. 기존 선택 그룹8px·대표전화4px 예외는 유지한다.

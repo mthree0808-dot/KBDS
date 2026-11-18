@@ -63,8 +63,9 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if (expected && token(n.boundVariables?.itemSpacing) !== rules.spacing[expected]) fail('GAP_TOKEN', n, `gap ${expected}px의 spacing 토큰 연결 누락/불일치`);
     checked.push({kind: 'gap', nodeId: n.id, expected});
   }
-  for (const ac of items.filter(n=>n.type==='INSTANCE'&&n.name==='Accordion'&&visible(n))) {
-    if (!items.some(t=>t.type==='TEXT'&&t.characters?.trim()==='알려드립니다'&&within(t,a=>a.id===ac.id))) continue;
+  const noticeAccordions = new Set(items.filter(n=>n.type==='INSTANCE'&&n.name==='Accordion'&&visible(n)&&items.some(t=>t.type==='TEXT'&&visible(t)&&t.characters?.trim()==='알려드립니다'&&within(t,a=>a.id===n.id))).map(n=>n.id));
+  const inNotice = n => within(n, a => noticeAccordions.has(a.id));
+  for (const ac of items.filter(n=>noticeAccordions.has(n.id))) {
     const flow=kids(map.get(ac.parentId)).filter(n=>visible(n)&&n.layoutPositioning!=='ABSOLUTE');
     const previous=flow[flow.indexOf(ac)-1];
     if(previous?.name==='Divider / Horizontal')fail('NOTICE_EXTERNAL_DIVIDER',previous,'알려드립니다 앞 외부 Divider를 제거합니다');
@@ -541,10 +542,13 @@ export function auditScreen(snapshot, contract = {}, rules) {
       else fail('CHOICE_LAYOUT',n,'선택 그룹은 실제 Auto Layout/Grid로 배치합니다');
     }
     if (['Checkbox Group','CheckBox Group'].includes(n.name) && n.layoutMode==='HORIZONTAL' && n.layoutWrap==='WRAP' && (n.layoutSizingHorizontal!=='FILL'||n.layoutSizingVertical!=='HUG')) fail('CHECKBOX_WRAP_LAYOUT',n,'줄바꿈 Checkbox Group은 가로 Fill·세로 Hug로 제한 폭 안에 전체 항목을 노출합니다');
-    if (cs.length > 1 && cs.every(c => c.name === 'Title / TextList Group')) spacing(n, 24);
+    const noticeSections = inNotice(n) && cs.length > 1 && cs.every(c => ['Title / TextList Group', 'Title / TextList'].includes(c.name));
+    if (noticeSections) spacing(n, rules.notice.sectionGap);
+    else if (cs.length > 1 && cs.every(c => c.name === 'Title / TextList Group')) spacing(n, 24);
     for (let i = 0; i < cs.length - 1; i++) {
       const a = cs[i], b = cs[i + 1]; let gap;
       if (['Title / Section', 'Title / Element'].includes(a.name)) gap = screenType === 'bottom-sheet' && (b.type === 'TEXT' || ['Text', 'Text Group', 'TextList Group'].includes(b.name)) ? 12 : 16;
+      if (a.name==='Title / Element' && inNotice(n)) gap=rules.notice.titleElementGap;
       if (a.name==='Title / Element' && ['Radio Group','Checkbox Group','CheckBox Group'].includes(b.name)) gap=rules.choiceGroupSpacing.titleElement;
       if (a.name==='Title / Section' && b.name==='IconButton' && n.name==='Title / IconButton' && n.layoutMode==='HORIZONTAL') gap=8;
       if (a.name==='InputField Group' && (b.name==='TextList Group'||b.type==='INSTANCE'&&stem(b)==='TextList')) gap=24;

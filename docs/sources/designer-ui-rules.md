@@ -1,5 +1,21 @@
 # UI Design & Code Generation Rules
 
+## 본문과 알려드립니다의 제목·목록 간격 구분 (2026-11-18 사용자 확정)
+
+적용 위치를 먼저 판정한 뒤 해당 부모 Auto Layout의 실제 gap과 spacing 변수를 함께 설정한다. 화면 링크나 예시 화면의 존속 여부에 의존하지 않는다.
+
+| 적용 위치 | 실제 두 요소의 관계 | 간격 | 토큰 |
+|---|---|---|---|
+| 일반 화면의 본문 | `Title / Element` → 다음 콘텐츠 | 16px | `spacing/xl` |
+| 알려드립니다 Accordion 내부 | `Title / Element` → 다음 콘텐츠(예: `TextList Group`, 단일 `TextList`, `Text`) | 8px | `spacing/md` |
+| 알려드립니다 Accordion 내부 | 반복 `Title / TextList Group` 사이 | 20px | `spacing/2xl` |
+
+- 알려드립니다는 실제 `Accordion`의 제목이 ‘알려드립니다’인 영역으로 식별한다. 일반 본문 안에 있다는 이유로 그 내부 제목·본문에16px, 구획 사이에24px를 상속하지 않는다. 일반 Accordion 전체에 이 예외를 확대하지 않는다.
+- 예: `Title / Contents`(gap20) 아래에 각 `Title / TextList Group`(gap8)을 배치하고, 각 그룹은 실제 `Title / Element`와 `TextList Group`(목록 항목 간gap8)을 포함한다. 부모 이름이 `Title / Contents`여도20px 규칙을 적용한다. 목록 한 항목만 있는 `Title / TextList`가 섞여도 구획 사이20px·Element 뒤8px를 유지한다. 실제 반복 여부에 따른 Group 명명 규칙을 보존한다.
+- **우선순위**: 알려드립니다 내부의 Element 뒤8px·구획 사이20px는 이전 해당 영역의16px·24px 지시보다 우선한다. 알려드립니다 밖의 반복 `Title / TextList Group` 사이 기본24px는 유지한다. Checkbox/Radio 선택 그룹의 제목8px, 대표전화 제목4px 등 이미 명시된 전용 조합은 각각의 예외를 유지한다.
+- 알려드립니다 외부 상단 콘텐츠와의24px, TextList 목록 항목 사이8px, 목록과 Button Area 사이12px, TextButton secondary/xsmall 등은 별도 계층이다. 이 변경을 이유로 외부 간격이나 native 컴포넌트 내부 간격을 일괄 변경하지 않는다.
+- 검수 시 실제 알려드립니다 조상·직계 자식·부모 itemSpacing과 변수 연결을 확인한다. padding·빈 프레임으로 gap을 대신하지 않는다.
+
 ## 알려드립니다·Accordion·Feedback 버튼 최신 규칙 (2026-11-17)
 
 - **알려드립니다 상단 Divider 제거**: 알려드립니다 앞에 별도 `Divider / Horizontal`을 배치하지 않는다. 독립 Container 안에는 실제 Accordion을 직접 배치하며, Accordion 내부 `hasDivider: false`도 유지한다. 상단 콘텐츠의 바깥 경계에서 알려드립니다 Accordion의 바깥 경계까지 **24px(`spacing/3xl`)**를 적용한다. 종전 외부10px Divider 및 앞32px 규칙을 대체한다. 다른 콘텐츠용 Divider를 일괄 제거하지 않는다.
@@ -508,7 +524,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 ## 중첩 제목 그룹 명명과 아코디언 제목 위계 (2026-10-28 사용자 교정)
 
 - 승인 기준은 [주택자금대출 납입연도 선택 3205:51104](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3205-51104)입니다. `Container 1` 안에서 두 개 이상의 `Title / Accordion Group`처럼 완성된 제목·콘텐츠 조합 그룹을 다시 감싸는 상위 래퍼는 **`Title / Contents`**로 명명합니다. `Title / Accordion Group > Title / Accordion Group`처럼 상·하위 역할을 같은 조합명으로 중첩하지 않습니다. 하위의 각 실제 제목·아코디언 조합은 `Title / Accordion Group`을 유지합니다. 직접 자식이 두 개라는 이유로 상위 래퍼도 같은 이름을 붙이지 않으며, 기존 3개 이상 요소의 Contents 규칙과 별도로 이 복합 위계에도 Contents를 적용합니다. 단순 동일 컴포넌트 반복의 `[명칭] Group` 규칙은 유지합니다.
-- **반복 `Title / TextList Group` 사이 간격은 24px(`spacing/3xl`)**입니다. 아코디언 `Slot-contents`가 이 그룹들을 직접 담으면 Slot의 실제 itemSpacing을 24px 토큰으로 연결합니다. 원형 Slot의 기본 8px를 상속해 서로 다른 제목·본문 블록을 붙이지 않습니다. 개별 `Title / TextList Group` 내부의 제목→본문 16px와 `TextList Group` 내부 항목 간격 8px는 별도 계층이며 그대로 유지합니다.
+- **알려드립니다를 제외한 반복 `Title / TextList Group` 사이 기본 간격은 24px(`spacing/3xl`)**입니다. 알려드립니다 내부는 최신 명세의20px·제목 뒤8px를 우선합니다. 아코디언 `Slot-contents`가 이 그룹들을 직접 담으면 Slot의 실제 itemSpacing을 24px 토큰으로 연결합니다. 원형 Slot의 기본 8px를 상속해 서로 다른 제목·본문 블록을 붙이지 않습니다. 개별 `Title / TextList Group` 내부의 제목→본문 16px와 `TextList Group` 내부 항목 간격 8px는 별도 계층이며 그대로 유지합니다.
 - 상위에 `Title / Section`이 있으면 아코디언 내부의 **소득공제 대상·소득공제 한도 등 한 단계 아래 소제목은 최신 `Title / Element` 인스턴스**로 적용합니다. 이 사례의 바깥 “장기주택저당차입금 이자상환증명서”, “주택자금 상환증명서(전세자금대출)”는 `Title / Section`을 유지합니다. 내부 제목까지 같은 Section으로 만들거나 일반 Text의 크기·굵기만 임의 조정하지 않습니다. Element의 원형 스타일·변수·Hug/Fill·공개 속성을 보존하고 기획에 없는 optional·tooltip·suffix는 비노출합니다.
 - 완료 검수에서 실제 부모·자식 명칭, 반복 그룹 사이 24px와 내부 16px/8px의 구분, 바깥 Section/안쪽 Element 인스턴스·서체 변수 연결, 전체 본문의 보존 및 줄바꿈을 확인합니다. 원본 라이브러리와 기획서는 수정하지 않습니다.
 
@@ -610,7 +626,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 ### Feedback 후속 콘텐츠 간격 (2026-10-23 사용자 확정)
 - **`Feedback` 다음에 별도의 본문·설명·목록 등 후속 콘텐츠 블록이 이어지는 경우 외부 간격은 40px (`spacing/6xl`)**로 적용합니다. 일반 BODY 기본 gap 32px보다 우선하며 완료 화면의 후속 데이터뿐 아니라 [재외국민 비대상 안내 2157:9320](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2157-9320)처럼 안내 뒤 콘텐츠가 이어지는 화면에도 적용합니다.
 - 참조 화면은 `## BODY` > `Container 1`(실제 Feedback) → `Container 2`(후속 안내) 구조이며 BODY의 itemSpacing을 **32px에서 40px로 교정**했습니다. Feedback 하단 경계부터 다음 콘텐츠 상단 경계까지 실제 간격 40px를 확인합니다. 래퍼 패딩과 gap을 중복 가산하거나 빈 프레임으로 여백을 만들지 않습니다.
-- 이 규칙은 **Feedback 뒤의 외부 간격**입니다. Feedback 내부 아이콘·제목·보조 문구 간격, BODY 상단 패딩, 후속 콘텐츠 내부 Title / Section → 콘텐츠 16px·반복 Title / TextList Group 사이24px는 각각 유지합니다. 앞쪽 `Chip / Basic` → Feedback의24px 규칙도 변경하지 않습니다.
+- 이 규칙은 **Feedback 뒤의 외부 간격**입니다. Feedback 내부 아이콘·제목·보조 문구 간격, BODY 상단 패딩, 후속 콘텐츠 내부 Title / Section → 콘텐츠16px·알려드립니다 밖 반복 Title / TextList Group 사이24px는 각각 유지합니다. 알려드립니다 내부 Element 뒤8px·구획 사이20px는 최신 명세를 따릅니다. 앞쪽 `Chip / Basic` → Feedback의24px 규칙도 변경하지 않습니다.
 
 
 ### 항목에 포함된 스위치 크기 (2026-10-23 사용자 확정)
@@ -627,7 +643,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 
 ### 섹션 제목·반복 제목 목록 그룹 간격 (2026-10-22 사용자 확정)
 - **`Title / Section` 다음 콘텐츠와의 외부 gap은 16px (`spacing/xl`)**입니다. Text·TextList Group 등 후속 콘텐츠의 종류와 관계없이 적용합니다. `TextList Group` 내부 항목 간격 8px와 혼동하지 않습니다.
-- **반복되는 `Title / TextList Group` 사이의 기본 gap은 24px (`spacing/3xl`)**입니다. 각 그룹 내부의 Title / Section → TextList Group은 16px, 그 안의 반복 TextList 항목 간격은 기존 8px를 유지합니다. 부모 래퍼 이름이 `Title / Contents`여도 반복 그룹 사이에는 24px를 적용합니다.
+- **알려드립니다 밖의 반복 `Title / TextList Group` 사이 기본 gap은 24px (`spacing/3xl`)**입니다. 알려드립니다 내부는 최신 명세의20px·Element 뒤8px를 적용합니다. 각 그룹 내부의 Title / Section → TextList Group은 16px, 그 안의 반복 TextList 항목 간격은 기존 8px를 유지합니다. 부모 래퍼 이름이 `Title / Contents`여도 반복 그룹 사이에는 24px를 적용합니다.
 - [전자칩 태그 기준 2153:8503](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2153-8503)의 두 Title / TextList Group 내부는 각각 16px, 두 그룹을 감싼 Title / Contents는 24px입니다. 종전 제작본의 내부 8px·그룹 사이 16px는 승인 기준이 아닙니다.
 
 
@@ -1131,7 +1147,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
     - `Container` 또는 `Container [순번]` 내부에 외부 Divider 없이 `Accordion (type: basic, variant: standard, size: medium, hasDivider: false)`을 직접 배치합니다.
     - **독립 컨테이너 분할 필수**: '알려드립니다'는 다른 본문 요소와 합치지 않고 반드시 **독립된 `Container [순번]`으로 그룹핑하여 분할**합니다.
     - **하단 구성 최신 기준 (2026-11-17)**: 외부 Divider 없이 Accordion을 직접 배치합니다. 상단 콘텐츠와 실제 간격24px를 적용합니다.
-    - **Accordion 속성**: `type: basic`, `variant: standard`, `size: medium`, `hasPrefix: true`, Prefix의 아이콘은 **`solid-info-circle`**, `hasDivider: false`, **`expanded: true`로 항상 펼칩니다. 기획·원형의 기본값이 접힘이어도 이 상태를 우선 적용합니다.** 원형 제목·화살표·슬롯 계층을 유지합니다. 본문 `TextList / Unordered`는 size 14, Slot-contents gap 8px를 유지하며 불릿을 일반 텍스트로 바꾸지 않습니다.
+    - **Accordion 속성**: `type: basic`, `variant: standard`, `size: medium`, `hasPrefix: true`, Prefix의 아이콘은 **`solid-info-circle`**, `hasDivider: false`, **`expanded: true`로 항상 펼칩니다. 기획·원형의 기본값이 접힘이어도 이 상태를 우선 적용합니다.** 원형 제목·화살표·슬롯 계층을 유지합니다. 본문 `TextList / Unordered`는 size14·목록 항목 gap8px를 유지하며 불릿을 일반 텍스트로 바꾸지 않습니다. Slot이 제목별 구획을 직접 담으면 구획 간gap20px, 각 구획의 Element→본문은8px를 적용합니다.
     - **내부 Divider 숨김**: 알려드립니다 내부에 위치하는 Accordion은 **`hasDivider: false`를 적용하며, Accordion 내부의 divider는 항상 숨김(비노출)** 처리합니다.
     - **오토레이아웃 해제 및 속성**: `Accordion`을 별도의 오토레이아웃 프레임으로 다시 감싸지 않고(오토레이아웃 해제/단일 컴포넌트 직접 배치), `Accordion` 컴포넌트 자체의 수평 크기는 **`width: fill`**로 설정합니다.
     - 이 Container의 Auto Layout **`gap: 0px`**을 적용합니다.
@@ -1495,7 +1511,7 @@ Container 2 (Vertical, gap12)
   - 알려드립니다 상단의 외부 Divider는 배치하지 않습니다.
   - Accordion Property: `type: basic`, `variant: standard`, `size: medium`, **`width: fill`**, **`hasDivider: false`** (오토레이아웃 감싸기 해제)
   - **Divider 숨김**: Accordion 내부의 divider는 항상 숨김 처리
-  - **최종 승인 기준 (2026-10-20)**: `2075:2064` 하단처럼 `hasPrefix: true` + `solid-info-circle`, `expanded: true`, 본문 TextList size 14 / Slot-contents gap 8px를 적용합니다. 외부 Divider는 제거하고 내부 Divider도 숨깁니다.
+  - **최종 승인 기준 (2026-10-20)**: `2075:2064` 하단처럼 `hasPrefix: true` + `solid-info-circle`, `expanded: true`, 본문 TextList size14 / 목록 항목 gap8px를 적용합니다. 제목별 구획 사이20px·Element→본문8px는 최신 명세를 따릅니다. 외부 Divider는 제거하고 내부 Divider도 숨깁니다.
   - **아이콘·본문·버튼 최종 기준 (2026-11-11)**: `solid-info-circle`의 Vector Fill은 `icon/neutral/secondary`(key `a4f21a3df17c7c591e78cfe160ccb895c3644489`)를 연결하고 노출합니다. primary 컬러로 덮어쓰지 않습니다. 참조5224:7783 삭제 후에도 이 토큰을 사용합니다.
   - 본문 TextList가 복수면 `TextList Group`(Vertical / Fill·Hug / AUTO / gap **8px**, `spacing/md`)으로 묶습니다. 그 아래 `Button Area`가 있으면 두 형제 사이 **12px**(`spacing/lg`)을 적용합니다. Slot 전체 gap8로 버튼 경계를 처리하지 않습니다. `Button Area` 내 TextButton은 **variant secondary / size xsmall**, 우측 정렬이며 문구·아이콘·밑줄은 해당 기획을 따릅니다.
   - 그룹핑 간격: Auto Layout **`gap: 0px`**

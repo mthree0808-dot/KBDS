@@ -832,3 +832,41 @@ test('Accordion fullTouchArea is not globally forced in page or Dialog',()=>{
   for(const value of [undefined,false,true]){if(value===undefined)delete a.componentProperties?.fullTouchArea;else a.componentProperties={...a.componentProperties,fullTouchArea:{value}};assert.equal(check(s).errors.length,0);}
  }
 });
+
+function titleListSpacingFixture({notice=false,accordion=false,single=false}={}) {
+  const s=page(),gap=value=>({itemSpacing:value,boundVariables:{itemSpacing:{id:rules.spacing[value]}}});
+  let parent='body';
+  if(notice||accordion){add(s,component('spacing-ac','Accordion','body'),textNode('spacing-heading',notice?'알려드립니다':'상세 안내','spacing-ac'),frames('spacing-slot','Slot-contents','spacing-ac',{type:'SLOT'}));parent='spacing-slot';}
+  add(s,frames('sections','Title / Contents',parent,gap(notice?20:24)));
+  for(let i=0;i<2;i++){
+    const isSingle=single&&i===1;
+    add(s,frames('section'+i,isSingle?'Title / TextList':'Title / TextList Group','sections',gap(notice?8:16)),component('element'+i,'Title / Element','section'+i));
+    if(isSingle)add(s,component('row'+i,'TextList / Unordered','section'+i));
+    else add(s,frames('rows'+i,'TextList Group','section'+i,gap(8)),component('row'+i+'a','TextList / Unordered','rows'+i),component('row'+i+'b','TextList / Unordered','rows'+i));
+  }
+  return s;
+}
+test('normal body and ordinary Accordion keep Element16 and section24',()=>{
+  for(const accordion of [false,true]){
+    const s=titleListSpacingFixture({accordion});assert.equal(check(s).errors.length,0);
+    s.items.find(n=>n.id==='section0').itemSpacing=8;assert.ok(codes(s).includes('GAP'));
+    s.items.find(n=>n.id==='section0').itemSpacing=16;s.items.find(n=>n.id==='sections').itemSpacing=20;assert.ok(codes(s).includes('GAP'));
+  }
+});
+test('notice Element8 and repeated sections20 apply through nested Contents wrappers',()=>{
+  const s=titleListSpacingFixture({notice:true});assert.equal(check(s).errors.length,0);
+  const section=s.items.find(n=>n.id==='section0');section.itemSpacing=16;assert.ok(codes(s).includes('GAP'));
+  section.itemSpacing=8;const groups=s.items.find(n=>n.id==='sections');groups.itemSpacing=24;assert.ok(codes(s).includes('GAP'));
+});
+test('notice title and section gaps require matching spacing tokens',()=>{
+  for(const [id,wrong]of [['section0',16],['sections',24]]){
+    const s=titleListSpacingFixture({notice:true});s.items.find(n=>n.id===id).boundVariables.itemSpacing.id=rules.spacing[wrong];assert.ok(codes(s).includes('GAP_TOKEN'));
+  }
+});
+test('notice single-list sections preserve8 and20 without fake repeated group',()=>{
+  const s=titleListSpacingFixture({notice:true,single:true});assert.equal(check(s).errors.length,0);
+  s.items.find(n=>n.id==='sections').itemSpacing=24;assert.ok(codes(s).includes('GAP'));
+});
+test('hidden notice heading does not activate notice gap exceptions',()=>{
+  const s=titleListSpacingFixture({accordion:true});s.items.find(n=>n.id==='spacing-heading').characters='알려드립니다';s.items.find(n=>n.id==='spacing-heading').visible=false;assert.equal(check(s).errors.length,0);
+});
