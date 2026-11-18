@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-18.1",
+  "version": "2026-11-18.2",
   "nativeStatusBarFontException": {
     "componentKey": "92e535778a9a168cb544987a2c071b053940aff4",
     "fontFamily": "SF Pro Text",
@@ -83,10 +83,9 @@
     "formUnit": 24
   },
   "bottomSheetList": {
-    "layoutSizingVertical": "FIXED",
-    "height": 48,
-    "selectionSource": "wireframe-then-second",
-    "defaultSelectedIndex": 1
+    "layoutSizingVertical": "HUG",
+    "hasSuffix": false,
+    "showCheckmark": false
   },
   "cardSlot": {
     "unusedStructure": "visible-false-not-delete",

@@ -125,14 +125,14 @@ Card / Surface
 
 참조: 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 [기본 원형6130:116723](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6130-116723), [조합25563:70592](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=25563-70592), [DataList 조합6323:178819](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6323-178819). 이번 요청은 규칙 갱신이며 라이브러리 및 기존 작업 화면은 수정하지 않는다.
 
-## 선택 바텀시트: 두 번째 기본 선택·List48px Fixed (2026-11-09 사용자 재확정)
+## 선택 바텀시트: List Hug·체크 미표시 (2026-11-18 사용자 변경)
 
-- 적용 대상은 체크마크로 현재 선택을 표시하는 일반 List형 선택 바텀시트와 계좌 선택형이다.
-- 기획에 초기 선택 항목·선택 순서가 명시되어 있으면 해당 지시를 우선한다. 별도 지정이 없으면 화면에서 위에서 두 번째 List를 기본 선택한다. 안내용 List도 실제 노출 순서에 포함하고 항목을 재정렬하거나 데이터 항목만 다시 세지 않는다.
-- 선택 List의 공개 속성은 `hasSuffix: True`, 하위 `Slot-Suffix > Item / Suffix`의 `variant: checkMark`다. 일반 단일 선택의 나머지 List는 `hasSuffix: False`다. 명시된 복수 선택은 기획을 따른다. 항목이 하나뿐이면 존재하지 않는 두 번째 항목을 만들거나 첫 번째를 임의 선택하지 않는다.
-- 체크마크 표시 여부와 관계없이 모든 해당 List를 **높이48px·세로Fixed (`layoutSizingVertical: FIXED`)**로 통일한다. Hug 또는 최소 높이48px만으로 대체하지 않는다. 원형 내부·서체·변수·문구·순서·구분선·아이콘·외부 간격은 보존한다.
-- 도움말·이용 방법 안내·이동 화살표 목록 등의 별도 패턴에는 기본 선택·48px 고정을 확대 적용하지 않는다.
-- 이 규칙은 2026-11-05의 기본 선택 삭제·List Hug 지시를 대체한다. 이번 요청은 MD·공통 검사 갱신이며 기존 Figma 화면의 일괄 수정 요청은 아니다.
+- 적용 대상은 일반 List형 선택 바텀시트다. 실제 `List` 인스턴스의 세로 크기를 **Hug (`layoutSizingVertical: HUG`)**로 설정해 문구·부연 설명·줄바꿈에 따라 높이가 늘어나게 한다. 48px Fixed나 최소 높이48px를 공통으로 강제하지 않는다.
+- **체크는 표시하지 않는다.** 각 List의 공개 옵션은 **`hasSuffix: false`**로 설정하고, `Item / Suffix`의 `checkMark`는 비노출한다. 체크 레이어를 삭제하거나 List 원형을 detach하지 않는다. 기획에 체크 표시가 있더라도 이번 공통 변경을 우선한다.
+- **두 번째 List를 기본 선택하는 규칙은 삭제한다.** 특정 순번의 List에 임의로 선택값·체크를 추가하지 않는다. 과거 `sheetListSelectedIndices` 계약은 체크 렌더링에 사용하지 않는다.
+- 기획의 항목·문구·순서·부연 설명·비활성 상태·구분선·Prefix 아이콘은 보존한다. List를 담는 Container의 gap8px(`spacing/md`)와 List 자체 좌우padding0은 유지한다. 높이를 맞추기 위해 외부 gap·Slot 패딩을 변경하지 않는다.
+- 도움말·이용 방법·이동 화살표 등 별도 List 패턴의 역할별 suffix는 해당 전용 명세를 따른다. 휴대폰 앞자리 선택은 List가 아닌 GridButton 전용 규칙을 유지한다.
+- 이 명세는 이전48px Fixed·두 번째 항목 기본 선택·checkMark 노출 지시를 대체한다. 이번 요청은 공유 MD·검사 기준 갱신이며 기존 Figma 화면의 일괄 수정 요청은 아니다.
 
 ## 체크박스·라디오 배치 간격 (2026-11-05 사용자 최종 교체)
 
@@ -813,13 +813,11 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
   - **오토레이아웃 간격 및 패딩**:
     - `List`들을 감싸는 `Container 1`의 Auto Layout **`gap: 8px` (`md` 토큰)**을 적용합니다.
     - `Container` 내에 삽입되는 `List` 컴포넌트 자체의 **좌우 패딩(padding-left, padding-right)은 `0px`**으로 설정합니다.
-  - **기본 선택 및 우선순위 (2026-11-09 재확정)**:
-    - 기획에 명시된 초기 선택 항목·선택 순서를 우선합니다. 별도 지정이 없으면 실제 노출 순서의 **두 번째 List**를 기본 선택합니다. 안내 항목도 실제 List라면 순서에 포함합니다.
-    - 선택 List는 **`hasSuffix: True`**, `Slot-Suffix > Item / Suffix`는 **`variant: checkMark`**로 설정합니다. 일반 단일 선택의 나머지 항목은 `hasSuffix: False`입니다. 명시된 복수 선택 상태는 기획을 따릅니다.
-  - **List 높이 (2026-11-09 재확정)**:
-    - 체크마크 노출·비노출 모두 **높이48px·세로Fixed (`layoutSizingVertical: FIXED`)**입니다. 종전 Hug 규칙을 대체합니다.
-    - List 원형 내부·서체·변수 연결과 문구·순서·구분선·아이콘·부연 문구를 보존합니다. 높이와 목록 외부 gap·Slot 패딩은 구분합니다.
-    - 별도 정의된 도움말·이동형 List 패턴에는 기본 선택·48px 고정을 일괄 적용하지 않습니다.
+  - **체크 미표시·기본 선택 삭제 (2026-11-18)**:
+    - 모든 일반 선택 List는 `hasSuffix: false`, `Item / Suffix checkMark`는 비노출합니다. 두 번째 List 등 특정 순번의 항목을 기본 선택하지 않습니다. 이전 선택 인덱스 계약으로 체크를 다시 노출하지 않습니다.
+  - **List 높이 (2026-11-18)**:
+    - 세로 **Hug (`layoutSizingVertical: HUG`)**로 설정합니다. 48px Fixed·공통 최소 높이48px를 강제하지 않습니다.
+    - 원형 서체·변수·문구·순서·구분선·아이콘·부연 문구를 보존하고 줄바꿈이 잘리지 않도록 합니다. 높이와 외부 gap·Slot 패딩은 구분합니다. 도움말·이동형 등 전용 패턴은 해당 명세를 유지합니다.
   - **데이터 매핑**: 기획서에 명시된 리스트 항목 텍스트를 `List` 컴포넌트에 순차적으로 1:1 매핑합니다.
 - **도움말·이용 방법 선택 바텀시트 (2026-10-19 사용자 승인, 위 일반 선택형보다 우선)**:
   - [인증번호 입력 도움말 기획](https://www.figma.com/design/CdyCQv4aFslTl7MGoQxmU9/?node-id=4469-44517)과 같은 이용 방법 선택 화면은 [추가 본인 인증 기준 185:14891](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=185-14891)처럼 **테두리 카드 없이 `List` 인스턴스**로 구성합니다.
@@ -1446,7 +1444,7 @@ Container 2 (Vertical, gap12)
   - Divider(10px) 포함 Container 내부 Auto Layout **`gap: 0px`** 적용
 - **Card / Surface 및 Data Block 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
 - **선택형 바텀시트 List 간 간격**: `Container 1` 내부 Auto Layout **`gap: 8px` (`md`)** 적용 (List 자체 좌우 패딩: 0px)
-- **셀렉트 바텀시트 List 높이**: 체크마크 노출·비노출 모두 **48px·세로Fixed**. 기획의 선택 지정이 없으면 두 번째 List를 hasSuffix true·checkMark로 설정합니다(2026-11-09 재확정).
+- **셀렉트 바텀시트 List 높이·체크**: **세로Hug**, `hasSuffix: false`·checkMark 비노출입니다. 두 번째 항목 기본 선택 규칙은 삭제했습니다(2026-11-18).
 - **알려드립니다 Container**: 외부 Divider 없이 Accordion 직접 배치, 내부 gap0px. 상단 콘텐츠와24px.
 
 #### TextList 사이즈 및 그룹 간격 규칙

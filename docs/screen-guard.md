@@ -135,9 +135,9 @@ Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명
 
 일반 선택 그룹은 Vertical itemSpacing8, Horizontal itemSpacing16, Horizontal·WRAP의 counterAxisSpacing8, Grid gridRowGap8/gridColumnGap16 및 각 spacing/md·xl 연결을 검사한다. Grid의 비활성 itemSpacing은 판정하지 않는다. Title / Element→선택 그룹8px 예외를 일반 제목16px보다 우선하며 native 내부·약관 depth·CheckSub에는 확대 적용하지 않는다. 독립 폼 단위24px는 실제 경로의 contract.checks로 지정한다.
 
-### 선택 바텀시트 기본 선택·48px Fixed 복원 (2026-11-09)
+### 선택 바텀시트 List Hug·체크 미표시 (2026-11-18)
 
-일반 선택 List는 체크 유무 모두 높이48px·세로Fixed(`SHEET_LIST_FIXED48`)를 검사한다. 기획에서 명시한 선택이 있으면 contract의 `sheetListSelectedIndices`에0-based 인덱스 배열로 지정한다(첫 번째=[0], 첫째·셋째=[0,2], 명시적 미선택=[]). 지정이 없으면 두 번째 List(인덱스1)를 기본 선택하며 hasSuffix와 노출된 Item / Suffix checkMark를 검사한다. 안내 List도 실제 노출 순서에 포함한다. 항목 하나뿐이면 임의 선택하지 않는다. 이동형 pageIndicator 목록은 이 검사에서 제외하며 도움말·이동형 전용 패턴은 확인 후 `sheetListPattern:"navigation"`으로 명시한다. 이 분기는 일반 선택 목록의 오류를 우회하기 위한 용도가 아니다. 문구·구분선·아이콘·기획의 선택 지정 여부와 시각적 외형은 직접 대조한다.
+일반 선택 List의 세로Hug(`SHEET_LIST_HUG`), `hasSuffix:false` 및 실제 보이는 checkMark 없음(`SHEET_LIST_CHECK_HIDDEN`)을 검사한다. 높이48px·선택 인덱스·두 번째 기본 선택 검사는 제거했다. 과거 `sheetListSelectedIndices`를 전달해도 체크를 요구하거나 추가하지 않는다. 높이는 내용에 따라 달라지며 원형 서체·부연 문구·줄바꿈은 시각 대조한다. 이동형 pageIndicator 또는 확인된 `sheetListPattern:"navigation"` 전용 패턴은 기존 역할별 옵션을 유지한다. 전용 패턴 분기를 일반 목록 오류 우회에 사용하지 않는다.
 
 ### Card Slot 구조 보존 및 Group-C DataList (2026-11-09)
 

@@ -252,16 +252,11 @@ export function auditScreen(snapshot, contract = {}, rules) {
     if(contract.sheetListPattern!==undefined&&!['selection','navigation'].includes(contract.sheetListPattern))fail('CONTRACT',root,'sheetListPattern은 selection 또는 navigation입니다');
     if(lists.length&&!navigation){
       for(const n of lists){
-        if(n.layoutSizingVertical!==rules.bottomSheetList.layoutSizingVertical||!near(n.height,rules.bottomSheetList.height))fail('SHEET_LIST_FIXED48',n,'선택 바텀시트 List는 체크 유무 모두48px·세로Fixed입니다');
-        checked.push({kind:'sheet-list-sizing',nodeId:n.id,expected:'FIXED',height:48});
+        if(n.layoutSizingVertical!==rules.bottomSheetList.layoutSizingVertical)fail('SHEET_LIST_HUG',n,'선택 바텀시트 List는 내용에 따른 세로Hug입니다');
+        const prop=Object.entries(n.componentProperties??{}).find(([k])=>k.split('#')[0]==='hasSuffix')?.[1]?.value;
+        if(prop!==rules.bottomSheetList.hasSuffix||suffixes(n).some(c=>visible(c)&&c.componentProperties?.variant?.value==='checkMark'))fail('SHEET_LIST_CHECK_HIDDEN',n,'선택 List는 hasSuffix false·checkMark 비노출입니다');
+        checked.push({kind:'sheet-list-sizing',nodeId:n.id,expected:'HUG',hasSuffix:false});
       }
-      const explicit=contract.sheetListSelectedIndices, selected=explicit??(lists.length>rules.bottomSheetList.defaultSelectedIndex?[rules.bottomSheetList.defaultSelectedIndex]:[]);
-      if(!Array.isArray(selected)||selected.some(i=>!Number.isInteger(i)||i<0||i>=lists.length)||new Set(selected).size!==selected.length)fail('CONTRACT',root,'sheetListSelectedIndices는 기획에 명시된 선택 항목의 유효한0-based 인덱스 배열입니다');
-      else lists.forEach((n,i)=>{
-        const chosen=selected.includes(i),prop=Object.entries(n.componentProperties??{}).find(([k])=>k.split('#')[0]==='hasSuffix')?.[1]?.value;
-        if(prop!==chosen)fail('SHEET_LIST_SELECTION',n,'기획 지정 선택 우선·미지정 두 번째 List 선택과 hasSuffix가 일치해야 합니다');
-        if(chosen&&!suffixes(n).some(c=>visible(c)&&c.componentProperties?.variant?.value==='checkMark'))fail('SHEET_LIST_CHECKMARK',n,'선택 List의 Item / Suffix는 노출된 checkMark여야 합니다');
-      });
     }
     for (const n of roots.filter(n => ['BottomSheet', 'HomeIndicator', 'Keypad'].includes(n.name))) if (n.layoutPositioning !== 'AUTO') fail('SHEET_FLOW', n, 'BottomSheet·HomeIndicator·Keypad는 AUTO 흐름이어야 합니다');
     for (const n of roots.filter(n => ['Dimmed', 'StatusBar'].includes(n.name))) if (n.layoutPositioning !== 'ABSOLUTE') fail('SHEET_OVERLAY', n, 'Dimmed·StatusBar만 Absolute로 배치합니다');

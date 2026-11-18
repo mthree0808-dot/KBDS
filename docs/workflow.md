@@ -434,9 +434,7 @@ Title / Section → 다음 콘텐츠 외부 gap16px, 반복 Title / TextList Gro
 
 2026-10-20 TextButton 최종 교정: 인풋 조합 및 박스 아래에 별도 배치하는 TextButton은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:7407`의 `2025:7417`처럼 variant secondary로 계획·제작·검수합니다. 종전 인풋 조합의 primary 지정은 철회합니다. 크기·간격·정렬은 각 승인 패턴을 유지하며, InputField 내부 버튼과 독립 CTA에는 일괄 적용하지 않습니다.
 
-2026-11-09 선택 바텀시트 재확정: 기획에 별도 선택 항목이 명시되면 우선하고, 미지정이면 노출 순서상 두 번째 List를 기본 선택한다. 선택 List는 hasSuffix=true·Item / Suffix variant=checkMark, 나머지는 hasSuffix=false다. 선택 여부와 관계없이 List 높이는48px·세로Fixed다. 문구·순서·구분선·아이콘 등은 기획을 보존한다. 도움말·이동형 등 별도 패턴에 일괄 적용하지 않는다.
 
-2026-11-09 높이 재확정: 일반 선택형 List는 체크마크 노출·비노출 모두48px·세로Fixed다. 원형·폰트·변수를 유지하고 외부 간격·Slot 패딩으로 높이를 보정하지 않는다.
 
 2026-10-19 승인 패턴: InputField 뒤 보조 이동 버튼은 `zNwpdAWcBMOM5ExkiBUoGn / 2025:6834`의 `InputField / Button Area`(gap 12px)와 우측 정렬 Button Area / TextButton secondary·small·suffix true·underline false를 매핑합니다. 도움말·이용 방법 선택 바텀시트는 `KFlklMvGmg0MXGfAXvpprn / 185:14891`의 테두리 없는 List 패턴을 적용하고, 목록 gap 0·List padding 12/0·기본 Item / Prefix(bgIcon)·Suffix pageIndicator를 확인합니다. 기획 본문이 있으면 Text로 보존하고 목록과 gap 16px로 배치합니다. 아이콘은 작업자가 직접 지정하므로 기본 인스턴스만 두며, 전체 Card 패턴이나 일반 선택 바텀시트의 gap 8px를 이 경우에 적용하지 않습니다. 상세 수치와 키는 원문 및 실측 디자인 규칙을 따릅니다.
 
@@ -550,3 +548,5 @@ node src/cli.mjs verify runs/task-001/plan.json runs/task-001/reference.json run
 완료 조건은 요구사항 누락 없음, 정책 위반 없음, 원본 근거 확보, 현재 결과 시각 검수 통과입니다. 하나라도 남으면 BLOCKED 또는 REVIEW_REQUIRED로 전달하고 이유를 명시합니다. 런타임 예외로 verify 자체가 실패하면 원인과 미검증 범위를 알리고, 보고서가 요청된 경우 오류 리포트에도 남깁니다.
 
 추가 완료 조건은 적용 규칙의 실제 검사 통과, 비적용 판단 근거와 미지원/충돌의 해결 근거 확보입니다. 보고서 요청 시 이 근거를 `designer-review.md`에 기록하고 최종 리포트에 연결합니다. 기존 CLI PASS만으로 디자이너 규칙까지 통과했다고 보고하지 않습니다.
+
+2026-11-18 선택 바텀시트 변경: 일반 List는 세로Hug·hasSuffix false·checkMark 비노출이다. 두 번째 항목 기본 선택 및48px Fixed 규칙을 삭제한다. 문구·순서·부연 설명·비활성 상태·구분선·Prefix 아이콘, Container gap8px·List 좌우padding0을 보존한다. 도움말·이동형과 휴대폰 앞자리 GridButton은 각 전용 명세를 따른다.

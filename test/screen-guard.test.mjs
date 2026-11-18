@@ -742,20 +742,28 @@ test('wrapped choice groups require vertical row8 token as well as horizontal16'
 
 function choiceSheet(){
  const s=snapshot([frames('root','선택',null,{height:844,fills:fill(rules.colors.white)}),frames('dim','Dimmed','root',{layoutPositioning:'ABSOLUTE'}),component('sheet','BottomSheet','root'),component('home','HomeIndicator','root',{fills:fill(rules.colors.elevated)}),frames('group','List Group','sheet')]);
- for(let i=0;i<3;i++){add(s,component('l'+i,'List','group',{height:48,layoutSizingVertical:'FIXED',componentProperties:{'hasSuffix#actual':{value:i===1}}}),component('suffix'+i,'Item / Suffix','l'+i,{visible:i===1,componentProperties:{variant:{value:'checkMark'}}}));}return s;
+ for(let i=0;i<3;i++){add(s,component('l'+i,'List','group',{height:48+i*22,layoutSizingVertical:'HUG',componentProperties:{'hasSuffix#actual':{value:false}}}),component('suffix'+i,'Item / Suffix','l'+i,{visible:false,componentProperties:{variant:{value:'checkMark'}}}));}return s;
 }
 function choose(s,indices){for(let i=0;i<3;i++){s.items.find(n=>n.id==='l'+i).componentProperties['hasSuffix#actual'].value=indices.includes(i);s.items.find(n=>n.id==='suffix'+i).visible=indices.includes(i);}}
-test('selection Lists require48 Fixed for both selected and unselected items',()=>{
- const s=choiceSheet();assert.equal(check(s).errors.length,0);s.items.find(n=>n.id==='l0').height=46;assert.ok(codes(s).includes('SHEET_LIST_FIXED48'));s.items.find(n=>n.id==='l0').height=48;s.items.find(n=>n.id==='l1').layoutSizingVertical='HUG';assert.ok(codes(s).includes('SHEET_LIST_FIXED48'));
+test('selection Lists use Hug at varying content heights and reject Fixed48',()=>{
+ const s=choiceSheet();assert.equal(check(s).errors.length,0);
+ for(const height of [32,48,70,120]){s.items.find(n=>n.id==='l0').height=height;assert.equal(check(s).errors.length,0);}
+ s.items.find(n=>n.id==='l0').height=48;s.items.find(n=>n.id==='l0').layoutSizingVertical='FIXED';assert.ok(codes(s).includes('SHEET_LIST_HUG'));
 });
-test('second visible List is the default and requires actual visible checkMark',()=>{
- const s=choiceSheet();choose(s,[0]);assert.ok(codes(s).includes('SHEET_LIST_SELECTION'));choose(s,[1]);s.items.find(n=>n.id==='suffix1').componentProperties.variant.value='pageIndicator';assert.ok(codes(s,{sheetListPattern:'selection'}).includes('SHEET_LIST_CHECKMARK'));s.items.find(n=>n.id==='suffix1').componentProperties.variant.value='icon';assert.ok(codes(s).includes('SHEET_LIST_CHECKMARK'));
+test('selection Lists hide checkmarks including the second List',()=>{
+ const s=choiceSheet();assert.equal(check(s).errors.length,0);
+ for(const indices of [[0],[1],[0,2]]){choose(s,indices);assert.ok(codes(s).includes('SHEET_LIST_CHECK_HIDDEN'));choose(s,[]);}
 });
-test('planning selection overrides default including multiple or explicitly none',()=>{
- for(const indices of [[0],[0,2],[]]){const s=choiceSheet();choose(s,indices);assert.equal(check(s,{sheetListSelectedIndices:indices}).errors.length,0);}assert.ok(codes(choiceSheet(),{sheetListSelectedIndices:[3]}).includes('CONTRACT'));
+test('visible checkmark and enabled empty suffix are independently rejected',()=>{
+ const s=choiceSheet();s.items.find(n=>n.id==='suffix0').visible=true;assert.ok(codes(s).includes('SHEET_LIST_CHECK_HIDDEN'));
+ s.items.find(n=>n.id==='suffix0').visible=false;s.items.find(n=>n.id==='l0').componentProperties['hasSuffix#actual'].value=true;assert.ok(codes(s).includes('SHEET_LIST_CHECK_HIDDEN'));
 });
-test('navigation and help patterns do not inherit default selection or fixed48',()=>{
- const s=choiceSheet();choose(s,[]);for(const n of s.items.filter(n=>n.name==='List')){n.layoutSizingVertical='HUG';n.height=70;}assert.equal(check(s,{sheetListPattern:'navigation'}).errors.length,0);
+test('legacy selected indices do not reintroduce second or planning checks',()=>{
+ for(const indices of [[1],[0],[0,2],[],[3]]){const s=choiceSheet();assert.equal(check(s,{sheetListSelectedIndices:indices}).errors.length,0);assert.equal(s.items.find(n=>n.id==='l1').componentProperties['hasSuffix#actual'].value,false);}
+});
+test('navigation and help patterns preserve their dedicated suffix rules',()=>{
+ const s=choiceSheet();for(let i=0;i<3;i++){s.items.find(n=>n.id==='l'+i).componentProperties['hasSuffix#actual'].value=true;const suffix=s.items.find(n=>n.id==='suffix'+i);suffix.visible=true;suffix.componentProperties.variant.value='pageIndicator';}
+ assert.equal(check(s).errors.length,0);assert.equal(check(s,{sheetListPattern:'navigation'}).errors.length,0);assert.ok(codes(s,{sheetListPattern:'selection'}).includes('SHEET_LIST_CHECK_HIDDEN'));
 });
 
 function dataCard(valid=true){
