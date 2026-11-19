@@ -14,7 +14,7 @@
 - 단순 수정은 해당 유형의 검증된 절차로 변경 범위만 편집한다. 구조·서체·화면 필수 검수는 한 번 수행하고, 실패 시 오류와 영향받는 부모만 수정·재검사한다. Popup 전환은 원문의 「단순 수정의 속도와 공통 개선 반영」에 따라 Slot 삽입 후 ID 재수집·Footer 하단 정렬까지 한 절차로 처리한다.
 - 컴포넌트는 지정 MO 라이브러리의 현재 원형에서 직접 import한다. `knowledge/`는 시점별 캐시이며 원본 확인을 대체하지 않는다. 주변 화면·이전 제작본의 override를 새 컴포넌트 기준으로 복제하지 않는다.
 - 기획의 원문·순서·불릿·번호·강조·링크·선택/비활성 상태를 확인한다. 페이지 ID 필드가 실제로 있을 때만 `실제페이지ID_화면명`, 공란이면 `화면ID_화면명`을 사용한다. 요구사항 ID나 흐름명을 페이지 ID로 추정하지 않는다.
-- detach·새 라이브러리 컴포넌트/토큰·임의 색상/폰트/간격·이미지 평탄화를 금지한다. 승인된 Data Block/Text Box 구성과 편집 가능한 더미 Image Area는 상세 MD의 예외대로 적용한다. 공개 옵션과 원형의 Hug/Fill·variant 전환 동작을 보존한다.
+- detach·새 라이브러리 컴포넌트/토큰·임의 색상/폰트/간격·이미지 평탄화를 금지한다. 종전 Data Block은 실제 Card / Surface, Text Box는 실제 Infobox / Card를 사용하며 수동 박스 프레임 제작을 금지한다. 편집 가능한 더미 Image Area는 상세 MD의 예외대로 적용한다. 공개 옵션과 원형의 Hug/Fill·variant 전환 동작을 보존한다.
 
 ## 필수: 제작 호출에 공통 검사를 포함
 
@@ -40,7 +40,7 @@
 - Title / Page→ConsentGroup은 실제 경계24px다. 사업자번호·휴대폰 숫자는 Numeric md 스타일의 실제 SemiBold 및 다섯 typography 변수 연결을 보존하고 스타일 적용 뒤 fontName/Bold를 덮어쓰지 않는다. `src/input-numeric.mjs`를 재사용한다. 특정 필드의 별도 TextList 설명은 FooterArea 밖 `InputField / TextList` 또는 `InputField / TextList Group`으로 묶어12px, 목록 내부8px·필드 단위 사이24px를 적용한다. 상세 독립 명세는 `knowledge/input-field-corrections.json`이다.
 - Checkbox/Radio 일반 선택 그룹은 Title / Element→그룹8px·항목 세로8px/가로16px(Grid 행8/열16)와 spacing/md·xl을 적용한다. 종전20px 일괄 규칙은 폐기하며 native 내부·ConsentGroup·CheckSub 규칙은 구분한다. 상세는 원문의 「체크박스·라디오 배치 간격」을 따른다.
 - 일반 선택 List형 바텀시트는 높이 Hug(`layoutSizingVertical: HUG`)·체크 미표시로 구성한다(2026-11-18). `hasSuffix: false`로 설정하고 Item / Suffix checkMark는 숨긴다. 두 번째 List 기본 선택·48px Fixed 규칙은 삭제했다. 기획의 문구·순서·부연 문구·비활성 상태·구분선·아이콘과 기존 간격을 보존하고 도움말·이동형 전용 패턴 및 휴대폰 앞자리 GridButton과 구분한다.
-- Card / Surface의 Slot 구조는 미사용이어도 삭제하지 않고 눈만 끈다. 해당 variant의 편집 전 구조를 숨김 포함 보존·대조한다. Card 내부 DataList는 실제 Card / Body / Group-C(variant: dataList) > Slot > DataList로 배치하며 독립 Data Block·Text Box에는 확대하지 않는다. 상세 원문의 「Card Slot 구조 보존 및 DataList 조합」을 따른다.
+- Card / Surface의 Slot 구조는 미사용이어도 삭제하지 않고 눈만 끈다. 해당 variant의 편집 전 구조를 숨김 포함 보존·대조한다. Card 내부 DataList는 실제 Card / Body / Group-C(variant: dataList) > Slot 안에 단일 DataList 또는 DataList Group(gap12)으로 배치한다. 액션 없는 데이터 박스도 Card / Surface(outline/basic), 종전 Text Box는 Infobox / Card(medium/info)로 구성한다. 반복은 Card Group·Infobox Group이며 상세 원문의 최신 네이티브 전환 절을 따른다. 상세 원문의 「Card Slot 구조 보존 및 DataList 조합」을 따른다.
 - 반복 항목은 실제 `[명칭] Group`으로 묶는다. Text·TextList 혼합은 각각 묶고 `Text / TextList Group`, 그 위 제목은 `Title / Contents`로 재판정한다. 구조 변경 후 영향을 받는 부모도 검사한다. 원형 내부 레이어를 일괄 재명명하지 않는다.
 - 일반 본문 Title / Element·Section 뒤16px(기존 전용 조합 예외 유지), 알려드립니다 내부 Element 뒤8px·Title / TextList Group 간20px, 그 밖의 반복 Title / TextList Group 간24px, Tab→Infobox / Card16px, 일반 Tab 후24px 등 해당 조합의 최신 간격을 구분한다. 숫자 값과 spacing 토큰을 같이 검사한다.
 - Title / DataList Group 다음에 Infobox Group 등 독립 박스 UI가 오면 외부 간격32px·spacing/5xl을 적용한다. 데이터/박스 내부 간격·패딩과 분리하며 참조173:3046 삭제 후에도 상세 MD의 독립 명세를 따른다.

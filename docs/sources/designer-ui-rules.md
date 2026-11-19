@@ -1,5 +1,71 @@
 # UI Design & Code Generation Rules
 
+## 데이터 박스·설명 박스의 네이티브 컴포넌트 전환 (2026-11-19 사용자 확정)
+
+이 절은 종전 Data Block·Text Box의 수동 프레임 제작 지시를 대체한다. 액션 유무와 관계없이 아래 컴포넌트를 최신 MO 라이브러리에서 직접 가져온다. 예시 화면의 링크·존속 여부에 의존하지 않는다.
+
+| 콘텐츠 역할 | 사용할 실제 컴포넌트 | 반복 래퍼 |
+|---|---|---|
+| 종전 Data Block: 계좌·거래·신청 정보, 금액 등 사실 데이터 박스 | `Card / Surface` | `Card Group` |
+| 종전 Text Box: 설명·안내·주의·상태 메시지 박스 | `Infobox / Card` | `Infobox Group` |
+
+- `Data Block`, `Text Box`, `Data Block Group`, `Text Box Group`을 새 수동 프레임으로 만들지 않는다. 이름만 Card·Infobox로 바꾸거나 detach하여 흉내 내지 않는다. 단일·반복 모두 실제 인스턴스 이름을 유지하고 반복 자식에 순번을 붙이지 않는다.
+- 이 변경은 박스 UI의 구현을 바꾸는 것이다. 박스가 없는 완료 화면의 `Title / DataList Group`, 일반 본문, 알려드립니다 Accordion, GridButton·선택형 Card·서비스 진입 목록 등 별도 전용 패턴에 일괄 적용하지 않는다. 데이터 카드에 기획에 없는 선택·이동·버튼을 추가하지 않는다.
+
+### 1. 사실 데이터 박스: Card / Surface
+
+- 기본은 `type: outline`, `variant: basic`, `select: false`, `disabled: false`, `fullTouchArea: false`인 정보 표시형이다. 실제 선택·비활성·동작이 기획된 카드는 해당 공개 옵션을 따른다.
+- 가로 Fill·세로 Hug, 외곽 padding20px(`spacing/2xl`), radius20px(`radius/2xl`), outline1px(`stroke/md`), Fill `surface/neutral/quaternary-muted`, Border `border/neutral/secondary-muted`를 원형 토큰으로 유지한다. 350px는 좌우20px 본문에서의 결과 폭이며 고정 폭·높이를 전역 강제하지 않는다.
+- Slot의 미사용 Header·Body 부속 구조·Footer·Logo·Affix·Group 등은 **삭제하지 않고 눈만 끈다**. 실제 variant 원형의 부모·순서·동명 Group 개수를 보존한다. 아래는 노출 콘텐츠 경로이며 전체 원형을 이 구조로 축소하라는 뜻이 아니다.
+
+```text
+Card / Surface
+└─ Slot (gap16, padding0)
+   └─ Body (gap12, padding0)
+      └─ Card / Contents (gap16, padding0)
+         ├─ Card / Body / Group-C (variant: dataList)
+         │  └─ Slot (gap12)
+         │     └─ DataList Group (gap12)
+         │        └─ DataList × 필요한 행 수
+         ├─ Divider / Horizontal — 기획에 있을 때만
+         └─ Text / Contents — 로고·추가 콘텐츠가 있을 때만
+```
+
+- DataList는 **실제 `Card / Body / Group-C(variant: dataList)`의 Slot 안**에 배치한다. 복수 행은 하나의 Group-C Slot 안 `DataList Group`(gap12px, `spacing/lg`)으로 묶을 수 있다. 기존 원형의 행별 Group-C 조합도 허용하며, 행마다 Group-C를 새로 만들어야 한다고 강제하지 않는다. 단일 행은 Group-C Slot 안 DataList 하나만 두고 불필요한 DataList Group은 만들지 않는다.
+- Card Slot·Body·Card / Contents에 DataList를 직접 넣어 Group-C를 우회하지 않는다. 기본 DataList는 `layout: split`, `size: 14`, `hasDivider: false`다. 별도 기획의 구분선·상태는 그 요구대로 적용한다.
+- 카드 내부 제목·Label은 필요한 native 슬롯에 배치하고 데이터와 구분한다. 예시의 대출 문구·행 수·로고·Divider를 공통 필수 요소로 복제하지 않는다. 반복 카드 사이는 기존12px, 목록과 더보기 Button Area 사이는20px 규칙을 유지한다.
+
+### 2. 설명·안내 박스: Infobox / Card
+
+- 기본은 **`size: medium`, `status: info`**인 실제 `Infobox / Card`다. 회색 무테 Fill `surface/neutral/tertiary-muted`, padding20px(`spacing/2xl`), radius14px(`radius/lg`)의 원형을 유지한다. 수동 Text Box나 설명용 Card / Surface로 대체하지 않는다.
+- 아래처럼 제목을 Slot-Contents에 직접 구성하면 **`hasTitle: false`**로 설정하여 native 제목을 중복 노출하지 않는다. `hasButton`은 기획에 버튼이 있을 때만 true다. 예시의 prefix/suffix·버튼 아이콘·라벨·선택/비활성 옵션을 전역 고정하지 않는다. 정보 표시형은 불필요한 fullTouchArea 동작을 추가하지 않는다.
+
+```text
+Infobox / Card
+├─ Slot-Contents (gap16)
+│  ├─ Title
+│  │  └─ Title / Section
+│  ├─ Title / Contents (구획 간 gap24)
+│  │  ├─ Title / TextList Group (제목→본문 gap16)
+│  │  │  ├─ Title / Element
+│  │  │  └─ TextList Group (항목 간 gap8)
+│  │  └─ Title / TextList Group — 필요한 만큼
+│  ├─ Divider / Horizontal — 기획에 있을 때만, MO 원형
+│  └─ TextList / Unordered — 별도 각주가 있을 때만
+└─ Button Area — 버튼이 있을 때만, 우측 정렬
+   └─ BoxButton (variant: secondary, size: small, Hug)
+```
+
+- 제목은 native `Title / Section`(KBFG Text Bold16), 소제목은 `Title / Element`(KBFG Text Medium14)를 사용한다. 이 설명 박스 패턴의 일반 본문 TextList는 size16, 별도 각주는 size14로 구분한다. 한 문단·한 항목이면 불필요한 Group을 만들지 않고 Text·TextList 혼합의 부모 이름은 실제 구성에 따라 정한다.
+- Slot-Contents는 Fill/Hug·gap16px(`spacing/xl`)다. native Slot 인셋을 유지하고 외곽20px를 Slot에 다시 더하지 않는다. 반복 제목·본문 구획 사이는24px(`spacing/3xl`), 소제목→본문은16px(`spacing/xl`), TextList 항목 사이는8px(`spacing/md`)다. **알려드립니다 전용8px·20px를 일반 Infobox에 적용하지 않는다.**
+- 버튼이 있으면 native Button Area를 사용한다. 원형의 콘텐츠↔Button Area 경계 gap12px와 Button Area padding-top4px를 유지하고 우측 `BoxButton(secondary/small)`을 Hug로 배치한다. 다운로드 등의 아이콘·문구는 기획대로 적용한다. 알려드립니다의 TextButton secondary/xsmall 규칙과 구분한다.
+
+### 3. 적용·검수 범위
+
+- 기존 Infobox / Basic·Solid·FullWidth, 선택형·링크형 Card와 Feedback 내부 전용 Card는 각 원형·용도·개별 규칙을 유지한다. 주변 화면을 복제하여 컴포넌트 기준을 정하지 않는다.
+- Text 단위의 KBFG/Pretendard 규칙, Container 패딩·외부 간격, Title / DataList Group 다음 독립 박스의32px는 유지한다. 카드·Infobox 내부 gap을 외부 간격과 혼동하지 않는다.
+- 실제 native 인스턴스·라이브러리 연결, Group-C Slot 경유, 숨긴 원형 보존, 문구·서체 변수·공개 옵션·Hug/Fill·최종 화면을 확인한다. 자동 검사는 노출된 작성 영역의 구식 박스명과 Card / Surface·Infobox / Card를 흉내 낸 비인스턴스를 차단한다. 숨긴 원형과 native 내부는 일괄 재명명하지 않는다.
+
 ## 본문과 알려드립니다의 제목·목록 간격 구분 (2026-11-18 사용자 확정)
 
 적용 위치를 먼저 판정한 뒤 해당 부모 Auto Layout의 실제 gap과 spacing 변수를 함께 설정한다. 화면 링크나 예시 화면의 존속 여부에 의존하지 않는다.
@@ -19,7 +85,7 @@
 ## 알려드립니다·Accordion·Feedback 버튼 최신 규칙 (2026-11-17)
 
 - **알려드립니다 상단 Divider 제거**: 알려드립니다 앞에 별도 `Divider / Horizontal`을 배치하지 않는다. 독립 Container 안에는 실제 Accordion을 직접 배치하며, Accordion 내부 `hasDivider: false`도 유지한다. 상단 콘텐츠의 바깥 경계에서 알려드립니다 Accordion의 바깥 경계까지 **24px(`spacing/3xl`)**를 적용한다. 종전 외부10px Divider 및 앞32px 규칙을 대체한다. 다른 콘텐츠용 Divider를 일괄 제거하지 않는다.
-- **중간 데이터 영역이 없는 완료·Feedback 화면**: Feedback 뒤에 DataList·Data Block·Card·Table 등 데이터 영역 없이 알려드립니다가 바로 이어지면, 상단 Feedback 콘텐츠 블록의 바깥 경계에서 알려드립니다 Accordion의 바깥 경계까지 **24px(`spacing/3xl`)**로 설정한다. Feedback → 일반 후속 데이터의40px 규칙을 이 구간에 적용하지 않는다. 외부 Divider·빈 데이터 래퍼·간격용 빈 프레임을 추가하지 않는다. Feedback 내부 버튼은 Feedback 블록에 포함하며 그 블록 하단을 기준으로 측정한다.
+- **중간 데이터 영역이 없는 완료·Feedback 화면**: Feedback 뒤에 DataList·Card·Table 등 데이터 영역 없이 알려드립니다가 바로 이어지면, 상단 Feedback 콘텐츠 블록의 바깥 경계에서 알려드립니다 Accordion의 바깥 경계까지 **24px(`spacing/3xl`)**로 설정한다. Feedback → 일반 후속 데이터의40px 규칙을 이 구간에 적용하지 않는다. 외부 Divider·빈 데이터 래퍼·간격용 빈 프레임을 추가하지 않는다. Feedback 내부 버튼은 Feedback 블록에 포함하며 그 블록 하단을 기준으로 측정한다.
 - **Accordion fullTouchArea 공통 강제 철회 (2026-11-17)**: 알려드립니다·Dialog를 포함해 `fullTouchArea`를 일괄 true 또는 false로 덮어쓰지 않는다. 해당 컴포넌트 원형·기획·개별 사용자 설정을 유지한다. 알려드립니다의 펼침·아이콘·목록·버튼 규칙은 유지한다.
 - **Feedback 내부 버튼**: Feedback에서 **`hasButton: true`**이면 해당 Feedback의 버튼 슬롯 안 `BoxButton`은 **`variant: secondary`**로 적용한다. ‘증명서 보기’도 동일하다. 버튼 문구·size·아이콘·disabled/pressed·Hug/Fill 및 나머지 Feedback 속성은 원래 요구대로 유지한다. Feedback 바깥 CTA나 Card 내부 버튼으로 확대하지 않는다.
 - 화면 링크에 의존하지 않고 위 조건·계층·수치·공개 속성으로 적용·검수한다. 이 절이 과거 패턴 기록의 상충 지시보다 우선한다.
@@ -117,10 +183,10 @@ Card / Surface
 ```
 
 - 이 계층도는 **노출되는 DataList 경로만** 나타낸다. 앞 절의 미사용 Header·Logo·다른 Group·Footer 등을 실제로 삭제하라는 뜻이 아니다.
-- 확인한6323:178819처럼 복수 행은 Group 안에 Group-C를 행별로 열거하고 각각의 Slot에 DataList를 배치한다. 단일 행도 Group-C를 생략하지 않는다. Card Slot·Body·Groups에 DataList/DataList Group을 직접 배치해 Group-C를 우회하지 않는다.
+- 복수 행은 하나의 Group-C(dataList) Slot 안 DataList Group(gap12)에 묶을 수 있다. 원형의 행별 Group-C 조합도 허용한다. 단일 행도 Group-C를 생략하지 않는다. Card Slot·Body·Groups에 DataList/DataList Group을 직접 배치해 Group-C를 우회하지 않는다.
 - Group-C의 dataList 원형을 사용하고, 이름만 같은 수동 프레임으로 대체하거나 detach하지 않는다. 확인한 원형 key는 `332ba87f5776e3391dec71ef4a011547c85ac1d8`이며 이후 최신 라이브러리 확인을 대체하지 않는다.
-- 참조의 첫 두 DataList는 hasDivider true, 마지막은 false였다. 행의 원문·개수·순서·구분선 유무·공개 옵션은 실제 기획과 원형 조합에 맞춘다. Data Block의 hasDivider false 규칙을 Card에 일괄 상속하지 않는다.
-- **적용 범위는 Card / Surface 내부**다. 독립 `Data Block > DataList Group > DataList` 및 단일 `Data Block > DataList`, Text Box의 역할·구조는 기존 규칙을 유지한다. DataList를 쓴다는 이유로 Data Block을 Card로 변경하지 않는다.
+- 참조의 첫 두 DataList는 hasDivider true, 마지막은 false였다. 행의 원문·개수·순서·구분선 유무·공개 옵션은 실제 기획과 원형 조합에 맞춘다. 정보 표시형 기본 DataList의 hasDivider false를 선택·링크 등 다른 Card 패턴에 일괄 강제하지 않는다.
+- **종전 Data Block도 Card / Surface로 전환**하므로 Group-C Slot을 경유한다. 종전 Text Box는 Infobox / Card로 구성한다. 박스 없는 완료 데이터·일반 본문의 DataList까지 Card로 감싸지는 않는다.
 - 완료 시 숨김 포함 원형 구조 보존, 노출 DataList의 Group-C(dataList)·Slot 경유, 실제 컴포넌트 연결과 필요한 콘텐츠 노출을 대조한다. 삭제 방지는 편집 전 기준 구조와 비교해야 하며, 기준 없이 이름만 보는 검사로 삭제 여부를 보장했다고 말하지 않는다.
 
 참조: 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 [기본 원형6130:116723](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6130-116723), [조합25563:70592](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=25563-70592), [DataList 조합6323:178819](https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/?node-id=6323-178819). 이번 요청은 규칙 갱신이며 라이브러리 및 기존 작업 화면은 수정하지 않는다.
@@ -171,7 +237,7 @@ Card / Surface
 
 ## Title / DataList Group 다음 박스 UI 간격32 (2026-11-04)
 
-- **적용 조건**: `Title / DataList Group` 다음에 **Infobox Group 또는 Infobox / Card·Solid 등 Infobox, Data Block(그룹), Text Box(그룹), Card / Surface(그룹) 같은 독립 박스 UI**가 이어지면, 두 블록 **바깥 경계 사이 간격은32px (`spacing/5xl`)**다. 연결 key는 `840e7bd3a0d91d1161f8dcbd3c3299310e014cac`다. 단순히 모든 후속 콘텐츠를32로 변경하지 않고 실제 박스 역할을 기준으로 판정한다.
+- **적용 조건**: `Title / DataList Group` 다음에 **Infobox Group 또는 Infobox / Card·Solid 등 Infobox, Card / Surface 또는 Card Group 같은 독립 박스 UI**가 이어지면, 두 블록 **바깥 경계 사이 간격은32px (`spacing/5xl`)**다. 연결 key는 `840e7bd3a0d91d1161f8dcbd3c3299310e014cac`다. 단순히 모든 후속 콘텐츠를32로 변경하지 않고 실제 박스 역할을 기준으로 판정한다.
 - **적용 계층**: 두 요소를 직접 배치하는 부모 Auto Layout에 gap32와 토큰을 연결한다. 예시는 `Container 2(gap32) > Title / DataList Group, Infobox Group`이다. 서로 다른 Container/래퍼에 있더라도 실제 경계32를 확인한다. 여백을 만들기 위해 빈 프레임·박스 padding-top·중복 gap을 추가하거나 native 내부 간격을 바꾸지 않는다.
 - **유지되는 내부 규칙**: `Title / DataList Group` 내부 Title→DataList Group16px, DataList Group 내부12px, Infobox Group/각 native 박스의 별도 내부 gap·padding은 외부32와 구분한다. Infobox / Card→다음 독립 콘텐츠24px, Title / Section 후16px, Feedback 후40px 등 다른 조합의 기존 규칙은 이 지시로 일괄 변경하지 않는다.
 - **삭제 가능한 근거**: [가맹점 신청 완료173:3046](https://www.figma.com/design/VDNcua4WHKOtBMyerxWqdv/?node-id=173-3046)의 실제 `Container 2`는 gap32·좌우20, `Title / DataList Group` 뒤에 `Infobox Group`을 배치한다. 화면 삭제 후에도 이 문장의 조건·계층·수치·토큰으로 적용한다. 이번 요청은 공유 MD·공통 검사 갱신이며 Figma 화면 수정/삭제는 포함하지 않는다.
@@ -204,11 +270,11 @@ Card / Surface
 - **적용 범위·우선순위**: 앞으로 실제 이름이 `## BODY`인 본문 영역은 **상·우·하·좌 padding 모두0px**다. 아래에 남아 있는 일반·완료·Feedback·키패드·약관·링크 리스트의 종전 BODY padding24/20/32, 상단40/16 또는 전폭 여부에 따른 BODY 패딩 분기는 이 규칙으로 대체한다. `gap`과 패딩은 구분하며, 컴포넌트 조합별 기존 외부 간격은 유지한다. 키패드·패턴 Popup의 `Body`에도 아래 무패딩·Container 소유 규칙을 적용한다(2026-11-04 교정). PDF 및 다른 유형의 Popup `Body`/PDF `body`·`PDF Document`, BottomSheet Slot, native 내부 padding은 별도 범위다.
 - **기본 Container**: `## BODY`의 실제 본문을 담는 `Container`/`Container 1, 2…`는 Vertical Auto Layout·Fill/Hug·AUTO로 구성하고 **좌우padding20px(`spacing/2xl`)**을 적용한다. BODY 자체와 중복 적용하지 않는다. Container가 하나면 순번 없는 `Container`이고, 복수일 때는 기존 번호 규칙을 유지한다.
 - **상하 여백 (2026-11-05 최신 교정)**: BODY 직계에서 보이는 Container 순서를 기준으로 **첫 Container padding-top은 기본24px(`spacing/3xl`), 피드백 또는 상단 아이콘으로 시작하는 화면은40px(`spacing/6xl`)**, **단일·복수 모두 마지막 Container padding-bottom32px(`spacing/5xl`)**를 적용한다. 단일도 콘텐츠 증가에 대비해32px를 선적용한다. 단, **첫 Container의 맨 앞 UI가 Infobox / FullWidth, StepIndicator 또는 Tab(1depth)이면 그 Container의 padding-top은0px**로 적용한다. `Tab / Infobox`·`Tab / Contents` 같은 구조용 프레임 안에 시작 UI가 있어도 동일한 예외다. 첫 번째 보이는 일반 흐름의 자식 경로를 따라 판정하며, 뒤쪽에 해당 UI가 있다는 이유만으로 상단24px를 없애지 않는다. Tab(2depth)·Segment·Chip·다른 Infobox 타입만으로는 이0px 예외를 추정하지 않는다. Infobox / FullWidth 시작은2026-11-13 최신 확정으로0px를 적용한다. 중간 Container 외곽 상하 패딩은0이고, Container가 하나면 일반 상24·하32, 피드백/상단 아이콘 상40·하32, Infobox / FullWidth·StepIndicator/1depth Tab 시작 **상0·하32**다. BODY 자체는 계속 네 방향0px다.
-- **전폭 UI**: StepIndicator, Tab(1depth), 알려드립니다 등 전폭 UI를 담는 **외부 Container·복합 래퍼는 좌우padding0px**로 배치한다. Infobox / FullWidth와 화면 전폭 Divider 등도 같은 전폭 경계를 보존한다. 전폭 UI와 일반 본문이 한 Container에 함께 있으면 외부 Container는 좌우0, 일반 본문을 실제 역할에 맞는 내부 Auto Layout으로 묶어 그 래퍼에만 좌우20px을 준다. 네이티브 컴포넌트 내부의 Title Area·Slot 등 고유 패딩을 외부 여백과 혼동해 일괄0으로 변경하지 않는다. Data Block 내부 Divider처럼 콘텐츠 폭만 채우는 요소는 전폭 요소로 추정하지 않는다.
-- **Tab 후속 콘텐츠 그룹핑 의무 삭제 (2026-11-04 최신 변경)**: Tab(1depth·2depth)과 다음 콘텐츠를 반드시 같은 Auto Layout/Container로 묶도록 한 규칙을 삭제한다. `Tab / Infobox`, `Tab / Contents`, `Tab / Data Block Group` 등 별도 복합 그룹도 강제하지 않는다. 상위1depth Tab과 하위2depth Tab·목록을 반드시 같은 Container 안에 넣도록 한 제어 범위 검사도 이 그룹핑 의무와 함께 삭제한다. 기존 그룹은 필요에 따라 유지할 수 있으며 자동 해제·평탄화를 요구하지 않는다.
+- **전폭 UI**: StepIndicator, Tab(1depth), 알려드립니다 등 전폭 UI를 담는 **외부 Container·복합 래퍼는 좌우padding0px**로 배치한다. Infobox / FullWidth와 화면 전폭 Divider 등도 같은 전폭 경계를 보존한다. 전폭 UI와 일반 본문이 한 Container에 함께 있으면 외부 Container는 좌우0, 일반 본문을 실제 역할에 맞는 내부 Auto Layout으로 묶어 그 래퍼에만 좌우20px을 준다. 네이티브 컴포넌트 내부의 Title Area·Slot 등 고유 패딩을 외부 여백과 혼동해 일괄0으로 변경하지 않는다. Card 내부 Divider처럼 콘텐츠 폭만 채우는 요소는 전폭 요소로 추정하지 않는다.
+- **Tab 후속 콘텐츠 그룹핑 의무 삭제 (2026-11-04 최신 변경)**: Tab(1depth·2depth)과 다음 콘텐츠를 반드시 같은 Auto Layout/Container로 묶도록 한 규칙을 삭제한다. `Tab / Infobox`, `Tab / Contents`, `Tab / Card Group` 등 별도 복합 그룹도 강제하지 않는다. 상위1depth Tab과 하위2depth Tab·목록을 반드시 같은 Container 안에 넣도록 한 제어 범위 검사도 이 그룹핑 의무와 함께 삭제한다. 기존 그룹은 필요에 따라 유지할 수 있으며 자동 해제·평탄화를 요구하지 않는다.
 - **이전 사례의 효력**: 2013:6542와2059:1068을 근거로 만든 Container 충족/별도 그룹 필수 판정 및 그 의무 계층도는 더 이상 실행 규칙이 아니다. 화면 삭제 후 이 예전 규칙을 다시 적용하거나 공통 검사로 강제하지 않는다. 이번 요청은 MD·검사 기준 갱신이며 기존 Figma 화면의 그룹 해제 요청이 아니다.
 - **유지되는 규칙**: Segment·Chip은 후속 콘텐츠와 실제 Vertical Auto Layout·Fill/Hug·AUTO 복합 그룹으로 묶고 실제 구성에 맞춰 명명한다. BODY padding0, 일반 Container 좌우20·전폭 외곽0, 첫 Container 상단 일반24·피드백/상단 아이콘40·Infobox / FullWidth·StepIndicator/1depth Tab 시작0, 하단은 단일·복수 모두 마지막32로 적용한다. 기존 컴포넌트 연결·variant·선택 상태·원형 내부 패딩을 보존한다.
-- **Tab 간격은 유지**: Tab→Infobox / Card16px(`spacing/xl`), Tab→일반 콘텐츠24px(`spacing/3xl`) 등 조합별 기존 간격은 삭제하지 않는다. 그룹핑 유무나 부모 이름에 따라 간격을 바꾸지 않으며, 서로 다른 부모로 배치된 경우 실제 보이는 경계와 변수 연결을 직접 확인한다. 인포박스→다음 콘텐츠24px, Data Block Group 내부12px와 Chip / Basic→일반8px·Feedback24px도 기존 규칙대로 적용한다.
+- **Tab 간격은 유지**: Tab→Infobox / Card16px(`spacing/xl`), Tab→일반 콘텐츠24px(`spacing/3xl`) 등 조합별 기존 간격은 삭제하지 않는다. 그룹핑 유무나 부모 이름에 따라 간격을 바꾸지 않으며, 서로 다른 부모로 배치된 경우 실제 보이는 경계와 변수 연결을 직접 확인한다. 인포박스→다음 콘텐츠24px, Card Group 내부12px와 Chip / Basic→일반8px·Feedback24px도 기존 규칙대로 적용한다.
 
 완료 전에 BODY·Container 패딩과 토큰, 유지되는 간격·일반 반복/혼합 레이어 규칙을 확인한다. Tab에 대해서는 후속 콘텐츠 그룹 존재·부모 명칭·같은 Container 제어 범위를 완료 조건으로 삼지 않는다.
 
@@ -261,10 +327,10 @@ Card / Surface
 │  └─ Infobox / Card (Fixed350 / 원형 내부20 유지)
 └─ Container 2 (CENTER / 상0·하32 / gap24)
    ├─ Tab (2depth / 있는 화면만 / Fill390 / native 내부 좌우20 유지)
-   └─ Data Block 또는 Data Block Group 또는 Card Group 또는 Feedback
+   └─ Card / Surface 또는 Card Group 또는 Feedback
 ```
 
-- **승인 폭·인셋**: 기준390에서 Tab2depth는 자체 PaddingContainer 좌우20으로 내용을 인셋한다. Container2에 추가20을 중복하거나 native 내부 패딩을0으로 덮어쓰지 않는다. 단일 Data Block·Data Block Group은350px 중앙, Card Group은390px·자체 좌우20, 빈 결과 Feedback 래퍼는390px·자체 좌우20을 보존한다. 이 승인된 혼합/자체 인셋 배치의 Container2 좌우0은 경로별 근거로 명세하며 일반 Container 기본20을 전역 변경하지 않는다. Data Block 내부20과 바깥 여백을 구분한다.
+- **승인 폭·인셋**: 기준390에서 Tab2depth는 자체 PaddingContainer 좌우20으로 내용을 인셋한다. Container2에 추가20을 중복하거나 native 내부 패딩을0으로 덮어쓰지 않는다. 단일 Card / Surface는350px 중앙, Card Group은390px·자체 좌우20, 빈 결과 Feedback 래퍼는390px·자체 좌우20을 보존한다. 이 승인된 혼합/자체 인셋 배치의 Container2 좌우0은 경로별 근거로 명세하며 일반 Container 기본20을 전역 변경하지 않는다. Card 내부20과 바깥 여백을 구분한다.
 - **필수 확인 순서**: 수정 전 Container 이름·개수·직계 자식·순서를 저장 → 허용된 범위만 수정 → 같은 분할·직계 자식·문구·컴포넌트/variant 대조 → 영향 부모명·간격·실제 경계 확인. 이번 복원에서는 BODY 직계 Container1·2, Container1 직계 Tab·Infobox / Card와 사례별 Container2 자식 목록을 계약 검사한다. 병합·불필요 래퍼가 발견되면 복구 후 재검사한다. 링크 삭제 후에도 이 독립 명세를 적용한다.
 
 ## 공통 오류·대표전화·자세히보기 Dialog 최종 틀 (2026-11-03 독립 보존)
@@ -388,7 +454,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 
 - **Tab 바로 다음 Infobox / Card와의 외부 간격은 16px(`spacing/xl`, key `dd4b6787bca3ceba45b9b41a16963083cacea533`)**이다. 종전 24px(`spacing/3xl`) 규칙을 이 조합에 한해 대체하며 Tab의 depth와 무관하게 적용한다.
 - **그룹핑 의무 삭제**: Tab과 후속 콘텐츠를 같은 Auto Layout/Container로 묶는 의무는 없다. Tab→Infobox / Card의 실제 간격16px는 유지한다. 전폭 Tab(1depth)은 외부 좌우0px, 일반 본문 래퍼는 좌우20px를 적용한다. Container 첫·마지막 상하 패딩은 문서 상단 2026-11-03 규칙을 따른다. Tab과 후속 콘텐츠의 부모는 별도로 둘 수 있으며 실제 간격을 확인한다.
-- **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Data Block·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
+- **역방향 Infobox → Tab과 Tab → 일반 콘텐츠는 24px를 유지**한다. Infobox / Card 다음 콘텐츠 24px, 후속 Container·탭·Card·Feedback의 별도 간격과 원형 내부 패딩은 이번 변경 대상이 아니다.
 - 완료 시 부모 gap과 토큰 연결뿐 아니라 Tab 하단 경계에서 Infobox / Card 상단 경계까지 실제 16px인지 확인한다. KB국민인증서 이용내역의 최근 제작 8개 화면(작업 파일 `LHQQGe8DG3PWQL0mNUaBkr`, 섹션 `2007:5670`)에 같은 기준을 적용한다.
 
 ## 고객확인 등록 안내의 불릿·복합 구조·옵션 대조 (2026-10-30 사용자 교정)
@@ -436,7 +502,7 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 
 ## 더보기 간격·Dialog 문장부호 최종 기준 (2026-10-29 사용자 변경)
 
-- **상위 목록 그룹 → 더보기 `Button Area` 간격은 항상 20px(`spacing/2xl`)**입니다. `Card Group / Button Area`, `Data Block Group / Button Area` 및 같은 역할의 목록·더보기 조합에 적용하며, 실제 두 형제 블록을 감싸는 Auto Layout의 gap에 연결합니다. 더보기는 `Button Area > Pagination / Basic` 등 원형 구조를 유지하고, 목록 내부 항목 간격이나 더보기 컴포넌트 자체의 패딩으로 20px를 대체·중복 가산하지 않습니다. 지정 화면 `2484:33969`의 `Card Group / Button Area`(`2484:33982`)도 이 기준을 적용합니다.
+- **상위 목록 그룹 → 더보기 `Button Area` 간격은 항상 20px(`spacing/2xl`)**입니다. `Card Group / Button Area` 및 같은 역할의 목록·더보기 조합에 적용하며, 실제 두 형제 블록을 감싸는 Auto Layout의 gap에 연결합니다. 더보기는 `Button Area > Pagination / Basic` 등 원형 구조를 유지하고, 목록 내부 항목 간격이나 더보기 컴포넌트 자체의 패딩으로 20px를 대체·중복 가산하지 않습니다. 지정 화면 `2484:33969`의 `Card Group / Button Area`(`2484:33982`)도 이 기준을 적용합니다.
 - **Dialog Title의 마침표는 기획 원문 그대로 유지합니다.** Title 단독인지 Title·Description 조합인지에 따라 마침표를 자동 추가하거나 제거하던 종전 공통 규정은 삭제합니다. 기획에 마침표가 있으면 유지하고 없으면 추가하지 않으며, Description 노출을 바꾸어도 제목의 문장부호를 별도로 정규화하지 않습니다. 문구·숫자의 소수점·기타 문장부호도 원문과 대조합니다.
 - 완료 검수에서는 목록 하단 → 더보기 영역 상단의 실제 20px 및 토큰 연결, 실제 자식 구성에 맞는 부모 명칭, Dialog 원문과 마침표 일치를 확인합니다. 원형 컴포넌트·서체 변수·공개 옵션·HomeIndicator의 Dialog Fill 숨김 규칙은 유지합니다.
 
@@ -456,9 +522,9 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 ### 승인 수신거래현황 화면의 적용
 
 - [3386:36770](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3386-36770)의 계좌 분류는 **입출금 `Label / Default(line, blue)`, 적립식 `Label / Default(line, green)`**입니다. 이 화면의 ‘적립식’은 수신계좌 분류로 사용자 승인된 line/green 사례이며, 투자상품 상단의 상품유형 ‘적립식’ tint/darkGray와 구분합니다. 같은 단어라도 실제 정보 역할과 승인 맥락을 먼저 확인합니다.
-- Data Block 안에서 라벨은 `Label` Auto Layout으로 묶고 계좌 제목·데이터보다 위에 배치합니다. 승인 구조는 `Data Block > Label > Label / Default`, 그다음 `Title / DataList Group`, 필요한 경우 `Card / Footer / Accordian`입니다. **이 Data Block의 직계 블록 사이 gap은 16px(`spacing/xl`), Label 래퍼 내부 gap은 0**입니다. 라벨을 DataList의 Label Text나 계좌 제목으로 합치지 않습니다.
+- 데이터 Card의 편집 가능한 Slot 안에서 Label 래퍼를 계좌 제목·데이터보다 위에 배치한다. Label 래퍼 gap0, 콘텐츠 블록 사이16px를 유지하고 DataList는 Group-C(dataList)의 Slot 안에 넣는다. 복수 Label은 Label Group으로 묶으며 원형 내부 명칭은 보존한다.
 - 가로 Hug와 원형 높이·서체·내부 패딩·라운드·색상 변수 및 공개 variant/tone 연결을 유지합니다. 조회한 Label 사례의 원형 높이는 20px이며, 이 실측을 다른 Badge 유형 전체의 고정 높이로 강제하지 않습니다. 47px 등 현재 문구의 실측 너비를 고정값으로 복제하지 않습니다.
-- 반복 항목은 실제로 묶고 복수 Label은 `Label Group`, 복수 Badge는 `Badge Group`으로 명명합니다. 단일 라벨을 정렬하기 위한 래퍼는 `Label`이며, 구조 변경 후 상위 복합 명칭도 재검사합니다. 라벨이 추가되었다는 이유만으로 액션 없는 Data Block을 Card로 바꾸지 않습니다.
+- 반복 항목은 실제로 묶고 복수 Label은 `Label Group`, 복수 Badge는 `Badge Group`으로 명명합니다. 단일 라벨을 정렬하기 위한 래퍼는 `Label`이며, 구조 변경 후 상위 복합 명칭도 재검사합니다. 데이터 박스는 액션 유무와 관계없이 Card / Surface를 사용하며 Label을 이유로 동작을 추가하지 않는다.
 
 ### 공통 제작·검수
 
@@ -560,12 +626,12 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 
 ## 1. Reference Sources (디자인 시스템)
 
-### 헤더 직후 전폭 컴포넌트와 아웃라인 Data Block (2026-10-28 사용자 교정)
+### 헤더 직후 전폭 컴포넌트와 아웃라인 데이터 Card (2026-10-28, 컴포넌트 전환 2026-11-19)
 - 승인 기준은 [신청내용 확인 3138:27761](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-27761)입니다. **헤더 바로 아래에 StepIndicator·Tab처럼 좌우 여백 없이 화면 폭을 채우는 컴포넌트가 오면 BODY 자체에 좌우 20px를 주지 않습니다.**
-- 구조는 `## BODY > Container 1 > StepIndicator 또는 Tab`, 그다음 독립 본문은 형제 `Container 2 > 콘텐츠`입니다. BODY는 `padding: 0 0 32px`, 전폭 Container 1은 padding 0·가로 Fill, 컴포넌트도 Fill로 화면 폭 390px를 채웁니다. 후속 일반 Container 2 이상에만 좌우 padding 20px를 적용하고 상하 padding은 0으로 둡니다. 실제 참조는 StepIndicator390px / Container 2(390px, 좌우20px) / Data Block350px입니다.
+- 구조는 `## BODY > Container 1 > StepIndicator 또는 Tab`, 그다음 독립 본문은 형제 `Container 2 > 콘텐츠`입니다. BODY는 `padding: 0 0 32px`, 전폭 Container 1은 padding 0·가로 Fill, 컴포넌트도 Fill로 화면 폭 390px를 채웁니다. 후속 일반 Container 2 이상에만 좌우 padding 20px를 적용하고 상하 padding은 0으로 둡니다. 실제 참조는 StepIndicator390px / Container 2(390px, 좌우20px) / Card / Surface350px입니다.
 - StepIndicator·Tab 직후 일반 콘텐츠와의 gap은 기존 24px를 유지합니다. 컴포넌트 원형 내부의 좌우 패딩은 제거하지 않으며 외부에 20px를 더해 이중 여백을 만들지 않습니다. 기존 Tab + Infobox / Card처럼 같은 Container를 쓰도록 별도 확정한 복합 패턴도 계층은 유지하되 외부 padding 0과 Tab 전폭·본문 콘텐츠 폭을 준수합니다.
-- **Data Block은 아웃라인형으로 제작합니다.** Fill `surface/neutral/quaternary-muted`, Border `border/neutral/secondary-muted` + `stroke/md`, padding·radius20px를 연결합니다. 종전 Data Block의 회색 배경·무테 선택 재량은 이 최신 지시로 대체하며 단일 항목에도 적용합니다. Text Box의 회색 무테 선택과 Card / Surface의 공개 variant는 별도입니다.
-- DataList Group gap12px·각 DataList split/14/hasDivider false, 단일 항목의 Data Block > DataList 직접 구조, 문구·숫자 서체·기존 공개 속성은 유지합니다. 기획에 없는 Title·툴팁·아이콘은 추가하지 않습니다.
+- 종전 Data Block은 실제 Card / Surface(outline/basic)로 제작한다. padding·radius20px, quaternary-muted Fill·secondary-muted Border·stroke/md를 원형 토큰으로 유지한다. 종전 Text Box는 Infobox / Card로 제작하며 수동 프레임 외형 모방은 폐기한다.
+- 단일·복수 DataList 모두 native Group-C(dataList)의 Slot 안에 배치한다. 복수 행은 DataList Group gap12px, 단일 행은 불필요한 그룹 없이 구성한다. split/14/hasDivider false를 기본으로 하고 문구·서체·기획 상태를 보존한다.
 - 최종 검수에서 BODY/Container 패딩과 실제 전폭 컴포넌트390px·후속 박스350px, gap24px, 아웃라인 Fill·Border·네 변 stroke 토큰을 각각 확인합니다.
 
 ### Dialog HomeIndicator 예외·발급정보 SelectButton 교정 (2026-10-28 사용자 확정)
@@ -664,10 +730,10 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 - **인포박스 안의 단일 안내 항목**: [발급폐기내역조회 2158:10984](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-10984)처럼 인포박스 콘텐츠에 `TextList / Unordered`가 하나만 들어가는 경우, 불릿 없는 일반 텍스트로 구성합니다. 한 항목이 여러 줄로 줄바꿈되거나 문장을 여러 개 포함해도 항목 수를 늘려 해석하지 않습니다. 일반 텍스트는 `Text` Vertical Auto Layout(gap·padding 0, Fill·Hug) > 편집 가능한 `Content`로 감싸고 원본 Text Style·변수·색상 연결을 유지합니다. Infobox / Card는 기존 단일 항목 규칙의 `Dynamic/Body/xs∙14∙Light` 및 `text/neutral/tertiary`를 따르고, 다른 인포박스는 각 원형의 해당 본문 스타일을 유지합니다. 복수 안내 항목의 TextList와 인포박스 밖 일반 본문의 단일 TextList 유지 규칙은 구분합니다.
 - **본문 구획의 제목은 실제 Title / Section 사용**: [재외국민 비대상 안내 2157:9320](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2157-9320)의 `재외국민이란?`, `재외국민 등록방법(1가지 선택)`처럼 뒤따르는 설명·목록을 대표하는 섹션 제목은 실제 **`Title / Section` 컴포넌트 인스턴스**로 구성합니다. 일반 Text에 Medium/Bold를 적용하거나 래퍼 이름만 Title로 바꾸어 대신하지 않습니다. 제목 문구만 매핑하고 원형 서체·Weight·스타일·변수·공개 속성을 유지하며, 기획에 없는 SubTitle·Description·아이콘·suffix는 원형 노출 속성으로 숨깁니다. 아래 설명은 일반 Text, 목록은 해당 TextList 규칙을 따릅니다. 제목으로 보이는 외형뿐 아니라 실제 인스턴스·mainComponent key를 검수합니다.
 
-### Chip 가로 스와이프·Data Block 아웃라인·데이터 없음 아이콘 (2026-10-21 사용자 확정)
-- **Chip 직후 콘텐츠 간격 (2026-10-21 최종 교정)**: `Chip / Basic` 다음에 **`Feedback` 또는 이를 감싼 `Feedback` 래퍼가 오는 경우**, 부모 Auto Layout의 **gap은 24px (`spacing/3xl`)**로 설정합니다. [승인 기준 2180:10209](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2180-10209)을 참조하며, 이 경우에는 종전 8px 규칙보다 24px 예외를 우선합니다. `Data Block Group`·목록·일반 본문 등 **그 밖의 다음 콘텐츠와의 gap은 8px (`spacing/md`)**을 유지합니다. Chip 원형의 내부 패딩, Data Block Group 내부 반복 박스 간격, Feedback 래퍼 내부 패딩은 별도 규칙대로 유지합니다. 빈 프레임이나 중복 padding-top으로 외부 간격을 추가하지 않습니다.
+### Chip 가로 스와이프·데이터 Card 아웃라인·데이터 없음 아이콘 (2026-10-21 사용자 확정)
+- **Chip 직후 콘텐츠 간격 (2026-10-21 최종 교정)**: `Chip / Basic` 다음에 **`Feedback` 또는 이를 감싼 `Feedback` 래퍼가 오는 경우**, 부모 Auto Layout의 **gap은 24px (`spacing/3xl`)**로 설정합니다. [승인 기준 2180:10209](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2180-10209)을 참조하며, 이 경우에는 종전 8px 규칙보다 24px 예외를 우선합니다. `Card Group`·목록·일반 본문 등 **그 밖의 다음 콘텐츠와의 gap은 8px (`spacing/md`)**을 유지합니다. Chip 원형의 내부 패딩, Card Group 내부 반복 박스 간격, Feedback 래퍼 내부 패딩은 별도 규칙대로 유지합니다. 빈 프레임이나 중복 padding-top으로 외부 간격을 추가하지 않습니다.
 - **Chip / Basic의 기획 방식 보존**: [사용자 수정 기준 2158:8074](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2158-8074)처럼 기획이 좌우 스와이프를 표현한 경우, Chip은 한 줄 가로 스와이프/스크롤 형태로 구성하고 우측 확장·접기 화살표를 노출하지 않습니다. `hasControl: false`, `extended: false`, Slot Horizontal / NO_WRAP과 원본 클리핑을 유지합니다. 모든 항목을 한 화면에 보이게 하려고 확장형·여러 줄·폰트 축소·문구 생략으로 바꾸지 않습니다. 뒤 항목이 일부 보이거나 뷰포트 밖에 있는 것은 가로 스와이프 기획의 일부입니다. 항목명·순서·선택 상태·원본 variant 및 전환 연결을 보존합니다. 속성 값만 false인지 보지 말고 실제 ControlContainer와 화살표가 비노출인지 확인합니다. 프로토타입 스크롤 동작을 구현·완료 보고할 때는 실제 가로 스크롤 설정과 동작을 별도로 검증합니다.
-- **Infobox / Card와 이어지는 Data Block**: 위 사용자 수정본처럼 상단 회색 Infobox / Card와 Data Block의 솔리드 배경이 반복되어 시각적으로 중첩되는 경우, 하단 Data Block은 **아웃라인형**을 사용합니다. Fill `surface/neutral/quaternary-muted` + Border `border/neutral/secondary-muted` + `stroke/md`, padding·radius 20px를 적용하고 DataList의 문구·순서·스타일·변수·기존 간격을 보존합니다. 역할명은 Data Block이며 Card / Surface로 바꾸지 않습니다. 이 경우 아래 일반적인 아웃라인/회색 무테 선택 재량보다 본 규칙을 우선합니다. 다른 맥락의 회색 무테 허용까지 전역 폐지하지는 않습니다.
+- **Infobox / Card 다음 데이터 카드**: 설명 박스는 Infobox / Card, 사실 데이터 박스는 native Card / Surface(outline/basic)를 사용한다. 아웃라인 Fill·Border·padding·radius와 데이터 옵션은 최신 네이티브 전환 절을 따른다. 두 컴포넌트의 역할·외부 간격·문구·서체 변수는 유지한다.
 - **데이터가 없는 경우의 아이콘**: 조회 결과·이력·내역 등 표시할 데이터가 없는 모든 Empty State의 Feedback은 [기준 2150:14233](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2150-14233)처럼 **`status-nodata`** 원본 아이콘을 사용합니다. `status-noResult` 돋보기·검색 아이콘, 경고·완료 아이콘 등으로 임의 대체하지 않습니다. `Item / Feedback`의 공개 status instance-swap 속성으로 연결하고 실제 mainComponent key까지 확인합니다. Feedback 크기·문구·간격은 해당 Empty State 규칙을 유지하며, 아이콘 통일을 이유로 완료 화면 Large 규칙을 빈 상태에 적용하지 않습니다.
 
 ### 은행·증권사 선택 화면 통일 (2026-10-20 사용자 최종 확정)
@@ -683,12 +749,12 @@ PDF Document (Vertical / Fill·Hug / gap 32px)
 - **범위와 출처**: 기획의 항목명·순서·중복·선택 상태와 Grid 행·열 구성을 보존합니다. 심볼은 MO 디자인 라이브러리 `09eGMNTNnkE0CTxPdr7lnk`의 F07. System Icon 페이지 `1:672` > `04 로고`(`18273:39357`)에서 기관명·기관 코드·component key를 확인하여 사용합니다. 은행은 `logo/bg/bank/` 원본을 우선하며 증권사는 해당 증권사 원본을 확인합니다. IconContainer의 원형 크기와 인스턴스 구조를 유지하고 detach·직접 그리기를 하지 않습니다. 심볼을 확인하지 못하면 다른 기관으로 추정 대체하지 않고 미확인으로 명시합니다.
 
 ### 사용자 승인 갱신 (2026-10-19): Tab 후속 간격과 조회 내역
-- **Tab 후속 일반 콘텐츠 간격과 계층**: 1depth·2depth·3depth Tab 다음 입력, 목록, Data Block 등 일반 콘텐츠에는 **gap 24px (`spacing/3xl`)**을 적용합니다. **Tab 바로 다음 Infobox / Card는 최신 사용자 변경에 따라 gap 16px (`spacing/xl`)**을 적용합니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 같은 콘텐츠 블록은 하나의 `Container [순번]` 안에 구성하며, 간격을 맞추기 위해 각 요소를 별도 Container로 감싼 뒤 외부 복합 래퍼에 넣지 않습니다. 패딩이나 빈 프레임으로 간격을 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
+- **Tab 후속 일반 콘텐츠 간격과 계층**: 1depth·2depth·3depth Tab 다음 입력, 목록, 데이터 Card 등 일반 콘텐츠에는 **gap 24px (`spacing/3xl`)**을 적용합니다. **Tab 바로 다음 Infobox / Card는 최신 사용자 변경에 따라 gap 16px (`spacing/xl`)**을 적용합니다. 이 구간은 아래 BODY 기본 gap 32px보다 우선합니다. 같은 콘텐츠 블록은 하나의 `Container [순번]` 안에 구성하며, 간격을 맞추기 위해 각 요소를 별도 Container로 감싼 뒤 외부 복합 래퍼에 넣지 않습니다. 패딩이나 빈 프레임으로 간격을 대신하지 않습니다. 별도 명시된 특수 Feedback 패턴은 해당 규칙을 따릅니다.
 - **Tab + Infobox / Card (2026-11-04 그룹핑 의무 삭제)**: 같은 Auto Layout/Container로 묶거나 특정 복합 레이어명을 사용하는 의무는 없다. 실제 Tab→Infobox / Card 간격16px, 전폭 외부 좌우0px·본문 래퍼 좌우20px 등 기존 간격·패딩 규칙은 유지한다.
-- **건별 조회 내역의 Data Block 매핑**: 고객명·이용기관·이용서비스·인증완료처럼 한 건을 구성하는 사실 데이터는 와이어프레임의 평면 DataList Group·상하 Divider 형태를 그대로 복제하지 않고 **건별 Data Block**으로 치환합니다. 문구·값·순서·건수는 보존합니다. 일반 수평 DataList의 Divider 규칙보다 이 매핑을 우선하며, 완료 화면의 별도 Feedback·데이터 구조는 유지합니다.
-- **승인 참조**: [아웃라인 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-979), [회색 무테 Data Block](https://www.figma.com/design/0P0j17OPstNhC3LWjBdBGy/?node-id=4-994). 두 링크는 기존 구조 참조이며 2026-10-28 최신 지시에 따라 Data Block 외형은 아웃라인으로 적용합니다. 회색 무테 참조를 기본 스타일 대안으로 재사용하지 않습니다.
+- **건별 조회 내역의 데이터 Card 매핑**: 고객명·이용기관·이용서비스·인증완료처럼 한 건을 구성하는 사실 데이터는 와이어프레임의 평면 DataList Group·상하 Divider 형태를 그대로 복제하지 않고 **건별 Card / Surface**로 치환합니다. 문구·값·순서·건수는 보존합니다. 일반 수평 DataList의 Divider 규칙보다 이 매핑을 우선하며, 완료 화면의 별도 Feedback·데이터 구조는 유지합니다.
+- **과거 데이터 박스 참조의 해석**: 데이터 내용·순서·기능만 참고하며 외곽은 최신 Card / Surface와 Group-C Slot 구조로 전환한다. 과거 회색 수동 프레임을 새 기본으로 복제하지 않는다.
 - **구조와 토큰**: Vertical Auto Layout, padding 20px (`spacing/2xl`), radius 20px (`radius/2xl`), Title↔DataList Group gap 16px (`spacing/xl`), 목록 내부 gap 12px (`spacing/lg`). 각 DataList는 `layout: split`, `size: 14`, `hasDivider: false`를 적용합니다. 아웃라인은 `surface/neutral/quaternary-muted` + `border/neutral/secondary-muted` + `stroke/md`, 회색 무테는 `surface/neutral/tertiary-muted` + `strokes: []`를 사용합니다.
-- **기획에 없는 요소**: 제목이 없으면 참조의 Title을 숨기고 빈 공간이나 임의 제목을 추가하지 않습니다. 기획에 없는 툴팁·아이콘도 숨깁니다. 복수 건은 `Data Block Group` 안에 모두 `Data Block`이라는 동일한 레이어명으로 열거하고 gap 12px (`spacing/lg`)를 적용합니다.
+- **기획에 없는 요소**: 제목이 없으면 참조의 Title을 숨기고 빈 공간이나 임의 제목을 추가하지 않습니다. 기획에 없는 툴팁·아이콘도 숨깁니다. 복수 건은 `Card Group` 안에 모두 실제 `Card / Surface`라는 동일한 인스턴스명으로 열거하고 gap 12px (`spacing/lg`)를 적용합니다.
 
 - **Design System URL**: `https://www.figma.com/design/09eGMNTNnkE0CTxPdr7lnk/MO-%EB%94%94%EC%9E%90%EC%9D%B8-%EB%9D%BC%EC%9D%B4%EB%B8%8C%EB%9F%AC%EB%A6%AC?m=auto&node-id=0-1&t=k9nL7yLI1W2gR3hE-1`
 - **컴포넌트 원형 보존 및 타이포그래피 우선순위 원칙 (CRITICAL)**:
@@ -926,9 +992,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 
 #### 2. 단수 및 복수 컴포넌트 오토레이아웃 네이밍
 - **동일 컴포넌트·레이어 반복 열거 시 (2026-10-23 재확정)**: 동일한 컴포넌트 또는 같은 역할·명칭의 레이어가 2개 이상 연속 반복되면 반복 항목들을 하나의 Auto Layout으로 묶고 **`[명칭] Group`**으로 명명합니다. InputField뿐 아니라 일반 레이어·조합 레이어에도 적용하며, 반복 자식은 원래 명칭과 원형 연결을 유지하고 순번을 붙이지 않습니다. 서로 다른 역할의 항목이나 별도 정의된 Container 1·2 등의 구조는 이 규칙만으로 합치거나 바꾸지 않습니다.
-  - 예시: `InputField Group` (복수의 InputField), `Accordion Group` (복수의 Accordion), `Radio Group` (복수의 Radio), `TextList Group`, `Table Group`, `Account Group`, `Consent Group`, `Card Group`, `Data Block Group` 등
+  - 예시: `InputField Group` (복수의 InputField), `Accordion Group` (복수의 Accordion), `Radio Group` (복수의 Radio), `TextList Group`, `Table Group`, `Account Group`, `Consent Group`, `Card Group`, `Infobox Group` 등
 - **실제 그룹핑 검수**: 이름만 확인하지 않고 반복 항목이 실제 Group의 자식인지 확인합니다. 연속 InputField는 `Container > InputField Group > InputField`로 구성하고 내부 gap24px를 적용합니다. Container의 페이지 패딩은 유지하고 Group에 중복 패딩을 추가하지 않습니다. 단일 InputField의 배치용 래퍼에는 기존 단수 규칙대로 Group을 붙이지 않습니다. 문의정보 입력2182:19277의 InputField5개는 문서에 있던 규칙을 제작에서 누락한 교정 대상입니다.
-- **Group 내부 반복 자식의 레이어명 (2026-10-19 사용자 승인)**: `[레이어명] Group` 안에 반복되는 자식은 모두 원래 레이어명을 사용하며 숫자 순번을 붙이지 않습니다. 예를 들어 `Data Block Group`의 자식은 모두 `Data Block`, `Text Box Group`의 자식은 모두 `Text Box`, `InputField Group`의 자식은 모두 `InputField`로 명명합니다. `Container 1`, `Container 2`처럼 별도로 정의된 페이지 Container 순번 규칙은 예외로 유지하며, 컴포넌트 원형 명칭도 유지합니다.
+- **Group 내부 반복 자식의 레이어명 (2026-10-19 사용자 승인)**: `[레이어명] Group` 안에 반복되는 자식은 모두 원래 레이어명을 사용하며 숫자 순번을 붙이지 않습니다. 예를 들어 `Card Group`의 자식은 모두 실제 `Card / Surface`, `Infobox Group`의 자식은 모두 실제 `Infobox / Card`, `InputField Group`의 자식은 모두 `InputField`로 명명합니다. `Container 1`, `Container 2`처럼 별도로 정의된 페이지 Container 순번 규칙은 예외로 유지하며, 컴포넌트 원형 명칭도 유지합니다.
 - **단수 컴포넌트 래핑 시 (2026-10-20 사용자 재확정)**: 단일 컴포넌트를 패딩·정렬·배치 등 필요에 의해 오토레이아웃으로 감싸도 반복 그룹이 아니므로 `Group`을 붙이지 않고 해당 **`[컴포넌트명]` 단독**으로 명명합니다. Full-Width 화면의 좌우 패딩뿐 아니라 일반 화면·바텀시트의 단일 래퍼에도 동일하게 적용합니다. `Group`은 같은 컴포넌트가 복수로 반복될 때만 사용합니다.
   - 예시: 단일 InputField를 감쌀 경우 -> **`InputField`**, 단일 Accordion을 감쌀 경우 -> **`Accordion`**
   - [여권만료일 입력 2141:10091](https://www.figma.com/design/zNwpdAWcBMOM5ExkiBUoGn/?node-id=2141-10091)처럼 단일 InputField를 감싸는 오토레이아웃은 **`InputField > InputField`**(바깥 Auto Layout / 안쪽 원본 컴포넌트)로 명명합니다. 이 경우 `InputField Group`은 잘못된 이름이며, 이름 교정 시 기존 계층·패딩·크기·컴포넌트 속성은 유지합니다.
@@ -1009,8 +1075,8 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 |단순 서비스 진입 링크 목록|디자인 시스템의 `Card / Surface` 인스턴스|서비스명·이동 화살표로 다음 화면에 진입하는 세로 목록. 598:30627의 outline/select·Logo/Groups/pageIndicator 패턴 우선|
 |버튼형 선택지|디자인 시스템의 `GridButton` 인스턴스|모바일 주민등록증·운전면허증 등 선택지를 버튼으로 열거하고 선택하는 UI|
 |동작·복합 카드|디자인 시스템의 `Card / Surface` 인스턴스|이체, 상세 이동, 정보와 동작을 결합한 카드. 버튼형 선택지는 GridButton 규칙 우선|
-|사실 데이터 표시|직접 구성한 Auto Layout 프레임 `Data Block`|이름, 전화번호, 부모님 기본정보, 거래내역, 계좌정보, 금액|
-|설명·안내·주의·상태 전달|직접 구성한 Auto Layout 프레임 `Text Box`|이용 안내, 유의사항, 한국어 상담센터 안내 등 기존 Infobox로 정의되지 않은 안내 박스|
+|사실 데이터 표시|실제 `Card / Surface` 인스턴스(outline/basic)|이름, 전화번호, 부모님 기본정보, 거래내역, 계좌정보, 금액|
+|설명·안내·주의·상태 전달|실제 `Infobox / Card` 인스턴스(medium/info)|이용 안내, 유의사항, 한국어 상담센터 안내 등 기존 Infobox로 정의되지 않은 안내 박스|
 
 기존 `Infobox / Basic`, `Infobox / Solid`, `Infobox / Card`, `Infobox / FullWidth`의 용도에 해당하면 해당 컴포넌트와 전용 규칙을 우선 적용합니다. `Text Box`를 이유로 기존 Infobox를 일괄 대체하지 않습니다.
 
@@ -1022,7 +1088,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
 - **상태·내용**: 기획의 기본 선택 여부, disabled/pressed/selected 상태, 레이블·보조 레이블·아이콘을 원형의 공개 속성으로 매핑합니다. 현재 예시는 `Item / Vertical (variant: primary, selected: false)` 2개이며 기획대로 초기 CTA 비활성을 유지합니다. 서체·변수·아이콘 컴포넌트 연결을 보존합니다.
 - **조합 네이밍**: 하단 별도 Button Area와 묶는 경우 상위 래퍼는 **`GridButton / Button Area`**로 명명합니다. 내부 GridButton과 Slot·Grid·아이템의 원형 이름은 유지합니다.
 
-#### 1. 액션 포함형 카드: `Card / Surface`
+#### 1. 동작·복합 카드: `Card / Surface`
 
 - **2026-11-09 우선 규칙**: Slot의 미사용 구조는 삭제하지 않고 눈만 끈다. Card 내부 DataList는 실제 `Card / Body / Group-C(variant: dataList) > Slot > DataList`로 배치한다. 상세는 상단 「Card Slot 구조 보존 및 DataList 조합」을 따른다.
 
@@ -1033,7 +1099,7 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
   - 참조에서는 Card 원형 직계의 기본 Affix는 숨김 상태로 남고, Slot의 Body 안에 같은 원형의 Affix가 노출됩니다. 새 제작에서도 최신 라이브러리 원형을 가져와 Body에서 사용하고 **카드당 실제 노출되는 Affix는 1개만** 둡니다. 기본 숨김 Affix까지 켜서 두 개를 노출하지 않습니다. 원형을 detach하거나 라디오 도형을 직접 그리지 않습니다.
   - Card의 `select/disabled`와 Body Affix 안 `Item / Radio`의 `checked/disabled/invalid`를 기획 상태에 맞춰 대응시킵니다. 선택·미선택 모두 같은 Body 계층과 Auto 배치를 사용하며 기존 문구·스타일·변수·공개 속성·컴포넌트 연결을 보존합니다. 최종 실제 부모·Position 해제·가시성·노출 수·상태 일치를 검수합니다.
 - **적용 조건**: 위 GridButton 버튼형 선택지에 해당하지 않는 박스에서 **이체·상세 이동 버튼, 체크박스·라디오 등 복합 선택 요소가 있거나 박스 전체가 이동·선택의 동작 대상**인 경우 사용합니다. 푸터 버튼 유무만으로 판단하지 않습니다. 상품 선택, 계좌 선택, 항목 선택 등이 이에 해당합니다.
-- **동작의 경계**: `Data Block` 바깥의 형제 `Button Area`에 수정 버튼 등이 있어도 박스 자체가 동작하지 않으면 `Data Block`을 유지합니다. 데이터 표시만 하는 박스에 임의의 이동·선택 동작을 추가하여 Card로 바꾸지 않습니다.
+- **동작의 경계**: 외부 형제 Button Area만 있거나 데이터 표시만 하는 경우도 실제 Card / Surface를 사용하되, 기획에 없는 이동·선택·버튼을 추가하지 않습니다.
 - **푸터 버튼형 계층 구조 예시** (선택·상세 이동형은 해당 원본 variant/공개 속성 및 Slot 구조를 따르며 불필요한 Footer를 추가하지 않음):
   1. **`Header`**: 상단에 위치하며, 기획/필요에 따라 **`badge`** 노출
   2. **`Body`**:
@@ -1042,55 +1108,20 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
      - `Groups` 내부 두 번째 요소: **`Group`** 오토레이아웃 프레임 (Flow: **`vertical`**, Auto Layout **`gap: 12px`**) 생성 후, 하위에 **`Card / Body / Group-C` (variant: `textList`)**를 1개 또는 그 이상 순차 배치
   3. **`Footer`**: `Body` 하단에 위치하며 **`Card / Footer / Button` (variant: `buttonGroup`)** 배치
 - **데이터 상태 값 노출형 (Status Value Pattern)**:
-  - 상태 값이나 Label이 있다는 이유만으로 `Card / Surface`를 사용하지 않습니다. 아래 Card 패턴은 실제 동작이 함께 있을 때만 적용하며, 동작 없는 사실 데이터는 `Data Block`, 설명·안내 중심 상태 메시지는 `Text Box`로 분류합니다.
+  - 사실 데이터는 액션 유무와 관계없이 Card / Surface, 설명·안내 중심 메시지는 Infobox / Card를 사용합니다. 상태·Label만 보고 선택·이동 동작이나 아래 가로 상태 배치를 강제하지 않습니다.
   1. `Card / Surface` > `Body` 내부의 **`Groups`** 속성을 Flow: **`horizontal`**, Alignment: **`align left`**로 설정
   2. `Groups` 내부 좌측: **`Group`** 오토레이아웃 (Auto Layout **`gap: 4px`**) 내에 **`Card / Body / Group-A` (variant: `titleMedium`)** 및 **`Card / Body / Group-A` (variant: `Description`)** 수직 배치
   3. `Groups` 내부 우측: **`Label / Default`** (variant: `tint`) 배치 (긍정 `blue`, 부정 `red`, 중립 `darkGray`)
   4. 좌측 `Group`과 우측 `Label / Default` 사이 간격은 Auto Layout **`gap: 16px` (`xl` 토큰)** 적용
 
-#### 2. 액션 미포함 정보성 카드: `Data Block` (타이틀 + DataList UI)
-- **적용 조건**: 내부 동작 없이 이름·전화번호·거래내역·계좌정보·금액 등 **사실 데이터를 보여주는 UI**인 경우, `Card / Surface`를 사용하지 않고 직접 오토레이아웃 프레임으로 구성합니다. 타이틀과 DataList가 대표 구조이며, 정보의 성격에 맞는 원본 텍스트·컴포넌트 조합도 허용합니다.
-- **최상위 프레임 Spec 및 레이어 네이밍**:
-  - 레이어 명칭: 단일·복수 모두 **`Data Block`**. 복수는 **`Data Block Group`**으로 묶고, 내부 자식은 모두 **`Data Block`**으로 명명하며 순번을 붙이지 않습니다.
-  - Layout: Auto Layout, Flow: **`vertical`**, **`gap: 16px` (`xl` 토큰)**
-  - 기본 아웃라인 Styling: **`border: stroke/md`**, Border Color: **`border/neutral/secondary-muted`**, Fill: **`surface/neutral/quaternary-muted`**, **`border-radius: 20px` (`radius/2xl`)**, **`padding: 20px` (`spacing/2xl`)**. 2026-10-28 사용자 교정에 따라 Data Block은 아웃라인형을 사용하며 회색 무테로 임의 변경하지 않습니다.
-  - **승인 예시의 간격 차이**: 아래 부모님 기본정보 예시(`2659:18577`)는 타이틀과 `DataList Group` 사이가 **`20px` (`spacing/2xl`)**입니다. 이 패턴을 재사용할 때는 20px를 적용하며, 기존 기본 16px 규칙을 모든 Data Block에서 일괄 변경하지 않습니다.
-- **내부 계층 구조**:
-  1. **타이틀 영역**:
-     - 텍스트 Spec: Font Size: **`font-size/body/md`**, Color: **`text/neutral/primary`**
-     - 오토레이아웃 프레임으로 감싸고 레이어 명칭은 **`Title`**로 설정
-  2. **DataList 영역**:
-     - 개별 컴포넌트: **`DataList (layout: split, size: 14, hasDivider: false)`**
-     - 복수의 `DataList`들을 단일 오토레이아웃 프레임으로 한 번 감쌈
-     - 래핑 프레임 레이어명: **`DataList Group`**, 간격: Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
+#### 2. 정보 표시형: `Card / Surface`
+액션 없는 데이터 박스도 실제 Card / Surface를 사용한다. 단일·복수 DataList 모두 Group-C(dataList)의 Slot을 경유하며 복수는 그 Slot 안 DataList Group으로 묶을 수 있다. 상단 「데이터 박스·설명 박스의 네이티브 컴포넌트 전환」의 구조·옵션·토큰을 적용한다. 종전 Data Block 수동 프레임·직접 DataList 배치 규칙은 폐기한다.
 
-- **단일 항목 Data Block 전용 구조 (2026-10-20 사용자 승인)**:
-  - 적용 조건은 **박스 안의 라벨·값 쌍이 하나인 경우**입니다. Data Block 자체의 개수가 하나라는 뜻과 구분합니다. [고객정보 제공 안내 1147:62](https://www.figma.com/design/KFlklMvGmg0MXGfAXvpprn/?node-id=1147-62)의 `고객정보 제공내역` 아래 **`제공회사 / KB국민은행`** 박스(`1148:3021`)를 기준으로 합니다.
-  - **`Data Block > DataList`**로 직접 배치하며, 단일 DataList를 `DataList Group`으로 감싸지 않습니다. DataList는 실제 인스턴스 **`layout: split`, `size: 14`, `hasDivider: false`**를 사용하고 원형 `Slot > Label, Data` 계층을 유지합니다.
-  - Data Block은 Vertical Auto Layout / 가로 Fill·세로 Hug / padding 20px (`spacing/2xl`) / radius 20px (`radius/2xl`) / gap 16px (`spacing/xl`)입니다. 단일 항목의 내부 구조는 참조를 유지하되 외형은 2026-10-28 최신 지시에 따라 **`surface/neutral/quaternary-muted` + `border/neutral/secondary-muted` + `stroke/md` 아웃라인**으로 적용합니다. 단일 자식의 gap을 여백이나 빈 프레임으로 구현하지 않습니다.
-  - DataList는 가로 Fill·세로 Hug, Slot은 Horizontal / gap 12px (`spacing/lg`)입니다. Label은 좌측 정렬·가로 Hug·14px Light·`text/neutral/tertiary`, Data는 남는 폭 Fill·우측 정렬·14px Medium·`text/neutral/primary`입니다. 원본 Text Style과 서체·색상 변수 연결을 유지합니다.
-  - 섹션 제목이 있으면 참조처럼 **Data Block 바깥의 형제 `Title / Section`**으로 두고 제목↔박스 gap 16px를 적용합니다. 박스 안에 임의의 Title이나 Divider를 추가하지 않습니다. 참조 폭 350px에서 박스 높이는 60px이나 **높이 Fixed 60px로 고정하지 않고 Hug**를 유지합니다.
-  - 이 단일 항목 구조는 일반 Data Block의 복수 DataList 그룹 규칙보다 우선합니다. 복수 항목은 기존 `DataList Group`을 유지하고, 별도로 정의된 완료 화면의 `Title / DataList Group` 구조에는 일괄 적용하지 않습니다.
+#### 3. 설명·안내형: `Infobox / Card`
+실제 Infobox / Card(medium/info)의 Slot-Contents에 제목·본문을 구성한다. 제목을 직접 구성할 때 hasTitle false, 기획에 버튼이 있을 때만 hasButton true·BoxButton secondary/small을 적용한다. 상단 전환 절의 계층·간격·서체 규격을 따른다. 종전 Text Box 수동 프레임·아웃라인 임의 선택 규칙은 폐기한다.
 
-#### 3. 설명·안내형 박스: `Text Box`
-- **적용 조건**: 데이터의 조회·대조보다 설명, 이용 안내, 주의, 상태 전달이 주목적이며 기존 Infobox 용도에 해당하지 않는 박스입니다. 한국어 상담센터처럼 전화번호·이메일이 포함되어도 안내 문맥이 주목적이면 `Text Box`로 분류합니다. 단순 연락처 텍스트의 존재를 버튼이나 선택 동작으로 간주하지 않습니다.
-- **구성**: `Card / Surface`를 사용하거나 분리(detach)하지 않고 Auto Layout 프레임으로 직접 만듭니다. 레이어명은 단일·복수 모두 `Text Box`이며, 반복 목록은 `Text Box Group`으로 묶고 내부 자식에 순번을 붙이지 않습니다.
-- **참조 예시의 기본 구조**: Flow `vertical`, 패딩 **20px (`spacing/2xl`)**, 내부 간격 **16px (`spacing/xl`)**, 라운드 **14px (`radius/lg`)**. 필요에 따라 원본 `Title / Section`, `TextList / Unordered`, `Divider / Horizontal` 등을 조합합니다. Data Block의 DataList 구조나 20px 라운드를 일괄 적용하지 않습니다.
-
-#### 4. Data Block 아웃라인 및 Text Box 스타일 선택
-- **2026-10-28 우선 적용**: Data Block은 항상 아웃라인형입니다. 아래 회색 무테와 선택 재량은 Text Box에만 적용하며 Data Block에는 적용하지 않습니다.
-- **2026-10-21 우선 적용**: 회색 Infobox / Card와 솔리드 Data Block이 같은 화면에서 연속되어 배경이 반복·중첩되면, 사용자 수정 기준 `2158:8074`처럼 Data Block을 아웃라인형으로 적용합니다. 아래 선택 재량보다 이 구체적 상황 규칙이 우선합니다.
-- **아웃라인형**: 독립된 정보 영역의 경계를 명확히 구분할 때 사용합니다. 직접 만드는 `Data Block` / `Text Box`의 참조 스타일은 Fill **`surface/neutral/quaternary-muted`**, Border **`stroke/md` + `border/neutral/secondary-muted`**입니다.
-- **회색 배경·무테형**: Fill **`surface/neutral/tertiary-muted`**, **외곽 border 제거(`strokes: []`)**로 적용합니다. 같은 화면에 아웃라인 박스가 이어지거나 박스 안에 박스가 놓여 경계선이 중첩되는 경우, 보조 설명·안내 영역을 부드럽게 구분할 때 우선 고려합니다. 내부 콘텐츠 구분용 Divider까지 일괄 제거한다는 뜻은 아닙니다.
-- **선택 재량**: 고정된 한 형태를 모든 화면에 적용하지 않습니다. 주변 박스의 테두리 반복, 주·보조 정보 위계, 콘텐츠 밀도와 구분 필요성을 보고 두 형태를 유연하게 선택합니다. 중첩을 줄이되 서로 다른 영역의 구분과 가독성은 유지합니다. 선택은 매번 사용자 승인 없이 진행할 수 있으며 적용 이유를 작업의 기존 검수 기록에 간단히 남깁니다.
-- **유지할 것**: 역할명, 콘텐츠·동작, 원본 서체·컴포넌트, 역할별 패딩·라운드·간격과 연결된 DS 토큰은 유지합니다. 색상·간격·스타일·컴포넌트를 새로 만들지 않습니다. `Card / Surface`는 원본 variant/공개 속성이 지원하는 범위에서 스타일을 선택하며 임의 재구성하거나 detach하지 않습니다.
-- **네이밍 적용 범위**: 페이지 레이아웃용 `Container [순번]`과 콘텐츠 박스인 `Data Block` / `Text Box`는 별개입니다. 페이지 Container 규칙 때문에 콘텐츠 박스 이름을 Container로 바꾸거나 박스 자체의 20px 내부 패딩을 제거하지 않습니다.
-
-#### 5. 사용자 승인 Figma 예시 (2026-10-15 확인)
-- [동작형 Card / Surface — 계좌 선택·이체](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18345): 박스 `2659:18395`, `2661:26306`.
-- [정보 표시형 Data Block — 부모님 기본정보](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18558): 박스 `2659:18577`; 외부 수정 버튼은 형제 `Button Area`에 위치합니다.
-- [아웃라인형 Text Box — 한국어 상담센터](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-18992): 박스 `2659:19033`.
-- [회색 배경·무테형 Text Box — 아웃라인 Data Block과 함께 배치](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=2659-19168): 박스 `2659:19188`; Fill `surface/neutral/tertiary-muted`, `strokes: []`.
+#### 4. 외형과 역할
+데이터는 Card / Surface outline/basic, 설명은 Infobox / Card 회색 무테 원형을 기본으로 한다. 임의 프레임의 fill·border로 외형만 모방하지 않는다. 페이지 Container와 native 박스는 별개이며 외부 Container 패딩을 이유로 박스의 원형 내부 padding20px를 제거하지 않는다. 전용 선택·링크·Feedback 패턴의 원형 외형은 유지한다.
 
 ---
 
@@ -1133,9 +1164,9 @@ Dialog 화면은 바텀시트와 동일한 레이어 구조를 가져가되, Dia
       1. `InputField`들을 먼저 오토레이아웃으로 묶어 **`InputField Group`**으로 명명하고 **`gap: 24px` (`3xl` 토큰)** 적용
       2. `Title / Section`과 `InputField Group`을 오토레이아웃으로 그룹핑하여 **`Title / InputField`**로 명명하고 **`gap: 16px` (`xl` 토큰)** 적용
   - **InputField 연속 배치**: 단일 오토레이아웃 프레임(`InputField Group`)으로 묶고, 내부 간격은 Auto Layout **`gap: 24px` (`3xl` 토큰)**을 적용합니다.
-  - **Card / Surface 또는 Data Block 연속 배치**:
-    - 카드들이 열거될 경우 각각 **`Card Group`** 또는 **`Data Block Group`**으로 그룹핑하고 내부 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)**을 적용합니다.
-    - **더보기 버튼 연계**: `Card Group` 또는 `Data Block Group` 바로 다음에 더보기 컴포넌트(`Pagination / Basic`)가 위치할 경우, 더보기 컴포넌트를 **`Button Area`**로 감싸고, 그룹과 `Button Area` 사이의 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)**을 적용합니다.
+  - **Card / Surface 연속 배치**:
+    - 카드들이 열거될 경우 **`Card Group`**으로 그룹핑하고 내부 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)**을 적용합니다.
+    - **더보기 버튼 연계**: `Card Group` 바로 다음에 더보기 컴포넌트(`Pagination / Basic`)가 위치할 경우, 더보기 컴포넌트를 **`Button Area`**로 감싸고, 그룹과 `Button Area` 사이의 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)**을 적용합니다.
   - **List 컴포넌트 패딩 예외**:
     - `List` 컴포넌트가 `Container` 내부로 들어올 때, `List` 자체에 기본 설정되어 있는 **좌우 패딩(padding-left, padding-right) 값은 `0px`로 재설정**합니다.
   - **일반 본문 TextList 연속 배치**:
@@ -1410,8 +1441,8 @@ Container 2 (Vertical, gap12)
 - **`TextList (size: 14, depth: 1)` + `TextList` 결합 간격**: 내부 Auto Layout **`gap: 8px` (`md`)** 적용
 - **`Table Group` 내부 간격**: Auto Layout **`gap: 1px` (`3xs` 토큰)** 적용
 - **`TextList Group` 내부 간격 (복수 TextList 결합 시)**: 내부 Auto Layout **`gap: 8px` (`md` 토큰)** 적용
-- **정보성 카드 `Data Block` (액션 미포함) 내부 간격**: 프레임 Auto Layout **`gap: 16px` (`xl` 토큰)**, 내부 `DataList`를 묶는 `DataList Group` 간격은 Auto Layout **`gap: 12px` (`lg` 토큰)** 적용
-- **`Card Group` 또는 `Data Block Group`과 하단 더보기(`Pagination / Basic`) 사이 간격**: 더보기 컴포넌트를 `Button Area`로 감싸고 둘 사이 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
+- **정보 표시형 Card / Surface 내부**: 최신 전환 절의 Slot/Body/Card / Contents 계층을 사용하며 DataList Group은 Group-C Slot 안 gap12px다.
+- **`Card Group`과 하단 더보기(`Pagination / Basic`) 사이 간격**: 더보기 컴포넌트를 `Button Area`로 감싸고 둘 사이 간격은 Auto Layout **`gap: 20px` (`2xl` 토큰)** 적용
 - **`Title / Element` + CheckBox 그리드 간격**:
   - Grid 적용 시: **`gap between columns: 20px` (`2xl`)**, **`gap between rows: 20px` (`2xl`)** 적용
   - 긴 텍스트 (Vertical) 적용 시: Auto Layout **`gap: 20px` (`2xl`)** 적용
@@ -1442,7 +1473,7 @@ Container 2 (Vertical, gap12)
   - `Container 1`의 `List Group` 내부는 **gap 4px (`spacing/xs`)**, `Container 2` 이상은 **gap 0px** 적용
   - `Container 2` 이상 `Title / List Group`의 **padding-top 24px (`spacing/3xl`)** 적용
   - Divider(10px) 포함 Container 내부 Auto Layout **`gap: 0px`** 적용
-- **Card / Surface 및 Data Block 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
+- **반복 Card / Surface 간 간격**: 내부 Auto Layout **`gap: 12px` (`lg`)** 적용
 - **선택형 바텀시트 List 간 간격**: `Container 1` 내부 Auto Layout **`gap: 8px` (`md`)** 적용 (List 자체 좌우 패딩: 0px)
 - **셀렉트 바텀시트 List 높이·체크**: **세로Hug**, `hasSuffix: false`·checkMark 비노출입니다. 두 번째 항목 기본 선택 규칙은 삭제했습니다(2026-11-18).
 - **알려드립니다 Container**: 외부 Divider 없이 Accordion 직접 배치, 내부 gap0px. 상단 콘텐츠와24px.
@@ -1458,7 +1489,7 @@ Container 2 (Vertical, gap12)
 
 - 승인 참조: [3105:17567](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3105-17567), 적용 화면 [3176:21254](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3176-21254).
 - 암호화된 증명서 발급 완료에서 열람비밀번호 안내가 있으면 **Large Feedback의 안내문과 비밀번호 데이터를 분리**한다. `Title+error_text > Text`에는 “발급받은 증명서를 확인할 수 있어요. / 확인 시 아래 열람비밀번호를 확인해주세요.” 안내만 둔다. 개인·사업자의 비밀번호 규칙을 이 Text에 이어 붙이지 않는다.
-- Feedback 내부의 원형 `Card / Surface(type: lightGray, variant: basic)`를 노출하고 `Slot > Body > Groups > Group` 아래 행별 `Card / Body / Group-C(variant: dataList) > Slot > DataList` 두 줄로 `개인 / 생년월일 6자리`, `사업자 / 사업자번호 10자리`를 표시한다. 실제 항목·값은 기획을 우선한다. 원형 카드 padding20px·radius16px·회색 무테를 유지한다. 이 지정 Feedback 내부 Card는 일반 Data Block의 아웃라인 규칙으로 임의 변환하지 않는다.
+- Feedback 내부의 원형 `Card / Surface(type: lightGray, variant: basic)`를 노출하고 `Slot > Body > Groups > Group` 아래 행별 `Card / Body / Group-C(variant: dataList) > Slot > DataList` 두 줄로 `개인 / 생년월일 6자리`, `사업자 / 사업자번호 10자리`를 표시한다. 실제 항목·값은 기획을 우선한다. 원형 카드 padding20px·radius16px·회색 무테를 유지한다. 이 지정 Feedback 내부 Card는 일반 정보 표시형 Card의 아웃라인 규칙으로 임의 변환하지 않는다.
 - DataList는 `layout: split, size: 14, hasDivider: false`, 목록 gap12px(`spacing/lg`), Label Hug·Data Fill/우측 정렬이다. 불필요한 suffix·tooltip은 숨기고 원형 KBFG Text 스타일·변수를 보존한다. “생년월일 6자리”처럼 문자와 숫자가 하나의 Text에 섞이면 전체 KBFG Text를 쓴다.
 - `증명서 보기`는 **Card Slot 안에 넣지 않고**, Feedback의 형제 `Slot-buttonGroup`에 `BoxButton(variant: secondary, size: medium)`으로 둔다. Label/버튼명은 원형 Hug를 유지한다. 순서는 **아이콘 → 제목·안내문 → 비밀번호 카드 → 증명서 보기**이며 Feedback Large의 원형 간격을 따른다.
 - 실제 공개 속성 `hasErrorCode`가 이 Card의 가시성을 제어하므로 이 패턴에서는 `true`로 설정한다. 속성 이름만 보고 오류 코드 문자열을 넣거나 카드를 숨기지 않는다. `hasSubText`, `hasButton`도 true다. 후속 증명서 데이터는 기존 D19의 상단 primary Divider·16px/12px 간격을 유지한다.
@@ -1493,7 +1524,7 @@ Container 2 (Vertical, gap12)
   - **`Title`**: 별도의 **Vertical Auto Layout** 프레임, padding **0px**, 가로 **Fill**, 세로 **Hug**. 내부에 **`Title / Element` → `Divider / Horizontal`**을 순서대로 배치하고 **`gap: 12px` (`spacing/lg`)**를 적용합니다. Title / Element의 원형 서체(승인 예시 `KBFG Text Medium`)를 유지합니다. 기획상 타이틀이 없으면 **`Title / Element`만 숨깁니다. `Title` 래퍼와 내부 Divider는 반드시 노출 상태로 유지하며, Title 전체를 숨기거나 생략하지 않습니다.** Title은 Divider 높이만 Hug하고 빈 제목 공간이나 잔여 12px 간격을 남기지 않습니다. Divider 아래 `DataList Group`과의 **16px** 및 목록 내부 **12px** 간격은 유지합니다.
   - **Title 내부 Divider의 실제 Component Properties**: **`thickness: 1px`, `variant: primary`, `length: full`**. 이전 완료 화면의 `tone: quaternary` 규칙을 이 패턴에 적용하지 않습니다. 여기서 full은 콘텐츠 폭 350px이며 BODY 좌우 20px 패딩을 유지합니다.
   - **`DataList Group`**: Vertical Auto Layout, padding **0px**, 가로 **Fill**, 세로 **Hug**. **`DataList (layout: split, size: 14, hasDivider: false)`**를 열거하고 내부 **`gap: 12px` (`spacing/lg`)**를 적용합니다. 단일 항목도 같은 그룹 구조를 유지합니다.
-- **제목 없는 완료 데이터 필수 검수 (2026-10-28 사용자 교정)**: [승인 화면 `3138:30128`](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-30128)처럼 `Title / DataList Group > Title > Divider / Horizontal`과 형제 `DataList Group`이 실제 노출되어야 합니다. 상단 Divider 누락, Title 전체 숨김·생략, Divider↔첫 데이터 16px 누락은 실패입니다. 완료 화면 D19의 규칙이며 일반 Data Block의 제목 숨김 규칙과 혼동하지 않습니다.
+- **제목 없는 완료 데이터 필수 검수 (2026-10-28 사용자 교정)**: [승인 화면 `3138:30128`](https://www.figma.com/design/bDKgQrkt0oHMJ1EbPUQTp8/?node-id=3138-30128)처럼 `Title / DataList Group > Title > Divider / Horizontal`과 형제 `DataList Group`이 실제 노출되어야 합니다. 상단 Divider 누락, Title 전체 숨김·생략, Divider↔첫 데이터 16px 누락은 실패입니다. 완료 화면 D19의 규칙이며 일반 데이터 Card의 제목 숨김 규칙과 혼동하지 않습니다.
 - **간격 계층 검수**: BODY **40px** → 복수 `Title / DataList Group` 사이 **32px** → `Title`과 `DataList Group` 사이 **16px** → Title 내부 및 DataList 목록 내부 각각 **12px**를 서로 구분합니다. 데이터 영역 전체를 하나의 12px gap으로 평탄화하지 않습니다.
 
 #### 특수 공지 및 상태별 컴포넌트 규칙
@@ -1573,11 +1604,11 @@ Container 2 (Vertical, gap12)
      - 일반 화면: `Container [순번]` 내 `Account Group (gap: 4px)`, 바텀시트와 동일 구조(Prefix `size: 32`)에 Suffix만 `checkBox`로 적용 (`Title / Page` -> `Tab` -> Container 간격은 `gap: 24px`)
    - **박스 UI 매핑** (역할을 먼저 분류하고 아웃라인 / 회색 배경·무테 스타일을 선택; 상세 규칙과 승인 예시는 섹션 3의 Box UI Rules 참조):
      - **버튼형 선택지**: `GridButton` 실제 인스턴스를 우선 사용하고 Slot 내부 Grid의 행·열·아이템 수와 순서를 기획에 맞게 조정합니다. `2074:1554`의 1행 2열을 전역 고정하지 않습니다.
-     - **액션 포함형**: `Card / Surface` 사용 (버튼/액션이 들어갈 때만 한정). 푸터 버튼형의 예시는 `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`. 상세 이동·선택형에 이 Footer 구조를 강제하지 않고 원본 variant/공개 속성·Slot을 따릅니다.
-     - **액션 미포함형 (정보성 카드)**: **`Data Block`** 오토레이아웃 프레임(`border: stroke/md`, `border-color: border/neutral/secondary-muted`, `radius: 20px`, `padding: 20px`, `gap: 16px`) 구축. 상단에 `Title` 오토레이아웃 프레임 내 타이틀(`font-size/body/md`, `text/neutral/primary`) 배치 + 하단에 `DataList Group` 오토레이아웃 프레임(`gap: 12px`) 내 `DataList (layout: split, size: 14, hasDivider: false)` 배치
-     - **동작 판정**: Footer 버튼 외에 상세 이동·이체·체크·라디오·박스 전체 선택도 Card에 해당합니다. 외부 형제 `Button Area`의 버튼만으로 Data Block을 Card로 바꾸지 않습니다. 상태 Label만 있는 경우도 자동으로 Card에 해당하지 않습니다.
-     - **설명·안내형**: 기존 Infobox로 정의되지 않은 설명·주의·상태 메시지는 **`Text Box`**로 직접 구성합니다. 참조 패딩 20px, 내부 gap 16px, 라운드 14px를 각각 DS 토큰으로 연결합니다.
-     - **스타일 선택**: 아웃라인 경계가 반복·중첩되면 `surface/neutral/tertiary-muted` + border 제거 형태를 우선 고려합니다. 역할과 스타일을 혼동하지 않고 주변 위계·밀도·가독성으로 선택합니다. Data Block의 승인된 부모님 기본정보 패턴은 내부 gap 20px를 적용합니다.
+     - **액션 포함형**: `Card / Surface` 사용 (데이터 표시형도 포함). 푸터 버튼형의 예시는 `Header (badge)` + `Body` 내 `Groups (gap: 16px)` > `Group (Card / Body / Group-A: titleMedium)` + `Group (vertical, gap: 12px, Card / Body / Group-C: textList)` + `Footer (Card / Footer / Button: buttonGroup)`. 상세 이동·선택형에 이 Footer 구조를 강제하지 않고 원본 variant/공개 속성·Slot을 따릅니다.
+     - **액션 미포함 정보성 카드**: 실제 `Card / Surface(outline/basic)`를 사용하고 Group-C(dataList) Slot 안에 단일 DataList 또는 복수 DataList Group(gap12)을 배치한다.
+     - **동작 판정**: 액션 유무와 관계없이 데이터 박스는 Card / Surface다. 기획에 없는 버튼·선택·이동을 추가하지 않는다.
+     - **설명·안내형**: 종전 Text Box는 실제 Infobox / Card(medium/info)의 Slot-Contents에 구성한다. 제목·본문·각주·버튼은 최신 전환 절에 따른다.
+     - **스타일**: 정보 표시형 Card의 outline/basic과 설명형 Infobox / Card의 회색 무테 원형을 유지한다. 종전 수동 프레임의 외형 선택 재량은 적용하지 않는다.
    - **링크 리스트 패턴**: 래퍼 이름은 `Title / List Group`이며 실제 `List` 컴포넌트 이름과 구분합니다. 단일 원형은 padding 20px 20px 16px / 목록 gap 4px, 누적형 첫 번째는 padding 0px 20px 16px / 목록 gap 4px입니다. Container 2 이상은 10px Divider 아래 래퍼 padding-top 24px, 내부 List Group gap 0px를 적용합니다(중간 padding 24px 20px 16px / 마지막 24px 20px 0px). Title↔목록 gap 16px는 유지합니다.
    - `TextList` 적용 시 위치에 따라 Property `size: 14` 또는 `size: 16`을 분기 적용합니다.
    - `List` 컴포넌트가 `Container` 내부로 들어갈 때 자체 좌우 패딩을 `0px`로 조정합니다.
@@ -1593,17 +1624,17 @@ Container 2 (Vertical, gap12)
    - `Title / Page` → `Image Area` gap 0px, `Image Area` 또는 단독 `ImageContainer` → 후속 콘텐츠 기본 외부 gap 24px를 검수합니다. 래퍼가 있으면 Image Area 바깥 경계부터 측정하고 내부·외부 gap 중복이 없는지 확인합니다. 승인 참조 `10580:10543`처럼 Image Area padding 40px 0, 내부 이미지 ratio 2:1 / Fill·Fixed(폭 350px 기준 350×175px), 전체 영역 높이 255px와 **원본 더미 그래픽·“더미이미지” 라벨의 실제 포함 여부**를 확인합니다. 빈 이미지 영역만 배치하거나 라벨이 편집 가능한 Pretendard TEXT 대신 SVG·벡터·이미지인 경우 실패입니다.
    - 하단 알려드립니다는 외부 Divider 없이 Accordion(width: fill, hasDivider: false)을 독립 Container에 직접 배치하고 상단 콘텐츠와24px, expanded true를 적용합니다.
 4. **오토레이아웃 및 네이밍 구조화**:
-   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. 정보성 데이터 박스 자체는 단일·복수 모두 `Data Block`, 설명·안내 박스 자체는 단일·복수 모두 `Text Box`로 명명합니다. Group 내부 반복 자식에 순번을 붙이지 않으며 페이지 Container의 순번 규칙과 구분합니다.
+   - `## BODY` 내부 블록을 판별하여, 단일 블록인 경우 `Container`, 복수 블록인 경우 `Container 1`, `Container 2` 등으로 순차 명명합니다. 정보성 데이터 박스는 실제 `Card / Surface`, 설명·안내 박스는 실제 `Infobox / Card` 이름을 유지합니다. Group 내부 반복 자식에 순번을 붙이지 않으며 페이지 Container의 순번 규칙과 구분합니다.
    - **레이어 및 그룹 네이밍 (한글 사용 절대 금지)**:
      - 2개 요소 그룹핑: 슬래시 앞단 명칭을 결합하여 `[컴포넌트 1] / [컴포넌트 2]` (예: `Title / InputField`)
      - 3개 이상 요소 그룹핑: `[첫 번째 컴포넌트] / Contents` (예: `Title / Contents`)
-     - 복수 열거 컴포넌트: `[컴포넌트명] Group` (예: `InputField Group`, `Accordion Group`, `Radio Group`, `TextList Group`, `Table Group`, `Account Group`, `Card Group`, `Data Block Group` 등)
+     - 복수 열거 컴포넌트: `[컴포넌트명] Group` (예: `InputField Group`, `Accordion Group`, `Radio Group`, `TextList Group`, `Table Group`, `Account Group`, `Card Group`, `Infobox Group` 등)
      - 단수 컴포넌트 래핑(패딩 목적 등): `[컴포넌트명]` 단독 (예: `InputField`, `Accordion`)
      - 버튼 영역: **`Button Area`** (Auto Layout `gap: 0px`, `align center` / `align right`)
      - 일반 텍스트 래핑: **`Text`** (Auto Layout `gap: 0px`)
-     - 기본 그룹: Title Case 영문 (`Group`, `Groups`, `Container Title`, `Card`, `Data Block`, `CheckBox`, `CheckSub`, `Feedback` 등)
+     - 기본 그룹: Title Case 영문 (`Group`, `Groups`, `Container Title`, `Card`, `Infobox`, `CheckBox`, `CheckSub`, `Feedback` 등)
    - 연속된 `InputField`는 `InputField Group`으로 묶고 `gap: 24px` (`3xl`)을 적용하며, 상위 `Title / Section`과 `gap: 16px` (`xl`)으로 묶어 `Title / InputField`를 구성합니다.
-   - `Card / Surface` 및 `Data Block`은 각각 열거 시 `Card Group` / `Data Block Group` (`gap: 12px`, `lg`)으로 묶고, 하단 더보기(`Button Area`)와의 간격은 `gap: 20px` (`2xl`)을 적용합니다.
+   - `Card / Surface`는 열거 시 `Card Group` (`gap: 12px`, `lg`)으로 묶고, 하단 더보기(`Button Area`)와의 간격은 `gap: 20px` (`2xl`)을 적용합니다.
    - 일반 본문 `TextList`는 `gap: 12px` (`lg`), 바텀시트 일반 `List`는 `gap: 8px` (`md`), 계좌 선택 `List`는 `gap: 4px` (`xs`)으로 그룹핑합니다.
    - `Table Group`은 `gap: 1px` (`3xs`), 복수 `TextList / Unordered`는 `TextList Group (gap: 8px)`으로 구조화합니다.
 5. **토큰 기반 간격 검증**: 섹션 7에 정의된 간격 규칙(0px, `3xs`, `md`, `lg`, `xl`, `2xl`, `3xl`, `5xl`, `6xl`, `7xl`, `8xl` 등)이 오토레이아웃의 gap 및 Body padding에 올바르게 매핑되었는지 최종 확인 후 결과물을 출력합니다.

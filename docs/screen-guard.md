@@ -54,7 +54,7 @@ node src/cli.mjs audit /tmp/complete-snapshot.json /tmp/contract.json
 |필드 설명·약관 경계|FooterArea 내부 TextList 차단, 외부 InputField / TextList(Group)의12px·목록8px, Title / Page→ConsentGroup 동일 부모24 또는 분리 부모 실제 경계24|
 |서체|실제 Text 단위 숫자/혼용 판정, 전화번호·날짜 구분자, 누락 폰트와 스타일/서체 변수 연결|
 |레이어|실제 반복 그룹, Text/TextList 혼합, 구조에 맞는 부모명, 원형 내부 일괄 변경 방지|
-|데이터 그룹 다음 박스|Title / DataList Group→Infobox(그룹)·Data Block(그룹)·Text Box(그룹)·Card/Surface(그룹)의 외부32px 및 토큰, 분리 Container의 실제 경계|
+|데이터 그룹 다음 박스|Title / DataList Group→Infobox(그룹)·Card / Surface(그룹)의 외부32px 및 토큰, 분리 Container의 실제 경계|
 |간격|InputField Group24, Radio/Checkbox 그룹 제목8·세로8/가로16, Section16/바텀시트 텍스트12, Tab→Infobox / Card16, Image Area 후24 등 코드에 명시된 조합과 토큰|
 |기획별 요구|contract에 명시한 원문·component key·공개 옵션·배치 속성·추가 Fill·gap|
 
@@ -141,7 +141,7 @@ Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명
 
 ### Card Slot 구조 보존 및 Group-C DataList (2026-11-09)
 
-편집 가능한 Card / Surface 내부의 노출 DataList는 실제 `Card / Body / Group-C(variant:dataList) > Slot` 아래인지 자동 검사한다(`CARD_DATALIST_GROUP_C`). Card 밖 Data Block·Text Box와 숨겨진 미사용 원형은 이 검사를 적용하지 않는다. immutable 상위 컴포넌트 내부를 검사 통과용으로 detach하지 않는다.
+편집 가능한 Card / Surface 내부의 노출 DataList는 실제 `Card / Body / Group-C(variant:dataList) > Slot` 아래인지 자동 검사한다(`CARD_DATALIST_GROUP_C`). Group-C Slot 안의 복수 DataList Group도 허용한다. 박스 없는 일반 DataList와 숨겨진 미사용 원형은 이 검사의 대상이 아니다. 종전 Data Block은 Card / Surface로, Text Box는 Infobox / Card로 전환한다. immutable 상위 컴포넌트 내부를 검사 통과용으로 detach하지 않는다.
 
 삭제·재명명·재부모화·순서 변경 방지는 `contract.cardSlotBaselines`에 편집 전 원형 Slot의 구조를 기록해 검사한다(`CARD_SLOT_STRUCTURE`). 각 원소는 `{path:[실제 Card Slot까지의 이름 경로],children:[{name,type,children?:[...]},...]}`다. FRAME·SLOT은 숨김 포함 재귀 기록하고 native INSTANCE는 이름·타입까지 기록한다. 동명 Group도 개수대로 배열에 남긴다. 검사는 숨긴 노드도 존재 여부를 확인하므로 visible=false는 허용하고, 삭제·누락·다른 부모 이동은 차단한다. 콘텐츠 추가는 허용하며 원형 구조의 존재와 상대 순서를 보존한다. 새로운 파일·variant마다 실제 원형에서 기준을 수집하고, 기준이 없는 스냅샷만으로 과거 삭제 여부를 판정했다고 말하지 않는다. 기획별 노출·폰트·시각 결과는 직접 확인한다.
 
@@ -161,3 +161,7 @@ Checkbox Group과 기존 CheckBox Group 표기는 실제 native CheckBox·동명
 ### 알려드립니다 제목·구획 간격 (2026-11-18)
 
 실제 제목이 ‘알려드립니다’인 Accordion의 조상을 기준으로 Element→본문8px, 반복 Title / TextList Group(단일 목록 조합 포함) 사이20px와 해당 spacing 토큰을 검사한다. 일반 본문 Element→콘텐츠16px·반복 그룹24px와 일반 Accordion에는 알려드립니다 예외를 적용하지 않는다. 기존 선택 그룹8px·대표전화4px 예외는 유지한다.
+
+### 구식 박스 제작 차단 (2026-11-19)
+
+노출된 작성 영역의 Data Block·Data Block Group·Text Box·Text Box Group 이름은 `LEGACY_BOX_FRAME`으로 차단한다. Card / Surface·Infobox / Card라는 이름만 붙인 비인스턴스도 `BOX_COMPONENT`로 차단한다. 숨긴 원형과 편집 불가능한 native 내부 구조는 제외한다. 박스 없는 DataList를 일괄 Card로 강제하지 않으며, 제목·본문·각주·버튼의 기획 적합성 및 시각 결과는 직접 검수한다. 이 검사는 구식 구현 감지이며 외형·모든 옵션의 자동 검증을 의미하지 않는다.

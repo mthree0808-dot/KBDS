@@ -504,8 +504,8 @@ function nestedTabPage(){
   add(s,frames('upper','Tab / Infobox','c1',{...layout,itemSpacing:16,boundVariables:{itemSpacing:{id:rules.spacing[16]}}}),
     component('tab1','Tab','upper',{componentProperties:{variant:{value:'1depth'}}}),
     frames('inset','Infobox','upper',{paddingLeft:20,paddingRight:20}),component('info','Infobox / Card','inset'),
-    frames('lower','Tab / Data Block Group','c1',{...layout,itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}}),
-    component('tab2','Tab','lower',{componentProperties:{variant:{value:'2depth'}}}),frames('data','Data Block Group','lower',{paddingLeft:20,paddingRight:20}));
+    frames('lower','Tab / Card Group','c1',{...layout,itemSpacing:24,boundVariables:{itemSpacing:{id:rules.spacing[24]}}}),
+    component('tab2','Tab','lower',{componentProperties:{variant:{value:'2depth'}}}),frames('data','Card Group','lower',{paddingLeft:20,paddingRight:20}));
   return s;
 }
 test('upper and lower Tabs may occupy separate Containers after grouping cancellation',()=>{
@@ -657,12 +657,11 @@ function dataBoxFixture(name='Infobox Group',type='FRAME'){
   const s=containerPage(true),c=s.items.find(n=>n.id==='c1');c.itemSpacing=32;c.boundVariables.itemSpacing={id:rules.spacing[32]};
   add(s,frames('data-title','Title / DataList Group','c1',{itemSpacing:16,boundVariables:{itemSpacing:{id:rules.spacing[16]}}}),frames('title','Title','data-title'),frames('rows','DataList Group','data-title',{itemSpacing:12,boundVariables:{itemSpacing:{id:rules.spacing[12]}}}),component('row1','DataList','rows'),component('row2','DataList','rows'),type==='INSTANCE'?component('box',name,'c1'):frames('box',name,'c1'));
   if(name==='Infobox Group')add(s,component('info','Infobox / Card','box'));
-  if(name==='Data Block Group')add(s,frames('block1','Data Block','box'),frames('block2','Data Block','box'));
   if(name==='Card Group')add(s,component('card1','Card / Surface','box'),component('card2','Card / Surface','box'));
   return s;
 }
 test('Title DataList next independent box uses32 without changing internal16 or12',()=>{
-  for(const [name,type]of [['Infobox Group','FRAME'],['Infobox / Card','INSTANCE'],['Infobox / Solid','INSTANCE'],['Data Block','FRAME'],['Data Block Group','FRAME'],['Text Box','FRAME'],['Text Box Group','FRAME'],['Card / Surface','INSTANCE'],['Card Group','FRAME']]){
+  for(const [name,type]of [['Infobox Group','FRAME'],['Infobox / Card','INSTANCE'],['Infobox / Solid','INSTANCE'],['Card / Surface','INSTANCE'],['Card Group','FRAME']]){
     const s=dataBoxFixture(name,type);assert.equal(check(s).errors.length,0,name);assert.equal(s.items.find(n=>n.id==='data-title').itemSpacing,16);assert.equal(s.items.find(n=>n.id==='rows').itemSpacing,12);
   }
 });
@@ -772,11 +771,11 @@ function dataCard(valid=true){
  add(s,component('data','DataList',valid?'gcslot':'group'));return s;
 }
 function cardBaseline(){return {cardSlotBaselines:[{path:['## BODY','Card / Surface','Slot'],children:[{name:'Header',type:'FRAME'},{name:'Body',type:'FRAME',children:[{name:'Logo',type:'FRAME'},{name:'Groups',type:'FRAME',children:[{name:'Group',type:'FRAME'}]}]},{name:'Footer',type:'FRAME'}]}]};}
-test('Card DataList requires native Group-C dataList and its Slot; standalone Data Block stays independent',()=>{
+test('Card DataList requires native Group-C dataList and its Slot; unboxed DataList stays independent',()=>{
  const s=dataCard();assert.equal(check(s).errors.length,0);assert.ok(codes(dataCard(false)).includes('CARD_DATALIST_GROUP_C'));
  s.items.find(n=>n.id==='gc').componentProperties.variant.value='textList';assert.ok(codes(s).includes('CARD_DATALIST_GROUP_C'));
  s.items.find(n=>n.id==='gc').type='FRAME';assert.ok(codes(s).includes('CARD_DATALIST_GROUP_C'));
- const outside=page();add(outside,frames('block','Data Block','body'),component('d','DataList','block'));assert.equal(check(outside).errors.length,0);
+ const outside=page();add(outside,frames('block','Contents','body'),component('d','DataList','block'));assert.equal(check(outside).errors.length,0);
 });
 test('Card structure baseline accepts eye-hidden original frames and detects deletion or reparenting',()=>{
  const c=cardBaseline(),s=dataCard();assert.equal(check(s,c).errors.length,0);
@@ -877,4 +876,20 @@ test('notice single-list sections preserve8 and20 without fake repeated group',(
 });
 test('hidden notice heading does not activate notice gap exceptions',()=>{
   const s=titleListSpacingFixture({accordion:true});s.items.find(n=>n.id==='spacing-heading').characters='알려드립니다';s.items.find(n=>n.id==='spacing-heading').visible=false;assert.equal(check(s).errors.length,0);
+});
+
+test('legacy data and explanation boxes require native replacements including editable Slots',()=>{
+ for(const name of rules.boxUi.legacyNames){const s=page();add(s,frames('old',name,'body'));assert.ok(codes(s).includes('LEGACY_BOX_FRAME'),name);}
+ const s=dataCard();add(s,frames('old','Text Box','slot'));assert.ok(codes(s).includes('LEGACY_BOX_FRAME'));
+});
+test('native box names cannot be imitated by authored frames',()=>{
+ for(const name of [rules.boxUi.dataComponent,rules.boxUi.textComponent]){const s=page();add(s,frames('box',name,'body'));assert.ok(codes(s).includes('BOX_COMPONENT'));s.items.find(n=>n.id==='box').type='INSTANCE';s.items.find(n=>n.id==='box').component={key:'native'};assert.equal(check(s).errors.length,0);}
+});
+test('box migration leaves hidden original structures and native internals intact',()=>{
+ const s=page();add(s,frames('hidden','Data Block','body',{visible:false}),component('info','Infobox / Card','body'),frames('native','Text Box','info'));assert.equal(check(s).errors.length,0);
+});
+test('informational Card supports multiple DataLists in one Group-C Slot',()=>{
+ const s=dataCard();s.items.find(n=>n.id==='card').componentProperties={type:{value:'outline'},variant:{value:'basic'},select:{value:false},fullTouchArea:{value:false}};
+ add(s,frames('rows','DataList Group','gcslot',{itemSpacing:12,boundVariables:{itemSpacing:{id:rules.spacing[12]}}}),component('data2','DataList','rows'));s.items.find(n=>n.id==='data').parentId='rows';assert.equal(check(s).errors.length,0);
+ s.items.find(n=>n.id==='rows').parentId='cb';assert.ok(codes(s).includes('CARD_DATALIST_GROUP_C'));
 });

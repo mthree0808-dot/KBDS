@@ -409,6 +409,10 @@ export function auditScreen(snapshot, contract = {}, rules) {
     }
     return true;
   }
+  for(const n of items.filter(n=>visible(n)&&authored(n))){
+    if(rules.boxUi.legacyNames.includes(n.name))fail('LEGACY_BOX_FRAME',n,'종전 Data Block은 native Card / Surface, Text Box는 native Infobox / Card로 구성하고 반복 래퍼도 변경합니다');
+    if([rules.boxUi.dataComponent,rules.boxUi.textComponent].includes(n.name)&&n.type!=='INSTANCE')fail('BOX_COMPONENT',n,'박스 이름만 모방하지 않고 최신 MO native 인스턴스를 사용합니다');
+  }
   for(const n of items.filter(n=>n.type==='FRAME'&&visible(n)&&authored(n)&&n.layoutMode==='HORIZONTAL')){
     const content=kids(n).filter(c=>visible(c)&&c.layoutPositioning!=='ABSOLUTE');
     if(!content.length)continue;

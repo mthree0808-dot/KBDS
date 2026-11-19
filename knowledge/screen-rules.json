@@ -1,5 +1,5 @@
 {
-  "version": "2026-11-18.2",
+  "version": "2026-11-19.1",
   "nativeStatusBarFontException": {
     "componentKey": "92e535778a9a168cb544987a2c071b053940aff4",
     "fontFamily": "SF Pro Text",
@@ -102,5 +102,15 @@
     "titleElementGap": 8,
     "sectionGap": 20
   },
-  "feedbackButtonVariant": "secondary"
+  "feedbackButtonVariant": "secondary",
+  "boxUi": {
+    "dataComponent": "Card / Surface",
+    "textComponent": "Infobox / Card",
+    "legacyNames": [
+      "Data Block",
+      "Data Block Group",
+      "Text Box",
+      "Text Box Group"
+    ]
+  }
 }
